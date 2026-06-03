@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sobre mí — Guillén Bruna Tricas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root { --blue: #004aad; --blue-light: #95c0fa; --white: #ffffff; --off-white: #f6f6f6; --black: #000000; --dark-bg: #0a0a0a; --dark-surface: #1c1c1c; --dark-surface2: #2a2a2a; --transition: 0.3s ease; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Poppins', sans-serif; background: var(--white); color: var(--black); transition: background var(--transition), color var(--transition); line-height: 1.6; }
+    body.dark { background: var(--dark-bg); color: #e8e8e8; }
+    nav { position: sticky; top: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 1.25rem 2rem; background: var(--white); border-bottom: 1px solid rgba(0,0,0,0.06); transition: background var(--transition), border-color var(--transition); }
+    body.dark nav { background: var(--dark-bg); border-bottom-color: rgba(255,255,255,0.08); }
+    .logo { font-weight: 800; font-size: 1.1rem; letter-spacing: -0.02em; color: var(--blue); text-decoration: none; transition: color var(--transition); }
+    body.dark .logo { color: var(--blue-light); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { font-size: 0.78rem; font-weight: 400; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(0,0,0,0.5); text-decoration: none; transition: color var(--transition); }
+    body.dark .nav-links a { color: rgba(232,232,232,0.5); }
+    .nav-links a:hover, .nav-links a.active { color: var(--blue); }
+    body.dark .nav-links a:hover, body.dark .nav-links a.active { color: var(--blue-light); }
+    .toggle { width: 44px; height: 24px; border-radius: 12px; background: var(--off-white); border: 1px solid rgba(0,0,0,0.1); cursor: pointer; position: relative; flex-shrink: 0; transition: background var(--transition), border-color var(--transition); }
+    body.dark .toggle { background: var(--dark-surface2); border-color: rgba(255,255,255,0.12); }
+    .toggle-dot { position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; border-radius: 50%; background: var(--blue); transition: transform var(--transition), background var(--transition); }
+    body.dark .toggle-dot { transform: translateX(20px); background: var(--blue-light); }
+    .divider { width: 100%; height: 1px; background: rgba(0,0,0,0.06); max-width: 900px; margin: 0 auto; transition: background var(--transition); }
+    body.dark .divider { background: rgba(255,255,255,0.08); }
+    .about-header { padding: 5rem 2rem 3rem; max-width: 900px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1.4fr; gap: 5rem; align-items: end; }
+    .page-tag { display: inline-block; font-size: 0.7rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--blue); border: 1px solid var(--blue); padding: 0.3rem 0.8rem; border-radius: 2px; margin-bottom: 2rem; transition: color var(--transition), border-color var(--transition); }
+    body.dark .page-tag { color: var(--blue-light); border-color: var(--blue-light); }
+    h1 { font-size: clamp(2.2rem, 4vw, 3.5rem); font-weight: 800; line-height: 1.0; letter-spacing: -0.03em; margin-bottom: 1.5rem; }
+    .about-meta p { font-size: 0.78rem; font-weight: 400; color: rgba(0,0,0,0.4); margin-bottom: 0.3rem; transition: color var(--transition); }
+    body.dark .about-meta p { color: rgba(232,232,232,0.4); }
+    .about-meta span { color: var(--blue); font-weight: 500; transition: color var(--transition); }
+    body.dark .about-meta span { color: var(--blue-light); }
+    .about-intro { font-size: 1.05rem; font-weight: 300; color: rgba(0,0,0,0.6); line-height: 1.85; transition: color var(--transition); }
+    body.dark .about-intro { color: rgba(232,232,232,0.6); }
+    .about-body { padding: 4rem 2rem; max-width: 900px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1.4fr; gap: 5rem; align-items: start; }
+    .about-sidebar { position: sticky; top: 6rem; }
+    .sidebar-label { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(0,0,0,0.35); margin-bottom: 1.5rem; transition: color var(--transition); }
+    body.dark .sidebar-label { color: rgba(232,232,232,0.4); }
+    .sidebar-links { display: flex; flex-direction: column; gap: 0.8rem; list-style: none; }
+    .sidebar-links a { font-size: 0.82rem; font-weight: 400; color: rgba(0,0,0,0.5); text-decoration: none; transition: color var(--transition); }
+    body.dark .sidebar-links a { color: rgba(232,232,232,0.5); }
+    .sidebar-links a:hover { color: var(--blue); }
+    body.dark .sidebar-links a:hover { color: var(--blue-light); }
+    .about-text { font-size: 0.98rem; font-weight: 300; line-height: 1.95; color: rgba(0,0,0,0.65); transition: color var(--transition); }
+    body.dark .about-text { color: rgba(232,232,232,0.65); }
+    .about-text p + p { margin-top: 1.5rem; }
+    .about-text strong { font-weight: 600; color: var(--black); transition: color var(--transition); }
+    body.dark .about-text strong { color: #e8e8e8; }
+    .contact-block { background: var(--blue); padding: 4rem 2.5rem; display: flex; justify-content: space-between; align-items: center; transition: background var(--transition); }
+    body.dark .contact-block { background: var(--dark-surface); }
+    .contact-title { font-size: 1.9rem; font-weight: 800; color: var(--white); letter-spacing: -0.03em; line-height: 1.15; }
+    body.dark .contact-title { color: #e8e8e8; }
+    .btn-contact { display: inline-flex; align-items: center; gap: 0.5rem; background: var(--white); color: var(--blue); font-family: 'Poppins', sans-serif; font-size: 0.82rem; font-weight: 600; padding: 0.85rem 1.8rem; border-radius: 2px; cursor: pointer; border: 1px solid transparent; flex-shrink: 0; letter-spacing: 0.04em; text-decoration: none; transition: background var(--transition), color var(--transition), border-color var(--transition), transform 0.15s ease; }
+    .btn-contact:hover { background: var(--off-white); transform: translateY(-1px); }
+    body.dark .btn-contact { background: transparent; color: #e8e8e8; border-color: rgba(232,232,232,0.3); }
+    body.dark .btn-contact:hover { border-color: var(--blue-light); color: var(--blue-light); }
+    footer { padding: 2rem; max-width: 900px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+    .footer-copy { font-size: 0.72rem; font-weight: 300; color: rgba(0,0,0,0.3); transition: color var(--transition); }
+    body.dark .footer-copy { color: rgba(232,232,232,0.3); }
+    .footer-links { display: flex; gap: 1.5rem; list-style: none; }
+    .footer-links a { font-size: 0.72rem; font-weight: 300; color: rgba(0,0,0,0.3); text-decoration: none; transition: color var(--transition); }
+    body.dark .footer-links a { color: rgba(232,232,232,0.3); }
+    .footer-links a:hover { color: var(--blue); }
+    body.dark .footer-links a:hover { color: var(--blue-light); }
+    @media (max-width: 640px) { .nav-links { display: none; } .about-header, .about-body { grid-template-columns: 1fr; gap: 2.5rem; } .about-sidebar { position: static; } .contact-block { flex-direction: column; gap: 2rem; align-items: flex-start; } }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="/" class="logo">GBT</a>
+    <ul class="nav-links">
+      <li><a href="/trabajo/">Trabajo</a></li>
+      <li><a href="/sobre-mi/" class="active">Sobre mí</a></li>
+      <li><a href="/articulos/">Artículos</a></li>
+      <li><a href="/contacto/">Contacto</a></li>
+    </ul>
+    <button class="toggle" id="themeToggle" aria-label="Cambiar modo claro/oscuro">
+      <span class="toggle-dot"></span>
+    </button>
+  </nav>
+
+  <div class="about-header">
+    <div>
+      <span class="page-tag">Sobre mí</span>
+      <h1>Guillén<br>Bruna<br>Tricas</h1>
+      <div class="about-meta">
+        <p><span>Marketing & Estrategia</span></p>
+        <p>Zaragoza, España</p>
+        <p>Head of Brand & Marketing en Zebra Ventures</p>
+      </div>
+    </div>
+    <p class="about-intro">No soy un especialista de canal. Soy alguien que entiende el negocio completo y lo ejecuta desde el marketing. He estado en ventas, en producto, en marca, y eso me da una perspectiva que pocos profesionales tienen.</p>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="about-body">
+    <div class="about-sidebar">
+      <p class="sidebar-label">En esta página</p>
+      <ul class="sidebar-links">
+        <li><a href="https://www.linkedin.com/in/guillenbruna" target="_blank">LinkedIn →</a></li>
+        <li><a href="mailto:guillenbrunatricas@gmail.com">Email →</a></li>
+        <li><a href="/trabajo/">Ver mi trabajo →</a></li>
+      </ul>
+    </div>
+    <div class="about-text">
+      <p>Tengo la cabeza de un estratega y las manos de alguien que ejecuta. He pasado por ventas, por consultoría, por eCommerce, por retail y por empresas de producto tecnológico, y en cada etapa me he llevado algo que el anterior no me habría dado. Eso me ha convertido en un profesional difícil de encasillar, lo que a veces incomoda en los procesos de selección, pero que en la práctica es una ventaja real cuando tienes que resolver problemas complejos.</p>
+      <p>Actualmente lidero marketing y marca en <strong>Zebra Ventures</strong>, una empresa de transformación digital con IA enfocada en PYMEs. Gestiono en paralelo la marca corporativa, un SaaS B2B llamado MASAI y una línea de productos de IA. Es el tipo de trabajo que me gusta: con mucho por construir, donde las decisiones importan y donde lo estratégico y lo operativo conviven cada día.</p>
+      <p>Antes fundé <strong>Broco</strong>, una marca de eCommerce que construí desde cero. Fue la experiencia que más me enseñó sobre negocio real: sin red, sin equipo grande, tomando cada decisión con consecuencias directas. También pasé por <strong>Grupo Rey</strong> y por <strong>Integra Consultoría Gerencial</strong>, donde entendí cómo se mueve el marketing en entornos de gran volumen y cómo se trabaja con dirección general cuando los números importan.</p>
+      <p>Fuera del trabajo soy de Zaragoza, y no por accidente sino por elección. Tengo un grupo de amigos con el que llevo años, me gusta el fútbol más de lo que debería, y durante un tiempo entrené fútbol base. Esa experiencia me dejó algo que ningún máster me habría dado: saber cómo se enseña, cómo se acompaña un proceso y cómo se consigue que alguien mejore sin que sienta que le estás exigiendo demasiado.</p>
+      <p>Soy exigente conmigo mismo, organizo casi todo en sistemas porque es la forma que tengo de gestionar la incertidumbre, y me importa mucho cómo se cuentan las cosas. No delego el tono a la ligera. Si algo lleva mi nombre, quiero que refleje exactamente lo que pienso.</p>
+      <p>Si has llegado hasta aquí, probablemente tenemos algo de lo que hablar.</p>
+    </div>
+  </div>
+
+  <div class="contact-block">
+    <p class="contact-title">¿Trabajamos<br>juntos?</p>
+    <a href="mailto:guillenbrunatricas@gmail.com" class="btn-contact">Escríbeme →</a>
+  </div>
+
+  <footer>
+    <p class="footer-copy">© 2026 Guillén Bruna Tricas</p>
+    <ul class="footer-links">
+      <li><a href="https://www.linkedin.com/in/guillenbruna" target="_blank">LinkedIn</a></li>
+    </ul>
+  </footer>
+
+  <script>
+    const toggle = document.getElementById('themeToggle');
+    toggle.addEventListener('click', () => { document.body.classList.toggle('dark'); localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light'); });
+    if (localStorage.getItem('theme') === 'dark') document.body.classList.add('dark');
+  </script>
+</body>
+</html>

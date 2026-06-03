@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trabajo — Guillén Bruna Tricas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root { --blue: #004aad; --blue-light: #95c0fa; --white: #ffffff; --off-white: #f6f6f6; --black: #000000; --dark-bg: #0a0a0a; --dark-surface: #1c1c1c; --dark-surface2: #2a2a2a; --transition: 0.3s ease; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Poppins', sans-serif; background: var(--white); color: var(--black); transition: background var(--transition), color var(--transition); line-height: 1.6; }
+    body.dark { background: var(--dark-bg); color: #e8e8e8; }
+    nav { position: sticky; top: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 1.25rem 2rem; background: var(--white); border-bottom: 1px solid rgba(0,0,0,0.06); transition: background var(--transition), border-color var(--transition); }
+    body.dark nav { background: var(--dark-bg); border-bottom-color: rgba(255,255,255,0.08); }
+    .logo { font-weight: 800; font-size: 1.1rem; letter-spacing: -0.02em; color: var(--blue); text-decoration: none; transition: color var(--transition); }
+    body.dark .logo { color: var(--blue-light); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { font-size: 0.78rem; font-weight: 400; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(0,0,0,0.5); text-decoration: none; transition: color var(--transition); }
+    body.dark .nav-links a { color: rgba(232,232,232,0.5); }
+    .nav-links a:hover, .nav-links a.active { color: var(--blue); }
+    body.dark .nav-links a:hover, body.dark .nav-links a.active { color: var(--blue-light); }
+    .toggle { width: 44px; height: 24px; border-radius: 12px; background: var(--off-white); border: 1px solid rgba(0,0,0,0.1); cursor: pointer; position: relative; flex-shrink: 0; transition: background var(--transition), border-color var(--transition); }
+    body.dark .toggle { background: var(--dark-surface2); border-color: rgba(255,255,255,0.12); }
+    .toggle-dot { position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; border-radius: 50%; background: var(--blue); transition: transform var(--transition), background var(--transition); }
+    body.dark .toggle-dot { transform: translateX(20px); background: var(--blue-light); }
+    .page-header { padding: 5rem 2rem 3rem; max-width: 900px; margin: 0 auto; }
+    .page-tag { display: inline-block; font-size: 0.7rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--blue); border: 1px solid var(--blue); padding: 0.3rem 0.8rem; border-radius: 2px; margin-bottom: 2rem; transition: color var(--transition), border-color var(--transition); }
+    body.dark .page-tag { color: var(--blue-light); border-color: var(--blue-light); }
+    h1 { font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 800; line-height: 1.05; letter-spacing: -0.03em; margin-bottom: 1rem; }
+    .page-desc { font-size: 1rem; font-weight: 300; color: rgba(0,0,0,0.55); max-width: 520px; line-height: 1.8; transition: color var(--transition); }
+    body.dark .page-desc { color: rgba(232,232,232,0.55); }
+    .divider { width: 100%; height: 1px; background: rgba(0,0,0,0.06); max-width: 900px; margin: 0 auto; transition: background var(--transition); }
+    body.dark .divider { background: rgba(255,255,255,0.08); }
+    .projects { padding: 4rem 2rem; max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 0; }
+    .project-item { display: grid; grid-template-columns: 80px 1fr auto; gap: 2rem; align-items: start; padding: 2.5rem 0; border-bottom: 1px solid rgba(0,0,0,0.06); transition: border-color var(--transition); }
+    body.dark .project-item { border-bottom-color: rgba(255,255,255,0.08); }
+    .project-item:first-child { border-top: 1px solid rgba(0,0,0,0.06); }
+    body.dark .project-item:first-child { border-top-color: rgba(255,255,255,0.08); }
+    .project-number { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.12em; color: var(--blue); padding-top: 0.3rem; transition: color var(--transition); }
+    body.dark .project-number { color: var(--blue-light); }
+    .project-content h2 { font-size: 1.3rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 0.3rem; transition: color var(--transition); }
+    body.dark .project-content h2 { color: #e8e8e8; }
+    .project-role { font-size: 0.8rem; font-weight: 400; color: var(--blue); margin-bottom: 1rem; transition: color var(--transition); }
+    body.dark .project-role { color: var(--blue-light); }
+    .project-desc { font-size: 0.9rem; font-weight: 300; color: rgba(0,0,0,0.6); line-height: 1.8; margin-bottom: 1.2rem; transition: color var(--transition); }
+    body.dark .project-desc { color: rgba(232,232,232,0.6); }
+    .project-tags { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+    .tag { font-size: 0.65rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.25rem 0.6rem; background: var(--off-white); color: rgba(0,0,0,0.5); border-radius: 1px; transition: background var(--transition), color var(--transition); }
+    body.dark .tag { background: var(--dark-surface2); color: rgba(232,232,232,0.5); }
+    .project-year { font-size: 0.75rem; font-weight: 300; color: rgba(0,0,0,0.3); white-space: nowrap; padding-top: 0.3rem; transition: color var(--transition); }
+    body.dark .project-year { color: rgba(232,232,232,0.3); }
+    .contact-block { background: var(--blue); padding: 4rem 2.5rem; display: flex; justify-content: space-between; align-items: center; transition: background var(--transition); }
+    body.dark .contact-block { background: var(--dark-surface); }
+    .contact-title { font-size: 1.9rem; font-weight: 800; color: var(--white); letter-spacing: -0.03em; line-height: 1.15; }
+    body.dark .contact-title { color: #e8e8e8; }
+    .btn-contact { display: inline-flex; align-items: center; gap: 0.5rem; background: var(--white); color: var(--blue); font-family: 'Poppins', sans-serif; font-size: 0.82rem; font-weight: 600; padding: 0.85rem 1.8rem; border-radius: 2px; cursor: pointer; border: 1px solid transparent; flex-shrink: 0; letter-spacing: 0.04em; text-decoration: none; transition: background var(--transition), color var(--transition), border-color var(--transition), transform 0.15s ease; }
+    .btn-contact:hover { background: var(--off-white); transform: translateY(-1px); }
+    body.dark .btn-contact { background: transparent; color: #e8e8e8; border-color: rgba(232,232,232,0.3); }
+    body.dark .btn-contact:hover { border-color: var(--blue-light); color: var(--blue-light); }
+    footer { padding: 2rem; max-width: 900px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+    .footer-copy { font-size: 0.72rem; font-weight: 300; color: rgba(0,0,0,0.3); transition: color var(--transition); }
+    body.dark .footer-copy { color: rgba(232,232,232,0.3); }
+    .footer-links { display: flex; gap: 1.5rem; list-style: none; }
+    .footer-links a { font-size: 0.72rem; font-weight: 300; color: rgba(0,0,0,0.3); text-decoration: none; transition: color var(--transition); }
+    body.dark .footer-links a { color: rgba(232,232,232,0.3); }
+    .footer-links a:hover { color: var(--blue); }
+    body.dark .footer-links a:hover { color: var(--blue-light); }
+    @media (max-width: 640px) { .nav-links { display: none; } .project-item { grid-template-columns: 1fr; gap: 0.5rem; } .project-year { display: none; } .contact-block { flex-direction: column; gap: 2rem; align-items: flex-start; } }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="/" class="logo">GBT</a>
+    <ul class="nav-links">
+      <li><a href="/trabajo/" class="active">Trabajo</a></li>
+      <li><a href="/sobre-mi/">Sobre mí</a></li>
+      <li><a href="/articulos/">Artículos</a></li>
+      <li><a href="/contacto/">Contacto</a></li>
+    </ul>
+    <button class="toggle" id="themeToggle" aria-label="Cambiar modo claro/oscuro">
+      <span class="toggle-dot"></span>
+    </button>
+  </nav>
+
+  <div class="page-header">
+    <span class="page-tag">Portfolio</span>
+    <h1>Trabajo<br>seleccionado</h1>
+    <p class="page-desc">Proyectos y experiencias donde estrategia, marca y negocio fueron de la mano.</p>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="projects">
+    <div class="project-item">
+      <p class="project-number">01</p>
+      <div class="project-content">
+        <h2>Zebra Ventures</h2>
+        <p class="project-role">Head of Brand & Marketing</p>
+        <p class="project-desc">Liderazgo del área de marketing y marca en una empresa de transformación digital con IA enfocada en PYMEs. Gestión en paralelo de tres líneas: marca corporativa, MASAI (SaaS B2B de gestión de proyectos) e IA Products. Desarrollo de estrategia GTM, arquitectura de contenido, CRM y comunicación de producto.</p>
+        <div class="project-tags"><span class="tag">GTM</span><span class="tag">Brand</span><span class="tag">SaaS</span><span class="tag">IA</span><span class="tag">Contenido</span></div>
+      </div>
+      <p class="project-year">2024–hoy</p>
+    </div>
+
+    <div class="project-item">
+      <p class="project-number">02</p>
+      <div class="project-content">
+        <h2>Broco</h2>
+        <p class="project-role">Fundador</p>
+        <p class="project-desc">Creación y gestión de una marca de eCommerce desde cero. Desarrollo de producto, identidad de marca, estrategia de adquisición y operaciones. Una experiencia 360 que combinó visión de negocio con ejecución directa en todas las áreas del funnel.</p>
+        <div class="project-tags"><span class="tag">eCommerce</span><span class="tag">Marca</span><span class="tag">Paid Media</span><span class="tag">Operaciones</span></div>
+      </div>
+      <p class="project-year">Anterior</p>
+    </div>
+
+    <div class="project-item">
+      <p class="project-number">03</p>
+      <div class="project-content">
+        <h2>Grupo Rey</h2>
+        <p class="project-role">Marketing — Muebles Rey & Muebles Tuco</p>
+        <p class="project-desc">Trabajo en el área de marketing dentro de uno de los grupos de retail de muebles más relevantes de España. Gestión de campañas, estrategia de canal y comunicación de marca en un entorno omnicanal con alto volumen y complejidad operativa.</p>
+        <div class="project-tags"><span class="tag">Retail</span><span class="tag">Omnicanal</span><span class="tag">Marketing</span><span class="tag">Campañas</span></div>
+      </div>
+      <p class="project-year">Anterior</p>
+    </div>
+
+    <div class="project-item">
+      <p class="project-number">04</p>
+      <div class="project-content">
+        <h2>Integra Consultoría Gerencial</h2>
+        <p class="project-role">Consultor</p>
+        <p class="project-desc">Consultoría estratégica y gerencial para empresas en procesos de transformación organizativa y comercial. Trabajo directo con dirección en definición de estrategia, procesos y modelo de negocio.</p>
+        <div class="project-tags"><span class="tag">Consultoría</span><span class="tag">Estrategia</span><span class="tag">B2B</span><span class="tag">Procesos</span></div>
+      </div>
+      <p class="project-year">Anterior</p>
+    </div>
+  </div>
+
+  <div class="contact-block">
+    <p class="contact-title">¿Trabajamos<br>juntos?</p>
+    <a href="mailto:guillenbrunatricas@gmail.com" class="btn-contact">Escríbeme →</a>
+  </div>
+
+  <footer>
+    <p class="footer-copy">© 2026 Guillén Bruna Tricas</p>
+    <ul class="footer-links">
+      <li><a href="https://www.linkedin.com/in/guillenbruna" target="_blank">LinkedIn</a></li>
+    </ul>
+  </footer>
+
+  <script>
+    const toggle = document.getElementById('themeToggle');
+    toggle.addEventListener('click', () => { document.body.classList.toggle('dark'); localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light'); });
+    if (localStorage.getItem('theme') === 'dark') document.body.classList.add('dark');
+  </script>
+</body>
+</html>

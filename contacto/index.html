@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contacto — Guillén Bruna Tricas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root { --blue: #004aad; --blue-light: #95c0fa; --white: #ffffff; --off-white: #f6f6f6; --black: #000000; --dark-bg: #0a0a0a; --dark-surface: #1c1c1c; --dark-surface2: #2a2a2a; --transition: 0.3s ease; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Poppins', sans-serif; background: var(--white); color: var(--black); transition: background var(--transition), color var(--transition); line-height: 1.6; }
+    body.dark { background: var(--dark-bg); color: #e8e8e8; }
+    nav { position: sticky; top: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 1.25rem 2rem; background: var(--white); border-bottom: 1px solid rgba(0,0,0,0.06); transition: background var(--transition), border-color var(--transition); }
+    body.dark nav { background: var(--dark-bg); border-bottom-color: rgba(255,255,255,0.08); }
+    .logo { font-weight: 800; font-size: 1.1rem; letter-spacing: -0.02em; color: var(--blue); text-decoration: none; transition: color var(--transition); }
+    body.dark .logo { color: var(--blue-light); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { font-size: 0.78rem; font-weight: 400; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(0,0,0,0.5); text-decoration: none; transition: color var(--transition); }
+    body.dark .nav-links a { color: rgba(232,232,232,0.5); }
+    .nav-links a:hover, .nav-links a.active { color: var(--blue); }
+    body.dark .nav-links a:hover, body.dark .nav-links a.active { color: var(--blue-light); }
+    .toggle { width: 44px; height: 24px; border-radius: 12px; background: var(--off-white); border: 1px solid rgba(0,0,0,0.1); cursor: pointer; position: relative; flex-shrink: 0; transition: background var(--transition), border-color var(--transition); }
+    body.dark .toggle { background: var(--dark-surface2); border-color: rgba(255,255,255,0.12); }
+    .toggle-dot { position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; border-radius: 50%; background: var(--blue); transition: transform var(--transition), background var(--transition); }
+    body.dark .toggle-dot { transform: translateX(20px); background: var(--blue-light); }
+    .contact-main { padding: 5rem 2rem; max-width: 900px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: start; }
+    .page-tag { display: inline-block; font-size: 0.7rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--blue); border: 1px solid var(--blue); padding: 0.3rem 0.8rem; border-radius: 2px; margin-bottom: 2rem; transition: color var(--transition), border-color var(--transition); }
+    body.dark .page-tag { color: var(--blue-light); border-color: var(--blue-light); }
+    h1 { font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 800; line-height: 1.05; letter-spacing: -0.03em; margin-bottom: 1.5rem; }
+    .contact-desc { font-size: 1rem; font-weight: 300; color: rgba(0,0,0,0.6); line-height: 1.85; margin-bottom: 2.5rem; transition: color var(--transition); }
+    body.dark .contact-desc { color: rgba(232,232,232,0.6); }
+    .contact-channels { display: flex; flex-direction: column; gap: 1rem; }
+    .channel-item { display: flex; align-items: center; justify-content: space-between; padding: 1.2rem 1.5rem; border: 1px solid rgba(0,0,0,0.08); border-radius: 2px; text-decoration: none; color: inherit; transition: border-color var(--transition), background var(--transition); }
+    body.dark .channel-item { border-color: rgba(255,255,255,0.08); }
+    .channel-item:hover { border-color: var(--blue); background: var(--off-white); }
+    body.dark .channel-item:hover { border-color: var(--blue-light); background: var(--dark-surface); }
+    .channel-label { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(0,0,0,0.35); margin-bottom: 0.2rem; transition: color var(--transition); }
+    body.dark .channel-label { color: rgba(232,232,232,0.35); }
+    .channel-value { font-size: 0.9rem; font-weight: 500; transition: color var(--transition); }
+    body.dark .channel-value { color: #e8e8e8; }
+    .channel-arrow { color: var(--blue); font-size: 1rem; opacity: 0.4; transition: opacity 0.2s, color var(--transition); }
+    body.dark .channel-arrow { color: var(--blue-light); }
+    .channel-item:hover .channel-arrow { opacity: 1; }
+    .contact-info { padding-top: 1rem; }
+    .info-label { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(0,0,0,0.35); margin-bottom: 2rem; transition: color var(--transition); }
+    body.dark .info-label { color: rgba(232,232,232,0.4); }
+    .info-item { margin-bottom: 2rem; }
+    .info-item-label { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--blue); margin-bottom: 0.3rem; transition: color var(--transition); }
+    body.dark .info-item-label { color: var(--blue-light); }
+    .info-item-value { font-size: 0.92rem; font-weight: 300; color: rgba(0,0,0,0.65); transition: color var(--transition); }
+    body.dark .info-item-value { color: rgba(232,232,232,0.65); }
+    footer { padding: 2rem; max-width: 900px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(0,0,0,0.06); transition: border-color var(--transition); }
+    body.dark footer { border-top-color: rgba(255,255,255,0.08); }
+    .footer-copy { font-size: 0.72rem; font-weight: 300; color: rgba(0,0,0,0.3); transition: color var(--transition); }
+    body.dark .footer-copy { color: rgba(232,232,232,0.3); }
+    .footer-links { display: flex; gap: 1.5rem; list-style: none; }
+    .footer-links a { font-size: 0.72rem; font-weight: 300; color: rgba(0,0,0,0.3); text-decoration: none; transition: color var(--transition); }
+    body.dark .footer-links a { color: rgba(232,232,232,0.3); }
+    .footer-links a:hover { color: var(--blue); }
+    body.dark .footer-links a:hover { color: var(--blue-light); }
+    @media (max-width: 640px) { .nav-links { display: none; } .contact-main { grid-template-columns: 1fr; gap: 3rem; } }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="/" class="logo">GBT</a>
+    <ul class="nav-links">
+      <li><a href="/trabajo/">Trabajo</a></li>
+      <li><a href="/sobre-mi/">Sobre mí</a></li>
+      <li><a href="/articulos/">Artículos</a></li>
+      <li><a href="/contacto/" class="active">Contacto</a></li>
+    </ul>
+    <button class="toggle" id="themeToggle" aria-label="Cambiar modo claro/oscuro">
+      <span class="toggle-dot"></span>
+    </button>
+  </nav>
+
+  <div class="contact-main">
+    <div>
+      <span class="page-tag">Contacto</span>
+      <h1>Hablemos<br>sin rodeos</h1>
+      <p class="contact-desc">Si tienes un proyecto, una pregunta o simplemente quieres hablar de marketing y negocio, escríbeme. Leo todos los mensajes y respondo a los que tienen sentido.</p>
+      <div class="contact-channels">
+        <a href="mailto:guillenbrunatricas@gmail.com" class="channel-item">
+          <div>
+            <p class="channel-label">Email</p>
+            <p class="channel-value">guillenbrunatricas@gmail.com</p>
+          </div>
+          <span class="channel-arrow">→</span>
+        </a>
+        <a href="https://www.linkedin.com/in/guillenbruna" target="_blank" class="channel-item">
+          <div>
+            <p class="channel-label">LinkedIn</p>
+            <p class="channel-value">linkedin.com/in/guillenbruna</p>
+          </div>
+          <span class="channel-arrow">→</span>
+        </a>
+      </div>
+    </div>
+    <div class="contact-info">
+      <p class="info-label">Sobre mí</p>
+      <div class="info-item">
+        <p class="info-item-label">Ubicación</p>
+        <p class="info-item-value">Zaragoza, España</p>
+      </div>
+      <div class="info-item">
+        <p class="info-item-label">Rol actual</p>
+        <p class="info-item-value">Head of Brand & Marketing en Zebra Ventures</p>
+      </div>
+      <div class="info-item">
+        <p class="info-item-label">Disponibilidad</p>
+        <p class="info-item-value">Abierto a proyectos, colaboraciones y conversaciones interesantes</p>
+      </div>
+      <div class="info-item">
+        <p class="info-item-label">Áreas</p>
+        <p class="info-item-value">Marketing estratégico, GTM, marca, consultoría, SaaS B2B</p>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p class="footer-copy">© 2026 Guillén Bruna Tricas</p>
+    <ul class="footer-links">
+      <li><a href="https://www.linkedin.com/in/guillenbruna" target="_blank">LinkedIn</a></li>
+    </ul>
+  </footer>
+
+  <script>
+    const toggle = document.getElementById('themeToggle');
+    toggle.addEventListener('click', () => { document.body.classList.toggle('dark'); localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light'); });
+    if (localStorage.getItem('theme') === 'dark') document.body.classList.add('dark');
+  </script>
+</body>
+</html>
