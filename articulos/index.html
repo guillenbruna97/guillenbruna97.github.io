@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/svg+xml" href="/isotipo.svg">
   <style>
     :root { --blue: #004aad; --blue-light: #95c0fa; --white: #ffffff; --off-white: #f6f6f6; --black: #000000; --dark-bg: #0a0a0a; --dark-surface: #1c1c1c; --dark-surface2: #2a2a2a; --transition: 0.3s ease; }
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -14,8 +15,12 @@
     body.dark { background: var(--dark-bg); color: #e8e8e8; }
     nav { position: sticky; top: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 1.25rem 2rem; background: var(--white); border-bottom: 1px solid rgba(0,0,0,0.06); transition: background var(--transition), border-color var(--transition); }
     body.dark nav { background: var(--dark-bg); border-bottom-color: rgba(255,255,255,0.08); }
+    .logo-link { display: flex; align-items: center; text-decoration: none; }
+    .logo-img { height: 36px; width: auto; transition: opacity 0.2s; }
+    .logo-img:hover { opacity: 0.75; }
+    body.dark .logo-img { filter: brightness(0) saturate(100%) invert(47%) sepia(98%) saturate(400%) hue-rotate(180deg) brightness(120%); }
     .logo { font-weight: 800; font-size: 1.1rem; letter-spacing: -0.02em; color: var(--blue); text-decoration: none; transition: color var(--transition); }
-    body.dark .logo { color: var(--blue-light); }
+    .logo { color: var(--blue-light); }
     .nav-links { display: flex; gap: 2rem; list-style: none; }
     .nav-links a { font-size: 0.78rem; font-weight: 400; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(0,0,0,0.5); text-decoration: none; transition: color var(--transition); }
     body.dark .nav-links a { color: rgba(232,232,232,0.5); }
@@ -77,7 +82,7 @@
 </head>
 <body>
   <nav>
-    <a href="/" class="logo">GBT</a>
+    <a href="/" class="logo-link"><img src="/isotipo.svg" alt="Guillén Bruna Tricas" class="logo-img"></a>
     <ul class="nav-links">
       <li><a href="/trabajo/">Trabajo</a></li>
       <li><a href="/sobre-mi/">Sobre mí</a></li>
