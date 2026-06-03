@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Guillén Bruna Tricas — Marketing & Estrategia</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --blue: #004aad;
+      --blue-light: #95c0fa;
+      --white: #ffffff;
+      --off-white: #f6f6f6;
+      --black: #000000;
+      --dark-bg: #0a0a0a;
+      --dark-surface: #1c1c1c;
+      --dark-surface2: #2a2a2a;
+      --transition: 0.3s ease;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--white);
+      color: var(--black);
+      transition: background var(--transition), color var(--transition);
+      line-height: 1.6;
+    }
+
+    body.dark {
+      background: var(--dark-bg);
+      color: #e8e8e8;
+    }
+
+    /* NAV */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.25rem 2rem;
+      background: var(--white);
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+      transition: background var(--transition), border-color var(--transition);
+    }
+
+    body.dark nav {
+      background: var(--dark-bg);
+      border-bottom-color: rgba(255,255,255,0.08);
+    }
+
+    .logo {
+      font-weight: 800;
+      font-size: 1.1rem;
+      letter-spacing: -0.02em;
+      color: var(--blue);
+      transition: color var(--transition);
+    }
+
+    body.dark .logo { color: var(--blue-light); }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.78rem;
+      font-weight: 400;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: rgba(0,0,0,0.5);
+      text-decoration: none;
+      transition: color var(--transition);
+    }
+
+    body.dark .nav-links a { color: rgba(232,232,232,0.5); }
+    .nav-links a:hover { color: var(--blue); }
+    body.dark .nav-links a:hover { color: var(--blue-light); }
+
+    .toggle {
+      width: 44px;
+      height: 24px;
+      border-radius: 12px;
+      background: var(--off-white);
+      border: 1px solid rgba(0,0,0,0.1);
+      cursor: pointer;
+      position: relative;
+      transition: background var(--transition), border-color var(--transition);
+      flex-shrink: 0;
+    }
+
+    body.dark .toggle {
+      background: var(--dark-surface2);
+      border-color: rgba(255,255,255,0.12);
+    }
+
+    .toggle-dot {
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--blue);
+      transition: transform var(--transition), background var(--transition);
+    }
+
+    body.dark .toggle-dot {
+      transform: translateX(20px);
+      background: var(--blue-light);
+    }
+
+    /* HERO */
+    .hero {
+      padding: 6rem 2rem 5rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .hero-tag {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--blue);
+      border: 1px solid var(--blue);
+      padding: 0.3rem 0.8rem;
+      border-radius: 2px;
+      margin-bottom: 2.5rem;
+      transition: color var(--transition), border-color var(--transition);
+    }
+
+    body.dark .hero-tag {
+      color: var(--blue-light);
+      border-color: var(--blue-light);
+    }
+
+    h1 {
+      font-size: clamp(2.8rem, 6vw, 5rem);
+      font-weight: 800;
+      line-height: 1.0;
+      letter-spacing: -0.03em;
+      margin-bottom: 2rem;
+    }
+
+    h1 .accent {
+      color: var(--blue);
+      transition: color var(--transition);
+    }
+
+    body.dark h1 .accent { color: var(--blue-light); }
+
+    .hero-desc {
+      font-size: 1.05rem;
+      font-weight: 300;
+      color: rgba(0,0,0,0.6);
+      max-width: 520px;
+      line-height: 1.8;
+      margin-bottom: 3rem;
+      transition: color var(--transition);
+    }
+
+    body.dark .hero-desc { color: rgba(232,232,232,0.6); }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--blue);
+      color: var(--white);
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 500;
+      padding: 0.85rem 1.8rem;
+      border-radius: 2px;
+      cursor: pointer;
+      border: none;
+      letter-spacing: 0.04em;
+      text-decoration: none;
+      transition: background var(--transition), transform 0.15s ease;
+    }
+
+    .btn-primary:hover { background: #003a8a; transform: translateY(-1px); }
+    body.dark .btn-primary { background: var(--blue-light); color: var(--dark-bg); }
+    body.dark .btn-primary:hover { background: #7ab0f0; }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: transparent;
+      color: var(--black);
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 400;
+      padding: 0.85rem 1.8rem;
+      border-radius: 2px;
+      cursor: pointer;
+      border: 1px solid rgba(0,0,0,0.2);
+      letter-spacing: 0.04em;
+      margin-left: 1rem;
+      text-decoration: none;
+      transition: border-color var(--transition), color var(--transition), transform 0.15s ease;
+    }
+
+    .btn-secondary:hover { border-color: var(--blue); color: var(--blue); transform: translateY(-1px); }
+    body.dark .btn-secondary { color: #e8e8e8; border-color: rgba(232,232,232,0.25); }
+    body.dark .btn-secondary:hover { border-color: var(--blue-light); color: var(--blue-light); }
+
+    /* DIVIDER */
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: rgba(0,0,0,0.06);
+      max-width: 900px;
+      margin: 0 auto;
+      transition: background var(--transition);
+    }
+
+    body.dark .divider { background: rgba(255,255,255,0.08); }
+
+    /* SECTIONS */
+    section {
+      padding: 5rem 2rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(0,0,0,0.35);
+      margin-bottom: 3rem;
+      transition: color var(--transition);
+    }
+
+    body.dark .section-label { color: rgba(232,232,232,0.4); }
+
+    /* WORKS GRID */
+    .works-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5px;
+      background: rgba(0,0,0,0.06);
+      border: 1px solid rgba(0,0,0,0.06);
+      transition: background var(--transition), border-color var(--transition);
+    }
+
+    body.dark .works-grid {
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.08);
+    }
+
+    .work-card {
+      background: var(--white);
+      padding: 2.5rem;
+      cursor: pointer;
+      transition: background var(--transition);
+    }
+
+    body.dark .work-card { background: var(--dark-bg); }
+    .work-card:hover { background: var(--off-white); }
+    body.dark .work-card:hover { background: var(--dark-surface); }
+
+    .work-number {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      color: var(--blue);
+      margin-bottom: 1.5rem;
+      transition: color var(--transition);
+    }
+
+    body.dark .work-number { color: var(--blue-light); }
+
+    .work-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      transition: color var(--transition);
+    }
+
+    body.dark .work-title { color: #e8e8e8; }
+
+    .work-role {
+      font-size: 0.78rem;
+      font-weight: 300;
+      color: rgba(0,0,0,0.4);
+      margin-bottom: 1.5rem;
+      transition: color var(--transition);
+    }
+
+    body.dark .work-role { color: rgba(232,232,232,0.45); }
+
+    .work-tags { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+
+    .tag {
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.25rem 0.6rem;
+      background: var(--off-white);
+      color: rgba(0,0,0,0.5);
+      border-radius: 1px;
+      transition: background var(--transition), color var(--transition);
+    }
+
+    body.dark .tag {
+      background: var(--dark-surface2);
+      color: rgba(232,232,232,0.5);
+    }
+
+    /* ABOUT */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 5rem;
+      align-items: start;
+    }
+
+    .about-name {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+      margin-bottom: 1.5rem;
+      transition: color var(--transition);
+    }
+
+    body.dark .about-name { color: #e8e8e8; }
+
+    .about-role {
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 0.4rem;
+      transition: color var(--transition);
+    }
+
+    body.dark .about-role { color: var(--blue-light); }
+
+    .about-location {
+      font-size: 0.78rem;
+      font-weight: 300;
+      color: rgba(0,0,0,0.4);
+      transition: color var(--transition);
+    }
+
+    body.dark .about-location { color: rgba(232,232,232,0.4); }
+
+    .about-text {
+      font-size: 0.98rem;
+      font-weight: 300;
+      line-height: 1.9;
+      color: rgba(0,0,0,0.65);
+      transition: color var(--transition);
+    }
+
+    body.dark .about-text { color: rgba(232,232,232,0.65); }
+    .about-text p + p { margin-top: 1.2rem; }
+
+    /* ARTICLES */
+    .articles-list { display: flex; flex-direction: column; }
+
+    .article-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 1.5rem 0;
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+      cursor: pointer;
+      gap: 2rem;
+      text-decoration: none;
+      color: inherit;
+      transition: border-color var(--transition);
+    }
+
+    body.dark .article-item { border-bottom-color: rgba(255,255,255,0.08); }
+    .article-item:first-child { border-top: 1px solid rgba(0,0,0,0.06); }
+    body.dark .article-item:first-child { border-top-color: rgba(255,255,255,0.08); }
+
+    .article-title {
+      font-size: 0.95rem;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      transition: color var(--transition);
+    }
+
+    body.dark .article-title { color: #e8e8e8; }
+    .article-item:hover .article-title { color: var(--blue); }
+    body.dark .article-item:hover .article-title { color: var(--blue-light); }
+
+    .article-meta {
+      font-size: 0.72rem;
+      font-weight: 300;
+      color: rgba(0,0,0,0.35);
+      white-space: nowrap;
+      transition: color var(--transition);
+    }
+
+    body.dark .article-meta { color: rgba(232,232,232,0.38); }
+
+    .article-arrow {
+      font-size: 1rem;
+      color: var(--blue);
+      opacity: 0;
+      transition: opacity 0.2s, color var(--transition);
+    }
+
+    body.dark .article-arrow { color: var(--blue-light); }
+    .article-item:hover .article-arrow { opacity: 1; }
+
+    /* CONTACT */
+    .contact-block {
+      background: var(--blue);
+      padding: 4rem 2.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background var(--transition);
+    }
+
+    body.dark .contact-block { background: var(--dark-surface); }
+
+    .contact-title {
+      font-size: 1.9rem;
+      font-weight: 800;
+      color: var(--white);
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      transition: color var(--transition);
+    }
+
+    body.dark .contact-title { color: #e8e8e8; }
+
+    .btn-contact {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--white);
+      color: var(--blue);
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 0.85rem 1.8rem;
+      border-radius: 2px;
+      cursor: pointer;
+      border: 1px solid transparent;
+      flex-shrink: 0;
+      letter-spacing: 0.04em;
+      text-decoration: none;
+      transition: background var(--transition), color var(--transition), border-color var(--transition), transform 0.15s ease;
+    }
+
+    .btn-contact:hover { background: var(--off-white); transform: translateY(-1px); }
+
+    body.dark .btn-contact {
+      background: transparent;
+      color: #e8e8e8;
+      border-color: rgba(232,232,232,0.3);
+    }
+
+    body.dark .btn-contact:hover {
+      border-color: var(--blue-light);
+      color: var(--blue-light);
+    }
+
+    /* FOOTER */
+    footer {
+      padding: 2rem;
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-copy {
+      font-size: 0.72rem;
+      font-weight: 300;
+      color: rgba(0,0,0,0.3);
+      transition: color var(--transition);
+    }
+
+    body.dark .footer-copy { color: rgba(232,232,232,0.3); }
+
+    .footer-links { display: flex; gap: 1.5rem; list-style: none; }
+
+    .footer-links a {
+      font-size: 0.72rem;
+      font-weight: 300;
+      color: rgba(0,0,0,0.3);
+      text-decoration: none;
+      transition: color var(--transition);
+    }
+
+    body.dark .footer-links a { color: rgba(232,232,232,0.3); }
+    .footer-links a:hover { color: var(--blue); }
+    body.dark .footer-links a:hover { color: var(--blue-light); }
+
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
+      .works-grid { grid-template-columns: 1fr; }
+      .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .contact-block { flex-direction: column; gap: 2rem; align-items: flex-start; }
+      h1 { font-size: 2.8rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <span class="logo">GBT</span>
+    <ul class="nav-links">
+      <li><a href="#trabajo">Trabajo</a></li>
+      <li><a href="#sobre-mi">Sobre mí</a></li>
+      <li><a href="#articulos">Artículos</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul>
+    <button class="toggle" id="themeToggle" aria-label="Cambiar modo claro/oscuro">
+      <span class="toggle-dot"></span>
+    </button>
+  </nav>
+
+  <div class="hero">
+    <span class="hero-tag">Marketing · Estrategia · Negocio</span>
+    <h1>
+      Guillén<br>
+      <span class="accent">Bruna</span><br>
+      Tricas
+    </h1>
+    <p class="hero-desc">
+      Profesional de marketing y negocio. Conecto estrategia, producto y ventas para que las empresas crezcan de forma real y medible.
+    </p>
+    <a href="#trabajo" class="btn-primary">Ver mi trabajo →</a>
+    <a href="mailto:guillenbrunatricas@gmail.com" class="btn-secondary">Hablemos</a>
+  </div>
+
+  <div class="divider"></div>
+
+  <section id="trabajo">
+    <p class="section-label">Trabajo seleccionado</p>
+    <div class="works-grid">
+      <div class="work-card">
+        <p class="work-number">01</p>
+        <h3 class="work-title">Zebra Ventures</h3>
+        <p class="work-role">Head of Brand & Marketing · 2024–presente</p>
+        <div class="work-tags">
+          <span class="tag">GTM</span>
+          <span class="tag">Brand</span>
+          <span class="tag">SaaS</span>
+        </div>
+      </div>
+      <div class="work-card">
+        <p class="work-number">02</p>
+        <h3 class="work-title">Proyecto ·····</h3>
+        <p class="work-role">Rol · Año</p>
+        <div class="work-tags">
+          <span class="tag">Estrategia</span>
+          <span class="tag">Ventas</span>
+        </div>
+      </div>
+      <div class="work-card">
+        <p class="work-number">03</p>
+        <h3 class="work-title">Proyecto ·····</h3>
+        <p class="work-role">Rol · Año</p>
+        <div class="work-tags">
+          <span class="tag">Producto</span>
+          <span class="tag">Marketing</span>
+        </div>
+      </div>
+      <div class="work-card">
+        <p class="work-number">04</p>
+        <h3 class="work-title">Proyecto ·····</h3>
+        <p class="work-role">Rol · Año</p>
+        <div class="work-tags">
+          <span class="tag">Comercial</span>
+          <span class="tag">B2B</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <section id="sobre-mi">
+    <p class="section-label">Sobre mí</p>
+    <div class="about-grid">
+      <div>
+        <h2 class="about-name">Guillén<br>Bruna<br>Tricas</h2>
+        <p class="about-role">Marketing & Estrategia</p>
+        <p class="about-location">Zaragoza, España</p>
+      </div>
+      <div class="about-text">
+        <p>No soy un especialista de canal. Soy alguien que entiende el negocio completo y lo ejecuta desde el marketing. He estado en ventas, en producto, en marca, y eso me da una perspectiva que pocos profesionales tienen.</p>
+        <p>Mi trabajo es conectar estrategia con ejecución y convertir ideas en resultados medibles. Sin humo, sin atajos, con criterio y con foco en lo que importa: que el negocio crezca.</p>
+        <p>Actualmente en Zebra Ventures, liderando marketing y marca para una empresa de transformación digital con IA enfocada en PYMEs.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <section id="articulos">
+    <p class="section-label">Artículos recientes</p>
+    <div class="articles-list">
+      <a href="#" class="article-item">
+        <p class="article-title">Por qué la mayoría de PYMEs no saben qué problema tiene su marketing</p>
+        <p class="article-meta">Mayo 2026</p>
+        <span class="article-arrow">→</span>
+      </a>
+      <a href="#" class="article-item">
+        <p class="article-title">GTM sin presupuesto: cómo priorizas cuando no puedes hacer todo</p>
+        <p class="article-meta">Próximamente</p>
+        <span class="article-arrow">→</span>
+      </a>
+      <a href="#" class="article-item">
+        <p class="article-title">Lo que aprendí lanzando un SaaS B2B desde el área de marketing</p>
+        <p class="article-meta">Próximamente</p>
+        <span class="article-arrow">→</span>
+      </a>
+    </div>
+  </section>
+
+  <div class="contact-block" id="contacto">
+    <p class="contact-title">¿Trabajamos<br>juntos?</p>
+    <a href="mailto:guillenbrunatricas@gmail.com" class="btn-contact">Escríbeme →</a>
+  </div>
+
+  <footer>
+    <p class="footer-copy">© 2026 Guillén Bruna Tricas</p>
+    <ul class="footer-links">
+      <li><a href="https://linkedin.com" target="_blank">LinkedIn</a></li>
+      <li><a href="https://github.com" target="_blank">GitHub</a></li>
+    </ul>
+  </footer>
+
+  <script>
+    const toggle = document.getElementById('themeToggle');
+    toggle.addEventListener('click', () => {
+      document.body.classList.toggle('dark');
+      localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+    });
+    if (localStorage.getItem('theme') === 'dark') {
+      document.body.classList.add('dark');
+    }
+  </script>
+
+</body>
+</html>
