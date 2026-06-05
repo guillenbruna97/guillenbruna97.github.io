@@ -13,21 +13,19 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: 'Poppins', sans-serif; background: var(--white); color: var(--black); transition: background var(--transition), color var(--transition); line-height: 1.6; }
     body.dark { background: var(--dark-bg); color: #e8e8e8; }
-    nav { position: sticky; top: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 1.25rem 2rem; background: var(--white); border-bottom: 1px solid rgba(0,0,0,0.06); transition: background var(--transition), border-color var(--transition); }
-    body.dark nav { background: var(--dark-bg); border-bottom-color: rgba(255,255,255,0.08); }
     .hamburger { display: none; }
-    nav { position: relative; }
+    nav { position: sticky; top: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 1.25rem 2rem; background: var(--white); border-bottom: 1px solid rgba(0,0,0,0.06); transition: background var(--transition), border-color var(--transition); position: relative; }
+    body.dark nav { background: var(--dark-bg); border-bottom-color: rgba(255,255,255,0.08); }
     .logo-link { display: flex; align-items: center; text-decoration: none; }
     .logo-img { height: 36px; width: auto; transition: opacity 0.2s; }
     .logo-img:hover { opacity: 0.75; }
     body.dark .logo-img { filter: brightness(0) saturate(100%) invert(47%) sepia(98%) saturate(400%) hue-rotate(180deg) brightness(120%); }
-    .logo { font-weight: 800; font-size: 1.1rem; letter-spacing: -0.02em; color: var(--blue); text-decoration: none; transition: color var(--transition); }
-    .logo { color: var(--blue-light); }
     .nav-links { display: flex; gap: 2rem; list-style: none; }
     .nav-links a { font-size: 0.78rem; font-weight: 400; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(0,0,0,0.5); text-decoration: none; transition: color var(--transition); }
     body.dark .nav-links a { color: rgba(232,232,232,0.5); }
     .nav-links a:hover, .nav-links a.active { color: var(--blue); }
     body.dark .nav-links a:hover, body.dark .nav-links a.active { color: var(--blue-light); }
+    .nav-right { display: flex; align-items: center; gap: 1rem; }
     .toggle { width: 44px; height: 24px; border-radius: 12px; background: var(--off-white); border: 1px solid rgba(0,0,0,0.1); cursor: pointer; position: relative; flex-shrink: 0; transition: background var(--transition), border-color var(--transition); }
     body.dark .toggle { background: var(--dark-surface2); border-color: rgba(255,255,255,0.12); }
     .toggle-dot { position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; border-radius: 50%; background: var(--blue); transition: transform var(--transition), background var(--transition); }
@@ -40,11 +38,17 @@
     body.dark .page-desc { color: rgba(232,232,232,0.55); }
     .divider { width: 100%; height: 1px; background: rgba(0,0,0,0.06); max-width: 900px; margin: 0 auto; transition: background var(--transition); }
     body.dark .divider { background: rgba(255,255,255,0.08); }
-    .projects { padding: 4rem 2rem; max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 0; }
+    .projects { padding: 4rem 2rem; max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; }
     .project-item { display: grid; grid-template-columns: 80px 1fr auto; gap: 2rem; align-items: start; padding: 2.5rem 0; border-bottom: 1px solid rgba(0,0,0,0.06); transition: border-color var(--transition); }
     body.dark .project-item { border-bottom-color: rgba(255,255,255,0.08); }
     .project-item:first-child { border-top: 1px solid rgba(0,0,0,0.06); }
     body.dark .project-item:first-child { border-top-color: rgba(255,255,255,0.08); }
+
+    /* Broco item especial con foto */
+    .project-item.has-photo { grid-template-columns: 80px 1fr 220px; align-items: center; }
+    .project-photo { display: flex; align-items: center; justify-content: center; }
+    .project-photo img { width: 200px; height: auto; filter: drop-shadow(0 8px 24px rgba(0,74,173,0.12)); }
+
     .project-number { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.12em; color: var(--blue); padding-top: 0.3rem; transition: color var(--transition); }
     body.dark .project-number { color: var(--blue-light); }
     .project-content h2 { font-size: 1.3rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 0.3rem; transition: color var(--transition); }
@@ -74,27 +78,32 @@
     body.dark .footer-links a { color: rgba(232,232,232,0.3); }
     .footer-links a:hover { color: var(--blue); }
     body.dark .footer-links a:hover { color: var(--blue-light); }
-    @media (max-width: 640px) { .nav-links { display: none; }
-    .nav-links.open { display: flex; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; background: var(--white); border-bottom: 1px solid rgba(0,0,0,0.06); padding: 1rem 2rem 1.5rem; gap: 1.2rem; z-index: 99; }
-    body.dark .nav-links.open { background: var(--dark-bg); border-bottom-color: rgba(255,255,255,0.08); }
-    .hamburger { display: flex; flex-direction: column; justify-content: center; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; }
-    .hamburger span { display: block; width: 22px; height: 2px; background: var(--black); border-radius: 2px; transition: background var(--transition); }
-    body.dark .hamburger span { background: #e8e8e8; } .project-item { grid-template-columns: 1fr; gap: 0.5rem; } .project-year { display: none; } .contact-block { flex-direction: column; gap: 2rem; align-items: flex-start; } }
+    @media (max-width: 640px) {
+      .hamburger { display: flex; flex-direction: column; justify-content: center; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; }
+      .hamburger span { display: block; width: 22px; height: 2px; background: var(--black); border-radius: 2px; transition: background var(--transition); }
+      body.dark .hamburger span { background: #e8e8e8; }
+      .nav-links { display: none; }
+      .nav-links.open { display: flex; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; background: var(--white); border-bottom: 1px solid rgba(0,0,0,0.06); padding: 1rem 2rem 1.5rem; gap: 1.2rem; z-index: 99; }
+      body.dark .nav-links.open { background: var(--dark-bg); border-bottom-color: rgba(255,255,255,0.08); }
+      .project-item, .project-item.has-photo { grid-template-columns: 1fr; gap: 0.5rem; }
+      .project-year, .project-photo { display: none; }
+      .contact-block { flex-direction: column; gap: 2rem; align-items: flex-start; }
+    }
   </style>
 </head>
 <body>
   <nav>
     <a href="/" class="logo-link"><img src="/isotipo.svg" alt="Guillén Bruna Tricas" class="logo-img"></a>
-    <ul class="nav-links">
+    <ul class="nav-links" id="navLinks">
       <li><a href="/trabajo/" class="active">Trabajo</a></li>
       <li><a href="/sobre-mi/">Sobre mí</a></li>
       <li><a href="/articulos/">Artículos</a></li>
       <li><a href="/contacto/">Contacto</a></li>
     </ul>
-    <button class="hamburger" id="hamburger" aria-label="Abrir menú"><span></span><span></span><span></span></button>
-    <button class="toggle" id="themeToggle" aria-label="Cambiar modo claro/oscuro">
-      <span class="toggle-dot"></span>
-    </button>
+    <div class="nav-right">
+      <button class="hamburger" id="hamburger" aria-label="Abrir menú"><span></span><span></span><span></span></button>
+      <button class="toggle" id="themeToggle" aria-label="Cambiar modo"><span class="toggle-dot"></span></button>
+    </div>
   </nav>
 
   <div class="page-header">
@@ -117,7 +126,7 @@
       <p class="project-year">2024–hoy</p>
     </div>
 
-    <div class="project-item">
+    <div class="project-item has-photo">
       <p class="project-number">02</p>
       <div class="project-content">
         <h2>Broco</h2>
@@ -125,7 +134,9 @@
         <p class="project-desc">Creación y gestión de una marca de eCommerce desde cero. Desarrollo de producto, identidad de marca, estrategia de adquisición y operaciones. Una experiencia 360 que combinó visión de negocio con ejecución directa en todas las áreas del funnel.</p>
         <div class="project-tags"><span class="tag">eCommerce</span><span class="tag">Marca</span><span class="tag">Paid Media</span><span class="tag">Operaciones</span></div>
       </div>
-      <p class="project-year">Anterior</p>
+      <div class="project-photo">
+        <img src="/broco.png" alt="Broco — marca de eCommerce" />
+      </div>
     </div>
 
     <div class="project-item">
@@ -165,8 +176,8 @@
 
   <script>
     const hamburger = document.getElementById('hamburger');
-    const navLinks = document.querySelector('.nav-links');
-    hamburger.addEventListener('click', () => { navLinks.classList.toggle('open'); });
+    const navLinks = document.getElementById('navLinks');
+    hamburger.addEventListener('click', () => navLinks.classList.toggle('open'));
     document.addEventListener('click', (e) => { if (!hamburger.contains(e.target) && !navLinks.contains(e.target)) navLinks.classList.remove('open'); });
     const toggle = document.getElementById('themeToggle');
     toggle.addEventListener('click', () => { document.body.classList.toggle('dark'); localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light'); });
