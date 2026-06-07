@@ -97,21 +97,7 @@
     .about-text strong { font-weight: 600; color: var(--black); transition: color var(--transition); }
     body.dark .about-text strong { color: #e8e8e8; }
 
-    /* FÚTBOL BLOCK */
-    .futbol-block {
-      margin-top: 3rem;
-      display: grid;
-      grid-template-columns: 1fr 200px;
-      gap: 2rem;
-      align-items: center;
-    }
-    .futbol-img img {
-      height: 260px;
-      width: auto;
-      display: block;
-      margin: 0 auto;
-      filter: drop-shadow(0 8px 24px rgba(0,74,173,0.15));
-    }
+
 
     /* CONTACT */
     .contact-block { background: var(--blue); padding: 4rem 2.5rem; display: flex; justify-content: space-between; align-items: center; transition: background var(--transition); }
@@ -146,8 +132,6 @@
       .about-hero-text { padding-bottom: 2rem; }
       .about-body { grid-template-columns: 1fr; gap: 2.5rem; }
       .about-sidebar { position: static; }
-      .futbol-block { grid-template-columns: 1fr; }
-      .futbol-img { display: none; }
       .contact-block { flex-direction: column; gap: 2rem; align-items: flex-start; }
     }
   </style>
@@ -201,15 +185,10 @@
         <p>Antes fundé <strong>Broco</strong>, una marca de eCommerce que construí desde cero. Fue la experiencia que más me enseñó sobre negocio real: sin red, sin equipo grande, tomando cada decisión con consecuencias directas. También pasé por <strong>Grupo Rey</strong> y por <strong>Integra Consultoría Gerencial</strong>, donde entendí cómo se mueve el marketing en entornos de gran volumen y cómo se trabaja con dirección general cuando los números importan.</p>
       </div>
 
-      <div class="futbol-block">
-        <div class="about-text">
+      <div class="about-text" style="margin-top:1.5rem">
           <p>Fuera del trabajo soy de Zaragoza, y no por accidente sino por elección. Tengo un grupo de amigos con el que llevo años, me gusta el fútbol más de lo que debería, y durante un tiempo lo jugué en serio y luego lo entrené en categorías base. Esa experiencia me dejó algo que ningún máster me habría dado: saber cómo se enseña, cómo se acompaña un proceso y cómo se consigue que alguien mejore sin que sienta que le estás exigiendo demasiado.</p>
           <p>Soy exigente conmigo mismo, organizo casi todo en sistemas porque es la forma que tengo de gestionar la incertidumbre, y me importa mucho cómo se cuentan las cosas. No delego el tono a la ligera. Si algo lleva mi nombre, quiero que refleje exactamente lo que pienso.</p>
           <p>Si has llegado hasta aquí, probablemente tenemos algo de lo que hablar.</p>
-        </div>
-        <div class="futbol-img">
-          <img src="/guillen-futbol.png" alt="Guillén jugando al fútbol" />
-        </div>
       </div>
     </div>
   </div>
