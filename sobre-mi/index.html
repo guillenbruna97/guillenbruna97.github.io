@@ -13,37 +13,73 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: 'Poppins', sans-serif; background: var(--white); color: var(--black); transition: background var(--transition), color var(--transition); line-height: 1.6; }
     body.dark { background: var(--dark-bg); color: #e8e8e8; }
-    nav { position: sticky; top: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 1.25rem 2rem; background: var(--white); border-bottom: 1px solid rgba(0,0,0,0.06); transition: background var(--transition), border-color var(--transition); }
-    body.dark nav { background: var(--dark-bg); border-bottom-color: rgba(255,255,255,0.08); }
+
+    /* NAV */
     .hamburger { display: none; }
-    nav { position: relative; }
+    nav { position: sticky; top: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 1.25rem 2rem; background: var(--white); border-bottom: 1px solid rgba(0,0,0,0.06); transition: background var(--transition), border-color var(--transition); position: relative; }
+    body.dark nav { background: var(--dark-bg); border-bottom-color: rgba(255,255,255,0.08); }
     .logo-link { display: flex; align-items: center; text-decoration: none; }
     .logo-img { height: 36px; width: auto; transition: opacity 0.2s; }
     .logo-img:hover { opacity: 0.75; }
     body.dark .logo-img { filter: brightness(0) saturate(100%) invert(47%) sepia(98%) saturate(400%) hue-rotate(180deg) brightness(120%); }
-    .logo { font-weight: 800; font-size: 1.1rem; letter-spacing: -0.02em; color: var(--blue); text-decoration: none; transition: color var(--transition); }
-    .logo { color: var(--blue-light); }
     .nav-links { display: flex; gap: 2rem; list-style: none; }
     .nav-links a { font-size: 0.78rem; font-weight: 400; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(0,0,0,0.5); text-decoration: none; transition: color var(--transition); }
     body.dark .nav-links a { color: rgba(232,232,232,0.5); }
     .nav-links a:hover, .nav-links a.active { color: var(--blue); }
     body.dark .nav-links a:hover, body.dark .nav-links a.active { color: var(--blue-light); }
+    .nav-right { display: flex; align-items: center; gap: 1rem; }
     .toggle { width: 44px; height: 24px; border-radius: 12px; background: var(--off-white); border: 1px solid rgba(0,0,0,0.1); cursor: pointer; position: relative; flex-shrink: 0; transition: background var(--transition), border-color var(--transition); }
     body.dark .toggle { background: var(--dark-surface2); border-color: rgba(255,255,255,0.12); }
     .toggle-dot { position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; border-radius: 50%; background: var(--blue); transition: transform var(--transition), background var(--transition); }
     body.dark .toggle-dot { transform: translateX(20px); background: var(--blue-light); }
-    .divider { width: 100%; height: 1px; background: rgba(0,0,0,0.06); max-width: 900px; margin: 0 auto; transition: background var(--transition); }
-    body.dark .divider { background: rgba(255,255,255,0.08); }
-    .about-header { padding: 5rem 2rem 3rem; max-width: 900px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1.4fr; gap: 5rem; align-items: end; }
+
+    /* HERO */
+    .about-hero {
+      max-width: 900px; margin: 0 auto;
+      padding: 5rem 2rem 0;
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: 2rem;
+      align-items: end;
+      min-height: 520px;
+      position: relative;
+    }
+    .about-hero-text { padding-bottom: 4rem; }
     .page-tag { display: inline-block; font-size: 0.7rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--blue); border: 1px solid var(--blue); padding: 0.3rem 0.8rem; border-radius: 2px; margin-bottom: 2rem; transition: color var(--transition), border-color var(--transition); }
     body.dark .page-tag { color: var(--blue-light); border-color: var(--blue-light); }
-    h1 { font-size: clamp(2.2rem, 4vw, 3.5rem); font-weight: 800; line-height: 1.0; letter-spacing: -0.03em; margin-bottom: 1.5rem; }
+    h1 { font-size: clamp(2.2rem, 4vw, 3.8rem); font-weight: 800; line-height: 1.0; letter-spacing: -0.03em; margin-bottom: 1.5rem; }
+    h1 .accent { color: var(--blue); transition: color var(--transition); }
+    body.dark h1 .accent { color: var(--blue-light); }
+    .about-meta { margin-bottom: 2rem; }
     .about-meta p { font-size: 0.78rem; font-weight: 400; color: rgba(0,0,0,0.4); margin-bottom: 0.3rem; transition: color var(--transition); }
     body.dark .about-meta p { color: rgba(232,232,232,0.4); }
     .about-meta span { color: var(--blue); font-weight: 500; transition: color var(--transition); }
     body.dark .about-meta span { color: var(--blue-light); }
-    .about-intro { font-size: 1.05rem; font-weight: 300; color: rgba(0,0,0,0.6); line-height: 1.85; transition: color var(--transition); }
+    .about-intro { font-size: 1rem; font-weight: 300; color: rgba(0,0,0,0.6); line-height: 1.85; max-width: 420px; transition: color var(--transition); }
     body.dark .about-intro { color: rgba(232,232,232,0.6); }
+
+    /* FOTO HERO */
+    .about-hero-img {
+      position: relative;
+      align-self: end;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+    }
+    .about-hero-img img {
+      height: 480px;
+      width: auto;
+      object-fit: contain;
+      object-position: bottom;
+      filter: drop-shadow(0 0 0 transparent);
+      transition: filter var(--transition);
+    }
+
+    /* DIVIDER */
+    .divider { width: 100%; height: 1px; background: rgba(0,0,0,0.06); max-width: 900px; margin: 0 auto; transition: background var(--transition); }
+    body.dark .divider { background: rgba(255,255,255,0.08); }
+
+    /* BODY */
     .about-body { padding: 4rem 2rem; max-width: 900px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1.4fr; gap: 5rem; align-items: start; }
     .about-sidebar { position: sticky; top: 6rem; }
     .sidebar-label { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(0,0,0,0.35); margin-bottom: 1.5rem; transition: color var(--transition); }
@@ -53,11 +89,17 @@
     body.dark .sidebar-links a { color: rgba(232,232,232,0.5); }
     .sidebar-links a:hover { color: var(--blue); }
     body.dark .sidebar-links a:hover { color: var(--blue-light); }
+
+    /* TEXTO */
     .about-text { font-size: 0.98rem; font-weight: 300; line-height: 1.95; color: rgba(0,0,0,0.65); transition: color var(--transition); }
     body.dark .about-text { color: rgba(232,232,232,0.65); }
     .about-text p + p { margin-top: 1.5rem; }
     .about-text strong { font-weight: 600; color: var(--black); transition: color var(--transition); }
     body.dark .about-text strong { color: #e8e8e8; }
+
+
+
+    /* CONTACT */
     .contact-block { background: var(--blue); padding: 4rem 2.5rem; display: flex; justify-content: space-between; align-items: center; transition: background var(--transition); }
     body.dark .contact-block { background: var(--dark-surface); }
     .contact-title { font-size: 1.9rem; font-weight: 800; color: var(--white); letter-spacing: -0.03em; line-height: 1.15; }
@@ -66,6 +108,8 @@
     .btn-contact:hover { background: var(--off-white); transform: translateY(-1px); }
     body.dark .btn-contact { background: transparent; color: #e8e8e8; border-color: rgba(232,232,232,0.3); }
     body.dark .btn-contact:hover { border-color: var(--blue-light); color: var(--blue-light); }
+
+    /* FOOTER */
     footer { padding: 2rem; max-width: 900px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
     .footer-copy { font-size: 0.72rem; font-weight: 300; color: rgba(0,0,0,0.3); transition: color var(--transition); }
     body.dark .footer-copy { color: rgba(232,232,232,0.3); }
@@ -74,40 +118,69 @@
     body.dark .footer-links a { color: rgba(232,232,232,0.3); }
     .footer-links a:hover { color: var(--blue); }
     body.dark .footer-links a:hover { color: var(--blue-light); }
-    @media (max-width: 640px) { .nav-links { display: none; }
-    .nav-links.open { display: flex; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; background: var(--white); border-bottom: 1px solid rgba(0,0,0,0.06); padding: 1rem 2rem 1.5rem; gap: 1.2rem; z-index: 99; }
-    body.dark .nav-links.open { background: var(--dark-bg); border-bottom-color: rgba(255,255,255,0.08); }
-    .hamburger { display: flex; flex-direction: column; justify-content: center; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; }
-    .hamburger span { display: block; width: 22px; height: 2px; background: var(--black); border-radius: 2px; transition: background var(--transition); }
-    body.dark .hamburger span { background: #e8e8e8; } .about-header, .about-body { grid-template-columns: 1fr; gap: 2.5rem; } .about-sidebar { position: static; } .contact-block { flex-direction: column; gap: 2rem; align-items: flex-start; } }
+
+    /* RESPONSIVE */
+    @media (max-width: 640px) {
+      .hamburger { display: flex; flex-direction: column; justify-content: center; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; }
+      .hamburger span { display: block; width: 22px; height: 2px; background: var(--black); border-radius: 2px; transition: background var(--transition); }
+      body.dark .hamburger span { background: #e8e8e8; }
+      .nav-links { display: none; }
+      .nav-links.open { display: flex; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; background: var(--white); border-bottom: 1px solid rgba(0,0,0,0.06); padding: 1rem 2rem 1.5rem; gap: 1.2rem; z-index: 99; }
+      body.dark .nav-links.open { background: var(--dark-bg); border-bottom-color: rgba(255,255,255,0.08); }
+      .about-hero { grid-template-columns: 1fr; min-height: auto; padding-top: 3rem; }
+      .about-hero-img { display: none; }
+      .about-hero-text { padding-bottom: 2rem; }
+      .about-body { grid-template-columns: 1fr; gap: 2.5rem; }
+      .about-sidebar { position: static; }
+      .contact-block { flex-direction: column; gap: 2rem; align-items: flex-start; }
+    }
+
+    /* MOMENTOS */
+    .momentos-section { padding: 5rem 2rem; max-width: 900px; margin: 0 auto; }
+    .momentos-label { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(0,0,0,0.35); margin-bottom: 3rem; transition: color var(--transition); }
+    body.dark .momentos-label { color: rgba(232,232,232,0.4); }
+    .momentos-title { font-size: clamp(1.4rem, 3vw, 2rem); font-weight: 800; letter-spacing: -0.03em; margin-bottom: 3rem; transition: color var(--transition); }
+    body.dark .momentos-title { color: #e8e8e8; }
+    .momentos-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
+    .momento-item { display: flex; flex-direction: column; gap: 0.8rem; }
+    .momento-item img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 2px; display: block; transition: transform 0.3s ease; }
+    .momento-item img:hover { transform: scale(1.02); }
+    .momento-caption { font-size: 0.78rem; font-weight: 300; color: rgba(0,0,0,0.55); line-height: 1.5; font-style: italic; transition: color var(--transition); }
+    body.dark .momento-caption { color: rgba(232,232,232,0.45); }
+    .momento-item.wide { grid-column: span 2; }
+    .momento-item.wide img { aspect-ratio: 16/9; }
+    @media (max-width: 640px) { .momentos-grid { grid-template-columns: repeat(2, 1fr); } .momento-item.wide { grid-column: span 2; } }
   </style>
 </head>
 <body>
   <nav>
     <a href="/" class="logo-link"><img src="/isotipo.svg" alt="Guillén Bruna Tricas" class="logo-img"></a>
-    <ul class="nav-links">
+    <ul class="nav-links" id="navLinks">
       <li><a href="/trabajo/">Trabajo</a></li>
       <li><a href="/sobre-mi/" class="active">Sobre mí</a></li>
       <li><a href="/articulos/">Artículos</a></li>
       <li><a href="/contacto/">Contacto</a></li>
     </ul>
-    <button class="hamburger" id="hamburger" aria-label="Abrir menú"><span></span><span></span><span></span></button>
-    <button class="toggle" id="themeToggle" aria-label="Cambiar modo claro/oscuro">
-      <span class="toggle-dot"></span>
-    </button>
+    <div class="nav-right">
+      <button class="hamburger" id="hamburger" aria-label="Abrir menú"><span></span><span></span><span></span></button>
+      <button class="toggle" id="themeToggle" aria-label="Cambiar modo"><span class="toggle-dot"></span></button>
+    </div>
   </nav>
 
-  <div class="about-header">
-    <div>
+  <div class="about-hero">
+    <div class="about-hero-text">
       <span class="page-tag">Sobre mí</span>
-      <h1>Guillén<br>Bruna<br>Tricas</h1>
+      <h1>Guillén<br><span class="accent">Bruna</span><br>Tricas</h1>
       <div class="about-meta">
         <p><span>Marketing & Estrategia</span></p>
         <p>Zaragoza, España</p>
         <p>Head of Brand & Marketing en Zebra Ventures</p>
       </div>
+      <p class="about-intro">No soy un especialista de canal. Soy alguien que entiende el negocio completo y lo ejecuta desde el marketing.</p>
     </div>
-    <p class="about-intro">No soy un especialista de canal. Soy alguien que entiende el negocio completo y lo ejecuta desde el marketing. He estado en ventas, en producto, en marca, y eso me da una perspectiva que pocos profesionales tienen.</p>
+    <div class="about-hero-img">
+      <img src="/guillen-chaqueta.png" alt="Guillén Bruna Tricas" />
+    </div>
   </div>
 
   <div class="divider"></div>
@@ -121,13 +194,48 @@
         <li><a href="/trabajo/">Ver mi trabajo →</a></li>
       </ul>
     </div>
-    <div class="about-text">
-      <p>Tengo la cabeza de un estratega y las manos de alguien que ejecuta. He pasado por ventas, por consultoría, por eCommerce, por retail y por empresas de producto tecnológico, y en cada etapa me he llevado algo que el anterior no me habría dado. Eso me ha convertido en un profesional difícil de encasillar, lo que a veces incomoda en los procesos de selección, pero que en la práctica es una ventaja real cuando tienes que resolver problemas complejos.</p>
-      <p>Actualmente lidero marketing y marca en <strong>Zebra Ventures</strong>, una empresa de transformación digital con IA enfocada en PYMEs. Gestiono en paralelo la marca corporativa, un SaaS B2B llamado MASAI y una línea de productos de IA. Es el tipo de trabajo que me gusta: con mucho por construir, donde las decisiones importan y donde lo estratégico y lo operativo conviven cada día.</p>
-      <p>Antes fundé <strong>Broco</strong>, una marca de eCommerce que construí desde cero. Fue la experiencia que más me enseñó sobre negocio real: sin red, sin equipo grande, tomando cada decisión con consecuencias directas. También pasé por <strong>Grupo Rey</strong> y por <strong>Integra Consultoría Gerencial</strong>, donde entendí cómo se mueve el marketing en entornos de gran volumen y cómo se trabaja con dirección general cuando los números importan.</p>
-      <p>Fuera del trabajo soy de Zaragoza, y no por accidente sino por elección. Tengo un grupo de amigos con el que llevo años, me gusta el fútbol más de lo que debería, y durante un tiempo entrené fútbol base. Esa experiencia me dejó algo que ningún máster me habría dado: saber cómo se enseña, cómo se acompaña un proceso y cómo se consigue que alguien mejore sin que sienta que le estás exigiendo demasiado.</p>
-      <p>Soy exigente conmigo mismo, organizo casi todo en sistemas porque es la forma que tengo de gestionar la incertidumbre, y me importa mucho cómo se cuentan las cosas. No delego el tono a la ligera. Si algo lleva mi nombre, quiero que refleje exactamente lo que pienso.</p>
-      <p>Si has llegado hasta aquí, probablemente tenemos algo de lo que hablar.</p>
+    <div>
+      <div class="about-text">
+        <p>Tengo la cabeza de un estratega y las manos de alguien que ejecuta. He pasado por ventas, por consultoría, por eCommerce, por retail y por empresas de producto tecnológico, y en cada etapa me he llevado algo que el anterior no me habría dado. Eso me ha convertido en un profesional difícil de encasillar, lo que a veces incomoda en los procesos de selección, pero que en la práctica es una ventaja real cuando tienes que resolver problemas complejos.</p>
+        <p>Actualmente lidero marketing y marca en <strong>Zebra Ventures</strong>, una empresa de transformación digital con IA enfocada en PYMEs. Gestiono en paralelo la marca corporativa, un SaaS B2B llamado MASAI y una línea de productos de IA. Es el tipo de trabajo que me gusta: con mucho por construir, donde las decisiones importan y donde lo estratégico y lo operativo conviven cada día.</p>
+        <p>Antes fundé <strong>Broco</strong>, una marca de eCommerce que construí desde cero. Fue la experiencia que más me enseñó sobre negocio real: sin red, sin equipo grande, tomando cada decisión con consecuencias directas. También pasé por <strong>Grupo Rey</strong> y por <strong>Integra Consultoría Gerencial</strong>, donde entendí cómo se mueve el marketing en entornos de gran volumen y cómo se trabaja con dirección general cuando los números importan.</p>
+      </div>
+
+      <div class="about-text" style="margin-top:1.5rem">
+          <p>Fuera del trabajo soy de Zaragoza, y no por accidente sino por elección. Tengo un grupo de amigos con el que llevo años, me gusta el fútbol más de lo que debería, y durante un tiempo lo jugué en serio y luego lo entrené en categorías base. Esa experiencia me dejó algo que ningún máster me habría dado: saber cómo se enseña, cómo se acompaña un proceso y cómo se consigue que alguien mejore sin que sienta que le estás exigiendo demasiado.</p>
+          <p>Soy exigente conmigo mismo, organizo casi todo en sistemas porque es la forma que tengo de gestionar la incertidumbre, y me importa mucho cómo se cuentan las cosas. No delego el tono a la ligera. Si algo lleva mi nombre, quiero que refleje exactamente lo que pienso.</p>
+          <p>Si has llegado hasta aquí, probablemente tenemos algo de lo que hablar.</p>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="divider"></div>
+
+  <div class="momentos-section">
+    <p class="momentos-label">Sobre mí</p>
+    <h2 class="momentos-title">Momentos que me definen</h2>
+    <div class="momentos-grid">
+      <div class="momento-item">
+        <img src="/momento-broco.png" alt="Broco" />
+        <p class="momento-caption">Amigos que se convierten en socios. O socios que se convierten en amigos.</p>
+      </div>
+      <div class="momento-item">
+        <img src="/momento-futbol.png" alt="Fútbol" />
+        <p class="momento-caption">El hobbie que me enseñó a entender la vida antes de entender el negocio.</p>
+      </div>
+      <div class="momento-item">
+        <img src="/momento-pareja.png" alt="Pareja" />
+        <p class="momento-caption">Momentos de respiro que te recargan para volver con más fuerza.</p>
+      </div>
+      <div class="momento-item">
+        <img src="/momento-sis.png" alt="Spain Innovation Summit" />
+        <p class="momento-caption">Eventos que se crean en equipo.</p>
+      </div>
+      <div class="momento-item wide">
+        <img src="/momento-slm.png" alt="SLM" />
+        <p class="momento-caption">Trabajos especiales que dejan huella.</p>
+      </div>
     </div>
   </div>
 
@@ -145,8 +253,8 @@
 
   <script>
     const hamburger = document.getElementById('hamburger');
-    const navLinks = document.querySelector('.nav-links');
-    hamburger.addEventListener('click', () => { navLinks.classList.toggle('open'); });
+    const navLinks = document.getElementById('navLinks');
+    hamburger.addEventListener('click', () => navLinks.classList.toggle('open'));
     document.addEventListener('click', (e) => { if (!hamburger.contains(e.target) && !navLinks.contains(e.target)) navLinks.classList.remove('open'); });
     const toggle = document.getElementById('themeToggle');
     toggle.addEventListener('click', () => { document.body.classList.toggle('dark'); localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light'); });
