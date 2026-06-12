@@ -30,38 +30,59 @@
     body.dark .toggle { background: var(--dark-surface2); border-color: rgba(255,255,255,0.12); }
     .toggle-dot { position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; border-radius: 50%; background: var(--blue); transition: transform var(--transition), background var(--transition); }
     body.dark .toggle-dot { transform: translateX(20px); background: var(--blue-light); }
-    .page-header { padding: 5rem 2rem 3rem; max-width: 900px; margin: 0 auto; }
+
+    .page-header { padding: 5rem 2rem 2rem; max-width: 900px; margin: 0 auto; }
     .page-tag { display: inline-block; font-size: 0.7rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--blue); border: 1px solid var(--blue); padding: 0.3rem 0.8rem; border-radius: 2px; margin-bottom: 2rem; transition: color var(--transition), border-color var(--transition); }
     body.dark .page-tag { color: var(--blue-light); border-color: var(--blue-light); }
     h1 { font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 800; line-height: 1.05; letter-spacing: -0.03em; margin-bottom: 1rem; }
     .page-desc { font-size: 1rem; font-weight: 300; color: rgba(0,0,0,0.55); max-width: 520px; line-height: 1.8; transition: color var(--transition); }
     body.dark .page-desc { color: rgba(232,232,232,0.55); }
+
+    /* FILTERS */
+    .filters { padding: 1.5rem 2rem 3rem; max-width: 900px; margin: 0 auto; display: flex; gap: 0.6rem; flex-wrap: wrap; }
+    .filter-btn { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.45rem 1rem; border-radius: 2px; background: transparent; color: rgba(0,0,0,0.45); border: 1px solid rgba(0,0,0,0.12); cursor: pointer; font-family: 'Poppins', sans-serif; transition: all var(--transition); }
+    body.dark .filter-btn { color: rgba(232,232,232,0.4); border-color: rgba(255,255,255,0.12); }
+    .filter-btn.active { background: var(--black); color: var(--white); border-color: var(--black); }
+    body.dark .filter-btn.active { background: var(--blue-light); color: var(--dark-bg); border-color: var(--blue-light); }
+    .filter-btn:hover:not(.active) { border-color: var(--blue); color: var(--blue); }
+    body.dark .filter-btn:hover:not(.active) { border-color: var(--blue-light); color: var(--blue-light); }
+
     .divider { width: 100%; height: 1px; background: rgba(0,0,0,0.06); max-width: 900px; margin: 0 auto; transition: background var(--transition); }
     body.dark .divider { background: rgba(255,255,255,0.08); }
-    .projects { padding: 4rem 2rem; max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; }
-    .project-item { display: grid; grid-template-columns: 80px 1fr auto; gap: 2rem; align-items: start; padding: 2.5rem 0; border-bottom: 1px solid rgba(0,0,0,0.06); transition: border-color var(--transition); }
-    body.dark .project-item { border-bottom-color: rgba(255,255,255,0.08); }
-    .project-item:first-child { border-top: 1px solid rgba(0,0,0,0.06); }
-    body.dark .project-item:first-child { border-top-color: rgba(255,255,255,0.08); }
 
-    /* Broco item especial con foto */
-    .project-item.has-photo { grid-template-columns: 80px 1fr 220px; align-items: center; }
-    .project-photo { display: flex; align-items: center; justify-content: center; }
-    .project-photo img { width: 200px; height: auto; filter: drop-shadow(0 8px 24px rgba(0,74,173,0.12)); }
-
-    .project-number { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.12em; color: var(--blue); padding-top: 0.3rem; transition: color var(--transition); }
-    body.dark .project-number { color: var(--blue-light); }
-    .project-content h2 { font-size: 1.3rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 0.3rem; transition: color var(--transition); }
-    body.dark .project-content h2 { color: #e8e8e8; }
-    .project-role { font-size: 0.8rem; font-weight: 400; color: var(--blue); margin-bottom: 1rem; transition: color var(--transition); }
-    body.dark .project-role { color: var(--blue-light); }
-    .project-desc { font-size: 0.9rem; font-weight: 300; color: rgba(0,0,0,0.6); line-height: 1.8; margin-bottom: 1.2rem; transition: color var(--transition); }
-    body.dark .project-desc { color: rgba(232,232,232,0.6); }
-    .project-tags { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+    /* CASES */
+    .cases { padding: 3rem 2rem; max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; }
+    .case-item { display: grid; grid-template-columns: 60px 1fr auto; gap: 2rem; align-items: start; padding: 2.5rem 0; border-bottom: 1px solid rgba(0,0,0,0.06); transition: border-color var(--transition); }
+    body.dark .case-item { border-bottom-color: rgba(255,255,255,0.08); }
+    .case-item:first-child { border-top: 1px solid rgba(0,0,0,0.06); }
+    body.dark .case-item:first-child { border-top-color: rgba(255,255,255,0.08); }
+    .case-item[data-types] { transition: opacity 0.25s ease; }
+    .case-item.hidden { display: none; }
+    .case-number { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.12em; color: var(--blue); padding-top: 0.3rem; transition: color var(--transition); }
+    body.dark .case-number { color: var(--blue-light); }
+    .case-tags { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 0.7rem; }
     .tag { font-size: 0.65rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.25rem 0.6rem; background: var(--off-white); color: rgba(0,0,0,0.5); border-radius: 1px; transition: background var(--transition), color var(--transition); }
     body.dark .tag { background: var(--dark-surface2); color: rgba(232,232,232,0.5); }
-    .project-year { font-size: 0.75rem; font-weight: 300; color: rgba(0,0,0,0.3); white-space: nowrap; padding-top: 0.3rem; transition: color var(--transition); }
-    body.dark .project-year { color: rgba(232,232,232,0.3); }
+    .case-content h2 { font-size: 1.3rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 0.3rem; transition: color var(--transition); }
+    body.dark .case-content h2 { color: #e8e8e8; }
+    .case-role { font-size: 0.8rem; font-weight: 400; color: var(--blue); margin-bottom: 1rem; transition: color var(--transition); }
+    body.dark .case-role { color: var(--blue-light); }
+    .case-desc { font-size: 0.9rem; font-weight: 300; color: rgba(0,0,0,0.6); line-height: 1.8; margin-bottom: 1rem; transition: color var(--transition); }
+    body.dark .case-desc { color: rgba(232,232,232,0.6); }
+    .case-link { font-size: 0.78rem; font-weight: 500; color: var(--blue); text-decoration: none; transition: color var(--transition); }
+    body.dark .case-link { color: var(--blue-light); }
+    .case-link:hover { text-decoration: underline; }
+    .case-year { font-size: 0.75rem; font-weight: 300; color: rgba(0,0,0,0.3); white-space: nowrap; padding-top: 0.3rem; transition: color var(--transition); }
+    body.dark .case-year { color: rgba(232,232,232,0.3); }
+
+    /* TRUST SECTION */
+    .trust-section { padding: 5rem 2rem; max-width: 900px; margin: 0 auto; }
+    .trust-label { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(0,0,0,0.35); margin-bottom: 2.5rem; transition: color var(--transition); }
+    body.dark .trust-label { color: rgba(232,232,232,0.4); }
+    .trust-logos { display: flex; align-items: center; gap: 3rem; flex-wrap: wrap; }
+    .trust-logos span { font-size: 1.1rem; font-weight: 700; letter-spacing: -0.02em; color: rgba(0,0,0,0.35); transition: color var(--transition); }
+    body.dark .trust-logos span { color: rgba(232,232,232,0.35); }
+
     .contact-block { background: var(--blue); padding: 4rem 2.5rem; display: flex; justify-content: space-between; align-items: center; transition: background var(--transition); }
     body.dark .contact-block { background: var(--dark-surface); }
     .contact-title { font-size: 1.9rem; font-weight: 800; color: var(--white); letter-spacing: -0.03em; line-height: 1.15; }
@@ -70,6 +91,7 @@
     .btn-contact:hover { background: var(--off-white); transform: translateY(-1px); }
     body.dark .btn-contact { background: transparent; color: #e8e8e8; border-color: rgba(232,232,232,0.3); }
     body.dark .btn-contact:hover { border-color: var(--blue-light); color: var(--blue-light); }
+
     footer { padding: 2rem; max-width: 900px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
     .footer-copy { font-size: 0.72rem; font-weight: 300; color: rgba(0,0,0,0.3); transition: color var(--transition); }
     body.dark .footer-copy { color: rgba(232,232,232,0.3); }
@@ -78,6 +100,7 @@
     body.dark .footer-links a { color: rgba(232,232,232,0.3); }
     .footer-links a:hover { color: var(--blue); }
     body.dark .footer-links a:hover { color: var(--blue-light); }
+
     @media (max-width: 640px) {
       .hamburger { display: flex; flex-direction: column; justify-content: center; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; }
       .hamburger span { display: block; width: 22px; height: 2px; background: var(--black); border-radius: 2px; transition: background var(--transition); }
@@ -85,8 +108,9 @@
       .nav-links { display: none; }
       .nav-links.open { display: flex; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; background: var(--white); border-bottom: 1px solid rgba(0,0,0,0.06); padding: 1rem 2rem 1.5rem; gap: 1.2rem; z-index: 99; }
       body.dark .nav-links.open { background: var(--dark-bg); border-bottom-color: rgba(255,255,255,0.08); }
-      .project-item, .project-item.has-photo { grid-template-columns: 1fr; gap: 0.5rem; }
-      .project-year, .project-photo { display: none; }
+      .case-item { grid-template-columns: 1fr; gap: 0.5rem; }
+      .case-year { display: none; }
+      .trust-logos { gap: 1.5rem; }
       .contact-block { flex-direction: column; gap: 2rem; align-items: flex-start; }
     }
   </style>
@@ -108,61 +132,93 @@
 
   <div class="page-header">
     <span class="page-tag">Portfolio</span>
-    <h1>Trabajo<br>seleccionado</h1>
-    <p class="page-desc">Proyectos y experiencias donde estrategia, marca y negocio fueron de la mano.</p>
+    <h1>Casos<br>reales</h1>
+    <p class="page-desc">Proyectos donde estrategia, ejecución y resultados fueron de la mano.</p>
+  </div>
+
+  <div class="filters" id="filters">
+    <button class="filter-btn active" data-filter="all">Todos</button>
+    <button class="filter-btn" data-filter="marca">Estrategia de marca</button>
+    <button class="filter-btn" data-filter="lanzamiento">Lanzamiento</button>
+    <button class="filter-btn" data-filter="demanda">Generación de demanda</button>
+    <button class="filter-btn" data-filter="contenido">Contenido</button>
+    <button class="filter-btn" data-filter="eventos">Eventos</button>
+    <button class="filter-btn" data-filter="ecommerce">eCommerce</button>
+    <button class="filter-btn" data-filter="consultoria">Consultoría</button>
   </div>
 
   <div class="divider"></div>
 
-  <div class="projects">
-    <div class="project-item has-photo">
-      <p class="project-number">01</p>
-      <div class="project-content">
-        <h2>Zebra Ventures</h2>
-        <p class="project-role">Head of Brand & Marketing</p>
-        <p class="project-desc">Liderazgo del área de marketing y marca en una empresa de transformación digital con IA enfocada en PYMEs. Gestión en paralelo de tres líneas: marca corporativa, MASAI (SaaS B2B de gestión de proyectos) e IA Products. Desarrollo de estrategia GTM, arquitectura de contenido, CRM y comunicación de producto.</p>
-        <div class="project-tags"><span class="tag">GTM</span><span class="tag">Brand</span><span class="tag">SaaS</span><span class="tag">IA</span><span class="tag">Contenido</span></div>
+  <div class="cases">
+
+    <div class="case-item" data-types="marca lanzamiento">
+      <p class="case-number">01</p>
+      <div class="case-content">
+        <div class="case-tags">
+          <span class="tag">Estrategia de marca</span>
+          <span class="tag">Lanzamiento</span>
+        </div>
+        <h2>Construcción de marca y estrategia GTM</h2>
+        <p class="case-role">Zebra Ventures · Head of Brand & Marketing</p>
+        <p class="case-desc">Diagnóstico de ICP, reescritura del mensaje de marca, rediseño de la web, estrategia de contenidos, funnel de conversión y lanzamiento de una segunda línea de negocio desde cero. Incluye el Spain Innovation Summit, evento propio con estudio sectorial.</p>
+        <a href="/trabajo/zebra-ventures/" class="case-link">Ver caso completo →</a>
       </div>
-      <div class="project-photo">
-        <img src="/zebraventures.svg" alt="Zebra Ventures" />
-      </div>
+      <p class="case-year">2024–hoy</p>
     </div>
 
-    <div class="project-item has-photo">
-      <p class="project-number">02</p>
-      <div class="project-content">
-        <h2>Broco</h2>
-        <p class="project-role">Fundador</p>
-        <p class="project-desc">Creación y gestión de una marca de eCommerce desde cero. Desarrollo de producto, identidad de marca, estrategia de adquisición y operaciones. Una experiencia 360 que combinó visión de negocio con ejecución directa en todas las áreas del funnel.</p>
-        <div class="project-tags"><span class="tag">eCommerce</span><span class="tag">Marca</span><span class="tag">Paid Media</span><span class="tag">Operaciones</span></div>
+    <div class="case-item" data-types="ecommerce demanda">
+      <p class="case-number">02</p>
+      <div class="case-content">
+        <div class="case-tags">
+          <span class="tag">eCommerce</span>
+          <span class="tag">Generación de demanda</span>
+        </div>
+        <h2>Lanzamiento y crecimiento de una marca de moda</h2>
+        <p class="case-role">Broco · Fundador</p>
+        <p class="case-desc">Creación de una marca de moda desde la idea hasta las primeras ventas. Identidad, canal digital, paid media y operaciones. Aprendizaje de negocio real sin red ni equipo grande.</p>
       </div>
-      <div class="project-photo">
-        <img src="/broco.png" alt="Broco — marca de eCommerce" />
-      </div>
+      <p class="case-year">Anterior</p>
     </div>
 
-    <div class="project-item has-photo">
-      <p class="project-number">03</p>
-      <div class="project-content">
-        <h2>Grupo Rey</h2>
-        <p class="project-role">Marketing — Muebles Rey & Muebles Tuco</p>
-        <p class="project-desc">Trabajo en el área de marketing dentro de uno de los grupos de retail de muebles más relevantes de España. Gestión de campañas, estrategia de canal y comunicación de marca en un entorno omnicanal con alto volumen y complejidad operativa.</p>
-        <div class="project-tags"><span class="tag">Retail</span><span class="tag">Omnicanal</span><span class="tag">Marketing</span><span class="tag">Campañas</span></div>
+    <div class="case-item" data-types="eventos marca">
+      <p class="case-number">03</p>
+      <div class="case-content">
+        <div class="case-tags">
+          <span class="tag">Eventos</span>
+          <span class="tag">Estrategia de marca</span>
+        </div>
+        <h2>Campañas omnicanal de temporada</h2>
+        <p class="case-role">Muebles Rey & Muebles Tuco · Marketing</p>
+        <p class="case-desc">Gestión de campañas de gran volumen en retail de muebles. Coordinación de canal online y offline, creatividad y activaciones, con resultados medibles en ambas marcas.</p>
       </div>
-      <div class="project-photo">
-        <img src="/reycorporacion.svg" alt="Grupo Rey Corporación" />
-      </div>
+      <p class="case-year">Anterior</p>
     </div>
 
-    <div class="project-item">
-      <p class="project-number">04</p>
-      <div class="project-content">
-        <h2>Integra Consultoría Gerencial</h2>
-        <p class="project-role">Consultor</p>
-        <p class="project-desc">Consultoría estratégica y gerencial para empresas en procesos de transformación organizativa y comercial. Trabajo directo con dirección en definición de estrategia, procesos y modelo de negocio.</p>
-        <div class="project-tags"><span class="tag">Consultoría</span><span class="tag">Estrategia</span><span class="tag">B2B</span><span class="tag">Procesos</span></div>
+    <div class="case-item" data-types="consultoria">
+      <p class="case-number">04</p>
+      <div class="case-content">
+        <div class="case-tags">
+          <span class="tag">Consultoría</span>
+        </div>
+        <h2>Acompañamiento estratégico a dirección</h2>
+        <p class="case-role">Integra Consultoría Gerencial · Consultor</p>
+        <p class="case-desc">Diagnóstico y acompañamiento a dirección en procesos de transformación organizativa y redefinición de modelo comercial.</p>
       </div>
-      <p class="project-year">Anterior</p>
+      <p class="case-year">Anterior</p>
+    </div>
+
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="trust-section">
+    <p class="trust-label">Confiaron en mí</p>
+    <div class="trust-logos">
+      <span>Zebra Ventures</span>
+      <span>Muebles Rey</span>
+      <span>Muebles Tuco</span>
+      <span>Integra</span>
+      <span>Broco</span>
     </div>
   </div>
 
@@ -183,9 +239,27 @@
     const navLinks = document.getElementById('navLinks');
     hamburger.addEventListener('click', () => navLinks.classList.toggle('open'));
     document.addEventListener('click', (e) => { if (!hamburger.contains(e.target) && !navLinks.contains(e.target)) navLinks.classList.remove('open'); });
+
     const toggle = document.getElementById('themeToggle');
     toggle.addEventListener('click', () => { document.body.classList.toggle('dark'); localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light'); });
     if (localStorage.getItem('theme') === 'dark') document.body.classList.add('dark');
+
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const caseItems = document.querySelectorAll('.case-item');
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const filter = btn.dataset.filter;
+        caseItems.forEach(item => {
+          if (filter === 'all' || item.dataset.types.includes(filter)) {
+            item.classList.remove('hidden');
+          } else {
+            item.classList.add('hidden');
+          }
+        });
+      });
+    });
   </script>
 </body>
 </html>
