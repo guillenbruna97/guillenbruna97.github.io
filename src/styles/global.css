@@ -1,0 +1,32 @@
+:root {
+  --blue: #004aad;
+  --blue-light: #95c0fa;
+  --white: #ffffff;
+  --off-white: #f6f6f6;
+  --black: #000000;
+  --dark-bg: #0a0a0a;
+  --dark-surface: #1c1c1c;
+  --dark-surface2: #2a2a2a;
+  --transition: 0.3s ease;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: var(--white);
+  color: var(--black);
+  transition: background var(--transition), color var(--transition);
+  line-height: 1.6;
+}
+
+body.dark {
+  background: var(--dark-bg);
+  color: #e8e8e8;
+}

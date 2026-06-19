@@ -1,0 +1,32 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  url?: string;
+  ogType?: string;
+}
+const {
+  title,
+  description,
+  image = '/isotipo.svg',
+  url = Astro.url.href,
+  ogType = 'website',
+} = Astro.props;
+const imageUrl = image.startsWith('http') ? image : `https://guillenbruna97.github.io${image}`;
+---
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={url} />
+
+<meta property="og:type" content={ogType} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={url} />
+<meta property="og:image" content={imageUrl} />
+<meta property="og:locale" content="es_ES" />
+
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={imageUrl} />

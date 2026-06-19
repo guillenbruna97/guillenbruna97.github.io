@@ -1,0 +1,242 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Divider from '../../components/Divider.astro';
+import ContactBlock from '../../components/ContactBlock.astro';
+
+---
+<BaseLayout
+  title="Sobre mí | Guillén Bruna Tricas"
+  description="Guillén Bruna Tricas, asesor de marketing y comunicación ejecutiva en Zaragoza. De ventas a consultoría, acompañando a directivos y empresas."
+  image="/guillen-chaqueta.png"
+  ogType="profile"
+>
+  <div class="about-hero">
+
+    <div class="about-hero-text">
+      <span class="page-tag">Sobre mí</span>
+      <h1>Guillén<br /><span class="accent">Bruna</span><br />Tricas</h1>
+      <div class="about-meta">
+        <p><span>Marketing & Estrategia</span></p>
+        <p>Zaragoza, España</p>
+        <p>Head of Brand & Marketing en Zebra Ventures</p>
+      </div>
+      <p class="about-intro">No soy un especialista de canal. Soy alguien que entiende el negocio completo y lo ejecuta desde el marketing.</p>
+    </div>
+    <div class="about-hero-img">
+      <img src="/guillen-chaqueta.png" alt="Guillén Bruna Tricas" />
+    </div>
+  </div>
+
+  <Divider />
+
+  <div class="about-body">
+    <div class="about-sidebar">
+      <p class="sidebar-label">En esta página</p>
+      <ul class="sidebar-links">
+        <li><a href="https://www.linkedin.com/in/guillenbruna" target="_blank">LinkedIn →</a></li>
+        <li><a href="mailto:guillenbrunatricas@gmail.com">Email →</a></li>
+        <li><a href="/trabajo/">Ver mi trabajo →</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="about-text">
+        <p>Tengo la cabeza de un estratega y las manos de alguien que ejecuta. He pasado por ventas, por consultoría, por eCommerce, por retail y por empresas de producto tecnológico, y en cada etapa me he llevado algo que el anterior no me habría dado. Eso me ha convertido en un profesional difícil de encasillar, lo que a veces incomoda en los procesos de selección, pero que en la práctica es una ventaja real cuando tienes que resolver problemas complejos.</p>
+        <p>Actualmente lidero marketing y marca en <strong>Zebra Ventures</strong>, una empresa de transformación digital con IA enfocada en PYMEs. Gestiono en paralelo la marca corporativa, un SaaS B2B llamado MASAI y una línea de productos de IA. Es el tipo de trabajo que me gusta: con mucho por construir, donde las decisiones importan y donde lo estratégico y lo operativo conviven cada día.</p>
+        <p>Antes fundé <strong>Broco</strong>, una marca de eCommerce que construí desde cero. Fue la experiencia que más me enseñó sobre negocio real: sin red, sin equipo grande, tomando cada decisión con consecuencias directas. También pasé por <strong>Grupo Rey</strong> y por <strong>Integra Consultoría Gerencial</strong>, donde entendí cómo se mueve el marketing en entornos de gran volumen y cómo se trabaja con dirección general cuando los números importan.</p>
+      </div>
+      <div class="about-text" style="margin-top:1.5rem">
+        <p>Fuera del trabajo soy de Zaragoza, y no por accidente sino por elección. Tengo un grupo de amigos con el que llevo años, me gusta el fútbol más de lo que debería, y durante un tiempo lo jugué en serio y luego lo entrené en categorías base. Esa experiencia me dejó algo que ningún máster me habría dado: saber cómo se enseña, cómo se acompaña un proceso y cómo se consigue que alguien mejore sin que sienta que le estás exigiendo demasiado.</p>
+        <p>Soy exigente conmigo mismo, organizo casi todo en sistemas porque es la forma que tengo de gestionar la incertidumbre, y me importa mucho cómo se cuentan las cosas. No delego el tono a la ligera. Si algo lleva mi nombre, quiero que refleje exactamente lo que pienso.</p>
+        <p>Si has llegado hasta aquí, probablemente tenemos algo de lo que hablar.</p>
+      </div>
+    </div>
+  </div>
+
+  <Divider />
+
+  <div class="momentos-section">
+    <p class="momentos-label">Sobre mí</p>
+    <h2 class="momentos-title">Momentos que me definen</h2>
+    <div class="momentos-grid">
+      <div class="momento-item">
+        <img src="/momento-broco.png" alt="Broco" />
+        <p class="momento-caption">Amigos que se convierten en socios. O socios que se convierten en amigos.</p>
+      </div>
+      <div class="momento-item">
+        <img src="/momento-futbol.png" alt="Fútbol" />
+        <p class="momento-caption">El hobbie que me enseñó a entender la vida antes de entender el negocio.</p>
+      </div>
+      <div class="momento-item">
+        <img src="/momento-pareja.png" alt="Pareja" />
+        <p class="momento-caption">Momentos de respiro que te recargan para volver con más fuerza.</p>
+      </div>
+      <div class="momento-item">
+        <img src="/momento-sis.png" alt="Spain Innovation Summit" />
+        <p class="momento-caption">Eventos que se crean en equipo.</p>
+      </div>
+      <div class="momento-item wide">
+        <img src="/momento-slm.png" alt="SLM" />
+        <p class="momento-caption">Trabajos especiales que dejan huella.</p>
+      </div>
+    </div>
+  </div>
+
+  <ContactBlock title="¿Trabajamos<br>juntos?" />
+</BaseLayout>
+
+<style is:global>
+  /* ABOUT HERO */
+  .about-hero {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 5rem 2rem 0;
+    display: grid;
+    grid-template-columns: 1fr 420px;
+    gap: 2rem;
+    align-items: end;
+    min-height: 520px;
+  }
+  .about-hero-text { padding-bottom: 4rem; }
+
+  .page-tag {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--blue);
+    border: 1px solid var(--blue);
+    padding: 0.3rem 0.8rem;
+    border-radius: 2px;
+    margin-bottom: 2rem;
+    transition: color var(--transition), border-color var(--transition);
+  }
+  body.dark .page-tag { color: var(--blue-light); border-color: var(--blue-light); }
+
+  .about-hero h1 {
+    font-size: clamp(2.2rem, 4vw, 3.8rem);
+    font-weight: 800;
+    line-height: 1.0;
+    letter-spacing: -0.03em;
+    margin-bottom: 1.5rem;
+  }
+  .about-hero h1 .accent { color: var(--blue); transition: color var(--transition); }
+  body.dark .about-hero h1 .accent { color: var(--blue-light); }
+
+  .about-meta { margin-bottom: 2rem; }
+  .about-meta p { font-size: 0.78rem; font-weight: 400; color: rgba(0,0,0,0.4); margin-bottom: 0.3rem; transition: color var(--transition); }
+  body.dark .about-meta p { color: rgba(232,232,232,0.4); }
+  .about-meta span { color: var(--blue); font-weight: 500; transition: color var(--transition); }
+  body.dark .about-meta span { color: var(--blue-light); }
+
+  .about-intro {
+    font-size: 1rem;
+    font-weight: 300;
+    color: rgba(0,0,0,0.6);
+    line-height: 1.85;
+    max-width: 420px;
+    transition: color var(--transition);
+  }
+  body.dark .about-intro { color: rgba(232,232,232,0.6); }
+
+  .about-hero-img {
+    position: relative;
+    align-self: end;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+  }
+  .about-hero-img img {
+    height: 480px;
+    width: auto;
+    object-fit: contain;
+    object-position: bottom;
+  }
+
+  /* ABOUT BODY */
+  .about-body {
+    padding: 4rem 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 5rem;
+    align-items: start;
+  }
+  .about-sidebar { position: sticky; top: 6rem; }
+  .sidebar-label {
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(0,0,0,0.35);
+    margin-bottom: 1.5rem;
+    transition: color var(--transition);
+  }
+  body.dark .sidebar-label { color: rgba(232,232,232,0.4); }
+  .sidebar-links { display: flex; flex-direction: column; gap: 0.8rem; list-style: none; }
+  .sidebar-links a { font-size: 0.82rem; font-weight: 400; color: rgba(0,0,0,0.5); text-decoration: none; transition: color var(--transition); }
+  body.dark .sidebar-links a { color: rgba(232,232,232,0.5); }
+  .sidebar-links a:hover { color: var(--blue); }
+  body.dark .sidebar-links a:hover { color: var(--blue-light); }
+
+  .about-text { font-size: 0.98rem; font-weight: 300; line-height: 1.95; color: rgba(0,0,0,0.65); transition: color var(--transition); }
+  body.dark .about-text { color: rgba(232,232,232,0.65); }
+  .about-text p + p { margin-top: 1.5rem; }
+  .about-text strong { font-weight: 600; color: var(--black); transition: color var(--transition); }
+  body.dark .about-text strong { color: #e8e8e8; }
+
+  /* MOMENTOS */
+  .momentos-section { padding: 5rem 2rem; max-width: 900px; margin: 0 auto; }
+  .momentos-label {
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(0,0,0,0.35);
+    margin-bottom: 3rem;
+    transition: color var(--transition);
+  }
+  body.dark .momentos-label { color: rgba(232,232,232,0.4); }
+  .momentos-title {
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    margin-bottom: 3rem;
+    transition: color var(--transition);
+  }
+  body.dark .momentos-title { color: #e8e8e8; }
+  .momentos-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
+  .momento-item { display: flex; flex-direction: column; gap: 0.8rem; }
+  .momento-item img {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: 2px;
+    display: block;
+    transition: transform 0.3s ease;
+  }
+  .momento-item img:hover { transform: scale(1.02); }
+  .momento-caption {
+    font-size: 0.78rem;
+    font-weight: 300;
+    color: rgba(0,0,0,0.55);
+    line-height: 1.5;
+    font-style: italic;
+    transition: color var(--transition);
+  }
+  body.dark .momento-caption { color: rgba(232,232,232,0.45); }
+  .momento-item.wide { grid-column: span 2; }
+  .momento-item.wide img { aspect-ratio: 16/9; }
+
+  @media (max-width: 640px) {
+    .about-hero { grid-template-columns: 1fr; min-height: auto; padding-top: 3rem; }
+    .about-hero-img { display: none; }
+    .about-hero-text { padding-bottom: 2rem; }
+    .about-body { grid-template-columns: 1fr; gap: 2.5rem; }
+    .about-sidebar { position: static; }
+    .momentos-grid { grid-template-columns: repeat(2, 1fr); }
+    .momento-item.wide { grid-column: span 2; }
+  }
+</style>
+
