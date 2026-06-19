@@ -1,0 +1,173 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+<BaseLayout
+  title="Contacto | Guillén Bruna Tricas"
+  description="Habla con un asesor de marketing y comunicación ejecutiva. Estrategia de marca para empresas y directivos en Zaragoza."
+>
+  <div class="contact-main">
+    <div>
+      <span class="page-tag">Contacto</span>
+      <h1>Hablemos<br />sin rodeos</h1>
+      <p class="contact-desc">Si tienes un proyecto, una pregunta o simplemente quieres hablar de marketing y negocio, escríbeme. Leo todos los mensajes y respondo a los que tienen sentido.</p>
+      <div class="contact-channels">
+        <a href="mailto:guillenbrunatricas@gmail.com" class="channel-item">
+          <div>
+            <p class="channel-label">Email</p>
+            <p class="channel-value">guillenbrunatricas@gmail.com</p>
+          </div>
+          <span class="channel-arrow">→</span>
+        </a>
+        <a href="https://www.linkedin.com/in/guillenbruna" target="_blank" class="channel-item">
+          <div>
+            <p class="channel-label">LinkedIn</p>
+            <p class="channel-value">linkedin.com/in/guillenbruna</p>
+          </div>
+          <span class="channel-arrow">→</span>
+        </a>
+      </div>
+    </div>
+    <div class="contact-info">
+      <p class="info-label">Sobre mí</p>
+      <div class="info-item">
+        <p class="info-item-label">Ubicación</p>
+        <p class="info-item-value">Zaragoza, España</p>
+      </div>
+      <div class="info-item">
+        <p class="info-item-label">Rol actual</p>
+        <p class="info-item-value">Head of Brand & Marketing en Zebra Ventures</p>
+      </div>
+      <div class="info-item">
+        <p class="info-item-label">Disponibilidad</p>
+        <p class="info-item-value">Abierto a proyectos, colaboraciones y conversaciones interesantes</p>
+      </div>
+      <div class="info-item">
+        <p class="info-item-label">Áreas</p>
+        <p class="info-item-value">Marketing estratégico, GTM, marca, consultoría, SaaS B2B</p>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<style is:global>
+  .contact-main {
+    padding: 5rem 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: start;
+  }
+
+  .contact-main .page-tag {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--blue);
+    border: 1px solid var(--blue);
+    padding: 0.3rem 0.8rem;
+    border-radius: 2px;
+    margin-bottom: 2rem;
+    transition: color var(--transition), border-color var(--transition);
+  }
+  body.dark .contact-main .page-tag { color: var(--blue-light); border-color: var(--blue-light); }
+
+  .contact-main h1 {
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    margin-bottom: 1.5rem;
+  }
+
+  .contact-desc {
+    font-size: 1rem;
+    font-weight: 300;
+    color: rgba(0,0,0,0.6);
+    line-height: 1.85;
+    margin-bottom: 2.5rem;
+    transition: color var(--transition);
+  }
+  body.dark .contact-desc { color: rgba(232,232,232,0.6); }
+
+  .contact-channels { display: flex; flex-direction: column; gap: 1rem; }
+
+  .channel-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.2rem 1.5rem;
+    border: 1px solid rgba(0,0,0,0.08);
+    border-radius: 2px;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color var(--transition), background var(--transition);
+  }
+  body.dark .channel-item { border-color: rgba(255,255,255,0.08); }
+  .channel-item:hover { border-color: var(--blue); background: var(--off-white); }
+  body.dark .channel-item:hover { border-color: var(--blue-light); background: var(--dark-surface); }
+
+  .channel-label {
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(0,0,0,0.35);
+    margin-bottom: 0.2rem;
+    transition: color var(--transition);
+  }
+  body.dark .channel-label { color: rgba(232,232,232,0.35); }
+
+  .channel-value { font-size: 0.9rem; font-weight: 500; transition: color var(--transition); }
+  body.dark .channel-value { color: #e8e8e8; }
+
+  .channel-arrow { color: var(--blue); font-size: 1rem; opacity: 0.4; transition: opacity 0.2s, color var(--transition); }
+  body.dark .channel-arrow { color: var(--blue-light); }
+  .channel-item:hover .channel-arrow { opacity: 1; }
+
+  /* CONTACT INFO */
+  .contact-info { padding-top: 1rem; }
+  .info-label {
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(0,0,0,0.35);
+    margin-bottom: 2rem;
+    transition: color var(--transition);
+  }
+  body.dark .info-label { color: rgba(232,232,232,0.4); }
+
+  .info-item { margin-bottom: 2rem; }
+  .info-item-label {
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 0.3rem;
+    transition: color var(--transition);
+  }
+  body.dark .info-item-label { color: var(--blue-light); }
+  .info-item-value {
+    font-size: 0.92rem;
+    font-weight: 300;
+    color: rgba(0,0,0,0.65);
+    transition: color var(--transition);
+  }
+  body.dark .info-item-value { color: rgba(232,232,232,0.65); }
+
+  /* Contacto page footer override */
+  .contact-main ~ footer {
+    border-top: 1px solid rgba(0,0,0,0.06);
+    transition: border-color var(--transition);
+  }
+  body.dark .contact-main ~ footer { border-top-color: rgba(255,255,255,0.08); }
+
+  @media (max-width: 640px) {
+    .contact-main { grid-template-columns: 1fr; gap: 3rem; }
+  }
+</style>

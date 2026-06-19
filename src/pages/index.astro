@@ -1,0 +1,418 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Divider from '../components/Divider.astro';
+import ContactBlock from '../components/ContactBlock.astro';
+
+---
+<BaseLayout
+  title="Estrategia de marketing y marca | Guillén Bruna Tricas"
+  description="Estrategia de marketing y marca. Asesoro a empresas y a directivos que quieren comunicar con autoridad y posicionarse como referentes en su sector."
+>
+  <div class="hero-wrapper">
+    <div class="grass-bg"></div>
+    <div class="grass-highlight"></div>
+
+    <svg
+      class="pitch-lines-svg"
+      viewBox="0 0 1440 520"
+      preserveAspectRatio="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <g class="pitch-lines" fill="none">
+        <rect x="10"   y="15"  width="1420" height="490"/>
+        <line x1="720" y1="15"  x2="720"   y2="505"/>
+        <circle cx="720" cy="260" r="75"/>
+        <rect x="10"   y="128" width="230"  height="264"/>
+        <rect x="1200" y="128" width="230"  height="264"/>
+        <rect x="10"   y="195" width="80"   height="130"/>
+        <rect x="1350" y="195" width="80"   height="130"/>
+        {/* Corner arcs: sweep=0 (CCW) for top corners, sweep=1 (CW) for bottom — keeps center at the corner flag */}
+        <path d="M 10,30    A 15,15 0 0 0 25,15"/>
+        <path d="M 1415,15  A 15,15 0 0 0 1430,30"/>
+        <path d="M 10,490   A 15,15 0 0 1 25,505"/>
+        <path d="M 1415,505 A 15,15 0 0 1 1430,490"/>
+        {/* Penalty arcs (D): arc of 9.15 m circle around penalty spot that lies outside the penalty area */}
+        <path d="M 240,171  A 120,120 0 0 1 240,349"/>
+        <path d="M 1200,171 A 120,120 0 0 0 1200,349"/>
+      </g>
+      <g class="pitch-spots">
+        <circle cx="720"  cy="260" r="4"/>
+        <circle cx="160"  cy="260" r="4"/>
+        <circle cx="1280" cy="260" r="4"/>
+      </g>
+    </svg>
+
+    <div class="hero">
+      <div class="hero-content">
+        <span class="hero-tag">Marketing · Estrategia · Marca</span>
+        <h1>Estrategia de marketing y marca <span class="accent">que construye reconocimiento.</span></h1>
+        <p class="hero-name">Guillén Bruna Tricas — Zaragoza, España</p>
+        <p class="hero-desc">Ayudo a empresas y a quienes las lideran a definir un mensaje claro, construir una marca coherente y convertir esa visibilidad en resultados de negocio.</p>
+        <a href="/trabajo/" class="btn-primary">Ver casos reales →</a>
+        <a href="mailto:guillenbrunatricas@gmail.com" class="btn-secondary">Hablemos</a>
+      </div>
+    </div>
+  </div>
+
+  <Divider />
+
+  <section>
+    <p class="section-label">Áreas de trabajo</p>
+    <h2 class="section-title">Tres formas de aportar valor desde el primer día</h2>
+    <div class="capacidades-grid">
+      <a href="/trabajo/" class="capacidad-card">
+        <p class="capacidad-number">01</p>
+        <h3>Estrategia de marca</h3>
+        <p>Diagnóstico, posicionamiento y mensaje. Para empresas que necesitan que su marca diga lo que de verdad hacen, y para directivos que quieren construir su propia reputación.</p>
+        <span class="capacidad-link">Ver casos →</span>
+      </a>
+      <a href="/trabajo/" class="capacidad-card">
+        <p class="capacidad-number">02</p>
+        <h3>Go-to-market y lanzamiento</h3>
+        <p>Estrategia para llevar un producto o una línea de negocio al mercado, desde el ICP hasta el funnel de conversión que conecta marketing con ventas.</p>
+        <span class="capacidad-link">Ver casos →</span>
+      </a>
+      <a href="/trabajo/" class="capacidad-card">
+        <p class="capacidad-number">03</p>
+        <h3>Generación de demanda y contenido</h3>
+        <p>Campañas, contenido y canal digital diseñados para generar tracción real, no solo visibilidad. eCommerce, paid media y posicionamiento de contenido.</p>
+        <span class="capacidad-link">Ver casos →</span>
+      </a>
+      <a href="/trabajo/" class="capacidad-card">
+        <p class="capacidad-number">04</p>
+        <h3>Consultoría estratégica</h3>
+        <p>Acompañamiento directo a dirección en procesos de transformación, definición de modelo comercial y toma de decisiones de marketing con criterio de negocio.</p>
+        <span class="capacidad-link">Ver casos →</span>
+      </a>
+    </div>
+  </section>
+
+  <Divider />
+
+  <div class="trust-section">
+    <p class="trust-label">Confiaron en mí</p>
+    <div class="trust-logos">
+      <img src="/logo-zebra.svg" alt="Zebra Ventures" />
+      <img src="/logo-rey.svg" alt="Muebles Rey" />
+      <img src="/logo-tuco.svg" alt="Muebles Tuco" />
+      <img src="/logo-grupo-rey.svg" alt="Grupo Rey" />
+      <img src="/logo-slm.svg" alt="SLM" />
+      <img src="/logo-integra.svg" alt="Integra Consultoría Gerencial" />
+    </div>
+  </div>
+
+  <ContactBlock
+    title="¿Tu marca necesita una estrategia clara?"
+    subtitle="Hablemos de cómo puedo ayudarte a conseguirlo."
+  />
+</BaseLayout>
+
+<style is:global>
+  /* HERO */
+  .hero-wrapper { position: relative; overflow: hidden; contain: style; }
+  .hero { padding: 6rem 2rem 5rem; max-width: 900px; margin: 0 auto; }
+  .hero-content { position: relative; z-index: 1; }
+
+  /* Grass texture — base layer, always visible */
+  .grass-bg {
+    position: absolute;
+    inset: 0;
+    background-image: url('/images/grass-texture.jpg');
+    background-size: 480px 480px;
+    filter: hue-rotate(100deg) saturate(0.8) brightness(0.5);
+    opacity: 0.09;
+    z-index: 0;
+    pointer-events: none;
+  }
+  body.dark .grass-bg {
+    filter: hue-rotate(100deg) saturate(0.4) brightness(2.4);
+    opacity: 0.07;
+  }
+
+  /* Grass texture — cursor spotlight, revealed by radial mask */
+  .grass-highlight {
+    position: absolute;
+    inset: 0;
+    background-image: url('/images/grass-texture.jpg');
+    background-size: 480px 480px;
+    filter: hue-rotate(100deg) saturate(1) brightness(0.75);
+    opacity: 0.24;
+    mask-image: radial-gradient(circle 260px at var(--cx, -999px) var(--cy, -999px), white 0%, white 25%, transparent 100%);
+    -webkit-mask-image: radial-gradient(circle 260px at var(--cx, -999px) var(--cy, -999px), white 0%, white 25%, transparent 100%);
+    z-index: 0;
+    pointer-events: none;
+  }
+  body.dark .grass-highlight {
+    filter: hue-rotate(100deg) saturate(0.55) brightness(3.2);
+    opacity: 0.2;
+  }
+
+  /* Field lines SVG */
+  .pitch-lines-svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+  }
+  .pitch-lines {
+    stroke: var(--blue);
+    stroke-width: 1.5;
+    fill: none;
+    opacity: 0.2;
+    transition: stroke var(--transition), opacity var(--transition);
+  }
+  body.dark .pitch-lines { stroke: var(--blue-light); opacity: 0.16; }
+  .pitch-spots circle {
+    fill: var(--blue);
+    opacity: 0.2;
+    transition: fill var(--transition), opacity var(--transition);
+  }
+  body.dark .pitch-spots circle { fill: var(--blue-light); opacity: 0.16; }
+  .hero-tag {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--blue);
+    border: 1px solid var(--blue);
+    padding: 0.3rem 0.8rem;
+    border-radius: 2px;
+    margin-bottom: 2.5rem;
+    transition: color var(--transition), border-color var(--transition);
+  }
+  body.dark .hero-tag { color: var(--blue-light); border-color: var(--blue-light); }
+
+  h1 {
+    font-size: clamp(2.4rem, 5.5vw, 4.2rem);
+    font-weight: 800;
+    line-height: 1.08;
+    letter-spacing: -0.03em;
+    margin-bottom: 1.5rem;
+    max-width: 760px;
+  }
+  h1 .accent { color: var(--blue); transition: color var(--transition); }
+  body.dark h1 .accent { color: var(--blue-light); }
+
+  .hero-name {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: rgba(0,0,0,0.55);
+    margin-bottom: 1.2rem;
+    transition: color var(--transition);
+  }
+  body.dark .hero-name { color: rgba(232,232,232,0.55); }
+
+  .hero-desc {
+    font-size: 1.05rem;
+    font-weight: 300;
+    color: rgba(0,0,0,0.6);
+    max-width: 560px;
+    line-height: 1.8;
+    margin-bottom: 3rem;
+    transition: color var(--transition);
+  }
+  body.dark .hero-desc { color: rgba(232,232,232,0.6); }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--blue);
+    color: var(--white);
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 500;
+    padding: 0.85rem 1.8rem;
+    border-radius: 2px;
+    cursor: pointer;
+    border: none;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    transition: background var(--transition), transform 0.15s ease;
+  }
+  .btn-primary:hover { background: #003a8a; transform: translateY(-1px); }
+  body.dark .btn-primary { background: var(--blue-light); color: var(--dark-bg); }
+  body.dark .btn-primary:hover { background: #7ab0f0; }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: transparent;
+    color: var(--black);
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 400;
+    padding: 0.85rem 1.8rem;
+    border-radius: 2px;
+    cursor: pointer;
+    border: 1px solid rgba(0,0,0,0.2);
+    letter-spacing: 0.04em;
+    margin-left: 1rem;
+    text-decoration: none;
+    transition: border-color var(--transition), color var(--transition), transform 0.15s ease;
+  }
+  .btn-secondary:hover { border-color: var(--blue); color: var(--blue); transform: translateY(-1px); }
+  body.dark .btn-secondary { color: #e8e8e8; border-color: rgba(232,232,232,0.25); }
+  body.dark .btn-secondary:hover { border-color: var(--blue-light); color: var(--blue-light); }
+
+  /* SECTION */
+  section { padding: 5rem 2rem; max-width: 900px; margin: 0 auto; }
+  .section-label {
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(0,0,0,0.35);
+    margin-bottom: 1rem;
+    transition: color var(--transition);
+  }
+  body.dark .section-label { color: rgba(232,232,232,0.4); }
+  .section-title {
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    margin-bottom: 3rem;
+    max-width: 560px;
+    transition: color var(--transition);
+  }
+  body.dark .section-title { color: #e8e8e8; }
+
+  /* CAPACIDADES */
+  .capacidades-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5px;
+    background: rgba(0,0,0,0.06);
+    border: 1px solid rgba(0,0,0,0.06);
+    transition: background var(--transition), border-color var(--transition);
+  }
+  body.dark .capacidades-grid { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.08); }
+
+  .capacidad-card {
+    background: var(--white);
+    padding: 2.5rem;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    transition: background var(--transition);
+  }
+  body.dark .capacidad-card { background: var(--dark-bg); }
+  .capacidad-card:hover { background: var(--off-white); }
+  body.dark .capacidad-card:hover { background: var(--dark-surface); }
+
+  .capacidad-number {
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    color: var(--blue);
+    margin-bottom: 1.2rem;
+    transition: color var(--transition);
+  }
+  body.dark .capacidad-number { color: var(--blue-light); }
+
+  .capacidad-card h3 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 0.6rem;
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+    transition: color var(--transition);
+  }
+  body.dark .capacidad-card h3 { color: #e8e8e8; }
+
+  .capacidad-card p {
+    font-size: 0.85rem;
+    font-weight: 300;
+    color: rgba(0,0,0,0.55);
+    line-height: 1.7;
+    margin-bottom: 1rem;
+    transition: color var(--transition);
+  }
+  body.dark .capacidad-card p { color: rgba(232,232,232,0.5); }
+
+  .capacidad-link { font-size: 0.75rem; font-weight: 500; color: var(--blue); transition: color var(--transition); }
+  body.dark .capacidad-link { color: var(--blue-light); }
+
+  /* TRUST */
+  .trust-section { padding: 4rem 2rem; max-width: 900px; margin: 0 auto; }
+  .trust-label {
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(0,0,0,0.35);
+    margin-bottom: 2.5rem;
+    transition: color var(--transition);
+  }
+  body.dark .trust-label { color: rgba(232,232,232,0.4); }
+  .trust-logos { display: flex; align-items: center; gap: 3rem; flex-wrap: wrap; }
+  .trust-logos img {
+    height: 28px;
+    width: auto;
+    filter: grayscale(1) opacity(0.35);
+    transition: filter var(--transition);
+  }
+  body.dark .trust-logos img { filter: grayscale(1) opacity(0.45) invert(1); }
+  .trust-logos img:hover { filter: grayscale(1) opacity(0.7); }
+  body.dark .trust-logos img:hover { filter: grayscale(1) opacity(0.8) invert(1); }
+  .trust-logo-placeholder {
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: rgba(0,0,0,0.3);
+    transition: color var(--transition);
+  }
+  body.dark .trust-logo-placeholder { color: rgba(232,232,232,0.3); }
+
+  @media (max-width: 640px) {
+    .capacidades-grid { grid-template-columns: 1fr; }
+    .trust-logos { gap: 1.5rem; }
+    h1 { font-size: 2.4rem; }
+  }
+
+  /* On touch devices the cursor spotlight is never used — remove the layer entirely */
+  @media (hover: none) {
+    .grass-highlight { display: none; }
+  }
+</style>
+
+<script>
+  if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    const wrapper = document.querySelector<HTMLElement>('.hero-wrapper');
+    if (wrapper) {
+      let targetX = -999, targetY = -999;
+      let currentX = -999, currentY = -999;
+      let rafId = 0;
+
+      const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
+
+      const step = () => {
+        currentX = lerp(currentX, targetX, 0.09);
+        currentY = lerp(currentY, targetY, 0.09);
+        wrapper.style.setProperty('--cx', `${currentX.toFixed(1)}px`);
+        wrapper.style.setProperty('--cy', `${currentY.toFixed(1)}px`);
+        const settled = Math.abs(currentX - targetX) < 0.5 && Math.abs(currentY - targetY) < 0.5;
+        rafId = settled ? 0 : requestAnimationFrame(step);
+      };
+
+      wrapper.addEventListener('mousemove', (e) => {
+        const r = wrapper.getBoundingClientRect();
+        targetX = e.clientX - r.left;
+        targetY = e.clientY - r.top;
+        if (!rafId) rafId = requestAnimationFrame(step);
+      });
+
+      wrapper.addEventListener('mouseleave', () => {
+        targetX = -999;
+        targetY = -999;
+        if (!rafId) rafId = requestAnimationFrame(step);
+      });
+    }
+  }
+</script>

@@ -1,0 +1,153 @@
+---
+const pathname = Astro.url.pathname;
+const isActive = (href: string) => {
+  if (href === '/') return pathname === '/';
+  return pathname.startsWith(href.replace(/\/$/, ''));
+};
+---
+<nav>
+  <a href="/" class="logo-link">
+    <img src="/isotipo.svg" alt="Guillén Bruna Tricas" class="logo-img" />
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="/trabajo/" class={isActive('/trabajo/') ? 'active' : ''}>Trabajo</a></li>
+    <li><a href="/sobre-mi/" class={isActive('/sobre-mi/') ? 'active' : ''}>Sobre mí</a></li>
+    <li><a href="/articulos/" class={isActive('/articulos/') ? 'active' : ''}>Artículos</a></li>
+    <li><a href="/contacto/" class={isActive('/contacto/') ? 'active' : ''}>Contacto</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="hamburger" id="hamburger" aria-label="Abrir menú">
+      <span></span><span></span><span></span>
+    </button>
+    <button class="toggle" id="themeToggle" aria-label="Cambiar modo">
+      <span class="toggle-dot"></span>
+    </button>
+  </div>
+</nav>
+
+<style is:global>
+  .hamburger { display: none; }
+
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem 2rem;
+    background: var(--white);
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+    transition: background var(--transition), border-color var(--transition);
+  }
+  body.dark nav { background: var(--dark-bg); border-bottom-color: rgba(255,255,255,0.08); }
+
+  .logo-link { display: flex; align-items: center; text-decoration: none; }
+  .logo-img { height: 36px; width: auto; transition: opacity 0.2s; }
+  .logo-img:hover { opacity: 0.75; }
+  body.dark .logo-img {
+    filter: brightness(0) saturate(100%) invert(47%) sepia(98%) saturate(400%) hue-rotate(180deg) brightness(120%);
+  }
+
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.78rem;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: rgba(0,0,0,0.5);
+    text-decoration: none;
+    transition: color var(--transition);
+  }
+  body.dark .nav-links a { color: rgba(232,232,232,0.5); }
+  .nav-links a:hover,
+  .nav-links a.active { color: var(--blue); }
+  body.dark .nav-links a:hover,
+  body.dark .nav-links a.active { color: var(--blue-light); }
+
+  .nav-right { display: flex; align-items: center; gap: 1rem; }
+
+  .toggle {
+    width: 44px;
+    height: 24px;
+    border-radius: 12px;
+    background: var(--off-white);
+    border: 1px solid rgba(0,0,0,0.1);
+    cursor: pointer;
+    position: relative;
+    flex-shrink: 0;
+    transition: background var(--transition), border-color var(--transition);
+  }
+  body.dark .toggle { background: var(--dark-surface2); border-color: rgba(255,255,255,0.12); }
+
+  .toggle-dot {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--blue);
+    transition: transform var(--transition), background var(--transition);
+  }
+  body.dark .toggle-dot { transform: translateX(20px); background: var(--blue-light); }
+
+  @media (max-width: 640px) {
+    .hamburger {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .hamburger span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--black);
+      border-radius: 2px;
+      transition: background var(--transition);
+    }
+    body.dark .hamburger span { background: #e8e8e8; }
+
+    .nav-links { display: none; }
+    .nav-links.open {
+      display: flex;
+      flex-direction: column;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: var(--white);
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+      padding: 1rem 2rem 1.5rem;
+      gap: 1.2rem;
+      z-index: 99;
+    }
+    body.dark .nav-links.open {
+      background: var(--dark-bg);
+      border-bottom-color: rgba(255,255,255,0.08);
+    }
+  }
+</style>
+
+<script>
+  const hamburger = document.getElementById('hamburger');
+  const navLinks = document.getElementById('navLinks');
+
+  hamburger!.addEventListener('click', () => navLinks!.classList.toggle('open'));
+  document.addEventListener('click', (e) => {
+    if (!hamburger!.contains(e.target as Node) && !navLinks!.contains(e.target as Node)) {
+      navLinks!.classList.remove('open');
+    }
+  });
+
+  const toggle = document.getElementById('themeToggle');
+  toggle!.addEventListener('click', () => {
+    document.body.classList.toggle('dark');
+    localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+  });
+</script>

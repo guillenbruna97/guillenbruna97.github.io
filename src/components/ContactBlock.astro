@@ -1,0 +1,71 @@
+---
+interface Props {
+  title: string;
+  subtitle?: string;
+}
+const { title, subtitle } = Astro.props;
+---
+<div class="contact-block">
+  <div class="contact-left">
+    <p class="contact-title" set:html={title}></p>
+    {subtitle && <p class="contact-sub">{subtitle}</p>}
+  </div>
+  <a href="mailto:guillenbrunatricas@gmail.com" class="btn-contact">Escríbeme →</a>
+</div>
+
+<style is:global>
+  .contact-block {
+    background: var(--blue);
+    padding: 4rem 2.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background var(--transition);
+  }
+  body.dark .contact-block { background: var(--dark-surface); }
+
+  .contact-left { max-width: 420px; }
+
+  .contact-title {
+    font-size: 1.9rem;
+    font-weight: 800;
+    color: var(--white);
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+    margin-bottom: 0.5rem;
+  }
+  body.dark .contact-title { color: #e8e8e8; }
+
+  .contact-sub {
+    font-size: 0.85rem;
+    font-weight: 300;
+    color: rgba(255,255,255,0.75);
+  }
+  body.dark .contact-sub { color: rgba(232,232,232,0.6); }
+
+  .btn-contact {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--white);
+    color: var(--blue);
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 600;
+    padding: 0.85rem 1.8rem;
+    border-radius: 2px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    flex-shrink: 0;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    transition: background var(--transition), color var(--transition), border-color var(--transition), transform 0.15s ease;
+  }
+  .btn-contact:hover { background: var(--off-white); transform: translateY(-1px); }
+  body.dark .btn-contact { background: transparent; color: #e8e8e8; border-color: rgba(232,232,232,0.3); }
+  body.dark .btn-contact:hover { border-color: var(--blue-light); color: var(--blue-light); }
+
+  @media (max-width: 640px) {
+    .contact-block { flex-direction: column; gap: 2rem; align-items: flex-start; }
+  }
+</style>

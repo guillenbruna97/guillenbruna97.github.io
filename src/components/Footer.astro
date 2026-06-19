@@ -1,0 +1,38 @@
+---
+---
+<footer>
+  <p class="footer-copy">© 2026 Guillén Bruna Tricas</p>
+  <ul class="footer-links">
+    <li><a href="https://www.linkedin.com/in/guillenbruna" target="_blank">LinkedIn</a></li>
+  </ul>
+</footer>
+
+<style is:global>
+  footer {
+    padding: 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .footer-copy {
+    font-size: 0.72rem;
+    font-weight: 300;
+    color: rgba(0,0,0,0.3);
+    transition: color var(--transition);
+  }
+  body.dark .footer-copy { color: rgba(232,232,232,0.3); }
+
+  .footer-links { display: flex; gap: 1.5rem; list-style: none; }
+  .footer-links a {
+    font-size: 0.72rem;
+    font-weight: 300;
+    color: rgba(0,0,0,0.3);
+    text-decoration: none;
+    transition: color var(--transition);
+  }
+  body.dark .footer-links a { color: rgba(232,232,232,0.3); }
+  .footer-links a:hover { color: var(--blue); }
+  body.dark .footer-links a:hover { color: var(--blue-light); }
+</style>
