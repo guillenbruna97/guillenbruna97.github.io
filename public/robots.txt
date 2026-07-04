@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://guillenbruna97.github.io/sitemap.xml
+Sitemap: https://guillenbruna97.github.io/sitemap-index.xml
