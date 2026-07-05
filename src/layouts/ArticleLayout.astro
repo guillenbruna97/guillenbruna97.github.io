@@ -1,0 +1,109 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Tag from '../components/Tag.astro';
+import ContactBlock from '../components/ContactBlock.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  tag: string;
+  heading: string;
+  date: Date;
+}
+const { title, description, tag, heading, date } = Astro.props;
+const formattedDate = date.toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
+---
+<BaseLayout title={title} description={description} ogType="article">
+  <a href="/articulos/" class="back-link">← Volver a artículos</a>
+
+  <div class="article-main">
+    <div class="article-header-tags">
+      <Tag label={tag} />
+    </div>
+    <h1>{heading}</h1>
+    <p class="article-meta">{formattedDate}</p>
+
+    <div class="article-prose">
+      <slot />
+    </div>
+  </div>
+
+  <ContactBlock title="¿Trabajamos<br>juntos?" />
+</BaseLayout>
+
+<style is:global>
+  .back-link {
+    display: block;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 2rem 0;
+    font-size: 0.78rem;
+    font-weight: 400;
+    color: rgba(0,0,0,0.4);
+    text-decoration: none;
+    transition: color var(--transition);
+  }
+  body.dark .back-link { color: rgba(232,232,232,0.4); }
+  .back-link:hover { color: var(--blue); }
+  body.dark .back-link:hover { color: var(--blue-light); }
+
+  .article-main { padding: 2rem 2rem 3rem; max-width: 720px; margin: 0 auto; }
+
+  .article-header-tags { margin-bottom: 1.2rem; }
+
+  .article-main h1 {
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    margin-bottom: 0.8rem;
+  }
+
+  .article-meta {
+    font-size: 0.85rem;
+    font-weight: 400;
+    color: var(--blue);
+    margin-bottom: 2.5rem;
+    transition: color var(--transition);
+  }
+  body.dark .article-meta { color: var(--blue-light); }
+
+  .article-prose {
+    font-size: 0.95rem;
+    font-weight: 300;
+    color: rgba(0,0,0,0.7);
+    line-height: 1.9;
+    transition: color var(--transition);
+  }
+  body.dark .article-prose { color: rgba(232,232,232,0.7); }
+
+  .article-prose p { margin-bottom: 1.5rem; }
+
+  .article-prose h2 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--black);
+    margin: 2.8rem 0 1.2rem;
+    transition: color var(--transition);
+  }
+  body.dark .article-prose h2 { color: #e8e8e8; }
+
+  .article-prose h2:first-child { margin-top: 0; }
+
+  .article-prose strong { font-weight: 600; color: var(--black); transition: color var(--transition); }
+  body.dark .article-prose strong { color: #e8e8e8; }
+
+  .article-prose ul, .article-prose ol {
+    margin: 0 0 1.5rem 1.2rem;
+    padding: 0;
+  }
+  .article-prose li { margin-bottom: 0.6rem; }
+
+  .article-prose a { color: var(--blue); transition: color var(--transition); }
+  body.dark .article-prose a { color: var(--blue-light); }
+
+  @media (max-width: 640px) {
+    .article-main { padding: 1.5rem 1.5rem 2rem; }
+  }
+</style>

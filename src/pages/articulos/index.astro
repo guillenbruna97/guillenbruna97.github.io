@@ -1,7 +1,12 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Divider from '../../components/Divider.astro';
 import ContactBlock from '../../components/ContactBlock.astro';
+
+const articulos = (await getCollection('articulos')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
 ---
 <BaseLayout
   title="Artículos de marketing | Guillén Bruna Tricas"
@@ -17,38 +22,18 @@ import ContactBlock from '../../components/ContactBlock.astro';
 
   <h2 class="case-section-h2" style="padding: 0 2rem; max-width: 900px; margin: 0 auto 0;">Artículos publicados</h2>
   <div class="articles">
-    <div class="article-item coming-soon">
-      <div class="article-content">
-        <p class="article-tag">Marketing · PYMEs</p>
-        <p class="article-title">Por qué la mayoría de PYMEs no saben qué problema tiene su marketing</p>
-        <p class="article-excerpt">El diagnóstico es el paso que casi nadie hace bien. Y sin diagnóstico, todo lo demás es ruido.</p>
-      </div>
-      <div class="article-right">
-        <span class="coming-badge">Próximamente</span>
-      </div>
-    </div>
-
-    <div class="article-item coming-soon">
-      <div class="article-content">
-        <p class="article-tag">GTM · Estrategia</p>
-        <p class="article-title">GTM sin presupuesto: cómo priorizas cuando no puedes hacer todo</p>
-        <p class="article-excerpt">Con presupuesto limitado, la estrategia go-to-market no es opcional. Es lo único que te salva.</p>
-      </div>
-      <div class="article-right">
-        <span class="coming-badge">Próximamente</span>
-      </div>
-    </div>
-
-    <div class="article-item coming-soon">
-      <div class="article-content">
-        <p class="article-tag">SaaS · Producto</p>
-        <p class="article-title">Lo que aprendí lanzando un SaaS B2B desde el área de marketing</p>
-        <p class="article-excerpt">Cuando marketing y producto se mezclan, las fronteras desaparecen. Algunas lecciones que no estaban en ningún playbook.</p>
-      </div>
-      <div class="article-right">
-        <span class="coming-badge">Próximamente</span>
-      </div>
-    </div>
+    {articulos.map((entry) => (
+      <a href={`/articulos/${entry.id}/`} class="article-item">
+        <div class="article-content">
+          <p class="article-tag">{entry.data.tag}</p>
+          <p class="article-title">{entry.data.title}</p>
+          <p class="article-excerpt">{entry.data.excerpt}</p>
+        </div>
+        <div class="article-right">
+          <span class="article-arrow">→</span>
+        </div>
+      </a>
+    ))}
   </div>
 
   <ContactBlock title="¿Trabajamos<br>juntos?" />
@@ -106,7 +91,6 @@ import ContactBlock from '../../components/ContactBlock.astro';
   body.dark .article-item { border-bottom-color: rgba(255,255,255,0.08); }
   .article-item:first-child { border-top: 1px solid rgba(0,0,0,0.06); }
   body.dark .article-item:first-child { border-top-color: rgba(255,255,255,0.08); }
-  .article-item.coming-soon { cursor: default; opacity: 0.5; }
 
   .article-content { flex: 1; }
   .article-tag {
@@ -128,8 +112,8 @@ import ContactBlock from '../../components/ContactBlock.astro';
     transition: color var(--transition);
   }
   body.dark .article-title { color: #e8e8e8; }
-  .article-item:not(.coming-soon):hover .article-title { color: var(--blue); }
-  body.dark .article-item:not(.coming-soon):hover .article-title { color: var(--blue-light); }
+  .article-item:hover .article-title { color: var(--blue); }
+  body.dark .article-item:hover .article-title { color: var(--blue-light); }
 
   .article-excerpt {
     font-size: 0.82rem;
@@ -152,20 +136,7 @@ import ContactBlock from '../../components/ContactBlock.astro';
 
   .article-arrow { font-size: 1rem; color: var(--blue); opacity: 0; transition: opacity 0.2s, color var(--transition); }
   body.dark .article-arrow { color: var(--blue-light); }
-  .article-item:not(.coming-soon):hover .article-arrow { opacity: 1; }
-
-  .coming-badge {
-    font-size: 0.62rem;
-    font-weight: 500;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    padding: 0.2rem 0.5rem;
-    border: 1px solid rgba(0,0,0,0.15);
-    border-radius: 1px;
-    color: rgba(0,0,0,0.35);
-    transition: color var(--transition), border-color var(--transition);
-  }
-  body.dark .coming-badge { color: rgba(232,232,232,0.35); border-color: rgba(232,232,232,0.15); }
+  .article-item:hover .article-arrow { opacity: 1; }
 
   @media (max-width: 640px) {
     .article-item { flex-direction: column; gap: 1rem; }

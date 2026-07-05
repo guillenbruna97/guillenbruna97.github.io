@@ -1,0 +1,24 @@
+---
+import { getCollection, render } from 'astro:content';
+import ArticleLayout from '../../layouts/ArticleLayout.astro';
+
+export async function getStaticPaths() {
+  const articulos = await getCollection('articulos');
+  return articulos.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+---
+<ArticleLayout
+  title={`${entry.data.title} | Guillén Bruna Tricas`}
+  description={entry.data.description}
+  tag={entry.data.tag}
+  heading={entry.data.title}
+  date={entry.data.date}
+>
+  <Content />
+</ArticleLayout>
