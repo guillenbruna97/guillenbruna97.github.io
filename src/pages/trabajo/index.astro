@@ -102,12 +102,12 @@ import ContactBlock from '../../components/ContactBlock.astro';
           <img src="/logo-integra.svg" alt="Integra Consultoría Gerencial" height="28" />
         </div>
         <div class="marquee-content" aria-hidden="true">
-          <img src="/logo-zebra.svg" alt="" height="28" />
-          <img src="/logo-rey.svg" alt="" height="28" />
-          <img src="/logo-tuco.svg" alt="" height="28" />
-          <img src="/logo-grupo-rey.svg" alt="" height="28" />
-          <img src="/logo-slm.svg" alt="" height="28" />
-          <img src="/logo-integra.svg" alt="" height="28" />
+          <span class="marquee-logo" style="background-image: url(/logo-zebra.svg)"></span>
+          <span class="marquee-logo" style="background-image: url(/logo-rey.svg)"></span>
+          <span class="marquee-logo" style="background-image: url(/logo-tuco.svg)"></span>
+          <span class="marquee-logo" style="background-image: url(/logo-grupo-rey.svg)"></span>
+          <span class="marquee-logo" style="background-image: url(/logo-slm.svg)"></span>
+          <span class="marquee-logo" style="background-image: url(/logo-integra.svg)"></span>
         </div>
       </div>
     </div>
@@ -295,6 +295,18 @@ import ContactBlock from '../../components/ContactBlock.astro';
   body.dark .marquee-content img { filter: grayscale(1) opacity(0.45) invert(1); }
   .marquee-content img:hover { filter: grayscale(1) opacity(0.7); }
   body.dark .marquee-content img:hover { filter: grayscale(1) opacity(0.8) invert(1); }
+
+  .marquee-logo {
+    display: block;
+    width: 28px;
+    height: 28px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    filter: grayscale(1) opacity(0.35);
+    transition: filter var(--transition);
+  }
+  body.dark .marquee-logo { filter: grayscale(1) opacity(0.45) invert(1); }
 
   @keyframes marquee-ltr {
     from { transform: translateX(-50%); }
