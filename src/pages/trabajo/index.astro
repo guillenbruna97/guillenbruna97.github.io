@@ -36,9 +36,7 @@ const trustLogos = [
 
   <Divider />
 
-  <div class="cases-carousel">
-    <button class="cases-arrow cases-arrow-prev" id="casesPrev" aria-label="Caso anterior">←</button>
-    <div class="cases" id="casesTrack">
+  <div class="cases">
       <div class="case-item" data-types="marca lanzamiento" data-reveal>
         <p class="case-number">01</p>
         <div class="case-content">
@@ -97,8 +95,6 @@ const trustLogos = [
         </div>
         <p class="case-year">Anterior</p>
       </div>
-    </div>
-    <button class="cases-arrow cases-arrow-next" id="casesNext" aria-label="Caso siguiente">→</button>
   </div>
 
   <Divider />
@@ -173,58 +169,24 @@ const trustLogos = [
   body.dark .filter-btn:hover:not(.active) { border-color: var(--blue-light); color: var(--blue-light); }
   .filter-btn:active { transform: scale(0.97); }
 
-  /* CASES CAROUSEL */
-  .cases-carousel { position: relative; max-width: 900px; margin: 0 auto; }
-  .cases {
-    padding: 3rem 2rem;
-    display: flex;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scroll-behavior: smooth;
-    scrollbar-width: none;
-  }
-  .cases::-webkit-scrollbar { display: none; }
+  /* CASES */
+  .cases { padding: 3rem 2rem; max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; }
   .case-item {
-    scroll-snap-align: start;
-    flex: 0 0 100%;
     display: grid;
     grid-template-columns: 60px 1fr auto;
     gap: 2rem;
     align-items: start;
+    padding: 2.5rem 0;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+    transition: border-color var(--transition), opacity 0.6s ease, transform 0.6s ease;
   }
+  body.dark .case-item { border-bottom-color: rgba(255,255,255,0.08); }
+  .case-item:first-child { border-top: 1px solid rgba(0,0,0,0.06); }
+  body.dark .case-item:first-child { border-top-color: rgba(255,255,255,0.08); }
   .case-item.hidden { display: none; }
   .case-item:nth-child(2) { transition-delay: 0.08s; }
   .case-item:nth-child(3) { transition-delay: 0.16s; }
   .case-item:nth-child(4) { transition-delay: 0.24s; }
-
-  .cases-arrow {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 2;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    border: 1px solid rgba(0,0,0,0.15);
-    background: var(--white);
-    color: var(--black);
-    font-size: 0.95rem;
-    line-height: 1;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: border-color var(--transition), color var(--transition), transform 0.15s ease, background var(--transition);
-  }
-  .cases-arrow:hover { border-color: var(--blue); color: var(--blue); }
-  .cases-arrow:active { transform: translateY(-50%) scale(0.92); }
-  body.dark .cases-arrow { background: var(--dark-bg); border-color: rgba(255,255,255,0.15); color: #e8e8e8; }
-  body.dark .cases-arrow:hover { border-color: var(--blue-light); color: var(--blue-light); }
-  .cases-arrow-prev { left: -48px; }
-  .cases-arrow-next { right: -48px; }
-  @media (max-width: 900px) {
-    .cases-arrow { display: none; }
-  }
 
   .case-number {
     font-size: 0.68rem;
@@ -295,7 +257,6 @@ const trustLogos = [
 <script>
   const filterBtns = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
   const caseItems = document.querySelectorAll<HTMLElement>('.case-item');
-  const casesTrack = document.getElementById('casesTrack');
 
   filterBtns.forEach(btn => {
     btn.addEventListener('click', () => {
@@ -310,12 +271,6 @@ const trustLogos = [
           item.classList.add('hidden');
         }
       });
-      casesTrack?.scrollTo({ left: 0, behavior: 'auto' });
     });
   });
-
-  const casesPrev = document.getElementById('casesPrev');
-  const casesNext = document.getElementById('casesNext');
-  casesPrev?.addEventListener('click', () => casesTrack?.scrollBy({ left: -casesTrack.clientWidth, behavior: 'smooth' }));
-  casesNext?.addEventListener('click', () => casesTrack?.scrollBy({ left: casesTrack.clientWidth, behavior: 'smooth' }));
 </script>

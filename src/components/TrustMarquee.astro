@@ -8,17 +8,17 @@ interface Props {
   label?: string;
 }
 const { logos, label = 'Confiaron en mí' } = Astro.props;
+const REPEATS = 6;
 ---
 <div class="trust-section">
   <p class="trust-label">{label}</p>
   <div class="marquee-wrapper">
     <div class="marquee-track">
-      <div class="marquee-content">
-        {logos.map((logo) => <img src={logo.src} alt={logo.alt} height="28" />)}
-      </div>
-      <div class="marquee-content" aria-hidden="true">
-        {logos.map((logo) => <span class="marquee-logo" style={`background-image: url(${logo.src})`} />)}
-      </div>
+      {Array.from({ length: REPEATS }).map((_, i) => (
+        <div class="marquee-content" aria-hidden={i === 0 ? undefined : 'true'}>
+          {logos.map((logo) => <img src={logo.src} alt={i === 0 ? logo.alt : ''} height="120" />)}
+        </div>
+      ))}
     </div>
   </div>
 </div>
@@ -43,18 +43,18 @@ const { logos, label = 'Confiaron en mí' } = Astro.props;
   .marquee-track {
     display: flex;
     width: max-content;
-    animation: marquee-ltr 20s linear infinite;
+    animation: marquee-ltr 24s linear infinite;
   }
   .marquee-wrapper:hover .marquee-track { animation-play-state: paused; }
   .marquee-content {
     display: flex;
     align-items: center;
-    gap: 4rem;
-    padding-right: 4rem;
+    gap: 5.5rem;
+    padding-right: 5.5rem;
     flex-shrink: 0;
   }
   .marquee-content img {
-    height: 28px;
+    height: 120px;
     width: auto;
     filter: grayscale(1) opacity(0.35);
     transition: filter var(--transition);
@@ -63,21 +63,9 @@ const { logos, label = 'Confiaron en mí' } = Astro.props;
   .marquee-content img:hover { filter: grayscale(1) opacity(0.7); }
   body.dark .marquee-content img:hover { filter: grayscale(1) opacity(0.8) invert(1); }
 
-  .marquee-logo {
-    display: block;
-    width: 28px;
-    height: 28px;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-    filter: grayscale(1) opacity(0.35);
-    transition: filter var(--transition);
-  }
-  body.dark .marquee-logo { filter: grayscale(1) opacity(0.45) invert(1); }
-
   @keyframes marquee-ltr {
-    from { transform: translateX(-50%); }
-    to   { transform: translateX(0%); }
+    from { transform: translateX(0%); }
+    to   { transform: translateX(-16.6667%); }
   }
   @media (prefers-reduced-motion: reduce) {
     .marquee-track { animation: none; }

@@ -1,6 +1,5 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Divider from '../components/Divider.astro';
 import ContactBlock from '../components/ContactBlock.astro';
 import TrustMarquee from '../components/TrustMarquee.astro';
 
@@ -12,53 +11,12 @@ const trustLogos = [
   { src: '/logo-slm.svg', alt: 'SLM' },
   { src: '/logo-integra.svg', alt: 'Integra Consultoría Gerencial' },
 ];
-
-const stats = [
-  { value: 4, suffix: '', label: 'Casos reales' },
-  { value: 6, suffix: '+', label: 'Marcas gestionadas' },
-  { value: 3, suffix: '+', label: 'Años de experiencia' },
-];
 ---
 <BaseLayout
   title="Estrategia de marketing y marca | Guillén Bruna Tricas"
   description="Estrategia de marketing y marca. Asesoro a empresas y a directivos que quieren comunicar con autoridad y posicionarse como referentes en su sector."
 >
   <div class="hero-wrapper">
-    <div class="grass-bg"></div>
-    <div class="grass-highlight"></div>
-
-    <svg
-      class="pitch-lines-svg"
-      viewBox="0 0 1440 520"
-      preserveAspectRatio="none"
-      xmlns="http://www.w3.org/2000/svg"
-      aria-hidden="true"
-      focusable="false"
-    >
-      <g class="pitch-lines" fill="none">
-        <rect x="10"   y="15"  width="1420" height="490"/>
-        <line x1="720" y1="15"  x2="720"   y2="505"/>
-        <circle cx="720" cy="260" r="75"/>
-        <rect x="10"   y="128" width="230"  height="264"/>
-        <rect x="1200" y="128" width="230"  height="264"/>
-        <rect x="10"   y="195" width="80"   height="130"/>
-        <rect x="1350" y="195" width="80"   height="130"/>
-        {/* Corner arcs: sweep=0 (CCW) for top corners, sweep=1 (CW) for bottom — keeps center at the corner flag */}
-        <path d="M 10,30    A 15,15 0 0 0 25,15"/>
-        <path d="M 1415,15  A 15,15 0 0 0 1430,30"/>
-        <path d="M 10,490   A 15,15 0 0 1 25,505"/>
-        <path d="M 1415,505 A 15,15 0 0 1 1430,490"/>
-        {/* Penalty arcs (D): arc of 9.15 m circle around penalty spot that lies outside the penalty area */}
-        <path d="M 240,171  A 120,120 0 0 1 240,349"/>
-        <path d="M 1200,171 A 120,120 0 0 0 1200,349"/>
-      </g>
-      <g class="pitch-spots">
-        <circle cx="720"  cy="260" r="4"/>
-        <circle cx="160"  cy="260" r="4"/>
-        <circle cx="1280" cy="260" r="4"/>
-      </g>
-    </svg>
-
     <svg class="parallax-blob parallax-blob-1" viewBox="0 0 200 200" aria-hidden="true" focusable="false">
       <circle cx="100" cy="100" r="90" />
     </svg>
@@ -68,61 +26,80 @@ const stats = [
 
     <div class="hero">
       <div class="hero-content">
-        <span class="hero-tag">Marketing · Estrategia · Marca</span>
-        <h1>Estrategia de marketing y marca <span class="accent">que construye reconocimiento.</span></h1>
-        <p class="hero-name">Guillén Bruna Tricas — Zaragoza, España</p>
-        <p class="hero-desc">Ayudo a empresas y a quienes las lideran a definir un mensaje claro, construir una marca coherente y convertir esa visibilidad en resultados de negocio.</p>
-        <a href="/trabajo/" class="btn-primary">Ver casos reales →</a>
-        <a href="mailto:guillenbrunatricas@gmail.com" class="btn-secondary">Hablemos</a>
+        <h1 class="hero-headline">Estrategia de marketing y marca <span class="accent">que construye reconocimiento.</span></h1>
+        <div class="hero-sub">
+          <div class="hero-sub-text">
+            <p class="hero-name">Guillén Bruna Tricas</p>
+            <p class="hero-desc">Ayudo a empresas y a quienes las lideran a definir un mensaje claro, construir una marca coherente y convertir esa visibilidad en resultados de negocio.</p>
+          </div>
+          <div class="hero-actions">
+            <a href="/trabajo/" class="btn-primary">Ver casos reales →</a>
+            <a href="mailto:guillenbrunatricas@gmail.com" class="btn-secondary">Hablemos</a>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
-  <Divider />
-
-  <section>
-    <p class="section-label">Áreas de trabajo</p>
-    <h2 class="section-title">Tres formas de aportar valor desde el primer día</h2>
-    <div class="capacidades-grid">
-      <a href="/trabajo/" class="capacidad-card" data-reveal>
-        <p class="capacidad-number">01</p>
-        <h3>Estrategia de marca</h3>
-        <p>Diagnóstico, posicionamiento y mensaje. Para empresas que necesitan que su marca diga lo que de verdad hacen, y para directivos que quieren construir su propia reputación.</p>
-        <span class="capacidad-link">Ver casos →</span>
-      </a>
-      <a href="/trabajo/" class="capacidad-card" data-reveal>
-        <p class="capacidad-number">02</p>
-        <h3>Go-to-market y lanzamiento</h3>
-        <p>Estrategia para llevar un producto o una línea de negocio al mercado, desde el ICP hasta el funnel de conversión que conecta marketing con ventas.</p>
-        <span class="capacidad-link">Ver casos →</span>
-      </a>
-      <a href="/trabajo/" class="capacidad-card" data-reveal>
-        <p class="capacidad-number">03</p>
-        <h3>Generación de demanda y contenido</h3>
-        <p>Campañas, contenido y canal digital diseñados para generar tracción real, no solo visibilidad. eCommerce, paid media y posicionamiento de contenido.</p>
-        <span class="capacidad-link">Ver casos →</span>
-      </a>
-      <a href="/trabajo/" class="capacidad-card" data-reveal>
-        <p class="capacidad-number">04</p>
-        <h3>Consultoría estratégica</h3>
-        <p>Acompañamiento directo a dirección en procesos de transformación, definición de modelo comercial y toma de decisiones de marketing con criterio de negocio.</p>
-        <span class="capacidad-link">Ver casos →</span>
-      </a>
+  <section class="capacidades-band">
+    <div class="capacidades-inner">
+      <p class="section-label">Áreas de trabajo</p>
+      <h2 class="section-title">Tres formas de aportar valor desde el primer día</h2>
+      <div class="capacidades-list">
+        <a href="/trabajo/" class="capacidad-row" data-reveal>
+          <span class="capacidad-ghost">01</span>
+          <div class="capacidad-body">
+            <h3>Estrategia de marca</h3>
+            <p>Diagnóstico, posicionamiento y mensaje. Para empresas que necesitan que su marca diga lo que de verdad hacen, y para directivos que quieren construir su propia reputación.</p>
+          </div>
+          <span class="capacidad-link">Ver casos →</span>
+        </a>
+        <a href="/trabajo/" class="capacidad-row" data-reveal>
+          <span class="capacidad-ghost">02</span>
+          <div class="capacidad-body">
+            <h3>Go-to-market y lanzamiento</h3>
+            <p>Estrategia para llevar un producto o una línea de negocio al mercado, desde el ICP hasta el funnel de conversión que conecta marketing con ventas.</p>
+          </div>
+          <span class="capacidad-link">Ver casos →</span>
+        </a>
+        <a href="/trabajo/" class="capacidad-row" data-reveal>
+          <span class="capacidad-ghost">03</span>
+          <div class="capacidad-body">
+            <h3>Generación de demanda y contenido</h3>
+            <p>Campañas, contenido y canal digital diseñados para generar tracción real, no solo visibilidad. eCommerce, paid media y posicionamiento de contenido.</p>
+          </div>
+          <span class="capacidad-link">Ver casos →</span>
+        </a>
+        <a href="/trabajo/" class="capacidad-row" data-reveal>
+          <span class="capacidad-ghost">04</span>
+          <div class="capacidad-body">
+            <h3>Consultoría estratégica</h3>
+            <p>Acompañamiento directo a dirección en procesos de transformación, definición de modelo comercial y toma de decisiones de marketing con criterio de negocio.</p>
+          </div>
+          <span class="capacidad-link">Ver casos →</span>
+        </a>
+      </div>
     </div>
   </section>
 
-  <Divider />
-
-  <div class="stats-section">
-    <div class="stats-grid">
-      {stats.map((stat) => (
-        <div class="stat-item" data-reveal data-count={stat.value}>
-          <p class="stat-value"><span class="stat-number">0</span>{stat.suffix}</p>
-          <p class="stat-label">{stat.label}</p>
+  <section class="stats-band">
+    <div class="stats-band-inner">
+      <div class="stat-item stat-item--hero" data-reveal data-count="6">
+        <p class="stat-value"><span class="stat-number">0</span>+</p>
+        <p class="stat-label">Marcas gestionadas en paralelo</p>
+      </div>
+      <div class="stats-side">
+        <div class="stat-item" data-reveal data-count="4">
+          <p class="stat-value"><span class="stat-number">0</span></p>
+          <p class="stat-label">Casos reales trabajados de principio a fin</p>
         </div>
-      ))}
+        <div class="stat-item" data-reveal data-count="5">
+          <p class="stat-value"><span class="stat-number">0</span>+</p>
+          <p class="stat-label">Años liderando marketing y marca</p>
+        </div>
+      </div>
     </div>
-  </div>
+  </section>
 
   <TrustMarquee logos={trustLogos} />
 
@@ -135,66 +112,8 @@ const stats = [
 <style is:global>
   /* HERO */
   .hero-wrapper { position: relative; overflow: hidden; contain: style; }
-  .hero { padding: 6rem 2rem 5rem; max-width: 900px; margin: 0 auto; }
+  .hero { padding: 3.5rem 3rem 3.5rem 0; max-width: 1400px; margin: 0 4vw; }
   .hero-content { position: relative; z-index: 1; }
-
-  /* Grass texture — base layer, always visible */
-  .grass-bg {
-    position: absolute;
-    inset: 0;
-    background-image: url('/images/grass-texture.jpg');
-    background-size: 480px 480px;
-    filter: hue-rotate(100deg) saturate(0.8) brightness(0.5);
-    opacity: 0.09;
-    z-index: 0;
-    pointer-events: none;
-  }
-  body.dark .grass-bg {
-    filter: hue-rotate(100deg) saturate(0.4) brightness(2.4);
-    opacity: 0.07;
-  }
-
-  /* Grass texture — cursor spotlight, revealed by radial mask */
-  .grass-highlight {
-    position: absolute;
-    inset: 0;
-    background-image: url('/images/grass-texture.jpg');
-    background-size: 480px 480px;
-    filter: hue-rotate(100deg) saturate(1) brightness(0.75);
-    opacity: 0.24;
-    mask-image: radial-gradient(circle 260px at var(--cx, -999px) var(--cy, -999px), white 0%, white 25%, transparent 100%);
-    -webkit-mask-image: radial-gradient(circle 260px at var(--cx, -999px) var(--cy, -999px), white 0%, white 25%, transparent 100%);
-    z-index: 0;
-    pointer-events: none;
-  }
-  body.dark .grass-highlight {
-    filter: hue-rotate(100deg) saturate(0.55) brightness(3.2);
-    opacity: 0.2;
-  }
-
-  /* Field lines SVG */
-  .pitch-lines-svg {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 0;
-    pointer-events: none;
-  }
-  .pitch-lines {
-    stroke: var(--blue);
-    stroke-width: 1.5;
-    fill: none;
-    opacity: 0.2;
-    transition: stroke var(--transition), opacity var(--transition);
-  }
-  body.dark .pitch-lines { stroke: var(--blue-light); opacity: 0.16; }
-  .pitch-spots circle {
-    fill: var(--blue);
-    opacity: 0.2;
-    transition: fill var(--transition), opacity var(--transition);
-  }
-  body.dark .pitch-spots circle { fill: var(--blue-light); opacity: 0.16; }
 
   /* Soft parallax background shapes */
   .parallax-blob {
@@ -220,42 +139,31 @@ const stats = [
   @media (prefers-reduced-motion: no-preference) {
     .hero-content > * { opacity: 0; animation: hero-fade-up 0.7s ease forwards; }
     .hero-content > *:nth-child(1) { animation-delay: 0s; }
-    .hero-content > *:nth-child(2) { animation-delay: 0.08s; }
-    .hero-content > *:nth-child(3) { animation-delay: 0.16s; }
-    .hero-content > *:nth-child(4) { animation-delay: 0.24s; }
-    .hero-content > *:nth-child(5) { animation-delay: 0.32s; }
-    .hero-content > *:nth-child(6) { animation-delay: 0.36s; }
+    .hero-content > *:nth-child(2) { animation-delay: 0.1s; }
   }
   @keyframes hero-fade-up {
     from { opacity: 0; transform: translateY(16px); }
     to { opacity: 1; transform: translateY(0); }
   }
 
-  .hero-tag {
-    display: inline-block;
-    font-size: 0.7rem;
-    font-weight: 500;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--blue);
-    border: 1px solid var(--blue);
-    padding: 0.3rem 0.8rem;
-    border-radius: 2px;
-    margin-bottom: 2.5rem;
-    transition: color var(--transition), border-color var(--transition);
-  }
-  body.dark .hero-tag { color: var(--blue-light); border-color: var(--blue-light); }
-
-  h1 {
-    font-size: clamp(2.4rem, 5.5vw, 4.2rem);
+  .hero-headline {
+    font-size: clamp(2.2rem, 4.5vw, 3.6rem);
     font-weight: 800;
     line-height: 1.08;
     letter-spacing: -0.03em;
-    margin-bottom: 1.5rem;
-    max-width: 760px;
+    margin-bottom: 1.75rem;
+    max-width: 780px;
   }
-  h1 .accent { color: var(--blue); transition: color var(--transition); }
-  body.dark h1 .accent { color: var(--blue-light); }
+  .hero-headline .accent { color: var(--blue); transition: color var(--transition); }
+  body.dark .hero-headline .accent { color: var(--blue-light); }
+
+  .hero-sub {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 3rem;
+    align-items: start;
+  }
+  .hero-sub-text { max-width: 480px; }
 
   .hero-name {
     font-size: 0.95rem;
@@ -270,12 +178,12 @@ const stats = [
     font-size: 1.05rem;
     font-weight: 300;
     color: rgba(0,0,0,0.6);
-    max-width: 560px;
     line-height: 1.8;
-    margin-bottom: 3rem;
     transition: color var(--transition);
   }
   body.dark .hero-desc { color: rgba(232,232,232,0.6); }
+
+  .hero-actions { display: flex; align-items: center; padding-top: 0.75rem; }
 
   .btn-primary {
     display: inline-flex;
@@ -320,156 +228,144 @@ const stats = [
   body.dark .btn-secondary { color: #e8e8e8; border-color: rgba(232,232,232,0.25); }
   body.dark .btn-secondary:hover { border-color: var(--blue-light); color: var(--blue-light); }
 
-  /* SECTION */
-  section { padding: 5rem 2rem; max-width: 900px; margin: 0 auto; }
   .section-label {
     font-size: 0.68rem;
     font-weight: 500;
     letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: rgba(0,0,0,0.35);
+    color: rgba(255,255,255,0.55);
     margin-bottom: 1rem;
-    transition: color var(--transition);
   }
-  body.dark .section-label { color: rgba(232,232,232,0.4); }
   .section-title {
-    font-size: clamp(1.4rem, 3vw, 2rem);
+    font-size: clamp(1.6rem, 3.4vw, 2.4rem);
     font-weight: 800;
     letter-spacing: -0.03em;
-    margin-bottom: 3rem;
-    max-width: 560px;
-    transition: color var(--transition);
+    margin-bottom: 3.5rem;
+    max-width: 640px;
+    color: var(--white);
   }
-  body.dark .section-title { color: #e8e8e8; }
 
-  /* CAPACIDADES */
-  .capacidades-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.5px;
-    background: rgba(0,0,0,0.06);
-    border: 1px solid rgba(0,0,0,0.06);
-    transition: background var(--transition), border-color var(--transition);
-  }
-  body.dark .capacidades-grid { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.08); }
-
-  .capacidad-card {
-    background: var(--white);
-    padding: 2.5rem;
-    text-decoration: none;
-    color: inherit;
-    display: block;
+  /* CAPACIDADES — full-bleed statement band, zigzag rows */
+  .capacidades-band {
+    background: var(--blue);
+    padding: 6rem 2vw;
     transition: background var(--transition);
   }
-  body.dark .capacidad-card { background: var(--dark-bg); }
-  .capacidad-card:hover { background: var(--off-white); }
-  body.dark .capacidad-card:hover { background: var(--dark-surface); }
+  body.dark .capacidades-band { background: var(--dark-surface); }
+  .capacidades-inner { max-width: 1160px; margin: 0 auto; }
 
-  .capacidad-number {
-    font-size: 0.68rem;
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    color: var(--blue);
-    margin-bottom: 1.2rem;
+  .capacidades-list { display: flex; flex-direction: column; }
+  .capacidad-row {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 2.5rem;
+    padding: 2.5rem 0;
+    border-top: 1px solid rgba(255,255,255,0.18);
+    text-decoration: none;
+    color: var(--white);
+    transition: padding-left var(--transition), opacity 0.6s ease, transform 0.6s ease;
+  }
+  .capacidades-list a:last-child { border-bottom: 1px solid rgba(255,255,255,0.18); }
+  .capacidad-row:hover { padding-left: 1.2rem; }
+
+  .capacidad-ghost {
+    order: 1;
+    font-size: clamp(2.6rem, 6vw, 4.5rem);
+    font-weight: 800;
+    line-height: 1;
+    color: rgba(255,255,255,0.18);
     transition: color var(--transition);
   }
-  body.dark .capacidad-number { color: var(--blue-light); }
+  .capacidad-row:hover .capacidad-ghost { color: rgba(255,255,255,0.35); }
 
-  .capacidad-card h3 {
-    font-size: 1.15rem;
+  .capacidad-body { order: 2; }
+  .capacidad-body h3 {
+    font-size: 1.35rem;
     font-weight: 700;
-    margin-bottom: 0.6rem;
     letter-spacing: -0.02em;
-    line-height: 1.25;
-    transition: color var(--transition);
+    margin-bottom: 0.5rem;
   }
-  body.dark .capacidad-card h3 { color: #e8e8e8; }
+  .capacidad-body p {
+    font-size: 0.9rem;
+    font-weight: 300;
+    color: rgba(255,255,255,0.75);
+    line-height: 1.75;
+    max-width: 520px;
+  }
 
-  .capacidad-card p {
+  .capacidad-link {
+    order: 3;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--white);
+    white-space: nowrap;
+  }
+
+  .capacidad-row:nth-child(even) .capacidad-ghost { order: 3; text-align: right; }
+  .capacidad-row:nth-child(even) .capacidad-link { order: 1; }
+
+  .capacidad-row:nth-child(2) { transition-delay: 0.08s; }
+  .capacidad-row:nth-child(3) { transition-delay: 0.16s; }
+  .capacidad-row:nth-child(4) { transition-delay: 0.24s; }
+
+  /* STATS — full-bleed dark band, one dominant number + two side stats */
+  .stats-band { background: var(--black); padding: 6rem 2vw; transition: background var(--transition); }
+  body.dark .stats-band { background: #050505; }
+  .stats-band-inner {
+    max-width: 1160px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  .stat-item--hero .stat-value {
+    font-size: clamp(5rem, 13vw, 10rem);
+    line-height: 0.88;
+  }
+  .stat-item--hero .stat-label {
+    font-size: 1.05rem;
+    max-width: 340px;
+    margin-top: 1.2rem;
+  }
+
+  .stats-side {
+    display: flex;
+    flex-direction: column;
+    gap: 2.8rem;
+    border-left: 1px solid rgba(255,255,255,0.15);
+    padding-left: 3rem;
+  }
+  .stats-side .stat-item:nth-child(2) { transition-delay: 0.1s; }
+
+  .stat-value {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    color: var(--blue-light);
+  }
+  .stat-label {
     font-size: 0.85rem;
     font-weight: 300;
-    color: rgba(0,0,0,0.55);
-    line-height: 1.7;
-    margin-bottom: 1rem;
-    transition: color var(--transition);
-  }
-  body.dark .capacidad-card p { color: rgba(232,232,232,0.5); }
-
-  .capacidad-link { font-size: 0.75rem; font-weight: 500; color: var(--blue); transition: color var(--transition); }
-  body.dark .capacidad-link { color: var(--blue-light); }
-
-  .capacidad-card:nth-child(2) { transition-delay: 0.08s; }
-  .capacidad-card:nth-child(3) { transition-delay: 0.16s; }
-  .capacidad-card:nth-child(4) { transition-delay: 0.24s; }
-
-  /* STATS COUNTER */
-  .stats-section { padding: 1rem 2rem 4rem; max-width: 900px; margin: 0 auto; }
-  .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; text-align: center; }
-  .stat-item:nth-child(2) { transition-delay: 0.08s; }
-  .stat-item:nth-child(3) { transition-delay: 0.16s; }
-  .stat-value {
-    font-size: clamp(2rem, 5vw, 3rem);
-    font-weight: 800;
-    letter-spacing: -0.03em;
-    color: var(--blue);
-    transition: color var(--transition);
-  }
-  body.dark .stat-value { color: var(--blue-light); }
-  .stat-label {
-    font-size: 0.78rem;
-    font-weight: 400;
-    color: rgba(0,0,0,0.5);
+    color: rgba(255,255,255,0.6);
     margin-top: 0.4rem;
-    transition: color var(--transition);
-  }
-  body.dark .stat-label { color: rgba(232,232,232,0.5); }
-
-  @media (max-width: 640px) {
-    .capacidades-grid { grid-template-columns: 1fr; }
-    .stats-grid { grid-template-columns: 1fr; gap: 2.5rem; }
-    h1 { font-size: 2.4rem; }
+    line-height: 1.6;
   }
 
-  /* On touch devices the cursor spotlight is never used — remove the layer entirely */
-  @media (hover: none) {
-    .grass-highlight { display: none; }
+  @media (max-width: 900px) {
+    .hero { margin: 0 2vw; padding: 5rem 1.5rem 4rem; }
+    .hero-sub { grid-template-columns: 1fr; gap: 2rem; }
+    .hero-actions { padding-top: 0; }
+    .capacidad-row { grid-template-columns: auto 1fr; }
+    .capacidad-link { display: none; }
+    .capacidad-row:nth-child(even) .capacidad-ghost { order: 1; text-align: left; }
+    .capacidad-row:nth-child(even) .capacidad-link { order: 3; }
+    .stats-band-inner { grid-template-columns: 1fr; gap: 3rem; }
+    .stats-side { border-left: none; padding-left: 0; border-top: 1px solid rgba(255,255,255,0.15); padding-top: 2.5rem; }
   }
 </style>
-
-<script>
-  if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
-    const wrapper = document.querySelector<HTMLElement>('.hero-wrapper');
-    if (wrapper) {
-      let targetX = -999, targetY = -999;
-      let currentX = -999, currentY = -999;
-      let rafId = 0;
-
-      const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
-
-      const step = () => {
-        currentX = lerp(currentX, targetX, 0.09);
-        currentY = lerp(currentY, targetY, 0.09);
-        wrapper.style.setProperty('--cx', `${currentX.toFixed(1)}px`);
-        wrapper.style.setProperty('--cy', `${currentY.toFixed(1)}px`);
-        const settled = Math.abs(currentX - targetX) < 0.5 && Math.abs(currentY - targetY) < 0.5;
-        rafId = settled ? 0 : requestAnimationFrame(step);
-      };
-
-      wrapper.addEventListener('mousemove', (e) => {
-        const r = wrapper.getBoundingClientRect();
-        targetX = e.clientX - r.left;
-        targetY = e.clientY - r.top;
-        if (!rafId) rafId = requestAnimationFrame(step);
-      });
-
-      wrapper.addEventListener('mouseleave', () => {
-        targetX = -999;
-        targetY = -999;
-        if (!rafId) rafId = requestAnimationFrame(step);
-      });
-    }
-  }
-</script>
 
 <script>
   const statEls = document.querySelectorAll<HTMLElement>('.stat-item');

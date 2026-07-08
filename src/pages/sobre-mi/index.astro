@@ -60,31 +60,27 @@ import ContactBlock from '../../components/ContactBlock.astro';
   <div class="momentos-section">
     <p class="momentos-label">Sobre mí</p>
     <h2 class="momentos-title">Momentos que me definen</h2>
-    <div class="momentos-carousel">
-      <button class="momentos-arrow momentos-arrow-prev" id="momentosPrev" aria-label="Momento anterior">←</button>
-      <div class="momentos-grid" id="momentosTrack">
-        <div class="momento-item" data-reveal>
-          <img src="/momento-broco.png" alt="Broco" width="1080" height="1080" />
-          <p class="momento-caption">Amigos que se convierten en socios. O socios que se convierten en amigos.</p>
-        </div>
-        <div class="momento-item" data-reveal>
-          <img src="/momento-futbol.png" alt="Fútbol" width="1080" height="1080" />
-          <p class="momento-caption">El hobbie que me enseñó a entender la vida antes de entender el negocio.</p>
-        </div>
-        <div class="momento-item" data-reveal>
-          <img src="/momento-pareja.png" alt="Pareja" width="1080" height="1080" />
-          <p class="momento-caption">Momentos de respiro que te recargan para volver con más fuerza.</p>
-        </div>
-        <div class="momento-item" data-reveal>
-          <img src="/momento-sis.png" alt="Spain Innovation Summit" width="1080" height="1080" />
-          <p class="momento-caption">Eventos que se crean en equipo.</p>
-        </div>
-        <div class="momento-item wide" data-reveal>
-          <img src="/momento-slm.png" alt="SLM" width="1080" height="1080" />
-          <p class="momento-caption">Trabajos especiales que dejan huella.</p>
-        </div>
+    <div class="momentos-grid">
+      <div class="momento-item" data-reveal>
+        <img src="/momento-broco.png" alt="Broco" width="1080" height="1080" />
+        <p class="momento-caption">Amigos que se convierten en socios. O socios que se convierten en amigos.</p>
       </div>
-      <button class="momentos-arrow momentos-arrow-next" id="momentosNext" aria-label="Momento siguiente">→</button>
+      <div class="momento-item" data-reveal>
+        <img src="/momento-futbol.png" alt="Fútbol" width="1080" height="1080" />
+        <p class="momento-caption">El hobbie que me enseñó a entender la vida antes de entender el negocio.</p>
+      </div>
+      <div class="momento-item" data-reveal>
+        <img src="/momento-pareja.png" alt="Pareja" width="1080" height="1080" />
+        <p class="momento-caption">Momentos de respiro que te recargan para volver con más fuerza.</p>
+      </div>
+      <div class="momento-item" data-reveal>
+        <img src="/momento-sis.png" alt="Spain Innovation Summit" width="1080" height="1080" />
+        <p class="momento-caption">Eventos que se crean en equipo.</p>
+      </div>
+      <div class="momento-item wide" data-reveal>
+        <img src="/momento-slm.png" alt="SLM" width="1080" height="1080" />
+        <p class="momento-caption">Trabajos especiales que dejan huella.</p>
+      </div>
     </div>
   </div>
 
@@ -243,24 +239,8 @@ import ContactBlock from '../../components/ContactBlock.astro';
     transition: color var(--transition);
   }
   body.dark .momentos-title { color: #e8e8e8; }
-  .momentos-carousel { position: relative; }
-  .momentos-grid {
-    display: flex;
-    gap: 1.5rem;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scroll-behavior: smooth;
-    scrollbar-width: none;
-    padding-bottom: 0.5rem;
-  }
-  .momentos-grid::-webkit-scrollbar { display: none; }
-  .momento-item {
-    display: flex;
-    flex-direction: column;
-    gap: 0.8rem;
-    flex: 0 0 calc(25% - 1.125rem);
-    scroll-snap-align: start;
-  }
+  .momentos-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
+  .momento-item { display: flex; flex-direction: column; gap: 0.8rem; }
   .momento-item img {
     width: 100%;
     aspect-ratio: 1;
@@ -279,37 +259,8 @@ import ContactBlock from '../../components/ContactBlock.astro';
     transition: color var(--transition);
   }
   body.dark .momento-caption { color: rgba(232,232,232,0.45); }
-  .momento-item.wide { flex-basis: calc(50% - 0.75rem); }
+  .momento-item.wide { grid-column: span 2; }
   .momento-item.wide img { aspect-ratio: 16/9; }
-
-  .momentos-arrow {
-    position: absolute;
-    top: calc(50% - 0.9rem);
-    transform: translateY(-50%);
-    z-index: 2;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    border: 1px solid rgba(0,0,0,0.15);
-    background: var(--white);
-    color: var(--black);
-    font-size: 0.95rem;
-    line-height: 1;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: border-color var(--transition), color var(--transition), transform 0.15s ease, background var(--transition);
-  }
-  .momentos-arrow:hover { border-color: var(--blue); color: var(--blue); }
-  .momentos-arrow:active { transform: translateY(-50%) scale(0.92); }
-  body.dark .momentos-arrow { background: var(--dark-bg); border-color: rgba(255,255,255,0.15); color: #e8e8e8; }
-  body.dark .momentos-arrow:hover { border-color: var(--blue-light); color: var(--blue-light); }
-  .momentos-arrow-prev { left: -48px; }
-  .momentos-arrow-next { right: -48px; }
-  @media (max-width: 1000px) {
-    .momentos-arrow { display: none; }
-  }
 
   @media (max-width: 640px) {
     .about-hero { grid-template-columns: 1fr; min-height: auto; padding-top: 3rem; }
@@ -317,16 +268,8 @@ import ContactBlock from '../../components/ContactBlock.astro';
     .about-hero-text { padding-bottom: 2rem; }
     .about-body { grid-template-columns: 1fr; gap: 2.5rem; }
     .about-sidebar { position: static; }
-    .momento-item { flex-basis: calc(50% - 0.75rem); }
-    .momento-item.wide { flex-basis: 100%; }
+    .momentos-grid { grid-template-columns: repeat(2, 1fr); }
+    .momento-item.wide { grid-column: span 2; }
   }
 </style>
-
-<script>
-  const momentosTrack = document.getElementById('momentosTrack');
-  const momentosPrev = document.getElementById('momentosPrev');
-  const momentosNext = document.getElementById('momentosNext');
-  momentosPrev?.addEventListener('click', () => momentosTrack?.scrollBy({ left: -momentosTrack.clientWidth * 0.5, behavior: 'smooth' }));
-  momentosNext?.addEventListener('click', () => momentosTrack?.scrollBy({ left: momentosTrack.clientWidth * 0.5, behavior: 'smooth' }));
-</script>
 
