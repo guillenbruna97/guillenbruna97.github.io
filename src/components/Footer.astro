@@ -5,16 +5,36 @@
   <ul class="footer-links">
     <li><a href="https://www.linkedin.com/in/guillenbruna" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
   </ul>
+  <img src="/isotipo.svg" alt="" aria-hidden="true" class="footer-cursor-icon" />
 </footer>
 
 <style is:global>
   footer {
+    position: relative;
     padding: 2rem;
     max-width: 900px;
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
+  }
+  .footer-cursor-icon {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 22px;
+    height: 22px;
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-999px, -999px);
+    transition: opacity 0.2s ease;
+    z-index: 5;
+  }
+  body.dark .footer-cursor-icon {
+    filter: brightness(0) saturate(100%) invert(47%) sepia(98%) saturate(400%) hue-rotate(180deg) brightness(120%);
+  }
+  @media (hover: none) {
+    .footer-cursor-icon { display: none; }
   }
   .footer-copy {
     font-size: 0.72rem;
@@ -36,3 +56,44 @@
   .footer-links a:hover { color: var(--blue); }
   body.dark .footer-links a:hover { color: var(--blue-light); }
 </style>
+
+<script>
+  if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    const footer = document.querySelector<HTMLElement>('footer');
+    const icon = document.querySelector<HTMLElement>('.footer-cursor-icon');
+    if (footer && icon) {
+      let targetX = -999, targetY = -999;
+      let currentX = -999, currentY = -999;
+      let rafId = 0;
+      let active = false;
+
+      const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
+
+      const step = () => {
+        currentX = lerp(currentX, targetX, 0.2);
+        currentY = lerp(currentY, targetY, 0.2);
+        icon.style.transform = `translate(${(currentX - 11).toFixed(1)}px, ${(currentY - 11).toFixed(1)}px)`;
+        const settled = Math.abs(currentX - targetX) < 0.5 && Math.abs(currentY - targetY) < 0.5;
+        rafId = settled && !active ? 0 : requestAnimationFrame(step);
+      };
+
+      footer.addEventListener('mouseenter', () => {
+        active = true;
+        icon.style.opacity = '1';
+      });
+
+      footer.addEventListener('mousemove', (e) => {
+        const r = footer!.getBoundingClientRect();
+        targetX = e.clientX - r.left;
+        targetY = e.clientY - r.top;
+        if (!rafId) rafId = requestAnimationFrame(step);
+      });
+
+      footer.addEventListener('mouseleave', () => {
+        active = false;
+        icon.style.opacity = '0';
+        if (!rafId) rafId = requestAnimationFrame(step);
+      });
+    }
+  }
+</script>

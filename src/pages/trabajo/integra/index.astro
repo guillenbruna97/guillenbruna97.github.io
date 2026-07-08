@@ -1,206 +1,45 @@
 ---
-import BaseLayout from '../../../layouts/BaseLayout.astro';
-import Divider from '../../../components/Divider.astro';
-import ContactBlock from '../../../components/ContactBlock.astro';
+import CaseLayout from '../../../layouts/CaseLayout.astro';
+
+const tags = ['Consultoría', 'Contenido', 'Estrategia de marca'];
+const skills = [
+  'Estrategia digital',
+  'Planificación de comunicación',
+  'Consultoría',
+  'Social media',
+  'Desarrollo web',
+  'Ampliación de línea de servicios',
+];
 ---
-<BaseLayout
+<CaseLayout
   title="Integra — Consultoría Digital | Guillén Bruna Tricas"
   description="Caso real de desarrollo de línea de servicios digitales dentro de una consultoría gerencial. Estrategia, social media y web para PYMEs y empresas medianas."
-  ogType="article"
+  tags={tags}
+  heading="Expansión digital"
+  meta="Integra Consultoría Gerencial · Consultor · Anterior"
+  skills={skills}
 >
-  <a href="/trabajo/" class="back-link">← Volver a trabajo</a>
+  <div class="case-intro" data-reveal>
+    <p>Integra Consultoría Gerencial es una consultora con foco en dirección estratégica y gestión empresarial para PYMEs, empresas familiares y empresas medianas. Mi incorporación tenía un objetivo claro: desarrollar y poner en marcha la línea de servicios de comunicación digital que la consultora quería añadir a su propuesta de valor, ampliando así su catálogo más allá de la consultoría gerencial tradicional.</p>
+    <a href="https://www.integracg.es/" target="_blank" rel="noopener noreferrer" class="case-intro-img case-intro-img--linked case-intro-img--logo">
+      <img src="/logo-integra.svg" alt="Web de Integra Consultoría Gerencial" />
+    </a>
+  </div>
 
-  <div class="case-main">
-    <div class="case-tags">
-      <span class="tag">Consultoría</span>
-      <span class="tag">Contenido</span>
-      <span class="tag">Estrategia de marca</span>
+  <h2 class="case-section-h2">El trabajo realizado</h2>
+  <div class="case-blocks" data-reveal>
+    <div>
+      <p class="block-label">Construcción de presencia digital</p>
+      <p class="block-text">El primer paso fue construir la presencia digital propia de Integra desde cero, desarrollando su web corporativa en integracg.es como punto de partida para que la consultora tuviera credibilidad digital antes de ofrecérsela a sus clientes.</p>
     </div>
-    <h1>Expansión digital</h1>
-    <p class="case-meta">Integra Consultoría Gerencial · Consultor · Anterior</p>
-
-    <div class="case-intro">
-      <p>Integra Consultoría Gerencial es una consultora con foco en dirección estratégica y gestión empresarial para PYMEs, empresas familiares y empresas medianas. Mi incorporación tenía un objetivo claro: desarrollar y poner en marcha la línea de servicios de comunicación digital que la consultora quería añadir a su propuesta de valor, ampliando así su catálogo más allá de la consultoría gerencial tradicional.</p>
-      <a href="https://www.integracg.es/" target="_blank" rel="noopener noreferrer" class="case-intro-img case-intro-img--logo">
-        <img src="/logo-integra.svg" alt="Web de Integra Consultoría Gerencial" />
-      </a>
-    </div>
-
-    <h2 class="case-section-h2">El trabajo realizado</h2>
-    <div class="case-blocks">
-      <div>
-        <p class="block-label">Construcción de presencia digital</p>
-        <p class="block-text">El primer paso fue construir la presencia digital propia de Integra desde cero, desarrollando su web corporativa en integracg.es como punto de partida para que la consultora tuviera credibilidad digital antes de ofrecérsela a sus clientes.</p>
-      </div>
-      <div>
-        <p class="block-label">Gestión de clientes</p>
-        <p class="block-text">A partir de ahí trabajé directamente con <strong>4-5 empresas clientes</strong> de Integra, ofreciendo servicios de estrategia digital, planificación de comunicación, consultoría y gestión de redes sociales. Cada cliente tenía un punto de partida distinto y necesidades diferentes, lo que requería diagnóstico individualizado antes de cualquier ejecución.</p>
-      </div>
-    </div>
-
-    <div class="case-block-full">
-      <p class="block-label">Impacto duradero y aprendizaje</p>
-      <p class="block-text">La línea de servicios digitales que desarrollé dentro de Integra no fue un proyecto temporal. Hoy forma parte permanente de su propuesta de valor, con servicios de planes de comunicación, social media y relaciones públicas integrados en su catálogo oficial. Eso es lo que más define este trabajo: no solo ejecuté, construí algo que se quedó. Lo más valioso de esta etapa fue aprender a trabajar en un entorno de consultoría pura, donde el cliente es una dirección general que toma decisiones con impacto real en su negocio y donde el consultor tiene que ganarse la confianza antes de que cualquier recomendación sea escuchada. Esa forma de trabajar, orientada al negocio y no solo al canal, define cómo me relaciono con los clientes hoy.</p>
-    </div>
-
-    <div class="skills-section">
-      <p class="skills-label">Habilidades aplicadas</p>
-      <div class="skills-pills">
-        <span class="skill-pill">Estrategia digital</span>
-        <span class="skill-pill">Planificación de comunicación</span>
-        <span class="skill-pill">Consultoría</span>
-        <span class="skill-pill">Social media</span>
-        <span class="skill-pill">Desarrollo web</span>
-        <span class="skill-pill">Ampliación de línea de servicios</span>
-      </div>
+    <div>
+      <p class="block-label">Gestión de clientes</p>
+      <p class="block-text">A partir de ahí trabajé directamente con <strong>4-5 empresas clientes</strong> de Integra, ofreciendo servicios de estrategia digital, planificación de comunicación, consultoría y gestión de redes sociales. Cada cliente tenía un punto de partida distinto y necesidades diferentes, lo que requería diagnóstico individualizado antes de cualquier ejecución.</p>
     </div>
   </div>
 
-  <Divider />
-
-  <ContactBlock title="¿Trabajamos<br>juntos?" />
-</BaseLayout>
-
-<style is:global>
-  .back-link {
-    display: block;
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 2rem 2rem 0;
-    font-size: 0.78rem;
-    font-weight: 400;
-    color: rgba(0,0,0,0.4);
-    text-decoration: none;
-    transition: color var(--transition);
-  }
-  body.dark .back-link { color: rgba(232,232,232,0.4); }
-  .back-link:hover { color: var(--blue); }
-  body.dark .back-link:hover { color: var(--blue-light); }
-
-  .case-main { padding: 2rem 2rem 3rem; max-width: 900px; margin: 0 auto; }
-
-  .case-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.2rem; }
-
-  .case-main h1 {
-    font-size: clamp(1.8rem, 4vw, 2.6rem);
-    font-weight: 800;
-    letter-spacing: -0.03em;
-    line-height: 1.1;
-    margin-bottom: 0.5rem;
-  }
-
-  .case-meta {
-    font-size: 0.85rem;
-    font-weight: 400;
-    color: var(--blue);
-    margin-bottom: 2.5rem;
-    transition: color var(--transition);
-  }
-  body.dark .case-meta { color: var(--blue-light); }
-
-  .case-intro {
-    display: grid;
-    grid-template-columns: 1.3fr 1fr;
-    gap: 2.5rem;
-    align-items: center;
-    margin-bottom: 3rem;
-  }
-  .case-intro p {
-    font-size: 0.95rem;
-    font-weight: 300;
-    color: rgba(0,0,0,0.65);
-    line-height: 1.85;
-    transition: color var(--transition);
-  }
-  body.dark .case-intro p { color: rgba(232,232,232,0.65); }
-
-  .case-intro-img {
-    border-radius: 4px;
-    overflow: hidden;
-    border: 1px solid rgba(0,0,0,0.08);
-    transition: border-color var(--transition), opacity var(--transition);
-    display: block;
-  }
-  .case-intro-img:hover { opacity: 0.85; }
-  body.dark .case-intro-img { border-color: rgba(255,255,255,0.08); }
-  .case-intro-img img { width: 100%; display: block; }
-
-  .case-intro-img--logo {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 2rem;
-    background: rgba(0,0,0,0.02);
-    transition: border-color var(--transition), opacity var(--transition), background var(--transition);
-  }
-  body.dark .case-intro-img--logo { background: rgba(255,255,255,0.04); }
-  .case-intro-img--logo img { width: 100%; max-width: 220px; display: block; }
-
-  .case-blocks {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2.5rem;
-    margin-bottom: 1rem;
-  }
-
-  .block-label {
-    font-size: 0.7rem;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--blue);
-    margin-bottom: 0.7rem;
-    transition: color var(--transition);
-  }
-  body.dark .block-label { color: var(--blue-light); }
-
-  .block-text {
-    font-size: 0.92rem;
-    font-weight: 300;
-    color: rgba(0,0,0,0.6);
-    line-height: 1.85;
-    transition: color var(--transition);
-  }
-  body.dark .block-text { color: rgba(232,232,232,0.6); }
-  .block-text strong { font-weight: 600; color: var(--black); transition: color var(--transition); }
-  body.dark .block-text strong { color: #e8e8e8; }
-
-  .case-block-full { margin: 2.5rem 0; }
-  .case-block-full .block-text { max-width: 640px; }
-
-  .skills-section {
-    margin-top: 3rem;
-    padding-top: 2.5rem;
-    border-top: 1px solid rgba(0,0,0,0.06);
-    transition: border-color var(--transition);
-  }
-  body.dark .skills-section { border-top-color: rgba(255,255,255,0.08); }
-
-  .skills-label {
-    font-size: 0.68rem;
-    font-weight: 500;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: rgba(0,0,0,0.35);
-    margin-bottom: 1rem;
-    transition: color var(--transition);
-  }
-  body.dark .skills-label { color: rgba(232,232,232,0.4); }
-
-  .skills-pills { display: flex; gap: 0.5rem; flex-wrap: wrap; }
-  .skill-pill {
-    font-size: 0.78rem;
-    font-weight: 500;
-    padding: 0.4rem 0.9rem;
-    border: 1px solid rgba(0,0,0,0.15);
-    border-radius: 2px;
-    color: var(--black);
-    transition: border-color var(--transition), color var(--transition);
-  }
-  body.dark .skill-pill { border-color: rgba(255,255,255,0.15); color: #e8e8e8; }
-
-  @media (max-width: 640px) {
-    .case-intro { grid-template-columns: 1fr; }
-    .case-blocks { grid-template-columns: 1fr; gap: 1.5rem; }
-  }
-</style>
+  <div class="case-block-full" data-reveal>
+    <p class="block-label">Impacto duradero y aprendizaje</p>
+    <p class="block-text">La línea de servicios digitales que desarrollé dentro de Integra no fue un proyecto temporal. Hoy forma parte permanente de su propuesta de valor, con servicios de planes de comunicación, social media y relaciones públicas integrados en su catálogo oficial. Eso es lo que más define este trabajo: no solo ejecuté, construí algo que se quedó. Lo más valioso de esta etapa fue aprender a trabajar en un entorno de consultoría pura, donde el cliente es una dirección general que toma decisiones con impacto real en su negocio y donde el consultor tiene que ganarse la confianza antes de que cualquier recomendación sea escuchada. Esa forma de trabajar, orientada al negocio y no solo al canal, define cómo me relaciono con los clientes hoy.</p>
+  </div>
+</CaseLayout>

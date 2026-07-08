@@ -1,194 +1,49 @@
 ---
-import BaseLayout from '../../../layouts/BaseLayout.astro';
-import Divider from '../../../components/Divider.astro';
-import ContactBlock from '../../../components/ContactBlock.astro';
+import CaseLayout from '../../../layouts/CaseLayout.astro';
+
+const tags = ['eCommerce', 'Generación de demanda'];
+const skills = [
+  'Brand strategy',
+  'Naming',
+  'Identidad visual',
+  'eCommerce',
+  'Paid media',
+  'Social media',
+  'Negociación con proveedores',
+  'Plan de negocio',
+  'Packaging',
+  'Gestión de operaciones',
+];
 ---
-<BaseLayout
+<CaseLayout
   title="Broco — Marca y eCommerce | Guillén Bruna Tricas"
   description="Caso real de lanzamiento de marca de moda urbana desde cero. 400-500 pedidos y 5.000 seguidores sin inversión externa."
-  ogType="article"
+  tags={tags}
+  heading="Lanzamiento y construcción de marca"
+  meta="Broco · Fundador · Anterior"
+  skills={skills}
 >
-  <a href="/trabajo/" class="back-link">← Volver a trabajo</a>
-
-  <div class="case-main">
-    <div class="case-tags">
-      <span class="tag">eCommerce</span>
-      <span class="tag">Generación de demanda</span>
-    </div>
-    <h1>Lanzamiento y construcción de marca</h1>
-    <p class="case-meta">Broco · Fundador · Anterior</p>
-
-    <div class="case-intro">
-      <p>Broco nació sin presupuesto, sin equipo externo y sin manual de instrucciones. Solo tres amigos, una idea y la determinación de construir algo real desde dentro. El nombre salió de fusionar "brother" con "co", el apelativo que define la forma de hablar en Zaragoza, y el protagonista visual fue el brócoli, un símbolo deliberadamente atrevido que rompía con la seriedad de las marcas de moda convencional y anclaba el mensaje de sostenibilidad con personalidad propia.</p>
-      <div class="case-intro-img">
-        <img src="/broco.png" alt="Equipo fundador de Broco" width="1080" height="820" />
-      </div>
-    </div>
-
-    <h2 class="case-section-h2">Construcción y resultados</h2>
-    <div class="case-blocks">
-      <div>
-        <p class="block-label">Construcción desde cero</p>
-        <p class="block-text">La ambición no era pequeña. Nacíamos con intención de ser una marca diferencial a nivel nacional en el segmento de moda urbana sostenible, con algodón orgánico como estándar de producto y una línea visual juvenil, coherente y con carácter. Todo lo que Broco necesitaba para existir había que construirlo: el plan de negocio y el plan de viabilidad, la identidad visual completa, la narrativa de marca, el packaging, el diseño de producto, la negociación con proveedores, el eCommerce y la estrategia de redes sociales. Y cuando llegaban los pedidos, también los preparábamos y los enviábamos nosotros mismos. Cada detalle pasaba por nuestras manos.</p>
-      </div>
-      <div>
-        <p class="block-label">Rol y liderazgo</p>
-        <p class="block-text">Con formación en comunicación y empresariales, asumí la responsabilidad de la estrategia de marca, las decisiones comerciales, la identidad visual y la arquitectura de negocio. No solo diseñaba, también pensaba en márgenes, en posicionamiento, en cómo construir algo que pudiera escalar.</p>
-      </div>
-    </div>
-
-    <div class="case-block-full">
-      <p class="block-label">Resultado y aprendizaje</p>
-      <p class="block-text">El resultado fue real: <strong>400-500 pedidos</strong> y una comunidad de <strong>5.000 seguidores</strong> construida desde cero, sin inversión externa, llegando al punto de equilibrio económico. El proyecto terminó por una decisión consciente y personal. Las diferencias en la implicación y en la visión estratégica entre socios generaron una tensión que decidimos resolver antes de que afectara a lo que más importaba. Fue una de las lecciones más honestas sobre liderazgo, roles y expectativas que he vivido, y una de las que más ha definido cómo trabajo hoy con equipos y con clientes.</p>
-    </div>
-
-    <div class="skills-section">
-      <p class="skills-label">Habilidades aplicadas</p>
-      <div class="skills-pills">
-        <span class="skill-pill">Brand strategy</span>
-        <span class="skill-pill">Naming</span>
-        <span class="skill-pill">Identidad visual</span>
-        <span class="skill-pill">eCommerce</span>
-        <span class="skill-pill">Paid media</span>
-        <span class="skill-pill">Social media</span>
-        <span class="skill-pill">Negociación con proveedores</span>
-        <span class="skill-pill">Plan de negocio</span>
-        <span class="skill-pill">Packaging</span>
-        <span class="skill-pill">Gestión de operaciones</span>
-      </div>
+  <div class="case-intro" data-reveal>
+    <p>Broco nació sin presupuesto, sin equipo externo y sin manual de instrucciones. Solo tres amigos, una idea y la determinación de construir algo real desde dentro. El nombre salió de fusionar "brother" con "co", el apelativo que define la forma de hablar en Zaragoza, y el protagonista visual fue el brócoli, un símbolo deliberadamente atrevido que rompía con la seriedad de las marcas de moda convencional y anclaba el mensaje de sostenibilidad con personalidad propia.</p>
+    <div class="case-intro-img">
+      <img src="/broco.png" alt="Equipo fundador de Broco" width="1080" height="820" />
     </div>
   </div>
 
-  <Divider />
+  <h2 class="case-section-h2">Construcción y resultados</h2>
+  <div class="case-blocks" data-reveal>
+    <div>
+      <p class="block-label">Construcción desde cero</p>
+      <p class="block-text">La ambición no era pequeña. Nacíamos con intención de ser una marca diferencial a nivel nacional en el segmento de moda urbana sostenible, con algodón orgánico como estándar de producto y una línea visual juvenil, coherente y con carácter. Todo lo que Broco necesitaba para existir había que construirlo: el plan de negocio y el plan de viabilidad, la identidad visual completa, la narrativa de marca, el packaging, el diseño de producto, la negociación con proveedores, el eCommerce y la estrategia de redes sociales. Y cuando llegaban los pedidos, también los preparábamos y los enviábamos nosotros mismos. Cada detalle pasaba por nuestras manos.</p>
+    </div>
+    <div>
+      <p class="block-label">Rol y liderazgo</p>
+      <p class="block-text">Con formación en comunicación y empresariales, asumí la responsabilidad de la estrategia de marca, las decisiones comerciales, la identidad visual y la arquitectura de negocio. No solo diseñaba, también pensaba en márgenes, en posicionamiento, en cómo construir algo que pudiera escalar.</p>
+    </div>
+  </div>
 
-  <ContactBlock title="¿Trabajamos<br>juntos?" />
-</BaseLayout>
-
-<style is:global>
-  .back-link {
-    display: block;
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 2rem 2rem 0;
-    font-size: 0.78rem;
-    font-weight: 400;
-    color: rgba(0,0,0,0.4);
-    text-decoration: none;
-    transition: color var(--transition);
-  }
-  body.dark .back-link { color: rgba(232,232,232,0.4); }
-  .back-link:hover { color: var(--blue); }
-  body.dark .back-link:hover { color: var(--blue-light); }
-
-  .case-main { padding: 2rem 2rem 3rem; max-width: 900px; margin: 0 auto; }
-
-  .case-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.2rem; }
-
-  .case-main h1 {
-    font-size: clamp(1.8rem, 4vw, 2.6rem);
-    font-weight: 800;
-    letter-spacing: -0.03em;
-    line-height: 1.1;
-    margin-bottom: 0.5rem;
-  }
-
-  .case-meta {
-    font-size: 0.85rem;
-    font-weight: 400;
-    color: var(--blue);
-    margin-bottom: 2.5rem;
-    transition: color var(--transition);
-  }
-  body.dark .case-meta { color: var(--blue-light); }
-
-  .case-intro {
-    display: grid;
-    grid-template-columns: 1.3fr 1fr;
-    gap: 2.5rem;
-    align-items: center;
-    margin-bottom: 3rem;
-  }
-  .case-intro p {
-    font-size: 0.95rem;
-    font-weight: 300;
-    color: rgba(0,0,0,0.65);
-    line-height: 1.85;
-    transition: color var(--transition);
-  }
-  body.dark .case-intro p { color: rgba(232,232,232,0.65); }
-
-  .case-intro-img {
-    border-radius: 4px;
-    overflow: hidden;
-    display: block;
-  }
-  .case-intro-img img { width: 100%; display: block; }
-
-  .case-blocks {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2.5rem;
-    margin-bottom: 1rem;
-  }
-
-  .block-label {
-    font-size: 0.7rem;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--blue);
-    margin-bottom: 0.7rem;
-    transition: color var(--transition);
-  }
-  body.dark .block-label { color: var(--blue-light); }
-
-  .block-text {
-    font-size: 0.92rem;
-    font-weight: 300;
-    color: rgba(0,0,0,0.6);
-    line-height: 1.85;
-    transition: color var(--transition);
-  }
-  body.dark .block-text { color: rgba(232,232,232,0.6); }
-  .block-text strong { font-weight: 600; color: var(--black); transition: color var(--transition); }
-  body.dark .block-text strong { color: #e8e8e8; }
-
-  .case-block-full { margin: 2.5rem 0; }
-  .case-block-full .block-text { max-width: 640px; }
-
-  .skills-section {
-    margin-top: 3rem;
-    padding-top: 2.5rem;
-    border-top: 1px solid rgba(0,0,0,0.06);
-    transition: border-color var(--transition);
-  }
-  body.dark .skills-section { border-top-color: rgba(255,255,255,0.08); }
-
-  .skills-label {
-    font-size: 0.68rem;
-    font-weight: 500;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: rgba(0,0,0,0.35);
-    margin-bottom: 1rem;
-    transition: color var(--transition);
-  }
-  body.dark .skills-label { color: rgba(232,232,232,0.4); }
-
-  .skills-pills { display: flex; gap: 0.5rem; flex-wrap: wrap; }
-  .skill-pill {
-    font-size: 0.78rem;
-    font-weight: 500;
-    padding: 0.4rem 0.9rem;
-    border: 1px solid rgba(0,0,0,0.15);
-    border-radius: 2px;
-    color: var(--black);
-    transition: border-color var(--transition), color var(--transition);
-  }
-  body.dark .skill-pill { border-color: rgba(255,255,255,0.15); color: #e8e8e8; }
-
-  @media (max-width: 640px) {
-    .case-intro { grid-template-columns: 1fr; }
-    .case-blocks { grid-template-columns: 1fr; gap: 1.5rem; }
-  }
-</style>
+  <div class="case-block-full" data-reveal>
+    <p class="block-label">Resultado y aprendizaje</p>
+    <p class="block-text">El resultado fue real: <strong>400-500 pedidos</strong> y una comunidad de <strong>5.000 seguidores</strong> construida desde cero, sin inversión externa, llegando al punto de equilibrio económico. El proyecto terminó por una decisión consciente y personal. Las diferencias en la implicación y en la visión estratégica entre socios generaron una tensión que decidimos resolver antes de que afectara a lo que más importaba. Fue una de las lecciones más honestas sobre liderazgo, roles y expectativas que he vivido, y una de las que más ha definido cómo trabajo hoy con equipos y con clientes.</p>
+  </div>
+</CaseLayout>

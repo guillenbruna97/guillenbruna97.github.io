@@ -1,239 +1,68 @@
 ---
-import BaseLayout from '../../../layouts/BaseLayout.astro';
-import Divider from '../../../components/Divider.astro';
-import ContactBlock from '../../../components/ContactBlock.astro';
+import CaseLayout from '../../../layouts/CaseLayout.astro';
+
+const tags = ['Estrategia de marca', 'Eventos', 'Generación de demanda', 'Contenido'];
+const skills = [
+  'Social media strategy',
+  'Meta Ads',
+  'Selección y gestión de agencias',
+  'Eventos e inauguraciones',
+  'Comunicación de marca',
+  'Planificación editorial',
+  'Community management',
+  'Producción de contenido audiovisual',
+  'Producción de spot',
+];
 ---
-<BaseLayout
+<CaseLayout
   title="Grupo Rey — Paid Media y Marca | Guillén Bruna Tricas"
   description="Caso real de comunicación digital y Meta Ads para marcas nacionales de retail. Head of Social Media en Grupo Rey Corporación."
-  ogType="article"
+  tags={tags}
+  heading="Estrategia social, paid media y comunicación de marca"
+  meta="Muebles Rey & Muebles Tuco · Head of Social Media · Anterior"
+  skills={skills}
 >
-  <a href="/trabajo/" class="back-link">← Volver a trabajo</a>
-
-  <div class="case-main">
-    <div class="case-tags">
-      <span class="tag">Estrategia de marca</span>
-      <span class="tag">Eventos</span>
-      <span class="tag">Generación de demanda</span>
-      <span class="tag">Contenido</span>
-    </div>
-    <h1>Estrategia social, paid media y comunicación de marca</h1>
-    <p class="case-meta">Muebles Rey & Muebles Tuco · Head of Social Media · Anterior</p>
-
-    <div class="case-intro">
-      <p>Grupo Rey Corporación es uno de los grupos de retail de muebles con mayor recorrido en España, con presencia nacional a través de sus marcas Muebles Rey y Muebles Tuco. Entrar como técnico de marketing y evolucionar hasta Head of Social Media en una organización de esa escala fue una de las experiencias que más aceleró mi desarrollo como profesional. Cuando gestionas la comunicación de marcas nacionales con años de historia, la exigencia y el ritmo no tienen equivalente en entornos más pequeños.</p>
-      <div class="case-intro-img">
-        <img src="/reycorporacion.svg" alt="Grupo Rey Corporación" />
-      </div>
-    </div>
-
-    <h2 class="case-section-h2">Gestión y resultados</h2>
-    <div class="case-blocks">
-      <div>
-        <p class="block-label">Gestión multimarca</p>
-        <p class="block-text">Asumí la responsabilidad de toda la comunicación digital de hasta <strong>6 marcas del grupo en paralelo</strong>, incluyendo franquicias, gestionando sus plataformas sociales con identidades diferenciadas para cada una. Eso requería no solo producción de contenido sino criterio estratégico para que cada marca mantuviera su propia voz sin confundirse con las demás dentro del mismo ecosistema de comunicación. Lideré más de 3 eventos de inauguración de tiendas, coordinando la comunicación en tiempo real entre presencia física, cobertura en redes y seguimiento posterior.</p>
-      </div>
-      <div>
-        <p class="block-label">Meta Ads y paid media</p>
-        <p class="block-text">Gestioné las campañas de Meta Ads para ambas marcas con presupuestos mensuales superiores a <strong>20.000€</strong>, segmentados por marca, producto y temporada. La estrategia combinaba campañas de awareness con CPMs optimizados por debajo de la media del sector retail, y campañas de conversión con CTRs consistentemente por encima del <strong>1,5%</strong> y ROAS positivo en las líneas de producto principales. La arquitectura de campañas, la segmentación de audiencias y la adaptación del mensaje a cada marca y momento de temporada eran responsabilidad directa mía, con optimización continua de resultados.</p>
-      </div>
-    </div>
-
-    <div class="case-block-full">
-      <p class="block-label">Agencia y Perspectivas</p>
-      <p class="block-text">Una de las decisiones con más impacto fue la selección y onboarding de la agencia de comunicación para Muebles Rey. La marca necesitaba una atención más detallada y especializada de la que se podía gestionar íntegramente desde dentro. Identifiqué la mejor opción, la propuse y la concreté. Esa agencia sigue trabajando con Grupo Rey a día de hoy, años después de que yo dejara la organización, lo que habla por sí solo del criterio con el que se tomó esa decisión. Dentro de esa colaboración nació Perspectivas, un videopodcast de la marca que inicialmente se intentó desarrollar con otra agencia de medios sin el resultado esperado. La agencia que yo traje fue la que finalmente lo ejecutó correctamente, alineándolo con el mensaje, el estilo y la nueva identidad que Muebles Rey estaba asumiendo en ese momento.</p>
-    </div>
-
-    <div class="case-block-full">
-      <p class="block-label">Producción de spot de marca</p>
-      <p class="block-text">Otra iniciativa que lideré fue la producción de un spot de marca para Muebles Rey. Mi participación abarcó desde la ideación creativa y el guion hasta la planificación y coordinación del rodaje, incluyendo la propuesta y contratación del grupo musical que protagoniza la pieza. Supervisé la ejecución final para asegurar la coherencia visual con la identidad de la marca. El resultado es un spot que combina música en directo, atmósfera de marca y producto de forma cohesionada.</p>
-    </div>
-
-    <div class="case-video-wrap">
-      <iframe
-        src="https://www.youtube.com/embed/i6RH0EIlEus"
-        title="Spot de marca Muebles Rey"
-        allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        allowfullscreen
-      ></iframe>
-      <p class="video-fallback">Si el vídeo no carga, <a href="https://youtu.be/i6RH0EIlEus" target="_blank" rel="noopener noreferrer">ver en YouTube →</a></p>
-    </div>
-
-    <div class="case-block-full">
-      <p class="block-label">Resultados</p>
-      <p class="block-text">Durante mi etapa, las comunidades del grupo crecieron de forma sostenida: Muebles Rey pasó de aproximadamente <strong>15.000 a 25.000 seguidores</strong>, y Muebles Tuco de <strong>20.000 a 35.000</strong>, con crecimiento en engagement y alcance orgánico en ambas marcas. Lo que dejó esa etapa fue la comprensión real de lo que significa gestionar comunicación con volumen, con historia de marca y con una audiencia nacional. Y la confirmación de que las mejores decisiones estratégicas no son las que se ven en el momento, sino las que siguen funcionando cuando ya no estás.</p>
-    </div>
-
-    <div class="skills-section">
-      <p class="skills-label">Habilidades aplicadas</p>
-      <div class="skills-pills">
-        <span class="skill-pill">Social media strategy</span>
-        <span class="skill-pill">Meta Ads</span>
-        <span class="skill-pill">Selección y gestión de agencias</span>
-        <span class="skill-pill">Eventos e inauguraciones</span>
-        <span class="skill-pill">Comunicación de marca</span>
-        <span class="skill-pill">Planificación editorial</span>
-        <span class="skill-pill">Community management</span>
-        <span class="skill-pill">Producción de contenido audiovisual</span>
-        <span class="skill-pill">Producción de spot</span>
-      </div>
+  <div class="case-intro" data-reveal>
+    <p>Grupo Rey Corporación es uno de los grupos de retail de muebles con mayor recorrido en España, con presencia nacional a través de sus marcas Muebles Rey y Muebles Tuco. Entrar como técnico de marketing y evolucionar hasta Head of Social Media en una organización de esa escala fue una de las experiencias que más aceleró mi desarrollo como profesional. Cuando gestionas la comunicación de marcas nacionales con años de historia, la exigencia y el ritmo no tienen equivalente en entornos más pequeños.</p>
+    <div class="case-intro-img">
+      <img src="/reycorporacion.svg" alt="Grupo Rey Corporación" />
     </div>
   </div>
 
-  <Divider />
+  <h2 class="case-section-h2">Gestión y resultados</h2>
+  <div class="case-blocks" data-reveal>
+    <div>
+      <p class="block-label">Gestión multimarca</p>
+      <p class="block-text">Asumí la responsabilidad de toda la comunicación digital de hasta <strong>6 marcas del grupo en paralelo</strong>, incluyendo franquicias, gestionando sus plataformas sociales con identidades diferenciadas para cada una. Eso requería no solo producción de contenido sino criterio estratégico para que cada marca mantuviera su propia voz sin confundirse con las demás dentro del mismo ecosistema de comunicación. Lideré más de 3 eventos de inauguración de tiendas, coordinando la comunicación en tiempo real entre presencia física, cobertura en redes y seguimiento posterior.</p>
+    </div>
+    <div>
+      <p class="block-label">Meta Ads y paid media</p>
+      <p class="block-text">Gestioné las campañas de Meta Ads para ambas marcas con presupuestos mensuales superiores a <strong>20.000€</strong>, segmentados por marca, producto y temporada. La estrategia combinaba campañas de awareness con CPMs optimizados por debajo de la media del sector retail, y campañas de conversión con CTRs consistentemente por encima del <strong>1,5%</strong> y ROAS positivo en las líneas de producto principales. La arquitectura de campañas, la segmentación de audiencias y la adaptación del mensaje a cada marca y momento de temporada eran responsabilidad directa mía, con optimización continua de resultados.</p>
+    </div>
+  </div>
 
-  <ContactBlock title="¿Trabajamos<br>juntos?" />
-</BaseLayout>
+  <div class="case-block-full" data-reveal>
+    <p class="block-label">Agencia y Perspectivas</p>
+    <p class="block-text">Una de las decisiones con más impacto fue la selección y onboarding de la agencia de comunicación para Muebles Rey. La marca necesitaba una atención más detallada y especializada de la que se podía gestionar íntegramente desde dentro. Identifiqué la mejor opción, la propuse y la concreté. Esa agencia sigue trabajando con Grupo Rey a día de hoy, años después de que yo dejara la organización, lo que habla por sí solo del criterio con el que se tomó esa decisión. Dentro de esa colaboración nació Perspectivas, un videopodcast de la marca que inicialmente se intentó desarrollar con otra agencia de medios sin el resultado esperado. La agencia que yo traje fue la que finalmente lo ejecutó correctamente, alineándolo con el mensaje, el estilo y la nueva identidad que Muebles Rey estaba asumiendo en ese momento.</p>
+  </div>
 
-<style is:global>
-  .back-link {
-    display: block;
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 2rem 2rem 0;
-    font-size: 0.78rem;
-    font-weight: 400;
-    color: rgba(0,0,0,0.4);
-    text-decoration: none;
-    transition: color var(--transition);
-  }
-  body.dark .back-link { color: rgba(232,232,232,0.4); }
-  .back-link:hover { color: var(--blue); }
-  body.dark .back-link:hover { color: var(--blue-light); }
+  <div class="case-block-full" data-reveal>
+    <p class="block-label">Producción de spot de marca</p>
+    <p class="block-text">Otra iniciativa que lideré fue la producción de un spot de marca para Muebles Rey. Mi participación abarcó desde la ideación creativa y el guion hasta la planificación y coordinación del rodaje, incluyendo la propuesta y contratación del grupo musical que protagoniza la pieza. Supervisé la ejecución final para asegurar la coherencia visual con la identidad de la marca. El resultado es un spot que combina música en directo, atmósfera de marca y producto de forma cohesionada.</p>
+  </div>
 
-  .case-main { padding: 2rem 2rem 3rem; max-width: 900px; margin: 0 auto; }
+  <div class="case-video-wrap" data-reveal>
+    <iframe
+      src="https://www.youtube.com/embed/i6RH0EIlEus"
+      title="Spot de marca Muebles Rey"
+      allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowfullscreen
+    ></iframe>
+    <p class="video-fallback">Si el vídeo no carga, <a href="https://youtu.be/i6RH0EIlEus" target="_blank" rel="noopener noreferrer">ver en YouTube →</a></p>
+  </div>
 
-  .case-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.2rem; }
-
-  .case-main h1 {
-    font-size: clamp(1.8rem, 4vw, 2.6rem);
-    font-weight: 800;
-    letter-spacing: -0.03em;
-    line-height: 1.1;
-    margin-bottom: 0.5rem;
-  }
-
-  .case-meta {
-    font-size: 0.85rem;
-    font-weight: 400;
-    color: var(--blue);
-    margin-bottom: 2.5rem;
-    transition: color var(--transition);
-  }
-  body.dark .case-meta { color: var(--blue-light); }
-
-  .case-intro {
-    display: grid;
-    grid-template-columns: 1.3fr 1fr;
-    gap: 2.5rem;
-    align-items: center;
-    margin-bottom: 3rem;
-  }
-  .case-intro p {
-    font-size: 0.95rem;
-    font-weight: 300;
-    color: rgba(0,0,0,0.65);
-    line-height: 1.85;
-    transition: color var(--transition);
-  }
-  body.dark .case-intro p { color: rgba(232,232,232,0.65); }
-
-  .case-intro-img {
-    border-radius: 4px;
-    overflow: hidden;
-    display: block;
-  }
-  .case-intro-img img { width: 100%; display: block; }
-
-  .case-blocks {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2.5rem;
-    margin-bottom: 1rem;
-  }
-
-  .block-label {
-    font-size: 0.7rem;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--blue);
-    margin-bottom: 0.7rem;
-    transition: color var(--transition);
-  }
-  body.dark .block-label { color: var(--blue-light); }
-
-  .block-text {
-    font-size: 0.92rem;
-    font-weight: 300;
-    color: rgba(0,0,0,0.6);
-    line-height: 1.85;
-    transition: color var(--transition);
-  }
-  body.dark .block-text { color: rgba(232,232,232,0.6); }
-  .block-text strong { font-weight: 600; color: var(--black); transition: color var(--transition); }
-  body.dark .block-text strong { color: #e8e8e8; }
-
-  .case-block-full { margin: 2.5rem 0; }
-  .case-block-full .block-text { max-width: 640px; }
-
-  .case-video-wrap { margin: 2.5rem 0; }
-  .case-video-wrap iframe {
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    border-radius: 4px;
-    border: none;
-    display: block;
-  }
-  .video-fallback {
-    font-size: 0.78rem;
-    font-weight: 400;
-    color: rgba(0,0,0,0.4);
-    margin-top: 0.75rem;
-    transition: color var(--transition);
-  }
-  body.dark .video-fallback { color: rgba(232,232,232,0.4); }
-  .video-fallback a {
-    color: var(--blue);
-    text-decoration: none;
-    transition: color var(--transition);
-  }
-  body.dark .video-fallback a { color: var(--blue-light); }
-  .video-fallback a:hover { text-decoration: underline; }
-
-  .skills-section {
-    margin-top: 3rem;
-    padding-top: 2.5rem;
-    border-top: 1px solid rgba(0,0,0,0.06);
-    transition: border-color var(--transition);
-  }
-  body.dark .skills-section { border-top-color: rgba(255,255,255,0.08); }
-
-  .skills-label {
-    font-size: 0.68rem;
-    font-weight: 500;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: rgba(0,0,0,0.35);
-    margin-bottom: 1rem;
-    transition: color var(--transition);
-  }
-  body.dark .skills-label { color: rgba(232,232,232,0.4); }
-
-  .skills-pills { display: flex; gap: 0.5rem; flex-wrap: wrap; }
-  .skill-pill {
-    font-size: 0.78rem;
-    font-weight: 500;
-    padding: 0.4rem 0.9rem;
-    border: 1px solid rgba(0,0,0,0.15);
-    border-radius: 2px;
-    color: var(--black);
-    transition: border-color var(--transition), color var(--transition);
-  }
-  body.dark .skill-pill { border-color: rgba(255,255,255,0.15); color: #e8e8e8; }
-
-  @media (max-width: 640px) {
-    .case-intro { grid-template-columns: 1fr; }
-    .case-blocks { grid-template-columns: 1fr; gap: 1.5rem; }
-  }
-</style>
+  <div class="case-block-full" data-reveal>
+    <p class="block-label">Resultados</p>
+    <p class="block-text">Durante mi etapa, las comunidades del grupo crecieron de forma sostenida: Muebles Rey pasó de aproximadamente <strong>15.000 a 25.000 seguidores</strong>, y Muebles Tuco de <strong>20.000 a 35.000</strong>, con crecimiento en engagement y alcance orgánico en ambas marcas. Lo que dejó esa etapa fue la comprensión real de lo que significa gestionar comunicación con volumen, con historia de marca y con una audiencia nacional. Y la confirmación de que las mejores decisiones estratégicas no son las que se ven en el momento, sino las que siguen funcionando cuando ya no estás.</p>
+  </div>
+</CaseLayout>

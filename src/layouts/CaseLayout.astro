@@ -1,0 +1,214 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Divider from '../components/Divider.astro';
+import ContactBlock from '../components/ContactBlock.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  ogType?: string;
+  tags: string[];
+  heading: string;
+  meta: string;
+  skills: string[];
+}
+const { title, description, ogType = 'article', tags, heading, meta, skills } = Astro.props;
+---
+<BaseLayout title={title} description={description} ogType={ogType}>
+  <a href="/trabajo/" class="back-link">← Volver a trabajo</a>
+
+  <div class="case-main">
+    <div class="case-tags">
+      {tags.map((tag) => <span class="tag">{tag}</span>)}
+    </div>
+    <h1>{heading}</h1>
+    <p class="case-meta">{meta}</p>
+
+    <slot />
+
+    <div class="skills-section" data-reveal>
+      <p class="skills-label">Habilidades aplicadas</p>
+      <div class="skills-pills">
+        {skills.map((skill) => <span class="skill-pill">{skill}</span>)}
+      </div>
+    </div>
+  </div>
+
+  <Divider />
+
+  <ContactBlock title="¿Trabajamos<br>juntos?" />
+</BaseLayout>
+
+<style is:global>
+  .back-link {
+    display: block;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 2rem 0;
+    font-size: 0.78rem;
+    font-weight: 400;
+    color: rgba(0,0,0,0.4);
+    text-decoration: none;
+    transition: color var(--transition), transform 0.15s ease;
+  }
+  body.dark .back-link { color: rgba(232,232,232,0.4); }
+  .back-link:hover { color: var(--blue); transform: translateX(-3px); }
+  body.dark .back-link:hover { color: var(--blue-light); }
+
+  .case-main { padding: 2rem 2rem 3rem; max-width: 900px; margin: 0 auto; }
+
+  .case-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.2rem; }
+
+  .case-main h1 {
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    margin-bottom: 0.5rem;
+  }
+
+  .case-meta {
+    font-size: 0.85rem;
+    font-weight: 400;
+    color: var(--blue);
+    margin-bottom: 2.5rem;
+    transition: color var(--transition);
+  }
+  body.dark .case-meta { color: var(--blue-light); }
+
+  .case-intro {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 2.5rem;
+    align-items: center;
+    margin-bottom: 3rem;
+  }
+  .case-intro p {
+    font-size: 0.95rem;
+    font-weight: 300;
+    color: rgba(0,0,0,0.65);
+    line-height: 1.85;
+    transition: color var(--transition);
+  }
+  body.dark .case-intro p { color: rgba(232,232,232,0.65); }
+
+  .case-intro-img {
+    border-radius: 4px;
+    overflow: hidden;
+    display: block;
+  }
+  .case-intro-img img { width: 100%; display: block; }
+
+  .case-intro-img--linked {
+    border: 1px solid rgba(0,0,0,0.08);
+    transition: border-color var(--transition), opacity var(--transition);
+  }
+  .case-intro-img--linked:hover { opacity: 0.85; }
+  body.dark .case-intro-img--linked { border-color: rgba(255,255,255,0.08); }
+
+  .case-intro-img--logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    background: rgba(0,0,0,0.02);
+    transition: border-color var(--transition), opacity var(--transition), background var(--transition);
+  }
+  body.dark .case-intro-img--logo { background: rgba(255,255,255,0.04); }
+  .case-intro-img--logo img { width: 100%; max-width: 220px; display: block; }
+
+  .case-blocks {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .block-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 0.7rem;
+    transition: color var(--transition);
+  }
+  body.dark .block-label { color: var(--blue-light); }
+
+  .block-text {
+    font-size: 0.92rem;
+    font-weight: 300;
+    color: rgba(0,0,0,0.6);
+    line-height: 1.85;
+    transition: color var(--transition);
+  }
+  body.dark .block-text { color: rgba(232,232,232,0.6); }
+  .block-text strong { font-weight: 600; color: var(--black); transition: color var(--transition); }
+  body.dark .block-text strong { color: #e8e8e8; }
+
+  .case-block-full { margin: 2.5rem 0; }
+  .case-block-full .block-text { max-width: 640px; }
+
+  .case-video-wrap { margin: 2.5rem 0; }
+  .case-video-wrap iframe {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border-radius: 4px;
+    border: none;
+    display: block;
+  }
+  .video-fallback {
+    font-size: 0.78rem;
+    font-weight: 400;
+    color: rgba(0,0,0,0.4);
+    margin-top: 0.75rem;
+    transition: color var(--transition);
+  }
+  body.dark .video-fallback { color: rgba(232,232,232,0.4); }
+  .video-fallback a {
+    color: var(--blue);
+    text-decoration: none;
+    transition: color var(--transition);
+  }
+  body.dark .video-fallback a { color: var(--blue-light); }
+  .video-fallback a:hover { text-decoration: underline; }
+
+  .skills-section {
+    margin-top: 3rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid rgba(0,0,0,0.06);
+    transition: border-color var(--transition);
+  }
+  body.dark .skills-section { border-top-color: rgba(255,255,255,0.08); }
+
+  .skills-label {
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(0,0,0,0.35);
+    margin-bottom: 1rem;
+    transition: color var(--transition);
+  }
+  body.dark .skills-label { color: rgba(232,232,232,0.4); }
+
+  .skills-pills { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  .skill-pill {
+    display: inline-block;
+    font-size: 0.78rem;
+    font-weight: 500;
+    padding: 0.4rem 0.9rem;
+    border: 1px solid rgba(0,0,0,0.15);
+    border-radius: 2px;
+    color: var(--black);
+    transition: border-color var(--transition), color var(--transition), transform 0.15s ease;
+  }
+  body.dark .skill-pill { border-color: rgba(255,255,255,0.15); color: #e8e8e8; }
+  .skill-pill:hover { border-color: var(--blue); color: var(--blue); transform: translateY(-1px); }
+  body.dark .skill-pill:hover { border-color: var(--blue-light); color: var(--blue-light); }
+
+  @media (max-width: 640px) {
+    .case-intro { grid-template-columns: 1fr; }
+    .case-blocks { grid-template-columns: 1fr; gap: 1.5rem; }
+  }
+</style>

@@ -2,7 +2,22 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Divider from '../components/Divider.astro';
 import ContactBlock from '../components/ContactBlock.astro';
+import TrustMarquee from '../components/TrustMarquee.astro';
 
+const trustLogos = [
+  { src: '/logo-zebra.svg', alt: 'Zebra Ventures' },
+  { src: '/logo-rey.svg', alt: 'Muebles Rey' },
+  { src: '/logo-tuco.svg', alt: 'Muebles Tuco' },
+  { src: '/logo-grupo-rey.svg', alt: 'Grupo Rey' },
+  { src: '/logo-slm.svg', alt: 'SLM' },
+  { src: '/logo-integra.svg', alt: 'Integra Consultoría Gerencial' },
+];
+
+const stats = [
+  { value: 4, suffix: '', label: 'Casos reales' },
+  { value: 6, suffix: '+', label: 'Marcas gestionadas' },
+  { value: 3, suffix: '+', label: 'Años de experiencia' },
+];
 ---
 <BaseLayout
   title="Estrategia de marketing y marca | Guillén Bruna Tricas"
@@ -44,6 +59,13 @@ import ContactBlock from '../components/ContactBlock.astro';
       </g>
     </svg>
 
+    <svg class="parallax-blob parallax-blob-1" viewBox="0 0 200 200" aria-hidden="true" focusable="false">
+      <circle cx="100" cy="100" r="90" />
+    </svg>
+    <svg class="parallax-blob parallax-blob-2" viewBox="0 0 200 200" aria-hidden="true" focusable="false">
+      <circle cx="100" cy="100" r="90" />
+    </svg>
+
     <div class="hero">
       <div class="hero-content">
         <span class="hero-tag">Marketing · Estrategia · Marca</span>
@@ -62,25 +84,25 @@ import ContactBlock from '../components/ContactBlock.astro';
     <p class="section-label">Áreas de trabajo</p>
     <h2 class="section-title">Tres formas de aportar valor desde el primer día</h2>
     <div class="capacidades-grid">
-      <a href="/trabajo/" class="capacidad-card">
+      <a href="/trabajo/" class="capacidad-card" data-reveal>
         <p class="capacidad-number">01</p>
         <h3>Estrategia de marca</h3>
         <p>Diagnóstico, posicionamiento y mensaje. Para empresas que necesitan que su marca diga lo que de verdad hacen, y para directivos que quieren construir su propia reputación.</p>
         <span class="capacidad-link">Ver casos →</span>
       </a>
-      <a href="/trabajo/" class="capacidad-card">
+      <a href="/trabajo/" class="capacidad-card" data-reveal>
         <p class="capacidad-number">02</p>
         <h3>Go-to-market y lanzamiento</h3>
         <p>Estrategia para llevar un producto o una línea de negocio al mercado, desde el ICP hasta el funnel de conversión que conecta marketing con ventas.</p>
         <span class="capacidad-link">Ver casos →</span>
       </a>
-      <a href="/trabajo/" class="capacidad-card">
+      <a href="/trabajo/" class="capacidad-card" data-reveal>
         <p class="capacidad-number">03</p>
         <h3>Generación de demanda y contenido</h3>
         <p>Campañas, contenido y canal digital diseñados para generar tracción real, no solo visibilidad. eCommerce, paid media y posicionamiento de contenido.</p>
         <span class="capacidad-link">Ver casos →</span>
       </a>
-      <a href="/trabajo/" class="capacidad-card">
+      <a href="/trabajo/" class="capacidad-card" data-reveal>
         <p class="capacidad-number">04</p>
         <h3>Consultoría estratégica</h3>
         <p>Acompañamiento directo a dirección en procesos de transformación, definición de modelo comercial y toma de decisiones de marketing con criterio de negocio.</p>
@@ -91,17 +113,18 @@ import ContactBlock from '../components/ContactBlock.astro';
 
   <Divider />
 
-  <div class="trust-section">
-    <p class="trust-label">Confiaron en mí</p>
-    <div class="trust-logos">
-      <img src="/logo-zebra.svg" alt="Zebra Ventures" height="28" />
-      <img src="/logo-rey.svg" alt="Muebles Rey" height="28" />
-      <img src="/logo-tuco.svg" alt="Muebles Tuco" height="28" />
-      <img src="/logo-grupo-rey.svg" alt="Grupo Rey" height="28" />
-      <img src="/logo-slm.svg" alt="SLM" height="28" />
-      <img src="/logo-integra.svg" alt="Integra Consultoría Gerencial" height="28" />
+  <div class="stats-section">
+    <div class="stats-grid">
+      {stats.map((stat) => (
+        <div class="stat-item" data-reveal data-count={stat.value}>
+          <p class="stat-value"><span class="stat-number">0</span>{stat.suffix}</p>
+          <p class="stat-label">{stat.label}</p>
+        </div>
+      ))}
     </div>
   </div>
+
+  <TrustMarquee logos={trustLogos} />
 
   <ContactBlock
     title="¿Tu marca necesita una estrategia clara?"
@@ -172,6 +195,42 @@ import ContactBlock from '../components/ContactBlock.astro';
     transition: fill var(--transition), opacity var(--transition);
   }
   body.dark .pitch-spots circle { fill: var(--blue-light); opacity: 0.16; }
+
+  /* Soft parallax background shapes */
+  .parallax-blob {
+    position: absolute;
+    z-index: 0;
+    pointer-events: none;
+    filter: blur(40px);
+  }
+  .parallax-blob circle { fill: var(--blue-light); opacity: 0.18; transition: fill var(--transition); }
+  body.dark .parallax-blob circle { fill: var(--blue); opacity: 0.24; }
+  .parallax-blob-1 { width: 260px; height: 260px; top: -60px; right: 8%; }
+  .parallax-blob-2 { width: 180px; height: 180px; bottom: -40px; left: 4%; }
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .parallax-blob-1 { animation: parallax-drift-1 linear; animation-timeline: view(); animation-range: entry 0% cover 100%; }
+      .parallax-blob-2 { animation: parallax-drift-2 linear; animation-timeline: view(); animation-range: entry 0% cover 100%; }
+    }
+  }
+  @keyframes parallax-drift-1 { from { transform: translateY(-20px); } to { transform: translateY(40px); } }
+  @keyframes parallax-drift-2 { from { transform: translateY(10px); } to { transform: translateY(-30px); } }
+
+  /* Hero entrance animation */
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-content > * { opacity: 0; animation: hero-fade-up 0.7s ease forwards; }
+    .hero-content > *:nth-child(1) { animation-delay: 0s; }
+    .hero-content > *:nth-child(2) { animation-delay: 0.08s; }
+    .hero-content > *:nth-child(3) { animation-delay: 0.16s; }
+    .hero-content > *:nth-child(4) { animation-delay: 0.24s; }
+    .hero-content > *:nth-child(5) { animation-delay: 0.32s; }
+    .hero-content > *:nth-child(6) { animation-delay: 0.36s; }
+  }
+  @keyframes hero-fade-up {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
   .hero-tag {
     display: inline-block;
     font-size: 0.7rem;
@@ -339,40 +398,35 @@ import ContactBlock from '../components/ContactBlock.astro';
   .capacidad-link { font-size: 0.75rem; font-weight: 500; color: var(--blue); transition: color var(--transition); }
   body.dark .capacidad-link { color: var(--blue-light); }
 
-  /* TRUST */
-  .trust-section { padding: 4rem 2rem; max-width: 900px; margin: 0 auto; }
-  .trust-label {
-    font-size: 0.68rem;
-    font-weight: 500;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: rgba(0,0,0,0.35);
-    margin-bottom: 2.5rem;
+  .capacidad-card:nth-child(2) { transition-delay: 0.08s; }
+  .capacidad-card:nth-child(3) { transition-delay: 0.16s; }
+  .capacidad-card:nth-child(4) { transition-delay: 0.24s; }
+
+  /* STATS COUNTER */
+  .stats-section { padding: 1rem 2rem 4rem; max-width: 900px; margin: 0 auto; }
+  .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; text-align: center; }
+  .stat-item:nth-child(2) { transition-delay: 0.08s; }
+  .stat-item:nth-child(3) { transition-delay: 0.16s; }
+  .stat-value {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: var(--blue);
     transition: color var(--transition);
   }
-  body.dark .trust-label { color: rgba(232,232,232,0.4); }
-  .trust-logos { display: flex; align-items: center; gap: 3rem; flex-wrap: wrap; }
-  .trust-logos img {
-    height: 28px;
-    width: auto;
-    filter: grayscale(1) opacity(0.35);
-    transition: filter var(--transition);
-  }
-  body.dark .trust-logos img { filter: grayscale(1) opacity(0.45) invert(1); }
-  .trust-logos img:hover { filter: grayscale(1) opacity(0.7); }
-  body.dark .trust-logos img:hover { filter: grayscale(1) opacity(0.8) invert(1); }
-  .trust-logo-placeholder {
-    font-size: 1rem;
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    color: rgba(0,0,0,0.3);
+  body.dark .stat-value { color: var(--blue-light); }
+  .stat-label {
+    font-size: 0.78rem;
+    font-weight: 400;
+    color: rgba(0,0,0,0.5);
+    margin-top: 0.4rem;
     transition: color var(--transition);
   }
-  body.dark .trust-logo-placeholder { color: rgba(232,232,232,0.3); }
+  body.dark .stat-label { color: rgba(232,232,232,0.5); }
 
   @media (max-width: 640px) {
     .capacidades-grid { grid-template-columns: 1fr; }
-    .trust-logos { gap: 1.5rem; }
+    .stats-grid { grid-template-columns: 1fr; gap: 2.5rem; }
     h1 { font-size: 2.4rem; }
   }
 
@@ -414,5 +468,43 @@ import ContactBlock from '../components/ContactBlock.astro';
         if (!rafId) rafId = requestAnimationFrame(step);
       });
     }
+  }
+</script>
+
+<script>
+  const statEls = document.querySelectorAll<HTMLElement>('.stat-item');
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const animateCount = (el: HTMLElement) => {
+    const target = Number(el.dataset.count ?? '0');
+    const numberEl = el.querySelector<HTMLElement>('.stat-number');
+    if (!numberEl) return;
+    if (prefersReducedMotion) {
+      numberEl.textContent = String(target);
+      return;
+    }
+    const duration = 900;
+    const start = performance.now();
+    const step = (now: number) => {
+      const progress = Math.min((now - start) / duration, 1);
+      numberEl.textContent = String(Math.round(progress * target));
+      if (progress < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  };
+
+  if ('IntersectionObserver' in window && statEls.length) {
+    const statObserver = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            animateCount(entry.target as HTMLElement);
+            statObserver.unobserve(entry.target);
+          }
+        }
+      },
+      { threshold: 0.4 }
+    );
+    statEls.forEach((el) => statObserver.observe(el));
   }
 </script>

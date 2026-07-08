@@ -39,3 +39,33 @@ body.dark {
   transition: color var(--transition);
 }
 body.dark .case-section-h2 { color: #e8e8e8; }
+
+.tag {
+  display: inline-block;
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.6rem;
+  background: var(--off-white);
+  color: rgba(0,0,0,0.5);
+  border-radius: 1px;
+  transition: background var(--transition), color var(--transition), transform 0.15s ease;
+}
+body.dark .tag { background: var(--dark-surface2); color: rgba(232,232,232,0.5); }
+.tag:hover { transform: translateY(-1px); color: var(--blue); }
+body.dark .tag:hover { color: var(--blue-light); }
+
+/* Shared scroll-reveal system: elements marked [data-reveal] fade+rise into
+   place once when they cross the viewport (see BaseLayout.astro observer). */
+@media (prefers-reduced-motion: no-preference) {
+  [data-reveal] {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  [data-reveal].is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

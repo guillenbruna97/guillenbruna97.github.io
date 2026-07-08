@@ -1,196 +1,47 @@
 ---
-import BaseLayout from '../../../layouts/BaseLayout.astro';
-import Divider from '../../../components/Divider.astro';
-import ContactBlock from '../../../components/ContactBlock.astro';
+import CaseLayout from '../../../layouts/CaseLayout.astro';
+
+const tags = ['Estrategia de marca', 'Lanzamiento de producto'];
+const skills = [
+  'Brand strategy',
+  'Posicionamiento',
+  'GTM',
+  'Content strategy',
+  'CRM & Funnel',
+  'Web',
+  'Eventos',
+  'Product launch',
+];
 ---
-<BaseLayout
+<CaseLayout
   title="Zebra Ventures — Marca y GTM | Guillén Bruna Tricas"
   description="Caso real de estrategia de marca, mensaje y go-to-market para una empresa de IA. Diagnóstico, lanzamiento de producto y evento propio."
-  ogType="article"
+  tags={tags}
+  heading="Construcción de marca y estrategia GTM"
+  meta="Zebra Ventures · Head of Brand & Marketing · 2024–hoy"
+  skills={skills}
 >
-  <a href="/trabajo/" class="back-link">← Volver a trabajo</a>
+  <div class="case-intro" data-reveal>
+    <p>Cuando llegué, Zebra no tenía una identidad de marca consolidada ni un mensaje claro hacia el mercado. Existía el producto y la ambición, pero faltaba definir qué hace Zebra de verdad, para quién y por qué debería importarle.</p>
+    <a href="https://zebraventures.eu" target="_blank" rel="noopener noreferrer" class="case-intro-img case-intro-img--linked">
+      <img src="https://storage.googleapis.com/webcmszebra/media/og/Zebra_AI-transformation-company.jpg" alt="Web de Zebra Ventures" />
+    </a>
+  </div>
 
-  <div class="case-main">
-    <div class="case-tags">
-      <span class="tag">Estrategia de marca</span>
-      <span class="tag">Lanzamiento de producto</span>
+  <h2 class="case-section-h2">Estrategia y resultados</h2>
+  <div class="case-blocks" data-reveal>
+    <div>
+      <p class="block-label">Marca y mensaje</p>
+      <p class="block-text">Diagnóstico del ICP real y reescritura del mensaje central de marca. Rediseño completo de la web y homogeneización de la imagen en todos los canales. Estrategia de contenidos y funnel de conversión que conecta visibilidad con ventas.</p>
     </div>
-    <h1>Construcción de marca y estrategia GTM</h1>
-    <p class="case-meta">Zebra Ventures · Head of Brand & Marketing · 2024–hoy</p>
-
-    <div class="case-intro">
-      <p>Cuando llegué, Zebra no tenía una identidad de marca consolidada ni un mensaje claro hacia el mercado. Existía el producto y la ambición, pero faltaba definir qué hace Zebra de verdad, para quién y por qué debería importarle.</p>
-      <a href="https://zebraventures.eu" target="_blank" rel="noopener noreferrer" class="case-intro-img">
-        <img src="https://storage.googleapis.com/webcmszebra/media/og/Zebra_AI-transformation-company.jpg" alt="Web de Zebra Ventures" />
-      </a>
-    </div>
-
-    <h2 class="case-section-h2">Estrategia y resultados</h2>
-    <div class="case-blocks">
-      <div>
-        <p class="block-label">Marca y mensaje</p>
-        <p class="block-text">Diagnóstico del ICP real y reescritura del mensaje central de marca. Rediseño completo de la web y homogeneización de la imagen en todos los canales. Estrategia de contenidos y funnel de conversión que conecta visibilidad con ventas.</p>
-      </div>
-      <div>
-        <p class="block-label">IA Products</p>
-        <p class="block-text">Lanzamiento de una segunda línea de negocio desde cero: <strong>ICP específico</strong>, mensaje comercial, proceso de venta, funnel y un sistema de conversión automático que trabaja en paralelo con el equipo comercial.</p>
-      </div>
-    </div>
-
-    <div class="case-block-full">
-      <p class="block-label">Spain Innovation Summit</p>
-      <p class="block-text">Evento propio con acciones de reconocimiento de marca, incluido un <strong>estudio sobre el estado de la IA en PYMEs españolas</strong> y un manual práctico de adopción según el nivel de madurez de cada empresa. Hoy Zebra opera con dos líneas de negocio con mensaje, marca y sistemas de conversión propios.</p>
-    </div>
-
-    <div class="skills-section">
-      <p class="skills-label">Habilidades aplicadas</p>
-      <div class="skills-pills">
-        <span class="skill-pill">Brand strategy</span>
-        <span class="skill-pill">Posicionamiento</span>
-        <span class="skill-pill">GTM</span>
-        <span class="skill-pill">Content strategy</span>
-        <span class="skill-pill">CRM & Funnel</span>
-        <span class="skill-pill">Web</span>
-        <span class="skill-pill">Eventos</span>
-        <span class="skill-pill">Product launch</span>
-      </div>
+    <div>
+      <p class="block-label">IA Products</p>
+      <p class="block-text">Lanzamiento de una segunda línea de negocio desde cero: <strong>ICP específico</strong>, mensaje comercial, proceso de venta, funnel y un sistema de conversión automático que trabaja en paralelo con el equipo comercial.</p>
     </div>
   </div>
 
-  <Divider />
-
-  <ContactBlock title="¿Trabajamos<br>juntos?" />
-</BaseLayout>
-
-<style is:global>
-  .back-link {
-    display: block;
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 2rem 2rem 0;
-    font-size: 0.78rem;
-    font-weight: 400;
-    color: rgba(0,0,0,0.4);
-    text-decoration: none;
-    transition: color var(--transition);
-  }
-  body.dark .back-link { color: rgba(232,232,232,0.4); }
-  .back-link:hover { color: var(--blue); }
-  body.dark .back-link:hover { color: var(--blue-light); }
-
-  .case-main { padding: 2rem 2rem 3rem; max-width: 900px; margin: 0 auto; }
-
-  .case-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.2rem; }
-
-  .case-main h1 {
-    font-size: clamp(1.8rem, 4vw, 2.6rem);
-    font-weight: 800;
-    letter-spacing: -0.03em;
-    line-height: 1.1;
-    margin-bottom: 0.5rem;
-  }
-
-  .case-meta {
-    font-size: 0.85rem;
-    font-weight: 400;
-    color: var(--blue);
-    margin-bottom: 2.5rem;
-    transition: color var(--transition);
-  }
-  body.dark .case-meta { color: var(--blue-light); }
-
-  .case-intro {
-    display: grid;
-    grid-template-columns: 1.3fr 1fr;
-    gap: 2.5rem;
-    align-items: center;
-    margin-bottom: 3rem;
-  }
-  .case-intro p {
-    font-size: 0.95rem;
-    font-weight: 300;
-    color: rgba(0,0,0,0.65);
-    line-height: 1.85;
-    transition: color var(--transition);
-  }
-  body.dark .case-intro p { color: rgba(232,232,232,0.65); }
-
-  .case-intro-img {
-    border-radius: 4px;
-    overflow: hidden;
-    border: 1px solid rgba(0,0,0,0.08);
-    transition: border-color var(--transition), opacity var(--transition);
-    display: block;
-  }
-  .case-intro-img:hover { opacity: 0.85; }
-  body.dark .case-intro-img { border-color: rgba(255,255,255,0.08); }
-  .case-intro-img img { width: 100%; display: block; }
-
-  .case-blocks {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2.5rem;
-    margin-bottom: 1rem;
-  }
-
-  .block-label {
-    font-size: 0.7rem;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--blue);
-    margin-bottom: 0.7rem;
-    transition: color var(--transition);
-  }
-  body.dark .block-label { color: var(--blue-light); }
-
-  .block-text {
-    font-size: 0.92rem;
-    font-weight: 300;
-    color: rgba(0,0,0,0.6);
-    line-height: 1.85;
-    transition: color var(--transition);
-  }
-  body.dark .block-text { color: rgba(232,232,232,0.6); }
-  .block-text strong { font-weight: 600; color: var(--black); transition: color var(--transition); }
-  body.dark .block-text strong { color: #e8e8e8; }
-
-  .case-block-full { margin: 2.5rem 0; }
-  .case-block-full .block-text { max-width: 640px; }
-
-  .skills-section {
-    margin-top: 3rem;
-    padding-top: 2.5rem;
-    border-top: 1px solid rgba(0,0,0,0.06);
-    transition: border-color var(--transition);
-  }
-  body.dark .skills-section { border-top-color: rgba(255,255,255,0.08); }
-
-  .skills-label {
-    font-size: 0.68rem;
-    font-weight: 500;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: rgba(0,0,0,0.35);
-    margin-bottom: 1rem;
-    transition: color var(--transition);
-  }
-  body.dark .skills-label { color: rgba(232,232,232,0.4); }
-
-  .skills-pills { display: flex; gap: 0.5rem; flex-wrap: wrap; }
-  .skill-pill {
-    font-size: 0.78rem;
-    font-weight: 500;
-    padding: 0.4rem 0.9rem;
-    border: 1px solid rgba(0,0,0,0.15);
-    border-radius: 2px;
-    color: var(--black);
-    transition: border-color var(--transition), color var(--transition);
-  }
-  body.dark .skill-pill { border-color: rgba(255,255,255,0.15); color: #e8e8e8; }
-
-  @media (max-width: 640px) {
-    .case-intro { grid-template-columns: 1fr; }
-    .case-blocks { grid-template-columns: 1fr; gap: 1.5rem; }
-  }
-</style>
+  <div class="case-block-full" data-reveal>
+    <p class="block-label">Spain Innovation Summit</p>
+    <p class="block-text">Evento propio con acciones de reconocimiento de marca, incluido un <strong>estudio sobre el estado de la IA en PYMEs españolas</strong> y un manual práctico de adopción según el nivel de madurez de cada empresa. Hoy Zebra opera con dos líneas de negocio con mensaje, marca y sistemas de conversión propios.</p>
+  </div>
+</CaseLayout>

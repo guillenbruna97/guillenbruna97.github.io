@@ -11,7 +11,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
       <h1>Hablemos<br />sin rodeos</h1>
       <p class="contact-desc">Si tienes un proyecto, una pregunta o simplemente quieres hablar de marketing y negocio, escríbeme. Leo todos los mensajes y respondo a los que tienen sentido.</p>
       <h2 class="case-section-h2">Canales de contacto</h2>
-      <div class="contact-channels">
+      <div class="contact-channels" data-reveal>
         <a href="mailto:guillenbrunatricas@gmail.com" class="channel-item">
           <div>
             <p class="channel-label">Email</p>
@@ -28,7 +28,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
         </a>
       </div>
     </div>
-    <div class="contact-info">
+    <div class="contact-info" data-reveal>
       <p class="info-label">Sobre mí</p>
       <div class="info-item">
         <p class="info-item-label">Ubicación</p>
@@ -130,7 +130,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   .channel-item:hover .channel-arrow { opacity: 1; }
 
   /* CONTACT INFO */
-  .contact-info { padding-top: 1rem; }
+  .contact-info { padding-top: 1rem; transition-delay: 0.1s; }
   .info-label {
     font-size: 0.68rem;
     font-weight: 500;

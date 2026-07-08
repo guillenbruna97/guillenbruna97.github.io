@@ -5,18 +5,3 @@ interface Props {
 const { label } = Astro.props;
 ---
 <span class="tag">{label}</span>
-
-<style is:global>
-  .tag {
-    font-size: 0.65rem;
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    padding: 0.25rem 0.6rem;
-    background: var(--off-white);
-    color: rgba(0,0,0,0.5);
-    border-radius: 1px;
-    transition: background var(--transition), color var(--transition);
-  }
-  body.dark .tag { background: var(--dark-surface2); color: rgba(232,232,232,0.5); }
-</style>
