@@ -7,6 +7,20 @@ import ContactBlock from '../../components/ContactBlock.astro';
 const articulos = (await getCollection('articulos')).sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
 );
+
+const categoryOf = (tag: string) => tag.split('·')[0].trim();
+const slugify = (value: string) =>
+  value
+    .normalize('NFD')
+    .replace(/\p{Diacritic}/gu, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '');
+
+const categorias = [...new Set(articulos.map((entry) => categoryOf(entry.data.tag)))].map((nombre) => ({
+  nombre,
+  slug: slugify(nombre),
+}));
 ---
 <BaseLayout
   title="Artículos de marketing | Guillén Bruna Tricas"
@@ -21,9 +35,17 @@ const articulos = (await getCollection('articulos')).sort(
   <Divider />
 
   <h2 class="case-section-h2" style="padding: 0 2rem; max-width: 900px; margin: 0 auto 0;">Artículos publicados</h2>
+
+  <div class="filters" id="filters">
+    <button class="filter-btn active" data-filter="all">Todos</button>
+    {categorias.map(({ nombre, slug }) => (
+      <button class="filter-btn" data-filter={slug}>{nombre}</button>
+    ))}
+  </div>
+
   <div class="articles">
     {articulos.map((entry) => (
-      <a href={`/articulos/${entry.id}/`} class="article-item">
+      <a href={`/articulos/${entry.id}/`} class="article-item" data-types={slugify(categoryOf(entry.data.tag))}>
         <div class="article-content">
           <p class="article-tag">{entry.data.tag}</p>
           <p class="article-title">{entry.data.title}</p>
@@ -35,6 +57,27 @@ const articulos = (await getCollection('articulos')).sort(
       </a>
     ))}
   </div>
+
+  <script>
+    const filterBtns = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
+    const articleItems = document.querySelectorAll<HTMLElement>('.article-item');
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const filter = btn.dataset.filter!;
+        articleItems.forEach(item => {
+          const types = item.dataset.types ?? '';
+          if (filter === 'all' || types.includes(filter)) {
+            item.classList.remove('hidden');
+          } else {
+            item.classList.add('hidden');
+          }
+        });
+      });
+    });
+  </script>
 
   <ContactBlock title="¿Trabajamos<br>juntos?" />
 </BaseLayout>
@@ -74,8 +117,38 @@ const articulos = (await getCollection('articulos')).sort(
   }
   body.dark .page-desc { color: rgba(232,232,232,0.55); }
 
+  /* FILTERS */
+  .filters {
+    padding: 0.5rem 2rem 0;
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+  }
+  .filter-btn {
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.45rem 1rem;
+    border-radius: 8px;
+    background: transparent;
+    color: rgba(0,0,0,0.45);
+    border: 1px solid rgba(0,0,0,0.12);
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    transition: all var(--transition);
+  }
+  body.dark .filter-btn { color: rgba(232,232,232,0.4); border-color: rgba(255,255,255,0.12); }
+  .filter-btn.active { background: var(--black); color: var(--white); border-color: var(--black); }
+  body.dark .filter-btn.active { background: var(--blue-light); color: var(--dark-bg); border-color: var(--blue-light); }
+  .filter-btn:hover:not(.active) { border-color: var(--blue); color: var(--blue); }
+  body.dark .filter-btn:hover:not(.active) { border-color: var(--blue-light); color: var(--blue-light); }
+  .filter-btn:active { transform: scale(0.97); }
+
   /* ARTICLES */
-  .articles { padding: 4rem 2rem; max-width: 900px; margin: 0 auto; }
+  .articles { padding: 3rem 2rem; max-width: 900px; margin: 0 auto; }
 
   .article-item {
     display: flex;
@@ -91,6 +164,7 @@ const articulos = (await getCollection('articulos')).sort(
   body.dark .article-item { border-bottom-color: rgba(255,255,255,0.08); }
   .article-item:first-child { border-top: 1px solid rgba(0,0,0,0.06); }
   body.dark .article-item:first-child { border-top-color: rgba(255,255,255,0.08); }
+  .article-item.hidden { display: none; }
 
   .article-content { flex: 1; }
   .article-tag {
