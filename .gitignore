@@ -19,3 +19,8 @@ Thumbs.db
 .claude/
 skills-lock.json
 brief-migracion-astro.md
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
