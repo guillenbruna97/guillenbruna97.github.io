@@ -1,49 +1,63 @@
 ---
 import type { GetStaticPaths } from 'astro';
 import { getCollection } from 'astro:content';
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import Divider from '../../components/Divider.astro';
-import ContactBlock from '../../components/ContactBlock.astro';
-import ArticlesListing from '../../components/ArticlesListing.astro';
-import { categoryOf, slugify } from '../../utils/articles';
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Divider from '../../../../components/Divider.astro';
+import ContactBlock from '../../../../components/ContactBlock.astro';
+import ArticlesListing from '../../../../components/ArticlesListing.astro';
+import { categoryOf, slugify } from '../../../../utils/articles';
 
 export const getStaticPaths = (async ({ paginate }) => {
   const articulos = (await getCollection('articulos')).sort(
     (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
   );
-  // Maximo de articulos por pagina, sin que penalice al posicionamiento:
-  // cada pagina es una URL real e indexable con su propio canonical.
-  return paginate(articulos, { pageSize: 5 });
+
+  const categorias = [...new Set(articulos.map((entry) => categoryOf(entry.data.tag)))].map((nombre) => ({
+    nombre,
+    slug: slugify(nombre),
+  }));
+
+  // Una ruta paginada por categoria: filtra sobre TODOS los articulos (no solo
+  // los de la pagina actual), y solo genera paginas 2+ si esa categoria tiene
+  // mas de 5 articulos.
+  return categorias.flatMap(({ nombre, slug }) => {
+    const articulosDeCategoria = articulos.filter((entry) => slugify(categoryOf(entry.data.tag)) === slug);
+    return paginate(articulosDeCategoria, {
+      pageSize: 5,
+      params: { category: slug },
+      props: { categoryName: nombre },
+    });
+  });
 }) satisfies GetStaticPaths;
 
-const { page } = Astro.props;
+const { page, categoryName } = Astro.props;
 
 const todosLosArticulos = await getCollection('articulos');
-
 const categorias = [...new Set(todosLosArticulos.map((entry) => categoryOf(entry.data.tag)))].map((nombre) => ({
   nombre,
   slug: slugify(nombre),
 }));
+const activeSlug = slugify(categoryName);
 
 const tituloPagina = page.currentPage === 1
-  ? 'Artículos de marketing | Guillén Bruna Tricas'
-  : `Artículos de marketing | Página ${page.currentPage} | Guillén Bruna Tricas`;
+  ? `${categoryName} | Artículos de marketing | Guillén Bruna Tricas`
+  : `${categoryName} | Artículos de marketing | Página ${page.currentPage} | Guillén Bruna Tricas`;
 ---
 <BaseLayout
   title={tituloPagina}
-  description="Artículos sobre estrategia de marketing, marca y go-to-market para empresas y directivos que quieren comunicar con autoridad."
+  description={`Artículos sobre ${categoryName.toLowerCase()}, dentro de estrategia de marketing y comunicación para empresas y directivos.`}
 >
   <div class="page-header">
     <span class="page-tag">Artículos</span>
-    <h1>Ideas sobre<br />marketing y negocio</h1>
+    <h1>Ideas sobre<br />{categoryName}</h1>
     <p class="page-desc">Escribo sobre lo que aprendo trabajando. Sin teoría vacía, sin contenido de relleno.</p>
   </div>
 
   <Divider />
 
-  <h2 class="case-section-h2" style="padding: 0 2rem; max-width: 900px; margin: 0 auto 0;">Artículos publicados</h2>
+  <h2 class="case-section-h2" style="padding: 0 2rem; max-width: 900px; margin: 0 auto 0;">Artículos publicados en {categoryName}</h2>
 
-  <ArticlesListing page={page} categorias={categorias} activeSlug="all" basePath="/articulos" />
+  <ArticlesListing page={page} categorias={categorias} activeSlug={activeSlug} basePath={`/articulos/categoria/${activeSlug}`} />
 
   <ContactBlock title="¿Trabajamos<br>juntos?" />
 </BaseLayout>
