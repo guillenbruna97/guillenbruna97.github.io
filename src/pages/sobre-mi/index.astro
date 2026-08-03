@@ -77,7 +77,7 @@ import ContactBlock from '../../components/ContactBlock.astro';
         <img src="/momento-sis.png" alt="Spain Innovation Summit" width="1080" height="1080" />
         <p class="momento-caption">Eventos que se crean en equipo.</p>
       </div>
-      <div class="momento-item wide" data-reveal>
+      <div class="momento-item" data-reveal>
         <img src="/momento-slm.png" alt="SLM" width="1080" height="1080" />
         <p class="momento-caption">Trabajos especiales que dejan huella.</p>
       </div>
@@ -243,7 +243,8 @@ import ContactBlock from '../../components/ContactBlock.astro';
   .momento-item { display: flex; flex-direction: column; gap: 0.8rem; }
   .momento-item img {
     width: 100%;
-    aspect-ratio: 1;
+    height: auto;
+    aspect-ratio: 1 / 1;
     object-fit: cover;
     border-radius: 2px;
     display: block;
@@ -259,8 +260,6 @@ import ContactBlock from '../../components/ContactBlock.astro';
     transition: color var(--transition);
   }
   body.dark .momento-caption { color: rgba(232,232,232,0.45); }
-  .momento-item.wide { grid-column: span 2; }
-  .momento-item.wide img { aspect-ratio: 16/9; }
 
   @media (max-width: 640px) {
     .about-hero { grid-template-columns: 1fr; min-height: auto; padding-top: 3rem; }
@@ -268,8 +267,18 @@ import ContactBlock from '../../components/ContactBlock.astro';
     .about-hero-text { padding-bottom: 2rem; }
     .about-body { grid-template-columns: 1fr; gap: 2.5rem; }
     .about-sidebar { position: static; }
-    .momentos-grid { grid-template-columns: repeat(2, 1fr); }
-    .momento-item.wide { grid-column: span 2; }
+    .momentos-grid {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      gap: 1.5rem;
+      padding-bottom: 0.5rem;
+    }
+    .momento-item {
+      flex: 0 0 80%;
+      scroll-snap-align: center;
+    }
   }
 </style>
 
