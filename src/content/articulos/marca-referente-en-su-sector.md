@@ -4,6 +4,7 @@ tag: "Marca · Reconocimiento"
 excerpt: "El reconocimiento duradero no se construye con un solo golpe de efecto. Se construye ladrillo a ladrillo."
 description: "Qué priorizar para que una marca deje de competir y pase a liderar su categoría a largo plazo."
 date: 2026-06-28
+readingTime: "6 min de lectura"
 ---
 
 La aspiración de toda organización es no solo competir, sino liderar. Sin embargo, la senda hacia el liderazgo de un sector rara vez se pavimenta con éxitos efímeros o golpes de efecto publicitarios. El verdadero referente no nace de una campaña puntual, por brillante que sea, sino de una acumulación sostenida de decisiones estratégicas en comunicación que, con el tiempo, forjan una posición inexpugnable en la mente de su audiencia.

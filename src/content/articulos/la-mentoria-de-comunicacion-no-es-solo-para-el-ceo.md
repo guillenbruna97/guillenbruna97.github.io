@@ -4,6 +4,7 @@ tag: "Comunicación · Comité de dirección"
 excerpt: "El CEO inspira. El CFO y el COO tienen que validar. Y nadie les prepara para eso."
 description: "Por qué la mentoría de comunicación también es necesaria para el CFO y el COO, no solo para el CEO de la compañía."
 date: 2026-08-01
+readingTime: "4 min de lectura"
 ---
 
 Es habitual asumir que la portavocía y la proyección pública de una compañía recaen exclusivamente en la figura del CEO. Bajo esta premisa, los recursos de preparación, el entrenamiento de portavoces y el refinamiento del discurso se concentran en una sola persona. Mientras tanto, las direcciones financiera y de operaciones se centran en lo que mejor saben hacer, que es gestionar la viabilidad y la eficiencia de la organización.

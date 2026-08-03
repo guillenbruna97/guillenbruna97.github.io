@@ -9,6 +9,7 @@ const articulos = defineCollection({
     excerpt: z.string(),
     description: z.string(),
     date: z.date(),
+    readingTime: z.string(),
   }),
 });
 

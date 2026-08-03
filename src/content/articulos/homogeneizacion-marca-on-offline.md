@@ -4,6 +4,7 @@ tag: "Marca · Homogeneización"
 excerpt: "La desconexión entre lo digital y lo físico rompe la confianza justo en el momento en que más importa."
 description: "Por qué el mensaje de marca debe ser idéntico en todos los canales, y qué falla cuando no lo es."
 date: 2026-06-07
+readingTime: "6 min de lectura"
 ---
 
 En la era de la omnipresencia digital, la promesa de una marca resuena en múltiples frentes. Desde el scroll de una red social hasta el mostrador de una tienda física, cada interacción moldea la percepción del cliente. La verdadera prueba de la fortaleza de una marca no reside solo en su alcance, sino en la coherencia inquebrantable de su mensaje a través de cada uno de esos puntos de contacto. Sin embargo, la desconexión entre lo que una marca dice online y lo que representa offline es un fallo estratégico silencioso, una grieta que erosiona la confianza en el momento exacto en que más importa.

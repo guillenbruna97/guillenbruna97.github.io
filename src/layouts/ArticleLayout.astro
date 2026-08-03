@@ -9,8 +9,9 @@ interface Props {
   tag: string;
   heading: string;
   date: Date;
+  readingTime: string;
 }
-const { title, description, tag, heading, date } = Astro.props;
+const { title, description, tag, heading, date, readingTime } = Astro.props;
 const formattedDate = date.toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
 ---
 <BaseLayout title={title} description={description} ogType="article">
@@ -21,7 +22,7 @@ const formattedDate = date.toLocaleDateString('es-ES', { day: 'numeric', month: 
       <Tag label={tag} />
     </div>
     <h1>{heading}</h1>
-    <p class="article-meta">{formattedDate}</p>
+    <p class="article-meta">{formattedDate} · {readingTime}</p>
 
     <div class="article-prose">
       <slot />

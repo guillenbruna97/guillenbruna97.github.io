@@ -4,6 +4,7 @@ tag: "Marketing · Consultoría"
 excerpt: "Contratar agencia por inercia resuelve la ejecución. No resuelve la falta de claridad en el mensaje."
 description: "Los criterios reales para decidir entre una agencia y un consultor de marketing freelance según cuál sea tu verdadero cuello de botella."
 date: 2026-08-01
+readingTime: "3 min de lectura"
 ---
 
 La mayoría de los directivos eligen entre una agencia de marketing y un consultor independiente basándose en la estructura que ya conocen o en la reputación de marca de quien tienen enfrente. Es una decisión que suele tomarse por inercia operativa o por la falsa seguridad que transmite una oficina llena de gente. Sin embargo, cuando ocupas una posición de máxima responsabilidad, el problema no es quién tiene más empleados en nómina sino quién tiene la capacidad de alinearse con la visión de tu cuenta de resultados.

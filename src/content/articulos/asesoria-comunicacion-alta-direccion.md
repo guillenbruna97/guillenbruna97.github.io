@@ -4,6 +4,7 @@ tag: "Comunicación · Alta dirección"
 excerpt: "La voz del líder es una extensión directa de la marca. Y rara vez recibe la misma disciplina que la publicidad."
 description: "Por qué la asesoría de comunicación ejecutiva es una parte central, no un lujo de imagen, de la estrategia de marca."
 date: 2026-06-14
+readingTime: "6 min de lectura"
 ---
 
 La estrategia de marca y el posicionamiento en el mercado son el resultado de una orquestación meticulosa donde cada elemento contribuye a la percepción general. Las organizaciones invierten recursos significativos en campañas de marketing sofisticadas, en el desarrollo de identidades visuales impactantes y en la optimización de sus canales digitales. Sin embargo, existe un pilar fundamental cuya coherencia e impacto a menudo se subestiman, a pesar de ser uno de los más poderosos generadores de confianza y lealtad: la voz de su liderazgo.

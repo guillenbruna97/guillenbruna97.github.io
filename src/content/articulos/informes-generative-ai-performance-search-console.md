@@ -4,6 +4,7 @@ tag: "Marketing · IA aplicada"
 excerpt: "Search Console ya mide sus citas en la IA de Google. No mide las de ChatGPT ni Perplexity, y ahí está el punto ciego real."
 description: "Qué significan los nuevos informes de Generative AI performance de Search Console, qué no miden, y por qué casi ninguna empresa los está usando todavía."
 date: 2026-08-03
+readingTime: "3 min de lectura"
 ---
 
 ¿Sabe qué porcentaje de las decisiones de compra de sus clientes se están gestando ya dentro de resúmenes generados por inteligencia artificial? Hasta hace muy poco, cualquier respuesta a esta pregunta dentro de su comité de dirección era pura especulación.

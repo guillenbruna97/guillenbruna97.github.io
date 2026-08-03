@@ -4,6 +4,7 @@ tag: "Marketing · Diagnóstico"
 excerpt: "Más equipo, más presupuesto, más plataformas. Y el mismo resultado. La ejecución solo amplifica la estrategia que ya tienes."
 description: "Un framework de autodiagnóstico para distinguir si tu empresa necesita repensar su estrategia de marketing o simplemente ejecutar mejor."
 date: 2026-07-15
+readingTime: "3 min de lectura"
 ---
 
 La mayoría de los directivos que lideran empresas con tracción sienten que el marketing es una rueda que gira sin mover el vehículo con la velocidad esperada. Es probable que hayas probado ampliar el equipo, cambiar de agencia o probar nuevas plataformas publicitarias. El resultado suele ser el mismo. Obtienes más ruido, más leads de baja calidad o una sensación persistente de que el mercado no acaba de entender el valor real de lo que vendes.
