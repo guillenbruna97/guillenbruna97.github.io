@@ -99,22 +99,26 @@ const { title, description, ogType = 'article', tags, heading, meta, skills } = 
   }
   .case-intro-img img { width: 100%; display: block; }
 
+  /* Tarjeta blanca intencional: algunas imagenes de caso (screenshots
+     externos, logos exportados con fondo solido) traen su propio fondo
+     claro horneado en el archivo y no se pueden editar o recortar sin
+     riesgo. En vez de perseguir que se mezclen con el tema, se tratan
+     como una tarjeta fija, con el mismo aspecto en claro y en oscuro
+     a proposito -- no es un olvido de modo oscuro. */
   .case-intro-img--linked {
+    background: #ffffff;
     border: 1px solid rgba(0,0,0,0.08);
-    transition: border-color var(--transition), opacity var(--transition);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    transition: opacity var(--transition);
   }
   .case-intro-img--linked:hover { opacity: 0.85; }
-  body.dark .case-intro-img--linked { border-color: rgba(255,255,255,0.08); }
 
   .case-intro-img--logo {
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 2rem;
-    background: rgba(0,0,0,0.02);
-    transition: border-color var(--transition), opacity var(--transition), background var(--transition);
   }
-  body.dark .case-intro-img--logo { background: rgba(255,255,255,0.04); }
   .case-intro-img--logo img { width: 100%; max-width: 220px; display: block; }
 
   .case-blocks {

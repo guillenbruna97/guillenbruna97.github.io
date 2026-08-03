@@ -37,7 +37,18 @@ const { title, description, image, ogType } = Astro.props;
   </head>
   <body>
     <script is:inline>
-      if (localStorage.getItem('theme') === 'dark') document.body.classList.add('dark');
+      // La preferencia guardada manda si existe (el visitante ya toco el
+      // interruptor alguna vez). Si no hay nada guardado todavia (primera
+      // visita), se usa la preferencia del sistema operativo. Va como
+      // primer script dentro de <body>, antes de que se pinte cualquier
+      // contenido visible, para evitar el flash de tema incorrecto sin
+      // tener que mover la clase a <html> (todo el CSS del sitio apunta
+      // a "body.dark").
+      const storedTheme = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (storedTheme === 'dark' || (!storedTheme && prefersDark)) {
+        document.body.classList.add('dark');
+      }
     </script>
     <Nav />
     <slot />
