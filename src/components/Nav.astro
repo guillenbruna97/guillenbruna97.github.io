@@ -249,13 +249,11 @@ const isActive = (href: string) => {
     localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
   });
 
-  // Animacion de entrada del isotipo: solo en la home, solo una vez por
-  // sesion de pestana (sessionStorage), y solo si el visitante no pide
+  // Animacion de entrada del isotipo: se reproduce en cada carga de la
+  // home (cada visita, cada recarga), salvo que el visitante pida
   // movimiento reducido.
   const isHome = window.location.pathname === '/';
-  const alreadyPlayed = sessionStorage.getItem('isotipoIntroPlayed');
-  if (isHome && !alreadyPlayed) {
-    sessionStorage.setItem('isotipoIntroPlayed', '1');
+  if (isHome) {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const logo = document.getElementById('isotipoLogo');
     const gPath = logo?.querySelector<SVGPathElement>('.isotipo-g-path');
