@@ -109,29 +109,42 @@
         { duration: 140, delay, easing: 'cubic-bezier(0.2,0.85,0.25,1)', fill: 'both' }
       );
 
-    typeIn(bAnim, 0);
-    typeIn(tAnim, 210);
-
     const gLen = gPath.getTotalLength();
     gPath.style.strokeDasharray = String(gLen);
     gPath.style.strokeDashoffset = String(gLen);
+
+    // El script corre muy pronto (is:inline, antes del <Nav/>), antes de
+    // que el navegador haya pintado siquiera el estado inicial (b/t
+    // invisibles, G sin trazo). Sin esta espera, el reloj de las
+    // animaciones ya lleva recorrido cuando llega el primer pintado real,
+    // y "b"/"t" aparecen ya resueltas en vez de reproducirse. Se espera a
+    // que el estado inicial se pinte de verdad (doble rAF) antes de
+    // arrancar los timelines.
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        typeIn(bAnim, 0);
+        typeIn(tAnim, 210);
+        startG();
+      });
+    });
 
     const strokeStart = 420;
     const strokeDur = 860;
     const fillDur = 280;
 
-    gPath.animate(
-      [{ strokeDashoffset: gLen }, { strokeDashoffset: 0 }],
-      { duration: strokeDur, delay: strokeStart, easing: 'cubic-bezier(0.65,0,0.35,1)', fill: 'both' }
-    );
-    const fillAnim = gPath.animate(
-      [
-        { fillOpacity: 0, strokeOpacity: 1 },
-        { fillOpacity: 1, strokeOpacity: 0 },
-      ],
-      { duration: fillDur, delay: strokeStart + strokeDur, easing: 'ease-out', fill: 'both' }
-    );
-
-    fillAnim.finished.then(hide).catch(hide);
+    function startG() {
+      gPath.animate(
+        [{ strokeDashoffset: gLen }, { strokeDashoffset: 0 }],
+        { duration: strokeDur, delay: strokeStart, easing: 'cubic-bezier(0.65,0,0.35,1)', fill: 'both' }
+      );
+      const fillAnim = gPath.animate(
+        [
+          { fillOpacity: 0, strokeOpacity: 1 },
+          { fillOpacity: 1, strokeOpacity: 0 },
+        ],
+        { duration: fillDur, delay: strokeStart + strokeDur, easing: 'ease-out', fill: 'both' }
+      );
+      fillAnim.finished.then(hide).catch(hide);
+    }
   })();
 </script>
