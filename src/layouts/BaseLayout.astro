@@ -45,10 +45,18 @@ const { title, description, image, ogType } = Astro.props;
       // tener que mover la clase a <html> (todo el CSS del sitio apunta
       // a "body.dark").
       const storedTheme = localStorage.getItem('theme');
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      if (storedTheme === 'dark' || (!storedTheme && prefersDark)) {
+      const colorSchemeQuery = window.matchMedia('(prefers-color-scheme: dark)');
+      if (storedTheme === 'dark' || (!storedTheme && colorSchemeQuery.matches)) {
         document.body.classList.add('dark');
       }
+      // Mientras no haya preferencia manual guardada, seguimos el modo del
+      // sistema en tiempo real. En cuanto el visitante pulsa el toggle
+      // (Nav.astro escribe en localStorage), esta comprobacion hace que el
+      // listener deje de tener efecto sin necesidad de desregistrarlo.
+      colorSchemeQuery.addEventListener('change', (e) => {
+        if (localStorage.getItem('theme')) return;
+        document.body.classList.toggle('dark', e.matches);
+      });
     </script>
     <Nav />
     <slot />
