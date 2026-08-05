@@ -63,7 +63,8 @@
   .loading-screen.is-hidden { opacity: 0; pointer-events: none; }
 
   .loading-logo { width: min(38vmin, 220px); height: auto; display: block; }
-  .loading-glyph { transform-box: fill-box; transform-origin: center; opacity: 0; }
+  .loading-glyph { transform-box: fill-box; transform-origin: center; }
+  .loading-glyph-b, .loading-glyph-t { opacity: 0; }
   #loadingGPath {
     fill: var(--blue);
     fill-opacity: 0;
@@ -71,6 +72,7 @@
     stroke-width: 2;
     stroke-linejoin: round;
     stroke-linecap: round;
+    vector-effect: non-scaling-stroke;
   }
 </style>
 
