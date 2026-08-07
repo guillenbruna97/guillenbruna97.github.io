@@ -16,7 +16,7 @@ const REPEATS = 6;
     <div class="marquee-track">
       {Array.from({ length: REPEATS }).map((_, i) => (
         <div class="marquee-content" aria-hidden={i === 0 ? undefined : 'true'}>
-          {logos.map((logo) => <img src={logo.src} alt={i === 0 ? logo.alt : ''} height="120" />)}
+          {logos.map((logo) => <img src={logo.src} alt={logo.alt} height="120" />)}
         </div>
       ))}
     </div>
