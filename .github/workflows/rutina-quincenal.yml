@@ -1,8 +1,8 @@
-name: Rutina quincenal portfolio
+name: Rutina semanal portfolio
 
 on:
   schedule:
-    - cron: "0 9 3,18 * *"
+    - cron: "0 9 * * 1"
   workflow_dispatch:
 
 permissions:
