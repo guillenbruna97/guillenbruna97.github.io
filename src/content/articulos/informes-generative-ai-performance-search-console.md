@@ -1,20 +1,28 @@
 ---
 title: "El nuevo tablero de la IA en Google y el punto ciego de su comité de dirección"
 tag: "Marketing · IA aplicada"
-excerpt: "Search Console ya mide sus citas en la IA de Google. No mide las de ChatGPT ni Perplexity, y ahí está el punto ciego real."
-description: "Qué significan los nuevos informes de Generative AI performance de Search Console, qué no miden, y por qué casi ninguna empresa los está usando todavía."
-date: 2026-08-03
+excerpt: "El despliegue global ya se completó y un fallo de datos a mediados de agosto explicó una caída que no era real. El informe sigue sin ver nada de ChatGPT ni Perplexity."
+description: "Qué cambió en los informes de Generative AI performance de Search Console tras completarse su despliegue global el 11 de agosto de 2026, el error de registro que distorsionó los datos a mediados de mes, y por qué el punto ciego sobre ChatGPT y Perplexity sigue intacto."
+date: 2026-08-24
 readingTime: "3 min de lectura"
 ---
 
-¿Sabe qué porcentaje de las decisiones de compra de sus clientes se están gestando ya dentro de resúmenes generados por inteligencia artificial? Hasta hace muy poco, cualquier respuesta a esta pregunta dentro de su comité de dirección era pura especulación.
+Como director general o miembro del comité de dirección, usted sabe que las métricas de adquisición digital suelen llegar a su mesa digeridas y simplificadas. Sin embargo, en las últimas semanas es muy probable que haya visto aparecer un nuevo indicador en sus informes de control. El pasado 11 de agosto de 2026, Google completó el despliegue global de su nuevo informe de rendimiento de IA generativa en Search Console. El cambio se produjo sin previo aviso, mediante una notificación emergente que apareció de repente en las pantallas de los equipos técnicos de todo el mundo.
 
-El pasado 3 de junio de 2026, Google anunció en su Search Central Blog el lanzamiento de informes dedicados dentro de Search Console para medir las impresiones de sus páginas en AI Overviews, AI Mode y las funciones de IA generativa de Discover. El acceso a esta funcionalidad se ha ido ampliando a lo largo de julio de 2026. Antes de este movimiento, las empresas operaban completamente a ciegas en el terreno de la búsqueda generativa nativa de Google.
+Este movimiento ha sido recibido por muchos departamentos de marketing como la solución definitiva para medir la visibilidad de las empresas en la era de la inteligencia artificial. Pero tomar decisiones estratégicas basándose únicamente en esta nueva herramienta es un error de perspectiva que puede costar caro a su organización.
 
-La relevancia de este dato no es técnica, es puramente comercial. El debate en los comités de dirección no debería ser si la inteligencia artificial va a reducir el tráfico global de la web. La realidad del mercado nos muestra que las marcas que aparecen citadas en los resúmenes de inteligencia artificial de Google obtienen un 35 por ciento más de clics orgánicos y un 91 por ciento más de clics pagados que aquellas que quedan fuera. No estamos ante una pérdida de tráfico generalizada, sino ante una transferencia de valor hacia quienes logran ser la fuente recomendada.
+Antes de analizar el panorama completo, conviene despejar una alarma común que habrá afectado a los resultados de su empresa a mediados de mes. Si al revisar los gráficos de este nuevo informe observa una caída drástica en las impresiones entre el 13 y el 17 de agosto de 2026, no debe alarmarse. No se trata de una pérdida real de visibilidad ni de una penalización de su marca. Google ha confirmado oficialmente que durante esos cinco días se produjo un error en el registro de datos que infravaloró las métricas reportadas. Su presencia en las búsquedas se mantuvo estable, aunque el panel de control indicara lo contrario.
 
-Sin embargo, es fundamental evitar un error de diagnóstico muy común en las reuniones de estrategia. Este nuevo informe de Google es una herramienta exclusiva para el ecosistema de Google. No mide, ni puede medir, la presencia de su marca en plataformas como ChatGPT o Perplexity, que pertenecen a compañías independientes sin vinculación con Search Console. Si su equipo de marketing pretende evaluar la visibilidad global de la compañía usando únicamente esta nueva métrica, estará ignorando una parte crítica del mercado. Para medir el impacto en esos otros canales, es necesario recurrir a soluciones externas de terceros.
+Superado este incidente técnico, el verdadero desafío para un comité de dirección no es la precisión de un gráfico puntual, sino el sesgo de la fuente de información.
 
-¿Por qué su equipo probablemente aún no le ha presentado estos datos? La razón es sencilla. Se trata de una funcionalidad muy reciente, con apenas dos meses de vida y una fase de despliegue que se ha completado durante el mes de julio. Es el momento idóneo para adelantarse y exigir que el análisis de visibilidad deje de ser un reporte de posiciones estáticas y pase a ser una métrica de reputación e influencia en la toma de decisiones asistida por IA.
+El nuevo informe de Google solo mide lo que ocurre dentro de su propio jardín vallado. Muestra el rendimiento de su marca en las respuestas generadas por IA de Google, en su modo conversacional y en su sección de descubrimiento. Sin embargo, deja fuera del mapa todo lo demás.
 
-Determinar cómo debe sonar su marca y en qué conversaciones estratégicas debe aparecer exige una perspectiva que va más allá de la optimización técnica tradicional. La pregunta que de verdad merece llevar a su próximo comité no es si esto le afecta, sino quién en su organización tiene hoy la responsabilidad de que sus mensajes clave lideren esas recomendaciones.
+¿Cuánto terreno está ganando su competencia en los diálogos cotidianos que sus clientes potenciales mantienen con ChatGPT? ¿Qué porcentaje de sus decisiones de compra se están gestando a través de las recomendaciones directas de Perplexity o Claude?
+
+Confiar en que el informe de Google refleja su salud digital en el nuevo paradigma de la inteligencia artificial es un punto ciego crítico. Google tiene un interés evidente en demostrar que sigue siendo el único canal relevante para su negocio, pero el comportamiento del consumidor corporativo y del cliente final se está fragmentando a una velocidad sin precedentes.
+
+Para evitar que su organización tome decisiones estratégicas con información incompleta, el comité de dirección debe exigir un cambio de enfoque en la rendición de cuentas de sus equipos digitales.
+
+El primer paso consiste en entender que el informe de Google es útil para evaluar su rendimiento en ese canal específico, pero no sirve como termómetro global de su presencia en la inteligencia artificial. El segundo paso requiere que su equipo de marketing implemente metodologías de medición alternativas que rastreen de manera directa la mención y recomendación de sus productos en los principales modelos de lenguaje del mercado, más allá del buscador tradicional.
+
+La visibilidad de su marca ya no se disputa en un único tablero de juego. La pregunta que de verdad merece llevar a su próximo comité no es si este nuevo informe de Google basta, sino quién en su organización tiene hoy la responsabilidad de medir esa visibilidad allí donde Google no llega.
