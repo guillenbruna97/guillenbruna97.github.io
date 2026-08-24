@@ -40,6 +40,11 @@ jobs:
       - name: Instalar Claude Code
         run: npm install --global @anthropic-ai/claude-code
 
+      - name: Configurar identidad Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
       - name: Ejecutar rutina quincenal
         working-directory: seo-ai-system
         env:
