@@ -1,0 +1,86 @@
+name: Rutina quincenal portfolio
+
+on:
+  schedule:
+    - cron: "0 9 3,18 * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  rutina-quincenal:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout portfolio
+        uses: actions/checkout@v5
+        with:
+          path: portfolio
+          token: ${{ secrets.REPOS_TOKEN }}
+
+      - name: Checkout SEO knowledge base
+        uses: actions/checkout@v5
+        with:
+          repository: guillenbruna97/seo-ai-system
+          path: seo-ai-system
+          token: ${{ secrets.REPOS_TOKEN }}
+
+      - name: Setup Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: portfolio/package-lock.json
+
+      - name: Instalar dependencias del portfolio
+        working-directory: portfolio
+        run: npm ci
+
+      - name: Instalar Claude Code
+        run: npm install --global @anthropic-ai/claude-code
+
+      - name: Ejecutar rutina quincenal
+        working-directory: seo-ai-system
+        env:
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          PORTFOLIO_DIR: ${{ github.workspace }}/portfolio
+          KNOWLEDGE_BASE_DIR: ${{ github.workspace }}/seo-ai-system/knowledge-base
+        run: |
+          mkdir -p "$KNOWLEDGE_BASE_DIR/logs"
+          claude -p "$(cat knowledge-base/rutina-quincenal.md)" \
+            --allowedTools \
+              Read Write Edit WebSearch WebFetch \
+              "Bash(node *)" "Bash(npm run build*)" \
+              "Bash(git add *)" "Bash(git commit *)" \
+              "Bash(git pull *)" "Bash(git push *)" "Bash(cd *)" \
+            --output-format text \
+            --max-turns 60 \
+            2>&1 | tee "$KNOWLEDGE_BASE_DIR/logs/rutina_${GITHUB_RUN_ID}.log"
+
+      - name: Verificar build del portfolio
+        working-directory: portfolio
+        run: npm run build
+
+      - name: Commit y push del portfolio
+        working-directory: portfolio
+        run: |
+          if ! git diff --quiet; then
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add .
+            git commit -m "chore: actualizar portfolio desde rutina quincenal"
+            git push
+          fi
+
+      - name: Commit y push de la knowledge base
+        working-directory: seo-ai-system
+        run: |
+          if ! git diff --quiet; then
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add knowledge-base .gitignore
+            git commit -m "chore: actualizar knowledge base desde rutina quincenal"
+            git push
+          fi
