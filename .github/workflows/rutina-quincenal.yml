@@ -48,6 +48,7 @@ jobs:
           PORTFOLIO_DIR: ${{ github.workspace }}/portfolio
           KNOWLEDGE_BASE_DIR: ${{ github.workspace }}/seo-ai-system/knowledge-base
         run: |
+          set -o pipefail
           mkdir -p "$KNOWLEDGE_BASE_DIR/logs"
           claude -p "$(cat knowledge-base/rutina-quincenal.md)" \
             --add-dir "${{ github.workspace }}/portfolio" \
@@ -57,7 +58,7 @@ jobs:
               "Bash(git add*)" "Bash(git commit*)" \
               "Bash(git pull*)" "Bash(git push*)" "Bash(cd *)" \
             --output-format text \
-            --max-turns 60 \
+            --max-turns 100 \
             2>&1 | tee "$KNOWLEDGE_BASE_DIR/logs/rutina_${GITHUB_RUN_ID}.log"
 
       - name: Verificar build del portfolio
