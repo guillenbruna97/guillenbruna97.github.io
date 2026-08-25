@@ -3,6 +3,11 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Divider from '../../components/Divider.astro';
 import ContactBlock from '../../components/ContactBlock.astro';
 import TrustMarquee from '../../components/TrustMarquee.astro';
+import { Image } from 'astro:assets';
+import integraCaseImage from '../../assets/casos/integra.jpeg';
+import grupoReyCaseImage from '../../assets/casos/grupo-rey.jpeg';
+import zebraCaseImage from '../../assets/casos/zebra-sis.jpg';
+import brocoCaseImage from '../../assets/casos/broco-producto.jpeg';
 
 const trustLogos = [
   { src: '/logo-zebra.svg', alt: 'Zebra Ventures, empresa donde Guillén Bruna Tricas trabaja como Head of Brand & Marketing' },
@@ -38,7 +43,13 @@ const trustLogos = [
 
   <div class="cases">
       <div class="case-item" data-types="eventos marca" data-reveal>
-        <p class="case-number">01</p>
+        <div class="case-media">
+          <Image src={grupoReyCaseImage} alt="Equipo y campañas omnicanal de Grupo Rey Corporación con Guillén Bruna Tricas" width={960} widths={[480, 720, 960]} sizes="(max-width: 640px) 100vw, 50vw" format="webp" quality={55} />
+        </div>
+        <div class="case-meta">
+          <p class="case-number">01</p>
+          <p class="case-year">Anterior</p>
+        </div>
         <div class="case-content">
           <div class="case-tags">
             <span class="tag">Eventos</span>
@@ -49,11 +60,16 @@ const trustLogos = [
           <p class="case-desc">Gestión de campañas de gran volumen en retail de muebles. Coordinación de canal online y offline, creatividad y activaciones, con resultados medibles en ambas marcas.</p>
           <a href="/trabajo/grupo-rey/" class="case-link">Ver caso completo →</a>
         </div>
-        <p class="case-year">Anterior</p>
       </div>
 
       <div class="case-item" data-types="marca lanzamiento" data-reveal>
-        <p class="case-number">02</p>
+        <div class="case-media">
+          <Image src={zebraCaseImage} alt="Equipo de Zebra Ventures en el Spain Innovation Summit, evento organizado por Guillén Bruna Tricas" width={960} widths={[480, 720, 960]} sizes="(max-width: 640px) 100vw, 50vw" format="webp" quality={55} />
+        </div>
+        <div class="case-meta">
+          <p class="case-number">02</p>
+          <p class="case-year">2024–hoy</p>
+        </div>
         <div class="case-content">
           <div class="case-tags">
             <span class="tag">Estrategia de marca</span>
@@ -64,11 +80,16 @@ const trustLogos = [
           <p class="case-desc">Diagnóstico de ICP, reescritura del mensaje de marca, rediseño de la web, estrategia de contenidos, funnel de conversión y lanzamiento de una segunda línea de negocio desde cero. Incluye el Spain Innovation Summit, evento propio con estudio sectorial.</p>
           <a href="/trabajo/zebra-ventures/" class="case-link">Ver caso completo →</a>
         </div>
-        <p class="case-year">2024–hoy</p>
       </div>
 
       <div class="case-item" data-types="consultoria" data-reveal>
-        <p class="case-number">03</p>
+        <div class="case-media">
+          <Image src={integraCaseImage} alt="Congreso y proyecto de comunicación de Integra Consultoría Gerencial con Guillén Bruna Tricas" width={960} widths={[480, 720, 960]} sizes="(max-width: 640px) 100vw, 50vw" format="webp" quality={55} />
+        </div>
+        <div class="case-meta">
+          <p class="case-number">03</p>
+          <p class="case-year">Anterior</p>
+        </div>
         <div class="case-content">
           <div class="case-tags">
             <span class="tag">Consultoría</span>
@@ -78,11 +99,16 @@ const trustLogos = [
           <p class="case-desc">Diagnóstico y acompañamiento a dirección en procesos de transformación organizativa y redefinición de modelo comercial.</p>
           <a href="/trabajo/integra/" class="case-link">Ver caso completo →</a>
         </div>
-        <p class="case-year">Anterior</p>
       </div>
 
       <div class="case-item" data-types="ecommerce demanda" data-reveal>
-        <p class="case-number">04</p>
+        <div class="case-media">
+          <Image src={brocoCaseImage} alt="Colección de prendas de Broco, marca de moda sostenible creada por Guillén Bruna Tricas" width={960} widths={[480, 720, 960]} sizes="(max-width: 640px) 100vw, 50vw" format="webp" quality={55} />
+        </div>
+        <div class="case-meta">
+          <p class="case-number">04</p>
+          <p class="case-year">Anterior</p>
+        </div>
         <div class="case-content">
           <div class="case-tags">
             <span class="tag">eCommerce</span>
@@ -93,7 +119,6 @@ const trustLogos = [
           <p class="case-desc">Creación de una marca de moda desde la idea hasta las primeras ventas. Identidad, canal digital, paid media y operaciones. Aprendizaje de negocio real sin red ni equipo grande.</p>
           <a href="/trabajo/broco/" class="case-link">Ver caso completo →</a>
         </div>
-        <p class="case-year">Anterior</p>
       </div>
   </div>
 
@@ -170,19 +195,22 @@ const trustLogos = [
   .filter-btn:active { transform: scale(0.97); }
 
   /* CASES */
-  .cases { padding: 3rem 2rem; max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; }
+  .cases { padding: 3rem 2rem; max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2rem; }
   .case-item {
-    display: grid;
-    grid-template-columns: 60px 1fr auto;
-    gap: 2rem;
-    align-items: start;
-    padding: 2.5rem 0;
-    border-bottom: 1px solid rgba(0,0,0,0.06);
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    padding: 0 0 2rem;
+    border: 1px solid rgba(0,0,0,0.1);
+    background: var(--white);
     transition: border-color var(--transition), opacity 0.6s ease, transform 0.6s ease;
   }
-  body.dark .case-item { border-bottom-color: rgba(255,255,255,0.08); }
-  .case-item:first-child { border-top: 1px solid rgba(0,0,0,0.06); }
-  body.dark .case-item:first-child { border-top-color: rgba(255,255,255,0.08); }
+  body.dark .case-item { border-color: rgba(255,255,255,0.12); background: var(--dark-bg); }
+  .case-media { aspect-ratio: 16 / 10; overflow: hidden; background: var(--blue); }
+  .case-media img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+  .case-item:hover .case-media img { transform: scale(1.03); }
+  .case-meta { display: flex; justify-content: space-between; align-items: baseline; padding: 1.25rem 1.5rem 0; }
+  .case-content { padding: 0 1.5rem; }
   .case-item.hidden { display: none; }
   .case-item:nth-child(2) { transition-delay: 0.08s; }
   .case-item:nth-child(3) { transition-delay: 0.16s; }
@@ -193,7 +221,6 @@ const trustLogos = [
     font-weight: 600;
     letter-spacing: 0.12em;
     color: var(--blue);
-    padding-top: 0.3rem;
     transition: color var(--transition);
   }
   body.dark .case-number { color: var(--blue-light); }
@@ -243,14 +270,12 @@ const trustLogos = [
     font-weight: 300;
     color: rgba(0,0,0,0.3);
     white-space: nowrap;
-    padding-top: 0.3rem;
     transition: color var(--transition);
   }
   body.dark .case-year { color: rgba(232,232,232,0.3); }
 
   @media (max-width: 640px) {
-    .case-item { grid-template-columns: 1fr; gap: 0.5rem; }
-    .case-year { display: none; }
+    .cases { grid-template-columns: 1fr; padding-left: 1.25rem; padding-right: 1.25rem; }
   }
 </style>
 
