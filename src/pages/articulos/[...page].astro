@@ -13,7 +13,8 @@ export const getStaticPaths = (async ({ paginate }) => {
   );
   // Maximo de articulos por pagina, sin que penalice al posicionamiento:
   // cada pagina es una URL real e indexable con su propio canonical.
-  return paginate(articulos, { pageSize: 5 });
+  // 6 = 3 filas x 2 columnas en el grid de cards.
+  return paginate(articulos, { pageSize: 6 });
 }) satisfies GetStaticPaths;
 
 const { page } = Astro.props;

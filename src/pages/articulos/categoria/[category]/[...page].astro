@@ -19,11 +19,11 @@ export const getStaticPaths = (async ({ paginate }) => {
 
   // Una ruta paginada por categoria: filtra sobre TODOS los articulos (no solo
   // los de la pagina actual), y solo genera paginas 2+ si esa categoria tiene
-  // mas de 5 articulos.
+  // mas de 6 articulos.
   return categorias.flatMap(({ nombre, slug }) => {
     const articulosDeCategoria = articulos.filter((entry) => slugify(categoryOf(entry.data.tag)) === slug);
     return paginate(articulosDeCategoria, {
-      pageSize: 5,
+      pageSize: 6,
       params: { category: slug },
       props: { categoryName: nombre },
     });
