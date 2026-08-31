@@ -5,6 +5,7 @@ excerpt: "El despliegue global ya se completó y un fallo de datos a mediados de
 description: "Qué cambió en los informes de Generative AI performance de Search Console tras completarse su despliegue global el 11 de agosto de 2026, el error de registro que distorsionó los datos a mediados de mes, y por qué el punto ciego sobre ChatGPT y Perplexity sigue intacto."
 date: 2026-08-24
 readingTime: "3 min de lectura"
+image: "/images/articulos/informes-generative-ai-performance-search-console.jpg"
 ---
 
 Como director general o miembro del comité de dirección, usted sabe que las métricas de adquisición digital suelen llegar a su mesa digeridas y simplificadas. Sin embargo, en las últimas semanas es muy probable que haya visto aparecer un nuevo indicador en sus informes de control. El pasado 11 de agosto de 2026, Google completó el despliegue global de su nuevo informe de rendimiento de IA generativa en Search Console. El cambio se produjo sin previo aviso, mediante una notificación emergente que apareció de repente en las pantallas de los equipos técnicos de todo el mundo.

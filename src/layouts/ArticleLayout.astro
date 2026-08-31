@@ -10,8 +10,9 @@ interface Props {
   heading: string;
   date: Date;
   readingTime: string;
+  image?: string;
 }
-const { title, description, tag, heading, date, readingTime } = Astro.props;
+const { title, description, tag, heading, date, readingTime, image } = Astro.props;
 const formattedDate = date.toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
 ---
 <BaseLayout title={title} description={description} ogType="article">
@@ -23,6 +24,12 @@ const formattedDate = date.toLocaleDateString('es-ES', { day: 'numeric', month: 
     </div>
     <h1>{heading}</h1>
     <p class="article-meta">{formattedDate} · {readingTime}</p>
+
+    {image && (
+      <div class="article-hero">
+        <img src={image} alt="" />
+      </div>
+    )}
 
     <div class="article-prose">
       <slot />
@@ -68,6 +75,16 @@ const formattedDate = date.toLocaleDateString('es-ES', { day: 'numeric', month: 
     transition: color var(--transition);
   }
   body.dark .article-meta { color: var(--blue-light); }
+
+  .article-hero {
+    margin-bottom: 2.5rem;
+    border-radius: 14px;
+    overflow: hidden;
+    aspect-ratio: 16 / 9;
+    background: rgba(0,0,0,0.03);
+  }
+  body.dark .article-hero { background: rgba(255,255,255,0.05); }
+  .article-hero img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
   .article-prose {
     font-size: 0.95rem;

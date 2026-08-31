@@ -5,6 +5,7 @@ excerpt: "La ansiedad escénica no es un rasgo de personalidad. Es la señal de 
 description: "Por qué la comunicación pública de un CEO no se resuelve con técnicas de oratoria sino con un marco estratégico detrás del mensaje."
 date: 2026-07-15
 readingTime: "3 min de lectura"
+image: "/images/articulos/comunicacion-publica-ceo-no-es-carisma-es-estrategia.jpg"
 ---
 
 Muchos directivos asumen que la incomodidad frente a una audiencia es una carencia de personalidad. Creen que el carisma es un rasgo genético que se tiene o no se tiene. Esta creencia es un error costoso porque convierte un desafío operativo en una limitación personal. Cuando un CEO siente que su comunicación pública es un obstáculo, suele buscar clases de oratoria o técnicas de respiración. Sin embargo, el problema rara vez está en la dicción o en el lenguaje corporal. El problema está en la falta de una arquitectura estratégica detrás de cada palabra.

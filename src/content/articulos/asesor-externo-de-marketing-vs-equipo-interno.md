@@ -5,6 +5,7 @@ excerpt: "Tu equipo interno vive dentro de la pecera. Un asesor externo es el es
 description: "Qué aporta un asesor externo de estrategia que un equipo interno, por bueno que sea, no puede ver desde dentro."
 date: 2026-08-01
 readingTime: "3 min de lectura"
+image: "/images/articulos/asesor-externo-de-marketing-vs-equipo-interno.jpg"
 ---
 
 Tu equipo de marketing conoce el producto mejor que nadie. Saben qué métricas mueven la aguja a corto plazo y ejecutan las campañas con una precisión técnica impecable. Sin embargo, cuando te sientas en el consejo de administración o revisas la cuenta de resultados, sientes que algo no encaja. Tienes la sensación de que el mensaje que llega al mercado no refleja la ambición real de la compañía.

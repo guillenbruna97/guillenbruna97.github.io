@@ -5,6 +5,7 @@ excerpt: "Mucha actividad, poco impacto medible. El síntoma más común de un d
 description: "Cómo detectar cuándo un departamento de marketing ejecuta con intensidad pero sin una dirección estratégica que lo sostenga."
 date: 2026-07-15
 readingTime: "3 min de lectura"
+image: "/images/articulos/marketing-que-ejecuta-bien-pero-no-sabe-hacia-donde.jpg"
 ---
 
 Recibes informes semanales llenos de métricas sobre alcance, impresiones y clics. Tu equipo trabaja con una intensidad que nadie cuestiona. Sin embargo, al final del trimestre, sientes que la posición de la compañía en el mercado no se ha movido ni un milímetro. ¿Cuántas veces has terminado una reunión de resultados pensando que todo ese ruido operativo no ha acercado a la empresa a su objetivo de negocio?

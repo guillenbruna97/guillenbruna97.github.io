@@ -5,6 +5,7 @@ excerpt: "Antes del lanzamiento hay una pregunta que nadie hace en el comité de
 description: "Un marco de autodiagnóstico para decidir el segmento, el canal de adquisición y el mensaje de lanzamiento de una plataforma SaaS B2B, antes de comprometer presupuesto y equipo."
 date: 2026-08-31
 readingTime: "6 min de lectura"
+image: "/images/articulos/estrategia-lanzamiento-saas-b2b.jpg"
 ---
 
 La proximidad del lanzamiento o relanzamiento de una plataforma SaaS B2B suele generar un tipo de actividad muy específica en los comités de dirección. El equipo de desarrollo ultima la versión estable, el área de ventas prepara las plantillas de prospección y el departamento de marketing presenta un plan de acción lleno de iniciativas. Hay campañas de publicidad digital planificadas, notas de prensa redactadas y un calendario de publicaciones para redes sociales listo para ejecutarse.

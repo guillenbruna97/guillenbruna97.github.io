@@ -5,6 +5,7 @@ excerpt: "Tráfico al alza y posiciones ganadas en Google no explican por qué e
 description: "Por qué medir marketing solo con tráfico y posición en Google ya no explica el negocio, y qué debería mirar un CEO cuando la conversación de compra se mueve dentro de resúmenes de IA."
 date: 2026-08-04
 readingTime: "5 min de lectura"
+image: "/images/articulos/metricas-trafico-no-miden-visibilidad-ia.jpg"
 ---
 
 En el último comité de dirección, el informe de marketing probablemente mostraba gráficos ascendentes. Más visitas a la web, mejores posiciones en Google para una lista de conceptos técnicos y un aumento en el volumen de contenidos publicados. En el papel, la estrategia de posicionamiento orgánico es un éxito rotundo. Sin embargo, cuando analiza el origen de las oportunidades de negocio reales, la relación entre ese tráfico y las ventas parece cada vez más difusa.

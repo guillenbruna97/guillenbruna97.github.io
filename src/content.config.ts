@@ -10,6 +10,7 @@ const articulos = defineCollection({
     description: z.string(),
     date: z.date(),
     readingTime: z.string(),
+    image: z.string().optional(),
   }),
 });
 

@@ -5,6 +5,7 @@ excerpt: "El marketing de activación mueve producto hoy. El marketing de marca 
 description: "La diferencia entre marketing de activación y marketing de marca, y por qué solo el segundo construye un activo duradero."
 date: 2026-06-21
 readingTime: "7 min de lectura"
+image: "/images/articulos/marketing-que-no-retorna.jpg"
 ---
 
 La inversión en marketing es, a menudo, una de las partidas presupuestarias más escrutadas en cualquier organización. La presión por demostrar un retorno inmediato puede llevar a decisiones que, si bien generan picos de actividad o ventas a corto plazo, no siempre contribuyen a la construcción de un activo de marca duradero. Esta tensión entre el resultado instantáneo y el valor sostenido es una constante en el panorama empresarial actual.
