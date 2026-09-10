@@ -90,12 +90,12 @@ const trustLogos = [
       </div>
       <div class="stats-side">
         <div class="stat-item" data-reveal data-count="4">
-          <p class="stat-value"><span class="stat-number">0</span></p>
+          <p class="stat-value"><span class="stat-number">0</span>+</p>
           <p class="stat-label">Casos reales trabajados de principio a fin</p>
         </div>
         <div class="stat-item" data-reveal data-count="5">
           <p class="stat-value"><span class="stat-number">0</span>+</p>
-          <p class="stat-label">Años liderando marketing y marca</p>
+          <p class="stat-label"><span class="stat-label-lead">Años liderando</span> marketing y marca</p>
         </div>
       </div>
     </div>
@@ -348,10 +348,14 @@ const trustLogos = [
   }
   .stat-label {
     font-size: 0.85rem;
-    font-weight: 300;
-    color: rgba(255,255,255,0.6);
+    font-weight: 500;
+    color: rgba(255,255,255,0.75);
     margin-top: 0.4rem;
     line-height: 1.6;
+  }
+  .stat-label-lead {
+    font-weight: 700;
+    color: rgba(255,255,255,0.95);
   }
 
   @media (max-width: 900px) {
