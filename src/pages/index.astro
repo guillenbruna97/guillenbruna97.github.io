@@ -5,7 +5,7 @@ import TrustMarquee from '../components/TrustMarquee.astro';
 
 const trustLogos = [
   { src: '/logo-zebra.svg', alt: 'Zebra Ventures, empresa donde Guillén Bruna Tricas trabaja como Head of Brand & Marketing' },
-  { src: '/logo-rey.svg', alt: 'Muebles Rey, cliente de campañas de marketing omnicanal con Guillén Bruna Tricas' },
+  { src: '/logo-rey.png', alt: 'Muebles Rey, cliente de campañas de marketing omnicanal con Guillén Bruna Tricas' },
   { src: '/logo-tuco.svg', alt: 'Muebles Tuco, marca de retail cliente de Guillén Bruna Tricas' },
   { src: '/logo-grupo-rey.svg', alt: 'Grupo Rey Corporación, cliente de estrategia de marca de Guillén Bruna Tricas' },
   { src: '/logo-slm.svg', alt: 'SLM, cliente de un proyecto de comunicación con Guillén Bruna Tricas' },
@@ -318,7 +318,7 @@ const trustLogos = [
     display: grid;
     grid-template-columns: 1.3fr 1fr;
     gap: 6rem;
-    align-items: stretch;
+    align-items: center;
   }
 
   .stat-item {
@@ -331,39 +331,38 @@ const trustLogos = [
     gap: 2rem;
   }
   .stat-item--hero .stat-value {
-    font-size: clamp(6rem, 15vw, 13rem);
+    font-size: clamp(5rem, 13vw, 10rem);
     line-height: 0.88;
   }
   .stat-item--hero .stat-label {
-    font-size: 1.2rem;
-    max-width: 400px;
+    font-size: clamp(1.7rem, 3vw, 2.7rem);
+    line-height: 1.15;
+    max-width: 600px;
     margin-top: 0;
   }
 
   .stats-side {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     gap: 3.5rem;
-    height: 100%;
     border-left: 1px solid rgba(255,255,255,0.15);
     padding-left: 4rem;
   }
   .stats-side .stat-item:nth-child(2) { transition-delay: 0.1s; }
 
   .stat-value {
-    font-size: clamp(3rem, 6vw, 4.5rem);
+    font-size: clamp(2rem, 4vw, 3rem);
     font-weight: 800;
     letter-spacing: -0.04em;
     color: var(--blue-light);
   }
   .stat-label {
-    font-size: 1rem;
+    font-size: clamp(1.2rem, 1.8vw, 1.7rem);
     font-weight: 500;
     color: rgba(255,255,255,0.75);
     margin-top: 0;
-    line-height: 1.6;
-    max-width: 280px;
+    line-height: 1.25;
+    max-width: 380px;
   }
   .stat-label-lead {
     font-size: 1.2em;
@@ -380,7 +379,7 @@ const trustLogos = [
     .capacidad-row:nth-child(even) .capacidad-ghost { order: 1; text-align: left; }
     .capacidad-row:nth-child(even) .capacidad-link { order: 3; }
     .stats-band-inner { grid-template-columns: 1fr; gap: 3rem; }
-    .stats-side { height: auto; justify-content: flex-start; border-left: none; padding-left: 0; border-top: 1px solid rgba(255,255,255,0.15); padding-top: 2.5rem; }
+    .stats-side { border-left: none; padding-left: 0; border-top: 1px solid rgba(255,255,255,0.15); padding-top: 2.5rem; }
     .stat-item { flex-direction: column; align-items: flex-start; gap: 0; }
     .stat-item--hero .stat-label { margin-top: 1.2rem; }
     .stat-label { margin-top: 0.4rem; }
