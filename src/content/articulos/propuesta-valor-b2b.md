@@ -5,6 +5,7 @@ excerpt: "Muchas propuestas de valor B2B describen el vehículo en vez del desti
 description: "Un marco práctico para separar lo que hace un producto o servicio B2B del valor real que aporta al cliente, y una prueba sencilla para comprobar si la propuesta de valor es comprensible fuera del propio sector."
 date: 2026-09-07
 readingTime: "4 min de lectura"
+image: "/images/articulos/propuesta-valor-b2b.jpg"
 ---
 
 Cuando un director general prepara el lanzamiento de un nuevo producto o decide reposicionar la oferta de su empresa, suele enfrentarse a un enemigo silencioso. Este enemigo no es la competencia directa ni la falta de presupuesto en el departamento comercial, sino la complejidad de su propio discurso.
