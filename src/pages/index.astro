@@ -310,15 +310,15 @@ const trustLogos = [
   .capacidad-row:nth-child(4) { transition-delay: 0.24s; }
 
   /* STATS — full-bleed dark band, one dominant number + two side stats */
-  .stats-band { background: var(--black); padding: 6rem 2vw; transition: background var(--transition); }
+  .stats-band { background: var(--black); padding: 7rem 4vw; transition: background var(--transition); }
   body.dark .stats-band { background: #050505; }
   .stats-band-inner {
-    max-width: 1160px;
+    max-width: 1600px;
     margin: 0 auto;
     display: grid;
     grid-template-columns: 1.3fr 1fr;
-    gap: 4rem;
-    align-items: center;
+    gap: 6rem;
+    align-items: stretch;
   }
 
   .stat-item {
@@ -331,36 +331,39 @@ const trustLogos = [
     gap: 2rem;
   }
   .stat-item--hero .stat-value {
-    font-size: clamp(5rem, 13vw, 10rem);
+    font-size: clamp(6rem, 15vw, 13rem);
     line-height: 0.88;
   }
   .stat-item--hero .stat-label {
-    font-size: 1.05rem;
-    max-width: 340px;
+    font-size: 1.2rem;
+    max-width: 400px;
     margin-top: 0;
   }
 
   .stats-side {
     display: flex;
     flex-direction: column;
-    gap: 2.8rem;
+    justify-content: space-between;
+    gap: 3.5rem;
+    height: 100%;
     border-left: 1px solid rgba(255,255,255,0.15);
-    padding-left: 3rem;
+    padding-left: 4rem;
   }
   .stats-side .stat-item:nth-child(2) { transition-delay: 0.1s; }
 
   .stat-value {
-    font-size: clamp(2rem, 4vw, 3rem);
+    font-size: clamp(3rem, 6vw, 4.5rem);
     font-weight: 800;
     letter-spacing: -0.04em;
     color: var(--blue-light);
   }
   .stat-label {
-    font-size: 0.85rem;
+    font-size: 1rem;
     font-weight: 500;
     color: rgba(255,255,255,0.75);
     margin-top: 0;
     line-height: 1.6;
+    max-width: 280px;
   }
   .stat-label-lead {
     font-size: 1.2em;
@@ -377,7 +380,7 @@ const trustLogos = [
     .capacidad-row:nth-child(even) .capacidad-ghost { order: 1; text-align: left; }
     .capacidad-row:nth-child(even) .capacidad-link { order: 3; }
     .stats-band-inner { grid-template-columns: 1fr; gap: 3rem; }
-    .stats-side { border-left: none; padding-left: 0; border-top: 1px solid rgba(255,255,255,0.15); padding-top: 2.5rem; }
+    .stats-side { height: auto; justify-content: flex-start; border-left: none; padding-left: 0; border-top: 1px solid rgba(255,255,255,0.15); padding-top: 2.5rem; }
     .stat-item { flex-direction: column; align-items: flex-start; gap: 0; }
     .stat-item--hero .stat-label { margin-top: 1.2rem; }
     .stat-label { margin-top: 0.4rem; }
