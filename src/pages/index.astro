@@ -321,6 +321,15 @@ const trustLogos = [
     align-items: center;
   }
 
+  .stat-item {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .stat-item--hero {
+    gap: 2rem;
+  }
   .stat-item--hero .stat-value {
     font-size: clamp(5rem, 13vw, 10rem);
     line-height: 0.88;
@@ -328,7 +337,7 @@ const trustLogos = [
   .stat-item--hero .stat-label {
     font-size: 1.05rem;
     max-width: 340px;
-    margin-top: 1.2rem;
+    margin-top: 0;
   }
 
   .stats-side {
@@ -350,7 +359,7 @@ const trustLogos = [
     font-size: 0.85rem;
     font-weight: 500;
     color: rgba(255,255,255,0.75);
-    margin-top: 0.4rem;
+    margin-top: 0;
     line-height: 1.6;
   }
   .stat-label-lead {
@@ -369,6 +378,9 @@ const trustLogos = [
     .capacidad-row:nth-child(even) .capacidad-link { order: 3; }
     .stats-band-inner { grid-template-columns: 1fr; gap: 3rem; }
     .stats-side { border-left: none; padding-left: 0; border-top: 1px solid rgba(255,255,255,0.15); padding-top: 2.5rem; }
+    .stat-item { flex-direction: column; align-items: flex-start; gap: 0; }
+    .stat-item--hero .stat-label { margin-top: 1.2rem; }
+    .stat-label { margin-top: 0.4rem; }
   }
 </style>
 
