@@ -6,6 +6,7 @@ description: "Qué priorizar para que una marca deje de competir y pase a lidera
 date: 2026-06-28
 readingTime: "6 min de lectura"
 image: "/images/articulos/marca-referente-en-su-sector.jpg"
+imageAlt: "Ilustración de portada sobre cómo una marca se convierte en referente de su sector"
 ---
 
 La aspiración de toda organización es no solo competir, sino liderar. Sin embargo, la senda hacia el liderazgo de un sector rara vez se pavimenta con éxitos efímeros o golpes de efecto publicitarios. El verdadero referente no nace de una campaña puntual, por brillante que sea, sino de una acumulación sostenida de decisiones estratégicas en comunicación que, con el tiempo, forjan una posición inexpugnable en la mente de su audiencia.

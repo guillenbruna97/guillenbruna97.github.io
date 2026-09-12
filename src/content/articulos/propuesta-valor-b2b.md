@@ -6,6 +6,7 @@ description: "Un marco práctico para separar lo que hace un producto o servicio
 date: 2026-09-07
 readingTime: "4 min de lectura"
 image: "/images/articulos/propuesta-valor-b2b.jpg"
+imageAlt: "Ilustración de portada sobre cómo simplificar una propuesta de valor B2B técnicamente compleja"
 ---
 
 Cuando un director general prepara el lanzamiento de un nuevo producto o decide reposicionar la oferta de su empresa, suele enfrentarse a un enemigo silencioso. Este enemigo no es la competencia directa ni la falta de presupuesto en el departamento comercial, sino la complejidad de su propio discurso.

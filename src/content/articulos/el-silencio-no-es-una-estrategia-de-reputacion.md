@@ -6,6 +6,7 @@ description: "Por qué la marca personal de un directivo no es vanidad sino una 
 date: 2026-08-01
 readingTime: "3 min de lectura"
 image: "/images/articulos/el-silencio-no-es-una-estrategia-de-reputacion.jpg"
+imageAlt: "Ilustración de portada sobre por qué el silencio no protege la reputación de un directivo"
 ---
 
 Muchos directivos de alto nivel mantienen una creencia arraigada. Piensan que la excelencia en sus resultados operativos y la solidez de sus números son suficientes para blindar su reputación. Asumen que si el negocio funciona y los accionistas están satisfechos, su figura pública es un activo que se gestiona solo por inercia. Es una postura lógica desde la gestión interna, pero es un riesgo crítico cuando el mercado o los medios ponen el foco sobre ellos.

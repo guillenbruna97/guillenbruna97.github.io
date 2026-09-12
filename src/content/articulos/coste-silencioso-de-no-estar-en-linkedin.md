@@ -6,6 +6,7 @@ description: "Qué considerar antes de publicar el primer post en LinkedIn si er
 date: 2026-07-15
 readingTime: "3 min de lectura"
 image: "/images/articulos/coste-silencioso-de-no-estar-en-linkedin.jpg"
+imageAlt: "Ilustración de portada sobre el coste de no tener presencia en LinkedIn como directivo"
 ---
 
 Muchos directivos ven LinkedIn como un tablero de anuncios donde solo se busca talento o se publica contenido vacuo para ganar visibilidad barata. Esa percepción es la que mantiene a perfiles brillantes en la sombra mientras otros con menos capacidad ocupan el espacio de autoridad en su sector. El miedo a la exposición no nace de la falta de ideas sino de la incertidumbre sobre qué impacto tendrá esa visibilidad en la reputación que tanto tiempo ha costado construir.

@@ -6,6 +6,7 @@ description: "Por qué adoptar herramientas de IA en marketing no sustituye la f
 date: 2026-07-15
 readingTime: "3 min de lectura"
 image: "/images/articulos/la-trampa-de-la-ia-en-la-estrategia-de-marketing.jpg"
+imageAlt: "Ilustración de portada sobre la trampa de usar IA sin una estrategia de marketing clara"
 ---
 
 La mayoría de los directivos que observo hoy han caído en una ilusión peligrosa. Creen que la adopción de herramientas de inteligencia artificial equivale a tener una estrategia de crecimiento. Instalan plataformas de automatización, generan volúmenes masivos de contenido y esperan que el mercado responda con la misma velocidad que su software.

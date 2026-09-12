@@ -6,6 +6,7 @@ description: "Cómo detectar cuándo un departamento de marketing ejecuta con in
 date: 2026-07-15
 readingTime: "3 min de lectura"
 image: "/images/articulos/marketing-que-ejecuta-bien-pero-no-sabe-hacia-donde.jpg"
+imageAlt: "Ilustración de portada sobre departamentos de marketing que ejecutan bien pero sin dirección estratégica"
 ---
 
 Recibes informes semanales llenos de métricas sobre alcance, impresiones y clics. Tu equipo trabaja con una intensidad que nadie cuestiona. Sin embargo, al final del trimestre, sientes que la posición de la compañía en el mercado no se ha movido ni un milímetro. ¿Cuántas veces has terminado una reunión de resultados pensando que todo ese ruido operativo no ha acercado a la empresa a su objetivo de negocio?

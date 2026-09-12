@@ -87,11 +87,11 @@
       setTimeout(() => screen.remove(), 500);
     };
 
-    if (sessionStorage.getItem('introPlayed')) {
+    if (localStorage.getItem('introPlayed')) {
       screen.remove();
       return;
     }
-    sessionStorage.setItem('introPlayed', '1');
+    localStorage.setItem('introPlayed', '1');
 
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const bAnim = screen.querySelector('.loading-glyph-b');
@@ -106,7 +106,7 @@
     const typeIn = (el, delay) =>
       el.animate(
         [{ opacity: 0, transform: 'scale(0.55)' }, { opacity: 1, transform: 'scale(1)' }],
-        { duration: 140, delay, easing: 'cubic-bezier(0.2,0.85,0.25,1)', fill: 'both' }
+        { duration: 100, delay, easing: 'cubic-bezier(0.2,0.85,0.25,1)', fill: 'both' }
       );
 
     const gLen = gPath.getTotalLength();
@@ -123,14 +123,14 @@
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         typeIn(bAnim, 0);
-        typeIn(tAnim, 210);
+        typeIn(tAnim, 130);
         startG();
       });
     });
 
-    const strokeStart = 420;
-    const strokeDur = 860;
-    const fillDur = 280;
+    const strokeStart = 250;
+    const strokeDur = 480;
+    const fillDur = 160;
 
     function startG() {
       gPath.animate(

@@ -19,13 +19,20 @@ const { title, description, image, ogType } = Astro.props;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/isotipo.svg" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,300..800;1,6..72,300..800&display=swap"
-      rel="stylesheet"
-    />
+    <link rel="preload" href="/fonts/poppins-400.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/newsreader-normal.woff2" as="font" type="font/woff2" crossorigin />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <!--
+      GitHub Pages no soporta cabeceras HTTP personalizadas (public/_headers
+      no se aplica en este hosting), así que la CSP solo puede imponerse aquí
+      como meta tag. Esto cubre script-src/style-src/img-src pero NO puede
+      imponer frame-ancestors ni X-Frame-Options (son solo de cabecera) —
+      ver public/_headers para el detalle de esa limitación.
+    -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://www.google-analytics.com; font-src 'self'; connect-src 'self' https://www.google-analytics.com https://analytics.google.com; frame-src https://www.youtube.com; base-uri 'self'; object-src 'none';"
+    />
     <SEO title={title} description={description} image={image} ogType={ogType} />
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-Z0EQXT8EDV"></script>

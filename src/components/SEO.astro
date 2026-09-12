@@ -1,4 +1,6 @@
 ---
+import { LINKEDIN_URL } from '../consts';
+
 interface Props {
   title: string;
   description: string;
@@ -29,9 +31,9 @@ const personLd = {
     url: 'https://guillenbruna97.github.io/sobre-mi/',
     image: 'https://guillenbruna97.github.io/guillen-chaqueta.png',
     jobTitle: 'Asesor de marketing y estrategia de marca',
-    sameAs: ['https://www.linkedin.com/in/guillenbruna'],
+    sameAs: [LINKEDIN_URL],
   },
-  sameAs: ['https://www.linkedin.com/in/guillenbruna'],
+  sameAs: [LINKEDIN_URL],
 };
 ---
 <title>{title}</title>

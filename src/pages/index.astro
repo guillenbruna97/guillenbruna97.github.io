@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ContactBlock from '../components/ContactBlock.astro';
 import TrustMarquee from '../components/TrustMarquee.astro';
+import { BOOKING_URL } from '../consts';
 
 const trustLogos = [
   { src: '/logo-zebra.svg', alt: 'Zebra Ventures, empresa donde Guillén Bruna Tricas trabaja como Head of Brand & Marketing' },
@@ -29,7 +30,7 @@ const trustLogos = [
           </div>
           <div class="hero-actions">
             <a href="/trabajo/" class="btn-primary">Ver casos reales</a>
-            <a href="https://cal.com/guillen-bruna-tricas/15min" target="_blank" rel="noopener noreferrer" class="btn-secondary">Reservar llamada</a>
+            <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" class="btn-secondary">Reservar llamada</a>
           </div>
         </div>
       </div>

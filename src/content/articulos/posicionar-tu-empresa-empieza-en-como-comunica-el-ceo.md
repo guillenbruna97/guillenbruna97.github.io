@@ -6,6 +6,7 @@ description: "Por qué el posicionamiento de una empresa en su sector depende de
 date: 2026-07-15
 readingTime: "3 min de lectura"
 image: "/images/articulos/posicionar-tu-empresa-empieza-en-como-comunica-el-ceo.jpg"
+imageAlt: "Ilustración de portada sobre cómo la comunicación del CEO define el posicionamiento de la empresa"
 ---
 
 El mercado no compra el producto que aparece en el folleto. El mercado compra la claridad con la que la alta dirección entiende el problema que resuelve. Cuando una empresa pierde fuerza en su sector, la mayoría de los directivos buscan el error en el presupuesto de publicidad o en la estrategia de ventas. Sin embargo, el origen del estancamiento suele ser mucho más silencioso. Ocurre en el momento en que el CEO deja de articular la visión y empieza a delegar la narrativa de su negocio en terceros que no conocen la profundidad de la operación.

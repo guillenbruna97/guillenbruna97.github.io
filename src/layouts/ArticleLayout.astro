@@ -11,8 +11,9 @@ interface Props {
   date: Date;
   readingTime: string;
   image?: string;
+  imageAlt?: string;
 }
-const { title, description, tag, heading, date, readingTime, image } = Astro.props;
+const { title, description, tag, heading, date, readingTime, image, imageAlt } = Astro.props;
 const formattedDate = date.toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
 const imageUrl = image ? `https://guillenbruna97.github.io${image}` : 'https://guillenbruna97.github.io/isotipo.svg';
 const articleLd = {
@@ -52,7 +53,7 @@ const articleLd = {
 
     {image && (
       <div class="article-hero">
-        <img src={image} alt="" />
+        <img src={image} alt={imageAlt ?? heading} width="1376" height="768" fetchpriority="high" />
       </div>
     )}
 

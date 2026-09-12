@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { BOOKING_URL, MAILTO_URL, CONTACT_EMAIL, LINKEDIN_URL, LINKEDIN_HANDLE } from '../../consts';
 ---
 <BaseLayout
   title="Contacto | Guillén Bruna Tricas"
@@ -12,24 +13,24 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
       <p class="contact-desc">Si tienes un proyecto, una pregunta o simplemente quieres hablar de marketing y negocio, escríbeme. Leo todos los mensajes y respondo a los que tienen sentido.</p>
       <h2 class="case-section-h2">Canales de contacto</h2>
       <div class="contact-channels" data-reveal>
-        <a href="https://cal.com/guillen-bruna-tricas/15min" target="_blank" rel="noopener noreferrer" class="channel-item">
+        <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" class="channel-item">
           <div>
             <p class="channel-label">Agenda una llamada</p>
             <p class="channel-value">15 minutos, sin compromiso</p>
           </div>
           <span class="channel-arrow">→</span>
         </a>
-        <a href="mailto:guillenbrunatricas@gmail.com" class="channel-item">
+        <a href={MAILTO_URL} class="channel-item">
           <div>
             <p class="channel-label">Email</p>
-            <p class="channel-value">guillenbrunatricas@gmail.com</p>
+            <p class="channel-value">{CONTACT_EMAIL}</p>
           </div>
           <span class="channel-arrow">→</span>
         </a>
-        <a href="https://www.linkedin.com/in/guillenbruna" target="_blank" rel="noopener noreferrer" class="channel-item">
+        <a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer" class="channel-item">
           <div>
             <p class="channel-label">LinkedIn</p>
-            <p class="channel-value">linkedin.com/in/guillenbruna</p>
+            <p class="channel-value">{LINKEDIN_HANDLE}</p>
           </div>
           <span class="channel-arrow">→</span>
         </a>

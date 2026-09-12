@@ -6,6 +6,7 @@ description: "Por qué medir marketing solo con tráfico y posición en Google y
 date: 2026-08-04
 readingTime: "5 min de lectura"
 image: "/images/articulos/metricas-trafico-no-miden-visibilidad-ia.jpg"
+imageAlt: "Ilustración de portada sobre por qué las métricas de tráfico ya no explican la visibilidad en IA"
 ---
 
 En el último comité de dirección, el informe de marketing probablemente mostraba gráficos ascendentes. Más visitas a la web, mejores posiciones en Google para una lista de conceptos técnicos y un aumento en el volumen de contenidos publicados. En el papel, la estrategia de posicionamiento orgánico es un éxito rotundo. Sin embargo, cuando analiza el origen de las oportunidades de negocio reales, la relación entre ese tráfico y las ventas parece cada vez más difusa.

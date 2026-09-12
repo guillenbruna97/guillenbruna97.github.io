@@ -6,6 +6,7 @@ description: "Un marco de autodiagnóstico para decidir el segmento, el canal de
 date: 2026-08-31
 readingTime: "6 min de lectura"
 image: "/images/articulos/estrategia-lanzamiento-saas-b2b.jpg"
+imageAlt: "Ilustración de portada sobre el diseño de una estrategia de lanzamiento de un SaaS B2B"
 ---
 
 La proximidad del lanzamiento o relanzamiento de una plataforma SaaS B2B suele generar un tipo de actividad muy específica en los comités de dirección. El equipo de desarrollo ultima la versión estable, el área de ventas prepara las plantillas de prospección y el departamento de marketing presenta un plan de acción lleno de iniciativas. Hay campañas de publicidad digital planificadas, notas de prensa redactadas y un calendario de publicaciones para redes sociales listo para ejecutarse.

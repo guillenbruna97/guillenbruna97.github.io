@@ -6,6 +6,7 @@ description: "Qué obliga el Artículo 50 del Reglamento Europeo de IA desde el 
 date: 2026-08-04
 readingTime: "4 min de lectura"
 image: "/images/articulos/etiquetar-contenido-ia-reglamento-europeo-marketing.jpg"
+imageAlt: "Ilustración de portada sobre la obligación de etiquetar contenido con IA según el Reglamento Europeo de IA"
 ---
 
 ¿Sabes qué proporción del contenido que ha publicado tu empresa este año lleva alguna intervención de inteligencia artificial? Probablemente más de la que cree tu comité de dirección, y desde el 2 de agosto de 2026 esa cifra dejó de ser una curiosidad interna para convertirse en una obligación legal.

@@ -11,6 +11,11 @@ const articulos = defineCollection({
     date: z.date(),
     readingTime: z.string(),
     image: z.string().optional(),
+    // Opcional a propósito: la rutina automática semanal (rutina-quincenal.yml)
+    // genera artículos nuevos sin este campo, y no debe romper el build si
+    // no lo incluye. ArticleLayout/ArticlesListing hacen fallback al título
+    // cuando no está presente.
+    imageAlt: z.string().optional(),
   }),
 });
 

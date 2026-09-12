@@ -1,5 +1,7 @@
 ---
 import CaseLayout from '../../../layouts/CaseLayout.astro';
+import { Image } from 'astro:assets';
+import zebraWebImage from '../../../assets/casos/zebra-web.jpg';
 
 const tags = ['Estrategia de marca', 'Lanzamiento de producto'];
 const skills = [
@@ -24,7 +26,7 @@ const skills = [
   <div class="case-intro" data-reveal>
     <p>Cuando llegué, Zebra no tenía una identidad de marca consolidada ni un mensaje claro hacia el mercado. Existía el producto y la ambición, pero faltaba definir qué hace Zebra de verdad, para quién y por qué debería importarle.</p>
     <a href="https://zebraventures.eu" target="_blank" rel="noopener noreferrer" class="case-intro-img case-intro-img--linked">
-      <img src="https://storage.googleapis.com/webcmszebra/media/og/Zebra_AI-transformation-company.jpg" alt="Web de Zebra Ventures" />
+      <Image src={zebraWebImage} alt="Web de Zebra Ventures" width={1200} format="webp" quality={65} />
     </a>
   </div>
 

@@ -1,5 +1,18 @@
+# NOTA: este archivo NO tiene efecto en GitHub Pages. `_headers` es una
+# convención de Netlify/Cloudflare Pages para servir cabeceras HTTP
+# personalizadas; GitHub Pages la ignora por completo (verificado con
+# `curl -I` contra el sitio en producción — ninguna de estas cabeceras
+# llega al navegador salvo el HSTS por defecto de GitHub).
+#
+# Se mantiene como referencia y quedaría activo automáticamente si el
+# sitio se migra a Netlify/Cloudflare Pages en el futuro. Mientras tanto,
+# la parte de Content-Security-Policy que SÍ se puede aplicar (todo menos
+# frame-ancestors, que es solo de cabecera) va como <meta http-equiv> en
+# src/layouts/BaseLayout.astro. X-Frame-Options, X-Content-Type-Options y
+# un Referrer-Policy reforzado solo pueden llegar a producción migrando de
+# hosting o poniendo un proxy (p. ej. Cloudflare) delante de GitHub Pages.
 /*
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https://storage.googleapis.com https://www.google-analytics.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://www.google-analytics.com https://analytics.google.com; frame-src https://www.youtube.com; frame-ancestors 'none';
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://www.google-analytics.com; font-src 'self'; connect-src 'self' https://www.google-analytics.com https://analytics.google.com; frame-src https://www.youtube.com; frame-ancestors 'none';
   Referrer-Policy: strict-origin-when-cross-origin
   X-Content-Type-Options: nosniff
   Strict-Transport-Security: max-age=31536000; includeSubDomains

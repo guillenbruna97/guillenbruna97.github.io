@@ -8,7 +8,7 @@ interface Props {
   label?: string;
 }
 const { logos, label = 'Confiaron en mí' } = Astro.props;
-const REPEATS = 6;
+const REPEATS = 3;
 ---
 <div class="trust-section">
   <p class="trust-label">{label}</p>
@@ -67,7 +67,7 @@ const REPEATS = 6;
 
   @keyframes marquee-ltr {
     from { transform: translateX(0%); }
-    to   { transform: translateX(-16.6667%); }
+    to   { transform: translateX(-33.3333%); }
   }
   @media (prefers-reduced-motion: reduce) {
     .marquee-track { animation: none; }

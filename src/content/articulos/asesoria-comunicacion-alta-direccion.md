@@ -6,6 +6,7 @@ description: "Por qué la asesoría de comunicación ejecutiva es una parte cent
 date: 2026-06-14
 readingTime: "6 min de lectura"
 image: "/images/articulos/asesoria-comunicacion-alta-direccion.jpg"
+imageAlt: "Ilustración de portada sobre asesoría de comunicación para altos directivos y cargos públicos"
 ---
 
 La estrategia de marca y el posicionamiento en el mercado son el resultado de una orquestación meticulosa donde cada elemento contribuye a la percepción general. Las organizaciones invierten recursos significativos en campañas de marketing sofisticadas, en el desarrollo de identidades visuales impactantes y en la optimización de sus canales digitales. Sin embargo, existe un pilar fundamental cuya coherencia e impacto a menudo se subestiman, a pesar de ser uno de los más poderosos generadores de confianza y lealtad: la voz de su liderazgo.

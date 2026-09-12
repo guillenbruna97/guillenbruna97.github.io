@@ -1,0 +1,25 @@
+name: CI (build check)
+
+# Solo corre en Pull Requests. No toca deploy.yml ni rutina-quincenal.yml:
+# no despliega nada ni tiene permisos de escritura, es puramente una
+# comprobación antes de fusionar a main.
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npx astro check
+      - run: npm run build
+      - run: node scripts/check-links.mjs
