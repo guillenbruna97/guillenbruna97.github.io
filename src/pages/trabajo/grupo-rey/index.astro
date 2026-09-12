@@ -1,26 +1,16 @@
 ---
 import CaseLayout from '../../../layouts/CaseLayout.astro';
+import { casos } from '../../../data/casos';
 
-const tags = ['Estrategia de marca', 'Eventos', 'Generación de demanda', 'Contenido'];
-const skills = [
-  'Social media strategy',
-  'Meta Ads',
-  'Selección y gestión de agencias',
-  'Eventos e inauguraciones',
-  'Comunicación de marca',
-  'Planificación editorial',
-  'Community management',
-  'Producción de contenido audiovisual',
-  'Producción de spot',
-];
+const caso = casos.find((c) => c.slug === 'grupo-rey')!;
 ---
 <CaseLayout
-  title="Grupo Rey — Paid Media y Marca | Guillén Bruna Tricas"
-  description="Caso real de comunicación digital y Meta Ads para marcas nacionales de retail. Head of Social Media en Grupo Rey Corporación."
-  tags={tags}
-  heading="Estrategia social, paid media y comunicación de marca"
-  meta="Muebles Rey & Muebles Tuco · Head of Social Media"
-  skills={skills}
+  title={caso.detailTitle}
+  description={caso.detailDescription}
+  tags={caso.detailTags}
+  heading={caso.detailHeading}
+  meta={`${caso.company} · ${caso.role}`}
+  skills={caso.skills}
 >
   <div class="case-intro" data-reveal>
     <p>Grupo Rey Corporación es uno de los grupos de retail de muebles con mayor recorrido en España, con presencia nacional a través de sus marcas Muebles Rey y Muebles Tuco. Entrar como técnico de marketing y evolucionar hasta Head of Social Media en una organización de esa escala fue una de las experiencias que más aceleró mi desarrollo como profesional. Cuando gestionas la comunicación de marcas nacionales con años de historia, la exigencia y el ritmo no tienen equivalente en entornos más pequeños.</p>

@@ -2,28 +2,17 @@
 import CaseLayout from '../../../layouts/CaseLayout.astro';
 import { Image } from 'astro:assets';
 import brocoImage from '../../../assets/casos/broco.png';
+import { casos } from '../../../data/casos';
 
-const tags = ['eCommerce', 'Generación de demanda'];
-const skills = [
-  'Brand strategy',
-  'Naming',
-  'Identidad visual',
-  'eCommerce',
-  'Paid media',
-  'Social media',
-  'Negociación con proveedores',
-  'Plan de negocio',
-  'Packaging',
-  'Gestión de operaciones',
-];
+const caso = casos.find((c) => c.slug === 'broco')!;
 ---
 <CaseLayout
-  title="Broco — Marca y eCommerce | Guillén Bruna Tricas"
-  description="Caso real de lanzamiento de marca de moda urbana desde cero. 400-500 pedidos y 5.000 seguidores sin inversión externa."
-  tags={tags}
-  heading="Lanzamiento y construcción de marca"
-  meta="Broco · Fundador"
-  skills={skills}
+  title={caso.detailTitle}
+  description={caso.detailDescription}
+  tags={caso.detailTags}
+  heading={caso.detailHeading}
+  meta={`${caso.company} · ${caso.role}`}
+  skills={caso.skills}
 >
   <div class="case-intro" data-reveal>
     <p>Broco nació sin presupuesto, sin equipo externo y sin manual de instrucciones. Solo tres amigos, una idea y la determinación de construir algo real desde dentro. El nombre salió de fusionar "brother" con "co", el apelativo que define la forma de hablar en Zaragoza, y el protagonista visual fue el brócoli, un símbolo deliberadamente atrevido que rompía con la seriedad de las marcas de moda convencional y anclaba el mensaje de sostenibilidad con personalidad propia.</p>

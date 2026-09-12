@@ -1,23 +1,16 @@
 ---
 import CaseLayout from '../../../layouts/CaseLayout.astro';
+import { casos } from '../../../data/casos';
 
-const tags = ['Consultoría', 'Contenido', 'Estrategia de marca'];
-const skills = [
-  'Estrategia digital',
-  'Planificación de comunicación',
-  'Consultoría',
-  'Social media',
-  'Desarrollo web',
-  'Ampliación de línea de servicios',
-];
+const caso = casos.find((c) => c.slug === 'integra')!;
 ---
 <CaseLayout
-  title="Integra — Consultoría Digital | Guillén Bruna Tricas"
-  description="Caso real de desarrollo de línea de servicios digitales dentro de una consultoría gerencial. Estrategia, social media y web para PYMEs y empresas medianas."
-  tags={tags}
-  heading="Expansión digital"
-  meta="Integra Consultoría Gerencial · Consultor"
-  skills={skills}
+  title={caso.detailTitle}
+  description={caso.detailDescription}
+  tags={caso.detailTags}
+  heading={caso.detailHeading}
+  meta={`${caso.company} · ${caso.role}`}
+  skills={caso.skills}
 >
   <div class="case-intro" data-reveal>
     <p>Integra Consultoría Gerencial es una consultora con foco en dirección estratégica y gestión empresarial para PYMEs, empresas familiares y empresas medianas. Mi incorporación tenía un objetivo claro: desarrollar y poner en marcha la línea de servicios de comunicación digital que la consultora quería añadir a su propuesta de valor, ampliando así su catálogo más allá de la consultoría gerencial tradicional.</p>

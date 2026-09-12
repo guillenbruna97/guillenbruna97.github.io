@@ -2,26 +2,17 @@
 import CaseLayout from '../../../layouts/CaseLayout.astro';
 import { Image } from 'astro:assets';
 import zebraWebImage from '../../../assets/casos/zebra-web.jpg';
+import { casos } from '../../../data/casos';
 
-const tags = ['Estrategia de marca', 'Lanzamiento de producto'];
-const skills = [
-  'Brand strategy',
-  'Posicionamiento',
-  'GTM',
-  'Content strategy',
-  'CRM & Funnel',
-  'Web',
-  'Eventos',
-  'Product launch',
-];
+const caso = casos.find((c) => c.slug === 'zebra-ventures')!;
 ---
 <CaseLayout
-  title="Zebra Ventures — Marca y GTM | Guillén Bruna Tricas"
-  description="Caso real de estrategia de marca, mensaje y go-to-market para una empresa de IA. Diagnóstico, lanzamiento de producto y evento propio."
-  tags={tags}
-  heading="Construcción de marca y estrategia GTM"
-  meta="Zebra Ventures · Head of Brand & Marketing"
-  skills={skills}
+  title={caso.detailTitle}
+  description={caso.detailDescription}
+  tags={caso.detailTags}
+  heading={caso.detailHeading}
+  meta={`${caso.company} · ${caso.role}`}
+  skills={caso.skills}
 >
   <div class="case-intro" data-reveal>
     <p>Cuando llegué, Zebra no tenía una identidad de marca consolidada ni un mensaje claro hacia el mercado. Existía el producto y la ambición, pero faltaba definir qué hace Zebra de verdad, para quién y por qué debería importarle.</p>
