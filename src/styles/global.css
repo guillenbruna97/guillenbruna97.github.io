@@ -39,7 +39,7 @@ h1, h2, h3 {
   position: absolute;
   z-index: 0;
   font-family: 'Newsreader', Georgia, serif;
-  font-weight: 700;
+  font-weight: 400;
   font-style: italic;
   line-height: 1;
   color: rgba(0,0,0,0.06);
@@ -51,7 +51,7 @@ body.dark .ghost-mark { color: rgba(255,255,255,0.07); }
 
 .case-section-h2 {
   font-size: clamp(1.2rem, 2.5vw, 1.6rem);
-  font-weight: 700;
+  font-weight: 400;
   letter-spacing: -0.02em;
   margin-bottom: 2rem;
   transition: color var(--transition);
