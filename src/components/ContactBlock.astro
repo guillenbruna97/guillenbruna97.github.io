@@ -10,7 +10,10 @@ const { title, subtitle } = Astro.props;
     <p class="contact-title" set:html={title}></p>
     {subtitle && <p class="contact-sub">{subtitle}</p>}
   </div>
-  <a href="mailto:guillenbrunatricas@gmail.com" class="btn-contact">Escríbeme →</a>
+  <div class="contact-actions">
+    <a href="https://cal.com/guillen-bruna-tricas/15min" target="_blank" rel="noopener noreferrer" class="btn-contact">Reservar llamada →</a>
+    <a href="mailto:guillenbrunatricas@gmail.com" class="btn-contact btn-contact--ghost">Escríbeme</a>
+  </div>
 </div>
 
 <style is:global>
@@ -43,6 +46,8 @@ const { title, subtitle } = Astro.props;
   }
   body.dark .contact-sub { color: rgba(232,232,232,0.6); }
 
+  .contact-actions { display: flex; align-items: center; gap: 0.9rem; flex-shrink: 0; }
+
   .btn-contact {
     display: inline-flex;
     align-items: center;
@@ -59,13 +64,25 @@ const { title, subtitle } = Astro.props;
     flex-shrink: 0;
     letter-spacing: 0.04em;
     text-decoration: none;
+    white-space: nowrap;
     transition: background var(--transition), color var(--transition), border-color var(--transition), transform 0.15s ease;
   }
   .btn-contact:hover { background: var(--off-white); transform: translateY(-1px); }
-  body.dark .btn-contact { background: transparent; color: #e8e8e8; border-color: rgba(232,232,232,0.3); }
-  body.dark .btn-contact:hover { border-color: var(--blue-light); color: var(--blue-light); }
+  body.dark .btn-contact { background: var(--blue-light); color: var(--dark-bg); }
+  body.dark .btn-contact:hover { background: #7ab0f0; }
+
+  .btn-contact--ghost {
+    background: transparent;
+    color: var(--white);
+    border-color: rgba(255,255,255,0.4);
+  }
+  .btn-contact--ghost:hover { background: rgba(255,255,255,0.1); color: var(--white); }
+  body.dark .btn-contact--ghost { background: transparent; color: #e8e8e8; border-color: rgba(232,232,232,0.3); }
+  body.dark .btn-contact--ghost:hover { border-color: var(--blue-light); color: var(--blue-light); background: transparent; }
 
   @media (max-width: 640px) {
     .contact-block { flex-direction: column; gap: 2rem; align-items: flex-start; }
+    .contact-actions { width: 100%; }
+    .btn-contact { flex: 1; justify-content: center; }
   }
 </style>

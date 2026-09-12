@@ -14,8 +14,33 @@ interface Props {
 }
 const { title, description, tag, heading, date, readingTime, image } = Astro.props;
 const formattedDate = date.toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
+const imageUrl = image ? `https://guillenbruna97.github.io${image}` : 'https://guillenbruna97.github.io/isotipo.svg';
+const articleLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: heading,
+  description,
+  image: imageUrl,
+  datePublished: date.toISOString(),
+  dateModified: date.toISOString(),
+  mainEntityOfPage: Astro.url.href,
+  author: {
+    '@type': 'Person',
+    name: 'Guillén Bruna Tricas',
+    url: 'https://guillenbruna97.github.io/sobre-mi/',
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'Guillén Bruna Tricas',
+    logo: {
+      '@type': 'ImageObject',
+      url: 'https://guillenbruna97.github.io/isotipo.svg',
+    },
+  },
+};
 ---
-<BaseLayout title={title} description={description} ogType="article">
+<BaseLayout title={title} description={description} image={image} ogType="article">
+  <script type="application/ld+json" set:html={JSON.stringify(articleLd)} />
   <a href="/articulos/" class="back-link">← Volver a artículos</a>
 
   <div class="article-main">

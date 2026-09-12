@@ -14,6 +14,25 @@ const {
   ogType = 'website',
 } = Astro.props;
 const imageUrl = image.startsWith('http') ? image : `https://guillenbruna97.github.io${image}`;
+
+const personLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfessionalService',
+  name: 'Guillén Bruna Tricas — Estrategia de marketing y marca',
+  url: 'https://guillenbruna97.github.io/',
+  image: 'https://guillenbruna97.github.io/guillen-chaqueta.png',
+  description: 'Asesoro a empresas y a directivos que quieren comunicar con autoridad y posicionarse como referentes en su sector.',
+  areaServed: 'ES',
+  founder: {
+    '@type': 'Person',
+    name: 'Guillén Bruna Tricas',
+    url: 'https://guillenbruna97.github.io/sobre-mi/',
+    image: 'https://guillenbruna97.github.io/guillen-chaqueta.png',
+    jobTitle: 'Asesor de marketing y estrategia de marca',
+    sameAs: ['https://www.linkedin.com/in/guillenbruna'],
+  },
+  sameAs: ['https://www.linkedin.com/in/guillenbruna'],
+};
 ---
 <title>{title}</title>
 <meta name="description" content={description} />
@@ -26,7 +45,9 @@ const imageUrl = image.startsWith('http') ? image : `https://guillenbruna97.gith
 <meta property="og:image" content={imageUrl} />
 <meta property="og:locale" content="es_ES" />
 
-<meta name="twitter:card" content="summary" />
+<meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content={title} />
 <meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={imageUrl} />
+
+<script type="application/ld+json" set:html={JSON.stringify(personLd)} />
