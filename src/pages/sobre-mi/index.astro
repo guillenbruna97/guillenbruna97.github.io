@@ -23,9 +23,7 @@ import ContactBlock from '../../components/ContactBlock.astro';
       <p class="about-intro">No soy un especialista de canal. Soy alguien que entiende el negocio completo y lo ejecuta desde el marketing.</p>
     </div>
     <div class="about-hero-img">
-      <svg class="parallax-blob parallax-blob-1" viewBox="0 0 200 200" aria-hidden="true" focusable="false">
-        <circle cx="100" cy="100" r="90" />
-      </svg>
+      <span class="ghost-mark about-ghost-mark" aria-hidden="true">02</span>
       <img src="/guillen-chaqueta.png" alt="Guillén Bruna Tricas" width="1080" height="1350" />
     </div>
   </div>
@@ -64,14 +62,6 @@ import ContactBlock from '../../components/ContactBlock.astro';
       <div class="momento-item" data-reveal>
         <img src="/momento-broco.png" alt="Guillén Bruna Tricas junto al equipo cofundador de Broco, su marca de moda sostenible" width="1080" height="1080" loading="lazy" decoding="async" />
         <p class="momento-caption">Amigos que se convierten en socios. O socios que se convierten en amigos.</p>
-      </div>
-      <div class="momento-item" data-reveal>
-        <img src="/momento-futbol.png" alt="Guillén Bruna Tricas jugando al fútbol, la afición que marcó su forma de trabajar en equipo" width="1080" height="1080" loading="lazy" decoding="async" />
-        <p class="momento-caption">El hobbie que me enseñó a entender la vida antes de entender el negocio.</p>
-      </div>
-      <div class="momento-item" data-reveal>
-        <img src="/momento-pareja.png" alt="Guillén Bruna Tricas junto a su pareja en un momento personal" width="1080" height="1080" loading="lazy" decoding="async" />
-        <p class="momento-caption">Momentos de respiro que te recargan para volver con más fuerza.</p>
       </div>
       <div class="momento-item" data-reveal>
         <img src="/momento-sis.png" alt="Guillén Bruna Tricas en el Spain Innovation Summit, evento de innovación organizado junto a su equipo en Zebra Ventures" width="1080" height="1080" loading="lazy" decoding="async" />
@@ -123,7 +113,7 @@ import ContactBlock from '../../components/ContactBlock.astro';
     letter-spacing: -0.03em;
     margin-bottom: 1.5rem;
   }
-  .about-hero h1 .accent { color: var(--blue); transition: color var(--transition); }
+  .about-hero h1 .accent { color: var(--blue); font-style: italic; transition: color var(--transition); }
   body.dark .about-hero h1 .accent { color: var(--blue-light); }
 
   .about-meta { margin-bottom: 2rem; }
@@ -158,21 +148,11 @@ import ContactBlock from '../../components/ContactBlock.astro';
     object-position: bottom;
   }
 
-  .parallax-blob {
-    position: absolute;
-    z-index: 0;
-    pointer-events: none;
-    filter: blur(40px);
+  .about-ghost-mark {
+    font-size: clamp(8rem, 18vw, 13rem);
+    top: 6%;
+    right: -8%;
   }
-  .parallax-blob circle { fill: var(--blue-light); opacity: 0.18; transition: fill var(--transition); }
-  body.dark .parallax-blob circle { fill: var(--blue); opacity: 0.24; }
-  .parallax-blob-1 { width: 220px; height: 220px; top: 10%; right: -10%; }
-  @supports (animation-timeline: view()) {
-    @media (prefers-reduced-motion: no-preference) {
-      .parallax-blob-1 { animation: parallax-drift-1 linear; animation-timeline: view(); animation-range: entry 0% cover 100%; }
-    }
-  }
-  @keyframes parallax-drift-1 { from { transform: translateY(-20px); } to { transform: translateY(30px); } }
 
   @media (prefers-reduced-motion: no-preference) {
     .about-hero-text > * { opacity: 0; animation: hero-fade-up 0.7s ease forwards; }
@@ -239,7 +219,7 @@ import ContactBlock from '../../components/ContactBlock.astro';
     transition: color var(--transition);
   }
   body.dark .momentos-title { color: #e8e8e8; }
-  .momentos-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
+  .momentos-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
   .momento-item { display: flex; flex-direction: column; gap: 0.8rem; }
   .momento-item img {
     width: 100%;

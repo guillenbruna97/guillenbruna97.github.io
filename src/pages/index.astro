@@ -17,12 +17,7 @@ const trustLogos = [
   description="Estrategia de marketing y marca. Asesoro a empresas y a directivos que quieren comunicar con autoridad y posicionarse como referentes en su sector."
 >
   <div class="hero-wrapper">
-    <svg class="parallax-blob parallax-blob-1" viewBox="0 0 200 200" aria-hidden="true" focusable="false">
-      <circle cx="100" cy="100" r="90" />
-    </svg>
-    <svg class="parallax-blob parallax-blob-2" viewBox="0 0 200 200" aria-hidden="true" focusable="false">
-      <circle cx="100" cy="100" r="90" />
-    </svg>
+    <span class="ghost-mark hero-ghost-mark" aria-hidden="true">01</span>
 
     <div class="hero">
       <div class="hero-content">
@@ -115,25 +110,12 @@ const trustLogos = [
   .hero { padding: 3.5rem 3rem 3.5rem 0; max-width: 1400px; margin: 0 4vw; }
   .hero-content { position: relative; z-index: 1; }
 
-  /* Soft parallax background shapes */
-  .parallax-blob {
-    position: absolute;
-    z-index: 0;
-    pointer-events: none;
-    filter: blur(40px);
+  /* Signature ghost-number mark, same device as the 01-04 marks in "Áreas de trabajo" */
+  .hero-ghost-mark {
+    font-size: clamp(9rem, 22vw, 17rem);
+    top: -1.5rem;
+    right: 4%;
   }
-  .parallax-blob circle { fill: var(--blue-light); opacity: 0.18; transition: fill var(--transition); }
-  body.dark .parallax-blob circle { fill: var(--blue); opacity: 0.24; }
-  .parallax-blob-1 { width: 260px; height: 260px; top: -60px; right: 8%; }
-  .parallax-blob-2 { width: 180px; height: 180px; bottom: -40px; left: 4%; }
-  @supports (animation-timeline: view()) {
-    @media (prefers-reduced-motion: no-preference) {
-      .parallax-blob-1 { animation: parallax-drift-1 linear; animation-timeline: view(); animation-range: entry 0% cover 100%; }
-      .parallax-blob-2 { animation: parallax-drift-2 linear; animation-timeline: view(); animation-range: entry 0% cover 100%; }
-    }
-  }
-  @keyframes parallax-drift-1 { from { transform: translateY(-20px); } to { transform: translateY(40px); } }
-  @keyframes parallax-drift-2 { from { transform: translateY(10px); } to { transform: translateY(-30px); } }
 
   /* Hero entrance animation */
   @media (prefers-reduced-motion: no-preference) {
@@ -154,7 +136,7 @@ const trustLogos = [
     margin-bottom: 1.75rem;
     max-width: 780px;
   }
-  .hero-headline .accent { color: var(--blue); transition: color var(--transition); }
+  .hero-headline .accent { color: var(--blue); font-style: italic; transition: color var(--transition); }
   body.dark .hero-headline .accent { color: var(--blue-light); }
 
   .hero-sub {
@@ -271,8 +253,10 @@ const trustLogos = [
 
   .capacidad-ghost {
     order: 1;
+    font-family: 'Newsreader', Georgia, serif;
     font-size: clamp(2.6rem, 6vw, 4.5rem);
-    font-weight: 800;
+    font-weight: 700;
+    font-style: italic;
     line-height: 1;
     color: rgba(255,255,255,0.18);
     transition: color var(--transition);
@@ -375,6 +359,7 @@ const trustLogos = [
     .hero { margin: 0 2vw; padding: 5rem 1.5rem 4rem; }
     .hero-sub { grid-template-columns: 1fr; gap: 2rem; }
     .hero-actions { padding-top: 0; }
+    .hero-ghost-mark { font-size: clamp(6rem, 26vw, 9rem); top: -0.5rem; right: -2%; }
     .capacidad-row { grid-template-columns: auto 1fr; }
     .capacidad-link { display: none; }
     .capacidad-row:nth-child(even) .capacidad-ghost { order: 1; text-align: left; }
