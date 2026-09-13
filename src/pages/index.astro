@@ -81,16 +81,16 @@ const trustLogos = [
   <section class="stats-band">
     <div class="stats-band-inner">
       <div class="stat-item stat-item--hero" data-reveal data-count="6">
-        <p class="stat-value"><span class="stat-number">0</span>+</p>
+        <p class="stat-value"><span class="stat-number">6</span>+</p>
         <p class="stat-label"><span class="stat-label-lead">Marcas gestionadas</span> en paralelo</p>
       </div>
       <div class="stats-side">
         <div class="stat-item" data-reveal data-count="4">
-          <p class="stat-value"><span class="stat-number">0</span>+</p>
+          <p class="stat-value"><span class="stat-number">4</span>+</p>
           <p class="stat-label"><span class="stat-label-lead">Casos reales</span> trabajados de principio a fin</p>
         </div>
         <div class="stat-item" data-reveal data-count="5">
-          <p class="stat-value"><span class="stat-number">0</span>+</p>
+          <p class="stat-value"><span class="stat-number">5</span>+</p>
           <p class="stat-label"><span class="stat-label-lead">Años liderando</span> marketing y marca</p>
         </div>
       </div>
@@ -377,14 +377,14 @@ const trustLogos = [
   const statEls = document.querySelectorAll<HTMLElement>('.stat-item');
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  // El HTML ya trae el número real (contenido por defecto, visible sin JS
+  // y tal cual lo indexan los buscadores). La animación es solo una mejora
+  // progresiva: si corre, parte de 0 hacia ese mismo número real.
   const animateCount = (el: HTMLElement) => {
     const target = Number(el.dataset.count ?? '0');
     const numberEl = el.querySelector<HTMLElement>('.stat-number');
-    if (!numberEl) return;
-    if (prefersReducedMotion) {
-      numberEl.textContent = String(target);
-      return;
-    }
+    if (!numberEl || prefersReducedMotion) return;
+    numberEl.textContent = '0';
     const duration = 900;
     const start = performance.now();
     const step = (now: number) => {

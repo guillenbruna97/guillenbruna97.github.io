@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import ArticleLayout from '../../layouts/ArticleLayout.astro';
+import { getRelatedArticles } from '../../utils/articles';
 
 export async function getStaticPaths() {
   const articulos = await getCollection('articulos');
@@ -12,6 +13,8 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 const { Content } = await render(entry);
+const allArticulos = await getCollection('articulos');
+const related = getRelatedArticles(allArticulos, entry);
 ---
 <ArticleLayout
   title={`${entry.data.title} | Guillén Bruna Tricas`}
@@ -22,6 +25,7 @@ const { Content } = await render(entry);
   readingTime={entry.data.readingTime}
   image={entry.data.image}
   imageAlt={entry.data.imageAlt}
+  related={related}
 >
   <Content />
 </ArticleLayout>
