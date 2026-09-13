@@ -1,6 +1,8 @@
 ---
 import type { Page } from 'astro';
 import type { CollectionEntry } from 'astro:content';
+import { Picture } from 'astro:assets';
+import { getArticleImage } from '../utils/article-images';
 import Tag from './Tag.astro';
 
 interface Props {
@@ -23,12 +25,29 @@ const pageHref = (num: number) => (num === 1 ? `${basePath}/` : `${basePath}/${n
 </div>
 
 <div class="cases articles-cases">
-  {page.data.map((entry) => (
+  {page.data.map((entry) => {
+    const optimizedImage = getArticleImage(entry.data.image);
+    return (
     <div class="case-item" data-reveal>
       {entry.data.image && (
         <div class="case-media">
           <a href={`/articulos/${entry.id}/`} aria-label={`Leer artículo: ${entry.data.title}`}>
-            <img src={entry.data.image} alt={entry.data.imageAlt ?? entry.data.title} width="1376" height="768" loading="lazy" decoding="async" />
+            {optimizedImage ? (
+              <Picture
+                src={optimizedImage}
+                alt={entry.data.imageAlt ?? entry.data.title}
+                width={1376}
+                height={768}
+                widths={[400, 800, 1376]}
+                sizes="(max-width: 640px) 100vw, 50vw"
+                formats={['avif', 'webp']}
+                fallbackFormat="jpg"
+                quality={60}
+                loading="lazy"
+              />
+            ) : (
+              <img src={entry.data.image} alt={entry.data.imageAlt ?? entry.data.title} width="1376" height="768" loading="lazy" decoding="async" />
+            )}
           </a>
         </div>
       )}
@@ -41,7 +60,8 @@ const pageHref = (num: number) => (num === 1 ? `${basePath}/` : `${basePath}/${n
         <a href={`/articulos/${entry.id}/`} class="case-link">Leer artículo →</a>
       </div>
     </div>
-  ))}
+    );
+  })}
 </div>
 
 {page.lastPage > 1 && (
