@@ -4,6 +4,7 @@ import SEO from '../components/SEO.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import LoadingScreen from '../components/LoadingScreen.astro';
+import { BOOKING_URL } from '../consts';
 
 interface Props {
   title: string;
@@ -83,6 +84,28 @@ const { title, description, image, ogType } = Astro.props;
         );
         revealTargets.forEach((el) => observer.observe(el));
       }
+    </script>
+    <script define:vars={{ BOOKING_URL }}>
+      // GA4 solo registraba la vista de página base — no había ningún
+      // evento en los clics de "Reservar llamada" ni "Escríbeme", así que
+      // era imposible saber qué página o mensaje convierte más. Delegado
+      // en document en vez de atado a cada botón: cubre automáticamente
+      // cualquier CTA nuevo que apunte a las mismas URLs, sin tener que
+      // acordarse de instrumentarlo a mano cada vez.
+      document.addEventListener('click', (e) => {
+        const link = e.target.closest('a[href]');
+        if (!link || typeof gtag !== 'function') return;
+        const href = link.getAttribute('href') ?? '';
+        let eventName = null;
+        if (href.startsWith(BOOKING_URL)) eventName = 'reservar_llamada_click';
+        else if (href.startsWith('mailto:')) eventName = 'escribeme_click';
+        if (!eventName) return;
+        gtag('event', eventName, {
+          link_text: link.textContent.trim(),
+          page_path: location.pathname,
+          transport_type: 'beacon',
+        });
+      });
     </script>
   </body>
 </html>
