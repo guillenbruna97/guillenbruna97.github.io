@@ -16,10 +16,10 @@ const isActive = (href: string) => {
     <li><a href="/contacto/" class={isActive('/contacto/') ? 'active' : ''}>Contacto</a></li>
   </ul>
   <div class="nav-right">
-    <button class="hamburger" id="hamburger" aria-label="Abrir menú">
+    <button class="hamburger" id="hamburger" aria-expanded="false" aria-controls="navLinks" aria-label="Abrir menú">
       <span></span><span></span><span></span>
     </button>
-    <button class="toggle" id="themeToggle" aria-label="Cambiar modo">
+    <button class="toggle" id="themeToggle" aria-pressed="false" aria-label="Activar modo oscuro">
       <span class="toggle-dot"></span>
     </button>
   </div>
@@ -153,16 +153,41 @@ const isActive = (href: string) => {
   const hamburger = document.getElementById('hamburger');
   const navLinks = document.getElementById('navLinks');
 
-  hamburger!.addEventListener('click', () => navLinks!.classList.toggle('open'));
+  const setMenuOpen = (open: boolean) => {
+    navLinks!.classList.toggle('open', open);
+    hamburger!.setAttribute('aria-expanded', String(open));
+    hamburger!.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
+  };
+
+  hamburger!.addEventListener('click', () => setMenuOpen(!navLinks!.classList.contains('open')));
   document.addEventListener('click', (e) => {
     if (!hamburger!.contains(e.target as Node) && !navLinks!.contains(e.target as Node)) {
-      navLinks!.classList.remove('open');
+      setMenuOpen(false);
     }
   });
 
   const toggle = document.getElementById('themeToggle');
+  const setThemeButtonState = (isDark: boolean) => {
+    toggle!.setAttribute('aria-pressed', String(isDark));
+    toggle!.setAttribute('aria-label', isDark ? 'Activar modo claro' : 'Activar modo oscuro');
+  };
+  // El body ya trae la clase "dark" correcta (o no) del script de tema que
+  // corre antes en BaseLayout — aquí solo hace falta reflejar ese estado
+  // real en el botón, no recalcularlo.
+  setThemeButtonState(document.body.classList.contains('dark'));
+
   toggle!.addEventListener('click', () => {
     document.body.classList.toggle('dark');
-    localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+    const isDark = document.body.classList.contains('dark');
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    setThemeButtonState(isDark);
+  });
+
+  // Si el visitante no ha fijado preferencia manual, BaseLayout sigue el
+  // tema del sistema en tiempo real; este listener solo mantiene el botón
+  // (aria-pressed/aria-label) sincronizado con ese cambio.
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+    if (localStorage.getItem('theme')) return;
+    setThemeButtonState(document.body.classList.contains('dark'));
   });
 </script>
