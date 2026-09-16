@@ -95,8 +95,8 @@ const breadcrumbLd = {
     </div>
 
     {related.length > 0 && (
-      <nav class="related-articles" aria-label="Artículos relacionados">
-        <p class="related-label">Sigue leyendo</p>
+      <section class="related-articles" aria-label="Artículos relacionados">
+        <p class="related-label">Artículos relacionados</p>
         <ul>
           {related.map((article) => {
             const relatedOptimized = getArticleImage(article.data.image);
@@ -132,7 +132,7 @@ const breadcrumbLd = {
             );
           })}
         </ul>
-      </nav>
+      </section>
     )}
   </div>
 
