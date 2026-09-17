@@ -1,0 +1,25 @@
+---
+import ServiceLayout from '../../../layouts/ServiceLayout.astro';
+import { getService } from '../../../consts';
+
+const service = getService('pipeline')!;
+---
+<ServiceLayout
+  title={`${service.name} | Guillén Bruna Tricas`}
+  description="Auditoría del proceso comercial B2B con datos del propio CRM para localizar en qué etapa se pierden las oportunidades y por qué."
+  heading={service.name}
+  subtitle="Descubre dónde tu pipeline B2B pierde oportunidades valiosas y qué ajustes estructurales necesitas para convertir leads en clientes de forma consistente."
+  paraQuien="Este servicio es para CEOs, directores comerciales o fundadores de empresas B2B con un CRM en uso. Si tu equipo ya genera leads cualificados pero las tasas de conversión no mejoran, sientes que hay fugas invisibles en tu proceso de ventas que impiden el crecimiento deseado."
+  queResuelve="Tu problema no es la falta de leads ni de marketing, sino las ineficiencias internas que drenan tu pipeline comercial. Hay puntos ciegos en tu proceso de ventas donde las oportunidades se estancan o se pierden sin una razón clara. Hace falta una visión externa y objetiva que analice tus datos reales, identifique esas fugas y señale exactamente qué cambio estructural corrige el problema de raíz, elevando tu conversión de forma sostenible."
+  recibe={[
+    'Auditoría detallada de tu pipeline B2B con datos de tu propio CRM',
+    'Identificación precisa de fugas y cuellos de botella por etapa',
+    'Recomendaciones estructurales priorizadas para corregir esas fugas',
+  ]}
+  pasos={[
+    { title: 'Acceso y extracción', text: 'Accedemos a tu CRM para extraer los datos relevantes de tu pipeline con confidencialidad.' },
+    { title: 'Análisis y diagnóstico', text: 'Analizamos los datos para diagnosticar las fugas en cada etapa del proceso comercial.' },
+    { title: 'Informe y prioridades', text: 'Entregamos un informe con las fugas identificadas y las recomendaciones priorizadas para corregirlas.' },
+  ]}
+  cierre="Si sospechas que tu pipeline oculta ineficiencias que limitan tu crecimiento, es momento de comprobarlo. Hablemos de cómo una auditoría objetiva puede darte las respuestas que necesitas para impulsar la conversión de tu equipo comercial."
+/>

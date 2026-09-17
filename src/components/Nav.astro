@@ -1,4 +1,6 @@
 ---
+import { SERVICES } from '../consts';
+
 const pathname = Astro.url.pathname;
 const isActive = (href: string) => {
   if (href === '/') return pathname === '/';
@@ -10,7 +12,16 @@ const isActive = (href: string) => {
     <img src="/isotipo.svg" alt="Guillén Bruna Tricas" class="logo-img" width="36" height="36" />
   </a>
   <ul class="nav-links" id="navLinks">
-    <li><a href="/servicios/" class={isActive('/servicios/') ? 'active' : ''}>Servicios</a></li>
+    <li class="has-dropdown">
+      <a href="/servicios/" class={isActive('/servicios/') ? 'active' : ''}>Servicios <span class="chevron">▾</span></a>
+      <ul class="dropdown-menu">
+        {SERVICES.map((s) => (
+          <li>
+            <a href={`/servicios/${s.slug}/`} class={isActive(`/servicios/${s.slug}/`) ? 'active' : ''}>{s.name}</a>
+          </li>
+        ))}
+      </ul>
+    </li>
     <li><a href="/trabajo/" class={isActive('/trabajo/') ? 'active' : ''}>Casos reales</a></li>
     <li><a href="/sobre-mi/" class={isActive('/sobre-mi/') ? 'active' : ''}>Sobre mí</a></li>
     <li><a href="/articulos/" class={isActive('/articulos/') ? 'active' : ''}>Artículos</a></li>
@@ -81,6 +92,50 @@ const isActive = (href: string) => {
   .nav-links a:hover::after,
   .nav-links a.active::after { transform: scaleX(1); }
 
+  .has-dropdown { position: relative; }
+  .chevron { display: inline-block; font-size: 0.65em; margin-left: 0.15rem; transition: transform 0.2s ease; }
+  .has-dropdown:hover .chevron,
+  .has-dropdown:focus-within .chevron { transform: rotateX(180deg); }
+
+  .dropdown-menu {
+    display: none;
+    list-style: none;
+    margin: 0;
+    padding: 0.5rem;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    padding-top: 1rem;
+    min-width: 260px;
+  }
+  .dropdown-menu li {
+    background: var(--white);
+    border: 1px solid rgba(0,0,0,0.08);
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    transition: background var(--transition), border-color var(--transition);
+  }
+  body.dark .dropdown-menu li { background: var(--dark-bg); border-color: rgba(255,255,255,0.1); }
+  .dropdown-menu li + li { margin-top: 0.4rem; }
+  .has-dropdown:hover .dropdown-menu,
+  .has-dropdown:focus-within .dropdown-menu { display: block; }
+
+  .dropdown-menu a {
+    display: block;
+    padding: 0.65rem 0.9rem;
+    border-radius: 8px;
+    font-size: 0.76rem;
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: normal;
+    white-space: nowrap;
+  }
+  .dropdown-menu a::after { content: none; }
+  .dropdown-menu a:hover,
+  .dropdown-menu a.active { background: var(--off-white); color: var(--blue); }
+  body.dark .dropdown-menu a:hover,
+  body.dark .dropdown-menu a.active { background: var(--dark-surface); color: var(--blue-light); }
+
   .nav-right { display: flex; align-items: center; gap: 1rem; }
 
   .toggle {
@@ -147,6 +202,21 @@ const isActive = (href: string) => {
       background: var(--dark-bg);
       border-bottom-color: rgba(255,255,255,0.08);
     }
+
+    .chevron { display: none; }
+    .dropdown-menu {
+      display: block;
+      position: static;
+      padding: 0.6rem 0 0 1rem;
+      min-width: 0;
+    }
+    .dropdown-menu li {
+      background: none;
+      border: none;
+      box-shadow: none;
+    }
+    .dropdown-menu li + li { margin-top: 0; }
+    .dropdown-menu a { padding: 0.5rem 0; white-space: normal; }
   }
 </style>
 

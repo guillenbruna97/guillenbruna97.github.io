@@ -1,0 +1,25 @@
+---
+import ServiceLayout from '../../../layouts/ServiceLayout.astro';
+import { getService } from '../../../consts';
+
+const service = getService('mentoria-comunicacion')!;
+---
+<ServiceLayout
+  title={`${service.name} | Guillén Bruna Tricas`}
+  description="Mentoría de comunicación para CEO, COO y CFO, con sesiones de preparación y notas de decisión escritas para cada intervención pública."
+  heading={service.name}
+  subtitle="Prepara a tu comité de dirección para que cada voz pública refuerce la marca con el mismo rigor estratégico, sea quien sea quien esté hablando."
+  paraQuien="Dirigido a CEOs, COOs y CFOs que entienden la comunicación pública como una extensión directa de la marca. Si tu comité de dirección necesita una voz coherente y estratégicamente alineada, más allá de la oratoria, para consejos, inversores, prensa o momentos de crisis, este servicio es para ti."
+  queResuelve="Tu equipo directivo tiene experiencia real, pero la falta de una arquitectura estratégica en su comunicación externa diluye el impacto. Sin un asesor de comunicación que estructure cada mensaje, las intervenciones públicas pierden coherencia y erosionan la percepción de marca. No es un problema de carisma, es de estrategia de fondo, y normalmente solo el CEO recibe preparación real cuando el COO y el CFO también dan la cara."
+  recibe={[
+    'Sesiones de preparación individualizadas antes de cada intervención',
+    'Notas de decisión escritas después de cada sesión',
+    'Un criterio de comunicación aplicado y documentado en el tiempo',
+  ]}
+  pasos={[
+    { title: 'Diagnóstico', text: 'Revisamos las próximas intervenciones públicas previstas de cada directivo y sus audiencias.' },
+    { title: 'Preparación', text: 'Sesión individualizada de preparación antes de cada intervención concreta.' },
+    { title: 'Nota de decisión', text: 'Documento escrito tras la sesión con el criterio aplicado a esa intervención.' },
+  ]}
+  cierre="La voz de tu comité de dirección es un activo de marca. Si quieres que cada intervención pública, sea del CEO, el COO o el CFO, la refuerce en vez de diluirla, hablemos."
+/>

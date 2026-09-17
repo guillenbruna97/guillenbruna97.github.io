@@ -4,7 +4,7 @@ import Tag from '../components/Tag.astro';
 import ContactBlock from '../components/ContactBlock.astro';
 import { Picture } from 'astro:assets';
 import { getArticleImage } from '../utils/article-images';
-import { SERVICES } from '../consts';
+import { getService } from '../consts';
 
 interface RelatedArticulo {
   id: string;
@@ -24,7 +24,7 @@ interface Props {
   related?: RelatedArticulo[];
 }
 const { title, description, tag, heading, date, readingTime, image, imageAlt, service, related = [] } = Astro.props;
-const serviceName = service ? SERVICES[service] : undefined;
+const serviceInfo = getService(service);
 const optimizedImage = getArticleImage(image);
 const formattedDate = date.toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
 const imageUrl = image ? `https://guillenbruna97.github.io${image}` : 'https://guillenbruna97.github.io/isotipo.svg';
@@ -97,9 +97,9 @@ const breadcrumbLd = {
       <slot />
     </div>
 
-    {serviceName && (
+    {serviceInfo && (
       <p class="service-note">
-        Servicio relacionado <a href={`/servicios/#${service}`}>{serviceName} →</a>
+        Servicio relacionado <a href={`/servicios/${serviceInfo.slug}/`}>{serviceInfo.name} →</a>
       </p>
     )}
 

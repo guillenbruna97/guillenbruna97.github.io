@@ -1,0 +1,25 @@
+---
+import ServiceLayout from '../../../layouts/ServiceLayout.astro';
+import { getService } from '../../../consts';
+
+const service = getService('gtm-icp')!;
+---
+<ServiceLayout
+  title={`${service.name} | Guillén Bruna Tricas`}
+  description="Documento de decisión con ICP definido, mapa de canales y mensajes por segmento para trabajar la estrategia de marketing de tu SaaS B2B desde la base."
+  heading={service.name}
+  subtitle="Define tu cliente ideal y la estrategia de entrada al mercado precisa para un crecimiento rentable, acabando con la dispersión en mensajes y canales."
+  paraQuien="Eres fundador o director de producto de un SaaS B2B en fase temprana o de crecimiento. Tu equipo invierte en canales de marketing, pero la efectividad es baja y necesitas una dirección clara para optimizar el presupuesto y alinear a todos en el mensaje correcto."
+  queResuelve="La falta de un ICP claro y una estrategia de entrada al mercado unificada provoca que cada persona de tu equipo comunique el producto de forma distinta. Los canales se mueven sin criterio común, diluyendo la inversión y estancando el crecimiento. Trabajar la estrategia de marketing de tu empresa desde la base resuelve esa dispersión, con una hoja de ruta y mensajes coherentes para cada etapa del cliente."
+  recibe={[
+    'Tu perfil de cliente ideal (ICP) completamente definido',
+    'Un mapa de canales para la activación y adquisición',
+    'Mensajes por segmento y calendario de acciones a doce meses',
+  ]}
+  pasos={[
+    { title: 'Diagnóstico', text: 'Entrevisto a tu equipo fundador y comercial para entender el producto, el mercado y los desafíos.' },
+    { title: 'Estrategia y mensaje', text: 'Definimos tu ICP y construimos la arquitectura de mensajes clave por segmento de cliente.' },
+    { title: 'Plan de activación', text: 'Recibes un documento de decisión con mapa de canales y calendario de acciones a doce meses.' },
+  ]}
+  cierre="Si tu SaaS B2B necesita claridad para crecer de forma sostenida, hablemos de cómo enfocar tu estrategia de entrada al mercado y acabar con la dispersión que hoy frena tu potencial."
+/>

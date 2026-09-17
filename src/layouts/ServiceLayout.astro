@@ -1,0 +1,227 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Divider from '../components/Divider.astro';
+import ContactBlock from '../components/ContactBlock.astro';
+
+interface Step {
+  title: string;
+  text: string;
+}
+
+interface Props {
+  title: string;
+  description: string;
+  heading: string;
+  subtitle: string;
+  paraQuien: string;
+  queResuelve: string;
+  recibe: string[];
+  pasos: Step[];
+  cierre: string;
+}
+
+const { title, description, heading, subtitle, paraQuien, queResuelve, recibe, pasos, cierre } = Astro.props;
+---
+<BaseLayout title={title} description={description}>
+  <a href="/servicios/" class="back-link">← Volver a servicios</a>
+
+  <div class="case-main">
+    <div class="case-tags">
+      <span class="tag">Servicios</span>
+    </div>
+    <h1>{heading}</h1>
+    <p class="case-meta">{subtitle}</p>
+
+    <div class="case-blocks">
+      <div>
+        <p class="block-label">Para quién es</p>
+        <p class="block-text">{paraQuien}</p>
+      </div>
+      <div>
+        <p class="block-label">Qué resuelve</p>
+        <p class="block-text">{queResuelve}</p>
+      </div>
+    </div>
+
+    <div class="case-block-full" data-reveal>
+      <p class="block-label">Qué recibes</p>
+      <ul class="deliverable-list">
+        {recibe.map((item) => <li>{item}</li>)}
+      </ul>
+    </div>
+
+    <div class="case-block-full" data-reveal>
+      <p class="block-label">Cómo trabajamos</p>
+      <ol class="process-steps">
+        {pasos.map((paso, i) => (
+          <li>
+            <span class="process-number">{String(i + 1).padStart(2, '0')}</span>
+            <div>
+              <p class="process-title">{paso.title}</p>
+              <p class="process-text">{paso.text}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+
+    <p class="service-cierre">{cierre}</p>
+  </div>
+
+  <Divider />
+
+  <ContactBlock title="¿Hablamos<br>de tu caso?" />
+</BaseLayout>
+
+<style is:global>
+  .back-link {
+    display: block;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 2rem 0;
+    font-size: 0.78rem;
+    font-weight: 400;
+    color: rgba(0,0,0,0.4);
+    text-decoration: none;
+    transition: color var(--transition), transform 0.15s ease;
+  }
+  body.dark .back-link { color: rgba(232,232,232,0.4); }
+  .back-link:hover { color: var(--blue); transform: translateX(-3px); }
+  body.dark .back-link:hover { color: var(--blue-light); }
+
+  .case-main { padding: 2rem 2rem 3rem; max-width: 900px; margin: 0 auto; }
+
+  .case-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.2rem; }
+
+  .case-main h1 {
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    font-weight: 400;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    margin-bottom: 0.5rem;
+  }
+
+  .case-meta {
+    font-size: 0.95rem;
+    font-weight: 300;
+    color: rgba(0,0,0,0.6);
+    line-height: 1.6;
+    max-width: 640px;
+    margin-bottom: 2.5rem;
+    transition: color var(--transition);
+  }
+  body.dark .case-meta { color: rgba(232,232,232,0.6); }
+
+  .case-blocks {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .block-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 0.7rem;
+    transition: color var(--transition);
+  }
+  body.dark .block-label { color: var(--blue-light); }
+
+  .block-text {
+    font-size: 0.92rem;
+    font-weight: 300;
+    color: rgba(0,0,0,0.6);
+    line-height: 1.85;
+    transition: color var(--transition);
+  }
+  body.dark .block-text { color: rgba(232,232,232,0.6); }
+
+  .case-block-full { margin: 0 0 2.5rem; }
+
+  @media (max-width: 640px) {
+    .case-blocks { grid-template-columns: 1fr; gap: 1.5rem; }
+  }
+
+  .deliverable-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    max-width: 640px;
+  }
+  .deliverable-list li {
+    position: relative;
+    padding-left: 1.6rem;
+    font-size: 0.92rem;
+    font-weight: 300;
+    color: rgba(0,0,0,0.7);
+    line-height: 1.7;
+    transition: color var(--transition);
+  }
+  body.dark .deliverable-list li { color: rgba(232,232,232,0.7); }
+  .deliverable-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.5em;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--blue);
+  }
+  body.dark .deliverable-list li::before { background: var(--blue-light); }
+
+  .process-steps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  .process-steps li { display: flex; gap: 1.2rem; align-items: flex-start; }
+  .process-number {
+    flex-shrink: 0;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--blue);
+    font-family: 'Poppins', sans-serif;
+    transition: color var(--transition);
+  }
+  body.dark .process-number { color: var(--blue-light); }
+  .process-title {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--black);
+    margin-bottom: 0.3rem;
+    transition: color var(--transition);
+  }
+  body.dark .process-title { color: #e8e8e8; }
+  .process-text {
+    font-size: 0.88rem;
+    font-weight: 300;
+    color: rgba(0,0,0,0.6);
+    line-height: 1.7;
+    max-width: 560px;
+    transition: color var(--transition);
+  }
+  body.dark .process-text { color: rgba(232,232,232,0.6); }
+
+  .service-cierre {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(0,0,0,0.06);
+    font-size: 0.95rem;
+    font-weight: 300;
+    color: rgba(0,0,0,0.65);
+    line-height: 1.85;
+    max-width: 640px;
+    transition: color var(--transition), border-color var(--transition);
+  }
+  body.dark .service-cierre { color: rgba(232,232,232,0.65); border-top-color: rgba(255,255,255,0.08); }
+</style>

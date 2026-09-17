@@ -1,0 +1,25 @@
+---
+import ServiceLayout from '../../../layouts/ServiceLayout.astro';
+import { getService } from '../../../consts';
+
+const service = getService('posicionamiento')!;
+---
+<ServiceLayout
+  title={`${service.name} | Guillén Bruna Tricas`}
+  description="Documento de posicionamiento con propuesta de valor diferenciada y ejemplos reescritos de landing, pitch y venta para tu SaaS B2B técnico."
+  heading={service.name}
+  subtitle="Construye una narrativa de producto B2B que tu cliente entiende a la primera, diferenciando tu solución del resto e impulsando la decisión de compra."
+  paraQuien="Este servicio es para fundadores o directores de producto de SaaS B2B técnico. Si tu equipo lucha por articular una propuesta de valor clara, centrada en el problema del cliente y no solo en las funciones del producto, necesitas alinear la narrativa. El producto es bueno, pero el mensaje no convence."
+  queResuelve="Resuelve la dificultad de comunicar el valor único de tu producto. Cuando la narrativa se centra en funcionalidades, se pierde la conexión con el problema real del cliente y se diluye la diferenciación en un mercado ruidoso. La cercanía al producto impide verlo desde fuera. Hace falta una mirada externa, como asesor de comunicación, que identifique la ventaja competitiva real y la traduzca en un mensaje que tu audiencia entienda y valore frente a la competencia."
+  recibe={[
+    'Documento de posicionamiento con propuesta de valor diferenciada',
+    'Mapa de mensajes específico para cada segmento de cliente',
+    'Ejemplos reescritos para landing, pitch y primeras líneas de venta',
+  ]}
+  pasos={[
+    { title: 'Auditoría', text: 'Reviso cómo se comunica hoy tu producto en todos los puntos de contacto, identificando inconsistencias.' },
+    { title: 'Narrativa única', text: 'Construyo tu propuesta de valor diferenciada y el mapa de mensajes por segmento.' },
+    { title: 'Activación', text: 'Reescribo los puntos de contacto clave con la nueva narrativa, lista para implementar.' },
+  ]}
+  cierre="Si tu SaaS B2B técnico merece un mensaje que capture su verdadero valor y resuene con tus clientes, hablemos de cómo construir esa narrativa desde el problema que resuelves, no desde la funcionalidad."
+/>
