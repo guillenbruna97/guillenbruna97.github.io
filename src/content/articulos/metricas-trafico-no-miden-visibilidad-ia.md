@@ -22,7 +22,7 @@ La conversación de compra se está desplazando rápidamente hacia plataformas c
 
 La mayoría de las métricas de marketing actuales se diseñaron para un entorno digital que ya no existe. Medir el éxito mediante páginas vistas o palabras clave posicionadas asume que el cliente realiza un viaje lineal de lectura y descubrimiento en su sitio web.
 
-Hoy, un director de operaciones o un director financiero que busca una solución tecnológica o un servicio de consultoría estratégica suele pedir a un modelo de lenguaje que compare las mejores opciones del mercado para su caso específico. La inteligencia artificial procesa miles de fuentes, sintetiza la información y entrega una recomendación con tres o cuatro nombres. Si su empresa no figura en esa síntesis, su excelente posicionamiento en el Google tradicional se vuelve irrelevante.
+Hoy, un director de operaciones o un director financiero que busca una solución tecnológica o un servicio de consultoría estratégica suele pedir a un modelo de lenguaje que compare las mejores opciones del mercado para su caso específico. La inteligencia artificial procesa miles de fuentes, sintetiza la información y entrega una recomendación con tres o cuatro nombres. Si su empresa no figura en esa síntesis, [su excelente posicionamiento en el Google tradicional](/articulos/informes-generative-ai-performance-search-console/) se vuelve irrelevante.
 
 Seguir evaluando el rendimiento de su departamento de marketing con los criterios de la década pasada genera una falsa sensación de control. Se destinan recursos a optimizar contenidos para algoritmos antiguos mientras se ignora el nuevo ecosistema donde se forman las opiniones de compra.
 
@@ -32,7 +32,7 @@ Para corregir este desajuste, un comité de dirección necesita cambiar las preg
 
 En lugar de informes centrados en el volumen de tráfico, la dirección debería exigir visibilidad sobre tres aspectos fundamentales.
 
-El primero es la cuota de mención en los modelos de lenguaje. Es necesario auditar con qué frecuencia y bajo qué atributos aparece su marca cuando se consulta a las principales herramientas de inteligencia artificial sobre su categoría de servicio. Si los modelos recomiendan a sus competidores, la prioridad estratégica debe ser entender qué fuentes de información están alimentando ese criterio.
+El primero es la cuota de mención en los modelos de lenguaje. Es necesario auditar con qué frecuencia y bajo qué atributos aparece su marca cuando se consulta a [las principales herramientas de inteligencia artificial](/articulos/la-trampa-de-la-ia-en-la-estrategia-de-marketing/) sobre su categoría de servicio. Si los modelos recomiendan a sus competidores, la prioridad estratégica debe ser entender qué fuentes de información están alimentando ese criterio.
 
 El segundo aspecto es la autoridad del contenido por encima del volumen. Los modelos de inteligencia artificial se nutren de información de alta calidad, opiniones de expertos reconocidos y menciones en medios de referencia. Generar decenas de artículos genéricos para rellenar el blog corporativo ya no aporta valor. La estrategia debe centrarse en crear análisis profundos y originales que los algoritmos de síntesis consideren fuentes de referencia fiables.
 

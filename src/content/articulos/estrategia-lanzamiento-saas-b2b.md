@@ -39,7 +39,7 @@ La forma de comunicar el valor del software no puede ser estática. Debe adaptar
 
 Si la plataforma compite en una categoría ya establecida, el mercado ya entiende la necesidad. En este escenario, la comunicación debe centrarse en la diferenciación y en cómo el producto resuelve los puntos débiles de las alternativas existentes. No es necesario educar sobre el problema, sino demostrar por qué esta solución es técnicamente superior o más eficiente.
 
-Si el SaaS crea una categoría nueva o resuelve un problema que las empresas gestionan hoy con hojas de cálculo manuales, la estrategia de comunicación cambia por completo. El mensaje inicial no puede centrarse en las características técnicas del software, sino en evidenciar el coste oculto de seguir trabajando de la manera tradicional. El cliente primero debe aceptar que tiene un problema antes de poder valorar la solución propuesta.
+Si el SaaS crea una categoría nueva o resuelve un problema que las empresas gestionan hoy con hojas de cálculo manuales, la estrategia de comunicación cambia por completo. El mensaje inicial no puede centrarse en [las características técnicas del software](/articulos/propuesta-valor-b2b/), sino en evidenciar el coste oculto de seguir trabajando de la manera tradicional. El cliente primero debe aceptar que tiene un problema antes de poder valorar la solución propuesta.
 
 ## Un marco de autodiagnóstico para la dirección
 
@@ -57,4 +57,4 @@ Si las respuestas a estas preguntas revelan discrepancias o falta de definición
 
 Un lanzamiento exitoso no depende de la cantidad de acciones que se realizan, sino de la coherencia y la secuencia de las decisiones adoptadas. Contar con un producto tecnológicamente robusto es solo la mitad del camino. La otra mitad consiste en asegurar que el esfuerzo comercial se dirige con precisión quirúrgica hacia el punto de mayor retorno.
 
-Establecer este nivel de claridad requiere distancia analítica y la experiencia de haber observado cómo interactúan la tecnología, las ventas y la comunicación en diferentes modelos de negocio. Si considera que su plan de salida al mercado se beneficiaría de una mirada externa para validar estas decisiones críticas y estructurar el mensaje de su equipo directivo, podemos mantener una conversación para analizar el enfoque de su próximo lanzamiento.
+Establecer este nivel de claridad requiere distancia analítica y la experiencia de haber observado cómo interactúan la tecnología, las ventas y la comunicación en diferentes modelos de negocio. Si considera que su plan de salida al mercado se beneficiaría de una mirada externa para validar estas decisiones críticas y estructurar el mensaje de su equipo directivo, [podemos mantener una conversación](/contacto/) para analizar el enfoque de su próximo lanzamiento.

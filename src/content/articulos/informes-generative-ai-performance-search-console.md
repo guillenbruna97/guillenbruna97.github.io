@@ -10,11 +10,15 @@ image: "/images/articulos/informes-generative-ai-performance-search-console.jpg"
 imageAlt: "Ilustración de portada sobre los informes de Generative AI performance en Search Console"
 ---
 
-Como director general o miembro del comité de dirección, usted sabe que las métricas de adquisición digital suelen llegar a su mesa digeridas y simplificadas. Sin embargo, en las últimas semanas es muy probable que haya visto aparecer un nuevo indicador en sus informes de control. El pasado 11 de agosto de 2026, Google completó el despliegue global de su nuevo informe de rendimiento de IA generativa en Search Console. El cambio se produjo sin previo aviso, mediante una notificación emergente que apareció de repente en las pantallas de los equipos técnicos de todo el mundo.
+Como director general o miembro del comité de dirección, usted sabe que las métricas de adquisición digital suelen llegar a su mesa digeridas y simplificadas. Sin embargo, en las últimas semanas es muy probable que haya visto aparecer un nuevo indicador en sus informes de control. El pasado 11 de agosto de 2026, Google completó el despliegue global de su nuevo informe de rendimiento de IA generativa en [Search Console](https://developers.google.com/search/docs/appearance/ai-features). El cambio se produjo sin previo aviso, mediante una notificación emergente que apareció de repente en las pantallas de los equipos técnicos de todo el mundo.
 
 Este movimiento ha sido recibido por muchos departamentos de marketing como la solución definitiva para medir la visibilidad de las empresas en la era de la inteligencia artificial. Pero tomar decisiones estratégicas basándose únicamente en esta nueva herramienta es un error de perspectiva que puede costar caro a su organización.
 
+## El error de dato que no fue una caída real
+
 Antes de analizar el panorama completo, conviene despejar una alarma común que habrá afectado a los resultados de su empresa a mediados de mes. Si al revisar los gráficos de este nuevo informe observa una caída drástica en las impresiones entre el 13 y el 17 de agosto de 2026, no debe alarmarse. No se trata de una pérdida real de visibilidad ni de una penalización de su marca. Google ha confirmado oficialmente que durante esos cinco días se produjo un error en el registro de datos que infravaloró las métricas reportadas. Su presencia en las búsquedas se mantuvo estable, aunque el panel de control indicara lo contrario.
+
+## El sesgo de medir solo dentro de Google
 
 Superado este incidente técnico, el verdadero desafío para un comité de dirección no es la precisión de un gráfico puntual, sino el sesgo de la fuente de información.
 
@@ -22,10 +26,16 @@ El nuevo informe de Google solo mide lo que ocurre dentro de su propio jardín v
 
 ¿Cuánto terreno está ganando su competencia en los diálogos cotidianos que sus clientes potenciales mantienen con ChatGPT? ¿Qué porcentaje de sus decisiones de compra se están gestando a través de las recomendaciones directas de Perplexity o Claude?
 
+## Por qué esto es un punto ciego crítico
+
 Confiar en que el informe de Google refleja su salud digital en el nuevo paradigma de la inteligencia artificial es un punto ciego crítico. Google tiene un interés evidente en demostrar que sigue siendo el único canal relevante para su negocio, pero el comportamiento del consumidor corporativo y del cliente final se está fragmentando a una velocidad sin precedentes.
+
+## Qué debe cambiar en la forma de medir
 
 Para evitar que su organización tome decisiones estratégicas con información incompleta, el comité de dirección debe exigir un cambio de enfoque en la rendición de cuentas de sus equipos digitales.
 
 El primer paso consiste en entender que el informe de Google es útil para evaluar su rendimiento en ese canal específico, pero no sirve como termómetro global de su presencia en la inteligencia artificial. El segundo paso requiere que su equipo de marketing implemente metodologías de medición alternativas que rastreen de manera directa la mención y recomendación de sus productos en los principales modelos de lenguaje del mercado, más allá del buscador tradicional.
 
-La visibilidad de su marca ya no se disputa en un único tablero de juego. La pregunta que de verdad merece llevar a su próximo comité no es si este nuevo informe de Google basta, sino quién en su organización tiene hoy la responsabilidad de medir esa visibilidad allí donde Google no llega.
+## La pregunta que de verdad importa
+
+La visibilidad de su marca ya no se disputa en un único tablero de juego. La pregunta que de verdad merece llevar a su próximo comité no es si este nuevo informe de Google basta, sino quién en su organización tiene hoy la responsabilidad de [medir esa visibilidad allí donde Google no llega](/articulos/metricas-trafico-no-miden-visibilidad-ia/).

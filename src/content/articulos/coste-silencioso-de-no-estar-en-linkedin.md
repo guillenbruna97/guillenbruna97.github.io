@@ -15,7 +15,11 @@ Muchos directivos ven LinkedIn como un tablero de anuncios donde solo se busca t
 
 La realidad es que el mercado ya está hablando de ti aunque no estés presente. La pregunta es si prefieres controlar la narrativa o dejar que el silencio sea interpretado como falta de opinión o irrelevancia.
 
-Antes de escribir una sola línea, necesitas definir tu ángulo de autoridad. Muchos fallan porque intentan ser gurús de todo cuando su valor real reside en la especialización. Tu estrategia de comunicación debe basarse en tres ejes que eliminan la fricción de publicar.
+## Antes de publicar, define tu ángulo de autoridad
+
+Antes de escribir una sola línea, necesitas definir tu ángulo de autoridad. Muchos fallan porque intentan ser gurús de todo cuando su valor real reside en la especialización. [Tu estrategia de comunicación](/articulos/el-silencio-no-es-una-estrategia-de-reputacion/) debe basarse en tres ejes que eliminan la fricción de publicar.
+
+## Los tres ejes para publicar sin ruido
 
 Primero, identifica qué problema específico resuelves mejor que nadie en tu nivel de responsabilidad. No hables de gestión generalista. Habla de la complejidad de integrar una adquisición, de cómo equilibrar la rentabilidad a corto plazo con la inversión en I+D o de cómo alinear a un consejo de administración con una visión disruptiva. Tu lector ideal es un par que busca respuestas a problemas que no se discuten en los medios generalistas.
 
@@ -23,6 +27,10 @@ Segundo, establece tu protocolo de opinión. No necesitas publicar a diario. Nec
 
 Tercero, limpia tu perfil para que sea un activo de negocio y no un currículum. Tu biografía debe responder a qué haces y por qué alguien debería querer sentarse contigo a tomar un café. Elimina las frases hechas sobre liderazgo y enfócate en los resultados tangibles que tu visión aporta a una organización.
 
+## Por qué esto no es vanidad
+
 La exposición controlada no es marketing de vanidad. Es una herramienta de influencia que acorta los ciclos de venta, atrae a los mejores perfiles hacia tu estructura y te posiciona como un referente antes incluso de que la conversación sobre una oportunidad se inicie.
 
-Si sientes que tienes el mensaje pero te falta el filtro para convertir tu experiencia en un activo de autoridad sin perder tu perfil profesional, podemos revisar tu posicionamiento actual. La diferencia entre ser un directivo más y ser una voz de referencia está en la estrategia que aplicas antes de pulsar el botón de publicar.
+## El siguiente paso
+
+Si sientes que tienes el mensaje pero te falta el filtro para convertir tu experiencia en un activo de autoridad sin perder tu perfil profesional, [podemos revisar tu posicionamiento actual](/contacto/). La diferencia entre ser un directivo más y ser una voz de referencia está en la estrategia que aplicas antes de pulsar el botón de publicar.

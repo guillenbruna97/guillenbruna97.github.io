@@ -40,8 +40,8 @@ const categorias = [...new Set(todosLosArticulos.map((entry) => categoryOf(entry
 const activeSlug = slugify(categoryName);
 
 const tituloPagina = page.currentPage === 1
-  ? `${categoryName} | Artículos de marketing | Guillén Bruna Tricas`
-  : `${categoryName} | Artículos de marketing | Página ${page.currentPage} | Guillén Bruna Tricas`;
+  ? `${categoryName} | Artículos | Guillén Bruna Tricas`
+  : `${categoryName} | Artículos | Pág. ${page.currentPage} | Guillén Bruna Tricas`;
 ---
 <BaseLayout
   title={tituloPagina}

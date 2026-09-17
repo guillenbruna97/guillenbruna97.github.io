@@ -2,8 +2,12 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Divider from '../../components/Divider.astro';
 import ContactBlock from '../../components/ContactBlock.astro';
+import { Picture } from 'astro:assets';
 import { LINKEDIN_URL, MAILTO_URL } from '../../consts';
-
+import guillenChaqueta from '../../assets/sobre-mi/guillen-chaqueta.png';
+import momentoBroco from '../../assets/sobre-mi/momento-broco.png';
+import momentoSis from '../../assets/sobre-mi/momento-sis.png';
+import momentoSlm from '../../assets/sobre-mi/momento-slm.png';
 ---
 <BaseLayout
   title="Sobre mí | Guillén Bruna Tricas"
@@ -25,7 +29,7 @@ import { LINKEDIN_URL, MAILTO_URL } from '../../consts';
     </div>
     <div class="about-hero-img">
       <span class="ghost-mark about-ghost-mark" aria-hidden="true">*</span>
-      <img src="/guillen-chaqueta.png" alt="Guillén Bruna Tricas" width="768" height="960" fetchpriority="high" />
+      <Picture src={guillenChaqueta} alt="Guillén Bruna Tricas" width={768} height={960} formats={['avif', 'webp']} fallbackFormat="png" quality={65} loading="eager" fetchpriority="high" />
     </div>
   </div>
 
@@ -61,15 +65,15 @@ import { LINKEDIN_URL, MAILTO_URL } from '../../consts';
     <h2 class="momentos-title">Momentos que me definen</h2>
     <div class="momentos-grid">
       <div class="momento-item" data-reveal>
-        <img src="/momento-broco.png" alt="Guillén Bruna Tricas junto al equipo cofundador de Broco, su marca de moda sostenible" width="700" height="700" loading="lazy" decoding="async" />
+        <Picture src={momentoBroco} alt="Guillén Bruna Tricas junto al equipo cofundador de Broco, su marca de moda sostenible" width={700} height={700} formats={['avif', 'webp']} fallbackFormat="png" quality={55} loading="lazy" />
         <p class="momento-caption">Amigos que se convierten en socios. O socios que se convierten en amigos.</p>
       </div>
       <div class="momento-item" data-reveal>
-        <img src="/momento-sis.png" alt="Guillén Bruna Tricas en el Spain Innovation Summit, evento de innovación organizado junto a su equipo en Zebra Ventures" width="700" height="700" loading="lazy" decoding="async" />
+        <Picture src={momentoSis} alt="Guillén Bruna Tricas en el Spain Innovation Summit, evento de innovación organizado junto a su equipo en Zebra Ventures" width={700} height={700} formats={['avif', 'webp']} fallbackFormat="png" quality={55} loading="lazy" />
         <p class="momento-caption">Eventos que se crean en equipo.</p>
       </div>
       <div class="momento-item" data-reveal>
-        <img src="/momento-slm.png" alt="Guillén Bruna Tricas trabajando en un proyecto especial para SLM" width="700" height="700" loading="lazy" decoding="async" />
+        <Picture src={momentoSlm} alt="Guillén Bruna Tricas trabajando en un proyecto especial para SLM" width={700} height={700} formats={['avif', 'webp']} fallbackFormat="png" quality={55} loading="lazy" />
         <p class="momento-caption">Trabajos especiales que dejan huella.</p>
       </div>
     </div>

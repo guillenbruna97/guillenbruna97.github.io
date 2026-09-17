@@ -45,10 +45,10 @@ Antes de publicar la próxima pieza, esto es lo que hay que revisar.
 
 ## La decisión que en realidad hay que tomar
 
-Nada de esto exige frenar el uso de IA en marketing, exige dejar de tratarlo como un asunto puramente creativo o de producción. La pregunta que tu comité de dirección debería estar haciendo esta semana no es si el equipo usa IA, eso ya lo sabe. Es quién en la organización tiene hoy la autoridad y el criterio para decidir qué se etiqueta, cómo, y quién firma antes de que salga a producción.
+Nada de esto exige frenar [el uso de IA en marketing](/articulos/la-trampa-de-la-ia-en-la-estrategia-de-marketing/), exige dejar de tratarlo como un asunto puramente creativo o de producción. La pregunta que tu comité de dirección debería estar haciendo esta semana no es si el equipo usa IA, eso ya lo sabe. Es quién en la organización tiene hoy la autoridad y el criterio para decidir qué se etiqueta, cómo, y quién firma antes de que salga a producción.
 
 Montar ese criterio interno, el que conecta la parte legal con la operativa real de un equipo de marketing, es exactamente el tipo de trabajo que hago en asesoría estratégica de marketing y comunicación con comités de dirección. Si esta pregunta todavía no tiene un responsable claro en tu empresa, es un buen punto de partida para la próxima conversación.
 
 ---
 
-**Fuente:** Reglamento (UE) 2024/1689 (Reglamento de Inteligencia Artificial), Artículo 50, y Código de Prácticas sobre Transparencia de Contenido Generado por IA de la Comisión Europea.
+**Fuente:** [Reglamento (UE) 2024/1689](https://eur-lex.europa.eu/eli/reg/2024/1689/oj) (Reglamento de Inteligencia Artificial), Artículo 50, y Código de Prácticas sobre Transparencia de Contenido Generado por IA de la Comisión Europea.

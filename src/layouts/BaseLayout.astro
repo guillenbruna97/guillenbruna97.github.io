@@ -4,6 +4,7 @@ import SEO from '../components/SEO.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import LoadingScreen from '../components/LoadingScreen.astro';
+import CookieConsent from '../components/CookieConsent.astro';
 import { BOOKING_URL } from '../consts';
 
 interface Props {
@@ -35,14 +36,7 @@ const { title, description, image, ogType } = Astro.props;
       content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://www.google-analytics.com; font-src 'self'; connect-src 'self' https://www.google-analytics.com https://analytics.google.com; frame-src https://www.youtube.com; base-uri 'self'; object-src 'none';"
     />
     <SEO title={title} description={description} image={image} ogType={ogType} />
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Z0EQXT8EDV"></script>
-    <script is:inline>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-Z0EQXT8EDV');
-    </script>
+    <!-- Google Analytics: se carga solo tras consentimiento, ver CookieConsent.astro -->
   </head>
   <body>
     <script is:inline>
@@ -74,6 +68,7 @@ const { title, description, image, ogType } = Astro.props;
       <slot />
     </main>
     <Footer />
+    <CookieConsent />
     <script>
       const revealTargets = document.querySelectorAll('[data-reveal]');
       if ('IntersectionObserver' in window && revealTargets.length) {

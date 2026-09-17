@@ -19,7 +19,7 @@ En esos momentos, la competencia técnica ya se da por sentada. Lo que se evalú
 
 ## La diferencia entre inspirar y validar
 
-La comunicación de un CEO suele centrarse en la visión, la cultura corporativa y el rumbo a largo plazo. Es un discurso orientado a la inspiración y a la atracción de oportunidades. 
+[La comunicación de un CEO](/articulos/comunicacion-publica-ceo-no-es-carisma-es-estrategia/) suele centrarse en la visión, la cultura corporativa y el rumbo a largo plazo. Es un discurso orientado a la inspiración y a la atracción de oportunidades. 
 
 Por el contrario, el rol del CFO y del COO exige una comunicación de validación. Su misión no es hacer que la audiencia sueñe, sino demostrar que el plan es viable, que los riesgos están medidos y que la ejecución es sólida. 
 
@@ -41,6 +41,6 @@ Por último, es fundamental dominar la transición del dato a la narrativa de ne
 
 Cuando el equipo de dirección comparte un nivel homogéneo de solvencia comunicativa, la percepción de solidez de la empresa se multiplica. Los inversores, los socios estratégicos y el propio equipo interno perciben una organización cohesionada, donde la visión del CEO está respaldada por la precisión y el control de sus directores de área.
 
-La mentoría de comunicación para CFO y COO no pretende cambiar la identidad profesional de estos líderes, sino potenciar su capacidad de influencia. Se trata de asegurar que la brillantez de su gestión técnica no quede diluida por una presentación deficiente o por una respuesta imprecisa en un momento de alta presión.
+[La mentoría de comunicación para CFO y COO](/articulos/asesoria-comunicacion-alta-direccion/) no pretende cambiar la identidad profesional de estos líderes, sino potenciar su capacidad de influencia. Se trata de asegurar que la brillantez de su gestión técnica no quede diluida por una presentación deficiente o por una respuesta imprecisa en un momento de alta presión.
 
 Si consideras que ha llegado el momento de elevar la proyección de tu comité de dirección y asegurar que la solvencia de tu gestión se transmita con la misma claridad con la que se ejecuta, podemos conversar sobre cómo estructurar este proceso de mentoría para tu equipo.

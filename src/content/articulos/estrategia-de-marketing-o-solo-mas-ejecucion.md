@@ -13,15 +13,21 @@ service: "gtm-icp"
 
 La mayoría de los directivos que lideran empresas con tracción sienten que el marketing es una rueda que gira sin mover el vehículo con la velocidad esperada. Es probable que hayas probado ampliar el equipo, cambiar de agencia o probar nuevas plataformas publicitarias. El resultado suele ser el mismo. Obtienes más ruido, más leads de baja calidad o una sensación persistente de que el mercado no acaba de entender el valor real de lo que vendes.
 
+## El error de pensar que el problema es operativo
+
 El error común es pensar que el problema es operativo. Crees que si tu equipo fuera más rápido o si tu presupuesto fuera mayor todo encajaría. Pero la ejecución es solo el amplificador de tu estrategia. Si el mensaje es confuso o el posicionamiento es débil, ejecutar más solo acelera la pérdida de recursos.
 
-Para diagnosticar si lo que necesitas es un cambio de rumbo estratégico o simplemente optimizar tu ejecución, hazte estas preguntas sobre el estado actual de tu negocio.
+## Tres preguntas para autodiagnosticarte
+
+Para diagnosticar si lo que necesitas es [un cambio de rumbo estratégico](/articulos/marketing-que-ejecuta-bien-pero-no-sabe-hacia-donde/) o simplemente optimizar tu ejecución, hazte estas preguntas sobre el estado actual de tu negocio.
 
 ¿Tus clientes actuales entienden por qué te eligen frente a la competencia sin que tengas que explicarlo durante una hora? Si la respuesta es no, tienes un problema de posicionamiento que ninguna campaña de marketing podrá resolver. La estrategia no consiste en hacer más ruido, sino en construir un argumento que sea imposible de ignorar para tu cliente ideal.
 
 ¿Tu equipo de ventas siente que el marketing les facilita el trabajo o tienen que esforzarse el doble para cerrar operaciones que deberían ser naturales? Cuando el marketing no está alineado con la realidad comercial, los leads llegan desorientados. Una estrategia sólida es la que prepara el terreno para que el cierre sea la consecuencia lógica de una conversación, no el resultado de una batalla de desgaste.
 
 ¿Tu propuesta de valor ha evolucionado al mismo ritmo que el mercado o sigues comunicando lo que hacías hace tres años? El marketing que no se revisa muere. Si tu empresa ha cambiado, pero tu forma de contarla sigue siendo la misma, estás desperdiciando el capital intelectual de tu organización.
+
+## Un filtro de tres pasos antes de invertir
 
 Para empezar a corregir esto, aplica este filtro de tres pasos antes de aprobar cualquier nueva inversión publicitaria.
 
@@ -31,6 +37,8 @@ Segundo, traslada esa respuesta a una sola frase que un directivo de tu empresa 
 
 Tercero, observa la fricción en tu embudo. Si la gente entra pero no se queda, el problema no es el tráfico, es la promesa que estás haciendo al principio.
 
+## Qué hacer con esto
+
 La ejecución es necesaria, pero solo es efectiva cuando el camino está despejado. Si sientes que estás invirtiendo en marketing sin obtener una ventaja competitiva real, es probable que no necesites más manos trabajando. Necesitas una claridad estratégica que convierta tu comunicación en un activo financiero y no en un gasto operativo.
 
-Si te encuentras en este punto de inflexión donde el crecimiento requiere más inteligencia que volumen, podemos revisar tu posicionamiento para asegurar que cada euro ejecutado trabaje a favor de tus objetivos de negocio.
+Si te encuentras en este punto de inflexión donde el crecimiento requiere más inteligencia que volumen, [podemos revisar tu posicionamiento](/contacto/) para asegurar que cada euro ejecutado trabaje a favor de tus objetivos de negocio.

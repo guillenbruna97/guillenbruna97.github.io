@@ -24,7 +24,11 @@ const personLd = {
   url: 'https://guillenbruna97.github.io/',
   image: 'https://guillenbruna97.github.io/guillen-chaqueta.png',
   description: 'Asesoro a empresas y a directivos que quieren comunicar con autoridad y posicionarse como referentes en su sector.',
-  areaServed: 'ES',
+  areaServed: [
+    { '@type': 'City', name: 'Zaragoza' },
+    { '@type': 'AdministrativeArea', name: 'Aragón' },
+    { '@type': 'Country', name: 'España' },
+  ],
   founder: {
     '@type': 'Person',
     name: 'Guillén Bruna Tricas',

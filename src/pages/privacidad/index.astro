@@ -1,0 +1,73 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { CONTACT_EMAIL, MAILTO_URL } from '../../consts';
+---
+<BaseLayout
+  title="Privacidad y cookies | Guillén Bruna"
+  description="Qué datos se recogen en esta web, con qué finalidad, y cómo ejercer tus derechos de acceso, rectificación o supresión."
+>
+  <div class="legal-main">
+    <span class="page-tag">Legal</span>
+    <h1>Privacidad y cookies</h1>
+    <p class="legal-updated">Última actualización: septiembre de 2026</p>
+
+    <div class="legal-body">
+      <h2>Responsable</h2>
+      <p>Guillén Bruna Tricas, con domicilio profesional en Zaragoza, España. Contacto: <a href={MAILTO_URL}>{CONTACT_EMAIL}</a>.</p>
+
+      <h2>Qué cookies o tecnologías similares se usan</h2>
+      <p>Esta web solo usa <strong>Google Analytics 4</strong>, para entender qué contenido es útil a quien visita el sitio (páginas vistas, procedencia del tráfico, y dos eventos de clic: "Reservar llamada" y "Escríbeme"). No se usa ninguna cookie de publicidad ni de seguimiento entre sitios.</p>
+      <p>Google Analytics <strong>no se activa al entrar en la web</strong>. Solo se carga si pulsas "Aceptar" en el aviso de cookies. Si pulsas "Rechazar" o no interactúas con el aviso, no se instala ningún identificador de analítica.</p>
+
+      <h2>Base legal</h2>
+      <p>El tratamiento se basa en tu <strong>consentimiento explícito</strong> (art. 6.1.a del RGPD y art. 22.2 de la LSSI-CE), que puedes retirar en cualquier momento borrando las cookies del sitio desde tu navegador.</p>
+
+      <h2>Con quién se comparten los datos</h2>
+      <p>Los datos de analítica los procesa Google Ireland Limited como encargado del tratamiento, conforme a sus propias condiciones de servicio y garantías de transferencia internacional.</p>
+
+      <h2>Tus derechos</h2>
+      <p>Puedes ejercer tus derechos de acceso, rectificación, supresión, oposición, limitación y portabilidad escribiendo a <a href={MAILTO_URL}>{CONTACT_EMAIL}</a>. También puedes reclamar ante la Agencia Española de Protección de Datos (aepd.es) si consideras que tus derechos no se han respetado.</p>
+    </div>
+  </div>
+</BaseLayout>
+
+<style is:global>
+  .legal-main { max-width: 640px; margin: 0 auto; padding: 5rem 2rem 6rem; }
+  .legal-main .page-tag {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--blue);
+    border: 1px solid var(--blue);
+    padding: 0.3rem 0.8rem;
+    border-radius: 2px;
+    margin-bottom: 1.5rem;
+    transition: color var(--transition), border-color var(--transition);
+  }
+  body.dark .legal-main .page-tag { color: var(--blue-light); border-color: var(--blue-light); }
+  .legal-main h1 {
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    font-weight: 400;
+    letter-spacing: -0.03em;
+    margin-bottom: 0.6rem;
+  }
+  .legal-updated { font-size: 0.8rem; color: rgba(0,0,0,0.4); margin-bottom: 3rem; transition: color var(--transition); }
+  body.dark .legal-updated { color: rgba(232,232,232,0.4); }
+  .legal-body { font-size: 0.95rem; font-weight: 300; line-height: 1.85; color: rgba(0,0,0,0.7); transition: color var(--transition); }
+  body.dark .legal-body { color: rgba(232,232,232,0.7); }
+  .legal-body h2 {
+    font-size: 1.1rem;
+    font-weight: 500;
+    font-family: 'Poppins', sans-serif;
+    color: var(--black);
+    margin: 2.2rem 0 0.8rem;
+    transition: color var(--transition);
+  }
+  .legal-body h2:first-child { margin-top: 0; }
+  body.dark .legal-body h2 { color: #e8e8e8; }
+  .legal-body p { margin-bottom: 1rem; }
+  .legal-body a { color: var(--blue); transition: color var(--transition); }
+  body.dark .legal-body a { color: var(--blue-light); }
+</style>
