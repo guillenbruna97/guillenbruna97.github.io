@@ -92,11 +92,34 @@ import { GA_MEASUREMENT_ID } from '../consts';
     document.head.appendChild(script);
   };
 
+  // En la primera visita de cada navegador, LoadingScreen.astro cubre toda
+  // la pantalla (z-index 9999) durante ~1.5s mientras se reproduce la
+  // animación de bienvenida. Si el banner se revela de inmediato, un clic
+  // en "Aceptar" durante esa ventana golpea la pantalla de carga, no el
+  // botón, y el banner parece no reaccionar. Se espera a que
+  // #loadingScreen desaparezca del DOM antes de revelarlo; en visitas
+  // siguientes ese elemento ya no existe, así que se revela al instante.
+  const revealBanner = () => banner?.removeAttribute('hidden');
+  const waitForLoadingScreen = (callback) => {
+    const loadingScreen = document.getElementById('loadingScreen');
+    if (!loadingScreen) {
+      callback();
+      return;
+    }
+    const observer = new MutationObserver(() => {
+      if (!document.body.contains(loadingScreen)) {
+        observer.disconnect();
+        callback();
+      }
+    });
+    observer.observe(document.body, { childList: true });
+  };
+
   const stored = localStorage.getItem(STORAGE_KEY);
   if (stored === 'granted') {
     loadAnalytics();
   } else if (stored !== 'denied') {
-    banner?.removeAttribute('hidden');
+    waitForLoadingScreen(revealBanner);
   }
 
   acceptBtn?.addEventListener('click', () => {
