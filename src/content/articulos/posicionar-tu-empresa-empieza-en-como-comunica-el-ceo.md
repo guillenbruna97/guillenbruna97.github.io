@@ -1,6 +1,6 @@
 ---
 title: "Posicionar tu empresa en tu sector no empieza en marketing, empieza en cómo comunica el CEO"
-seoTitle: "Posicionar tu empresa empieza en el CEO"
+seoTitle: "Posicionar tu marca empieza en el CEO"
 tag: "Marca · Posicionamiento"
 excerpt: "El mercado no compra el producto del folleto. Compra la claridad con la que la dirección entiende el problema que resuelve."
 description: "Por qué el posicionamiento de una empresa en su sector depende de cómo comunica su CEO, no solo de la estrategia de marketing."

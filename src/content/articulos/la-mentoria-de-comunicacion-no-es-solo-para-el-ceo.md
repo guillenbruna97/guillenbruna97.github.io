@@ -1,6 +1,6 @@
 ---
 title: "La mentoría de comunicación no es solo para el CEO"
-seoTitle: "Mentoría de comunicación para CFO y COO"
+seoTitle: "Mentoría de comunicación para CFO/COO"
 tag: "Comunicación · Comité de dirección"
 excerpt: "El CEO inspira. El CFO y el COO tienen que validar. Y nadie les prepara para eso."
 description: "Por qué la mentoría de comunicación también es necesaria para el CFO y el COO, no solo para el CEO de la compañía."

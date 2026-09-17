@@ -33,7 +33,11 @@ const serviceLd = {
     name: 'Guillén Bruna Tricas',
     url: 'https://guillenbruna97.github.io/sobre-mi/',
   },
-  areaServed: 'ES',
+  areaServed: [
+    { '@type': 'City', name: 'Zaragoza' },
+    { '@type': 'AdministrativeArea', name: 'Aragón' },
+    { '@type': 'Country', name: 'España' },
+  ],
   audience: {
     '@type': 'Audience',
     audienceType: 'CEO, COO, CFO, CEO de holding',
@@ -111,11 +115,11 @@ const breadcrumbLd = {
     padding: 2rem 2rem 0;
     font-size: 0.78rem;
     font-weight: 400;
-    color: rgba(0,0,0,0.4);
+    color: rgba(0,0,0,0.6);
     text-decoration: none;
     transition: color var(--transition), transform 0.15s ease;
   }
-  body.dark .back-link { color: rgba(232,232,232,0.4); }
+  body.dark .back-link { color: rgba(232,232,232,0.6); }
   .back-link:hover { color: var(--blue); transform: translateX(-3px); }
   body.dark .back-link:hover { color: var(--blue-light); }
 
