@@ -7,6 +7,7 @@ date: 2026-07-15
 readingTime: "3 min de lectura"
 image: "/images/articulos/estrategia-de-marketing-o-solo-mas-ejecucion.jpg"
 imageAlt: "Ilustración de portada sobre cómo distinguir falta de estrategia de marketing y falta de ejecución"
+service: "gtm-icp"
 ---
 
 La mayoría de los directivos que lideran empresas con tracción sienten que el marketing es una rueda que gira sin mover el vehículo con la velocidad esperada. Es probable que hayas probado ampliar el equipo, cambiar de agencia o probar nuevas plataformas publicitarias. El resultado suele ser el mismo. Obtienes más ruido, más leads de baja calidad o una sensación persistente de que el mercado no acaba de entender el valor real de lo que vendes.

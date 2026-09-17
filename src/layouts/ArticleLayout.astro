@@ -4,6 +4,7 @@ import Tag from '../components/Tag.astro';
 import ContactBlock from '../components/ContactBlock.astro';
 import { Picture } from 'astro:assets';
 import { getArticleImage } from '../utils/article-images';
+import { SERVICES } from '../consts';
 
 interface RelatedArticulo {
   id: string;
@@ -19,9 +20,11 @@ interface Props {
   readingTime: string;
   image?: string;
   imageAlt?: string;
+  service?: string;
   related?: RelatedArticulo[];
 }
-const { title, description, tag, heading, date, readingTime, image, imageAlt, related = [] } = Astro.props;
+const { title, description, tag, heading, date, readingTime, image, imageAlt, service, related = [] } = Astro.props;
+const serviceName = service ? SERVICES[service] : undefined;
 const optimizedImage = getArticleImage(image);
 const formattedDate = date.toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
 const imageUrl = image ? `https://guillenbruna97.github.io${image}` : 'https://guillenbruna97.github.io/isotipo.svg';
@@ -93,6 +96,12 @@ const breadcrumbLd = {
     <div class="article-prose">
       <slot />
     </div>
+
+    {serviceName && (
+      <p class="service-note">
+        Servicio relacionado <a href={`/servicios/#${service}`}>{serviceName} →</a>
+      </p>
+    )}
 
     {related.length > 0 && (
       <section class="related-articles" aria-label="Artículos relacionados">
@@ -220,6 +229,21 @@ const breadcrumbLd = {
 
   .article-prose a { color: var(--blue); transition: color var(--transition); }
   body.dark .article-prose a { color: var(--blue-light); }
+
+  .service-note {
+    margin: 0 0 2.5rem;
+    padding: 0.9rem 1.1rem;
+    border: 1px solid rgba(0,0,0,0.08);
+    border-radius: 8px;
+    font-size: 0.82rem;
+    font-weight: 400;
+    color: rgba(0,0,0,0.55);
+    transition: border-color var(--transition), color var(--transition);
+  }
+  body.dark .service-note { border-color: rgba(255,255,255,0.08); color: rgba(232,232,232,0.55); }
+  .service-note a { color: var(--blue); font-weight: 500; text-decoration: none; }
+  body.dark .service-note a { color: var(--blue-light); }
+  .service-note a:hover { text-decoration: underline; }
 
   /* ARTÍCULOS RELACIONADOS */
   .related-articles { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid rgba(0,0,0,0.1); }

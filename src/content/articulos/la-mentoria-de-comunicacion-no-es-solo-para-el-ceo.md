@@ -7,6 +7,7 @@ date: 2026-08-01
 readingTime: "4 min de lectura"
 image: "/images/articulos/la-mentoria-de-comunicacion-no-es-solo-para-el-ceo.jpg"
 imageAlt: "Ilustración de portada sobre la mentoría de comunicación para el CFO y el COO, no solo el CEO"
+service: "mentoria-comunicacion"
 ---
 
 Es habitual asumir que la portavocía y la proyección pública de una compañía recaen exclusivamente en la figura del CEO. Bajo esta premisa, los recursos de preparación, el entrenamiento de portavoces y el refinamiento del discurso se concentran en una sola persona. Mientras tanto, las direcciones financiera y de operaciones se centran en lo que mejor saben hacer, que es gestionar la viabilidad y la eficiencia de la organización.

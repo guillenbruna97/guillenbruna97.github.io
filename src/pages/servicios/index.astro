@@ -1,0 +1,86 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ContactBlock from '../../components/ContactBlock.astro';
+import { SERVICES } from '../../consts';
+---
+<BaseLayout
+  title="Estrategia, Marketing y Comunicación Ejecutiva | Guillén Bruna Tricas"
+  description="Diagnóstico de pipeline comercial, estrategia GTM, posicionamiento de producto y mentoría de comunicación ejecutiva para CEO, COO, CFO y CEO de holding."
+>
+  <div class="page-header">
+    <span class="page-tag">Servicios</span>
+    <h1>Estrategia, marketing<br />y comunicación ejecutiva</h1>
+    <p class="page-desc">¿Cómo asegurar que cada inversión en marketing o cada mensaje de tu equipo directivo impulse el crecimiento real? Las empresas más ambiciosas saben que la coherencia estratégica es clave. Acompaño a líderes en la construcción de una narrativa sólida, un posicionamiento claro y procesos comerciales eficientes, transformando la visión en acción y decisiones estratégicas.</p>
+  </div>
+
+  <div class="services-list">
+    <section class="service-block" id="pipeline" data-reveal>
+      <h2>{SERVICES.pipeline}</h2>
+      <p>Tu equipo genera leads, el CRM está activo, pero la conversión se estanca. ¿Sabes exactamente en qué etapa del proceso comercial se pierden las oportunidades? Este servicio de diagnóstico identifica las fugas ocultas en tu pipeline B2B, analizando tus datos existentes para revelar los puntos de fricción y las causas de la baja conversión. Obtendrás una auditoría detallada con un plan de acción concreto y estructural, diseñado para potenciar el marketing y las ventas de tu empresa, corrigiendo las ineficiencias desde dentro. Es un proyecto de alcance definido, con un entregable claro y un precio cerrado.</p>
+    </section>
+    <section class="service-block" id="gtm-icp" data-reveal>
+      <h2>{SERVICES['gtm-icp']}</h2>
+      <p>Si tu SaaS B2B está en fase de crecimiento, pero cada canal de marketing opera por su cuenta y el mensaje de producto varía según quién hable, estás perdiendo tracción. Este servicio te ayuda a trabajar la estrategia de marketing de tu empresa desde la base, definiendo con precisión tu cliente ideal (ICP) y unificando la narrativa en todos los puntos de contacto. Recibirás un documento estratégico con un mapa de canales claro, mensajes segmentados y un plan de acción a doce meses, listo para que tu equipo lo ejecute, garantizando una comunicación coherente y eficiente.</p>
+    </section>
+    <section class="service-block" id="posicionamiento" data-reveal>
+      <h2>{SERVICES.posicionamiento}</h2>
+      <p>Tu producto SaaS B2B es robusto y técnicamente avanzado, pero ¿consigues que tu cliente entienda rápidamente por qué eres su mejor opción frente a la competencia? A menudo, el valor de una solución se diluye cuando se explica desde la funcionalidad, no desde el problema que resuelve. Como asesor de comunicación, te ayudo a construir un posicionamiento claro y una narrativa de producto potente que resuene con tu público. El resultado es un documento estratégico con una propuesta de valor diferenciada, un mapa de mensajes segmentados y ejemplos concretos para tu landing, pitch y comunicaciones de venta, transformando cómo el mercado percibe tu oferta.</p>
+    </section>
+    <section class="service-block" id="mentoria-comunicacion" data-reveal>
+      <h2>{SERVICES['mentoria-comunicacion']}</h2>
+      <p>La voz pública de tu comité de dirección es una extensión directa de la marca, y cada intervención cuenta. ¿Están todos los líderes de tu empresa preparados para comunicar con el mismo rigor estratégico que el CEO? Este servicio ofrece mentoría de comunicación para CFO y COO, además de CEOs, asegurando que cada miembro del C-level proyecte una narrativa coherente y alineada con los objetivos de negocio. Recibirás sesiones de preparación personalizadas, con notas de decisión escritas que documentan el criterio aplicado a cada intervención pública, desde juntas de inversores hasta interacciones con la prensa o gestión de crisis.</p>
+    </section>
+  </div>
+
+  <p class="services-closing">Cada uno de estos servicios está diseñado para transformar tus desafíos estratégicos en ventajas competitivas claras. Si tu empresa busca precisión en la ejecución, claridad en el mensaje o una alineación directiva sólida, conversemos sobre cómo podemos construir ese camino juntos. La primera conversación es siempre para entender tu contexto.</p>
+
+  <ContactBlock title="¿Hablamos<br>de tu caso?" />
+</BaseLayout>
+
+<style is:global>
+  .services-list {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 1rem 2rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+  }
+  .service-block {
+    scroll-margin-top: 90px;
+  }
+  .service-block h2 {
+    font-size: 1.3rem;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    color: var(--black);
+    margin-bottom: 0.9rem;
+    transition: color var(--transition);
+  }
+  body.dark .service-block h2 { color: #e8e8e8; }
+  .service-block p {
+    font-size: 0.95rem;
+    font-weight: 300;
+    color: rgba(0,0,0,0.7);
+    line-height: 1.9;
+    transition: color var(--transition);
+  }
+  body.dark .service-block p { color: rgba(232,232,232,0.7); }
+
+  .services-closing {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 2rem 3rem;
+    font-size: 0.95rem;
+    font-weight: 300;
+    color: rgba(0,0,0,0.7);
+    line-height: 1.9;
+    transition: color var(--transition);
+  }
+  body.dark .services-closing { color: rgba(232,232,232,0.7); }
+
+  @media (max-width: 640px) {
+    .services-list { padding: 1rem 1.5rem 1.5rem; }
+    .services-closing { padding: 0 1.5rem 2rem; }
+  }
+</style>

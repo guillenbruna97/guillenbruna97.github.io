@@ -16,6 +16,9 @@ const articulos = defineCollection({
     // no lo incluye. ArticleLayout/ArticlesListing hacen fallback al título
     // cuando no está presente.
     imageAlt: z.string().optional(),
+    // Ancla del servicio relacionado en /servicios/ (ver src/consts.ts SERVICES).
+    // Opcional: la rutina automática semanal no lo rellena y no debe romper el build.
+    service: z.string().optional(),
   }),
 });
 

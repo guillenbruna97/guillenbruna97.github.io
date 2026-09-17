@@ -7,6 +7,7 @@ date: 2026-09-14
 readingTime: "4 min de lectura"
 image: "/images/articulos/estrategia-marca-pyme.jpg"
 imageAlt: "Ilustración de portada sobre construir una estrategia de marca pyme que no dependa de personas concretas"
+service: "posicionamiento"
 ---
 
 Muchos comités de dirección de pymes industriales y de servicios miran su cartera de clientes con una mezcla de orgullo y tranquilidad. Tienen clientes que llevan diez años con ellos, la reputación en el sector es excelente y el trato personal es impecable. Es fácil asumir que esa fidelidad equivale a tener una marca sólida. Sin embargo, ¿qué ocurriría si su mejor comercial se marchara mañana a la competencia? ¿O si un competidor extranjero entrara en su mercado con un precio un treinta por ciento inferior?
