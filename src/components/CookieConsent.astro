@@ -1,7 +1,7 @@
 ---
 import { GA_MEASUREMENT_ID } from '../consts';
 ---
-<div id="cookie-consent" class="cookie-consent" role="region" aria-label="Aviso de cookies" hidden>
+<div id="cookie-consent" class="cookie-consent" role="region" aria-label="Aviso de cookies">
   <p class="cookie-text">
     Uso Google Analytics para saber qué contenido es útil. No se activa hasta que lo aceptas.
     <a href="/privacidad/">Más información</a>
@@ -14,6 +14,13 @@ import { GA_MEASUREMENT_ID } from '../consts';
 
 <style is:global>
   .cookie-consent {
+    /* Base: oculto. La clase .is-open (no el atributo hidden) es la que lo
+       muestra — un display:flex aquí en la regla base ganaría siempre a
+       [hidden] (ambas reglas "normal", pero la hoja de autor gana a la del
+       user-agent en el cascade con independencia de la especificidad), y
+       el banner nunca llegaría a ocultarse por mucho que el JS quitara o
+       pusiera el atributo. */
+    display: none;
     position: fixed;
     left: 1rem;
     right: 1rem;
@@ -26,11 +33,11 @@ import { GA_MEASUREMENT_ID } from '../consts';
     border-radius: 12px;
     box-shadow: 0 12px 32px rgba(0,0,0,0.16);
     padding: 1.1rem 1.25rem;
-    display: flex;
     flex-direction: column;
     gap: 0.9rem;
     transition: background var(--transition), border-color var(--transition);
   }
+  .cookie-consent.is-open { display: flex; }
   body.dark .cookie-consent { background: var(--dark-surface); border-color: rgba(255,255,255,0.12); }
 
   .cookie-text {
@@ -99,7 +106,7 @@ import { GA_MEASUREMENT_ID } from '../consts';
   // botón, y el banner parece no reaccionar. Se espera a que
   // #loadingScreen desaparezca del DOM antes de revelarlo; en visitas
   // siguientes ese elemento ya no existe, así que se revela al instante.
-  const revealBanner = () => banner?.removeAttribute('hidden');
+  const revealBanner = () => banner?.classList.add('is-open');
   const waitForLoadingScreen = (callback) => {
     const loadingScreen = document.getElementById('loadingScreen');
     if (!loadingScreen) {
@@ -124,12 +131,12 @@ import { GA_MEASUREMENT_ID } from '../consts';
 
   acceptBtn?.addEventListener('click', () => {
     localStorage.setItem(STORAGE_KEY, 'granted');
-    banner?.setAttribute('hidden', '');
+    banner?.classList.remove('is-open');
     loadAnalytics();
   });
 
   rejectBtn?.addEventListener('click', () => {
     localStorage.setItem(STORAGE_KEY, 'denied');
-    banner?.setAttribute('hidden', '');
+    banner?.classList.remove('is-open');
   });
 </script>
