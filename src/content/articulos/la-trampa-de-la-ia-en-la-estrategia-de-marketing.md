@@ -1,5 +1,6 @@
 ---
 title: "La trampa de la IA en la estrategia de marketing"
+seoTitle: "La trampa de la IA en el marketing"
 tag: "Marketing · IA aplicada"
 excerpt: "La IA es un motor sin volante. Potente y eficiente, pero no sabe hacia dónde llevarte si tú no lo decides antes."
 description: "Por qué adoptar herramientas de IA en marketing no sustituye la falta de una estrategia y una propuesta de valor claras."

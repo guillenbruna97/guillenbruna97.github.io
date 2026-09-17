@@ -1,8 +1,9 @@
 ---
 title: "El diseño de una estrategia de lanzamiento de producto SaaS B2B más allá de la lista de tareas pendientes"
+seoTitle: "Estrategia de lanzamiento SaaS B2B"
 tag: "Marketing · GTM y SaaS B2B"
 excerpt: "Antes del lanzamiento hay una pregunta que nadie hace en el comité de dirección. ¿Esto es una estrategia de salida al mercado o solo una lista de tareas?"
-description: "Un marco de autodiagnóstico para decidir el segmento, el canal de adquisición y el mensaje de lanzamiento de una plataforma SaaS B2B, antes de comprometer presupuesto y equipo."
+description: "Un marco de autodiagnóstico para decidir segmento, canal de adquisición y mensaje de lanzamiento de un SaaS B2B, antes de comprometer presupuesto y equipo."
 date: 2026-08-31
 readingTime: "6 min de lectura"
 image: "/images/articulos/estrategia-lanzamiento-saas-b2b.jpg"

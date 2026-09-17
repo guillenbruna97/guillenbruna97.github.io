@@ -1,5 +1,6 @@
 ---
 title: "Cómo se convierte una marca en referente de su sector"
+seoTitle: "Cómo ser marca referente en tu sector"
 tag: "Marca · Reconocimiento"
 excerpt: "El reconocimiento duradero no se construye con un solo golpe de efecto. Se construye ladrillo a ladrillo."
 description: "Qué priorizar para que una marca deje de competir y pase a liderar su categoría a largo plazo."

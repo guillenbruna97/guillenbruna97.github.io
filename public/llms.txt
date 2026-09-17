@@ -1,0 +1,19 @@
+# Guillén Bruna Tricas
+
+> Consultor independiente de estrategia de marketing y comunicación ejecutiva. Trabaja con CEO, COO, CFO y CEO de holding, no con departamentos de marketing junior ni como agencia de ejecución.
+
+Con sede en Zaragoza, España. No ofrece gestión de redes sociales, publicidad de pago, diseño gráfico ni desarrollo web como servicios propios.
+
+## Servicios
+
+- [Diagnóstico de Pipeline B2B](https://guillenbruna97.github.io/servicios/pipeline/): auditoría del proceso comercial B2B con datos del propio CRM del cliente para localizar en qué etapa se pierden las oportunidades.
+- [Estrategia Go-to-Market e ICP](https://guillenbruna97.github.io/servicios/gtm-icp/): documento de decisión con ICP definido, mapa de canales, mensajes por segmento y calendario a doce meses para SaaS B2B.
+- [Posicionamiento y Narrativa de Producto](https://guillenbruna97.github.io/servicios/posicionamiento/): propuesta de valor diferenciada y mensajes reescritos para landing, pitch y venta de producto SaaS B2B técnico.
+- [Mentoría de Comunicación Ejecutiva](https://guillenbruna97.github.io/servicios/mentoria-comunicacion/): sesiones de preparación para CEO, COO y CFO antes de intervenciones públicas, consejos, inversores, prensa o crisis.
+
+## Otras páginas
+
+- [Casos reales](https://guillenbruna97.github.io/trabajo/): proyectos de estrategia de marca, lanzamiento de producto y generación de demanda.
+- [Artículos](https://guillenbruna97.github.io/articulos/): piezas de autoridad sobre posicionamiento, marca, GTM y comunicación ejecutiva, sin narrativa autobiográfica.
+- [Sobre mí](https://guillenbruna97.github.io/sobre-mi/): trayectoria profesional.
+- [Contacto](https://guillenbruna97.github.io/contacto/): agenda de llamada, email y LinkedIn.

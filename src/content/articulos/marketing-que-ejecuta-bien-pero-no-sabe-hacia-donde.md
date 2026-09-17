@@ -1,5 +1,6 @@
 ---
 title: "Por qué tu departamento de marketing ejecuta bien pero no sabe hacia dónde"
+seoTitle: "Marketing que ejecuta bien, sin rumbo"
 tag: "Marketing · Estrategia y foco"
 excerpt: "Mucha actividad, poco impacto medible. El síntoma más común de un departamento sin norte estratégico."
 description: "Cómo detectar cuándo un departamento de marketing ejecuta con intensidad pero sin una dirección estratégica que lo sostenga."

@@ -1,5 +1,6 @@
 ---
 title: "La trampa del perfil técnico: por qué el silencio no es una estrategia de reputación"
+seoTitle: "El silencio no protege tu reputación"
 tag: "Marca personal · Reputación"
 excerpt: "Un balance sólido no blinda tu reputación. El silencio tampoco es una estrategia, es un vacío que otros llenan por ti."
 description: "Por qué la marca personal de un directivo no es vanidad sino una herramienta de gobernanza que hay que construir antes de necesitarla."

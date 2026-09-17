@@ -1,5 +1,6 @@
 ---
 title: "Por qué la coherencia de marca es la estrategia de posicionamiento más rentable a largo plazo"
+seoTitle: "Coherencia de marca y posicionamiento"
 tag: "Branding · Posicionamiento"
 excerpt: "La inconsistencia es la forma más cara de perder posicionamiento. La coherencia es la inversión más rentable."
 description: "Por qué la coherencia de marca en todos los canales genera confianza, compromiso y lealtad a largo plazo."

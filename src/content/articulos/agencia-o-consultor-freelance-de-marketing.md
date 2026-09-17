@@ -1,5 +1,6 @@
 ---
 title: "El error de contratar por inercia en la estrategia de marketing"
+seoTitle: "Agencia o consultor freelance"
 tag: "Marketing · Consultoría"
 excerpt: "Contratar agencia por inercia resuelve la ejecución. No resuelve la falta de claridad en el mensaje."
 description: "Los criterios reales para decidir entre una agencia y un consultor de marketing freelance según cuál sea tu verdadero cuello de botella."

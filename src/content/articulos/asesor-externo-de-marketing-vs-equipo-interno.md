@@ -1,5 +1,6 @@
 ---
 title: "Lo que un asesor externo ve de tu marketing que tu equipo interno no puede ver"
+seoTitle: "Asesor externo de marketing para CEO"
 tag: "Marketing · Estrategia externa"
 excerpt: "Tu equipo interno vive dentro de la pecera. Un asesor externo es el espejo que no distorsiona."
 description: "Qué aporta un asesor externo de estrategia que un equipo interno, por bueno que sea, no puede ver desde dentro."

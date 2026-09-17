@@ -19,6 +19,11 @@ const articulos = defineCollection({
     // Ancla del servicio relacionado en /servicios/ (ver src/consts.ts SERVICES).
     // Opcional: la rutina automática semanal no lo rellena y no debe romper el build.
     service: z.string().optional(),
+    // Título corto (<=60 caracteres sumando " | Guillén Bruna Tricas") solo para
+    // la etiqueta <title>, evitando que se trunque en Google. El H1 y el título
+    // editorial (más largo y evocador, `title`) no cambian. Opcional: si falta,
+    // ArticleLayout usa `title` como fallback.
+    seoTitle: z.string().optional(),
   }),
 });
 

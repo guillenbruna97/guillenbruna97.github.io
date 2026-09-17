@@ -1,5 +1,6 @@
 ---
 title: "La entrevista con un medio no se improvisa aunque lleves veinte años dirigiendo"
+seoTitle: "Prepara la entrevista con un medio"
 tag: "Comunicación · Gestión de crisis"
 excerpt: "Veinte años dirigiendo no preparan a nadie para el teléfono de un periodista. Ahí manda otra lógica."
 description: "Un marco de preparación para que un directivo controle el mensaje ante un medio o una crisis, en vez de improvisar."

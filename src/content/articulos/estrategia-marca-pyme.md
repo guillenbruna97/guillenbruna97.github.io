@@ -1,8 +1,9 @@
 ---
 title: "El riesgo invisible de competir por relaciones personales y cómo construir una diferenciación real en B2B"
+seoTitle: "Estrategia de marca para pymes B2B"
 tag: "Marketing · GTM y SaaS B2B"
 excerpt: "¿Qué ocurriría si su mejor comercial se marchara mañana a la competencia? Si esa pregunta le inquieta, su empresa depende de personas, no de una marca."
-description: "Un criterio práctico para distinguir la diferenciación de marca real de una PYME B2B, sostenible en el tiempo, de la diferenciación aparente que cualquier competidor podría firmar igual."
+description: "Un criterio práctico para distinguir la diferenciación de marca real de una PYME B2B de la que cualquier competidor podría firmar igual."
 date: 2026-09-14
 readingTime: "4 min de lectura"
 image: "/images/articulos/estrategia-marca-pyme.jpg"

@@ -1,5 +1,6 @@
 ---
 title: "Marketing que no retorna: por qué las campañas puntuales no construyen marca"
+seoTitle: "Marketing que no retorna"
 tag: "Marketing · Largo plazo"
 excerpt: "El marketing de activación mueve producto hoy. El marketing de marca compone valor durante años."
 description: "La diferencia entre marketing de activación y marketing de marca, y por qué solo el segundo construye un activo duradero."

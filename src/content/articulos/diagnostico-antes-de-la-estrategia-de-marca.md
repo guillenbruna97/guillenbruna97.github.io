@@ -1,5 +1,6 @@
 ---
 title: "El diagnóstico: la base de cualquier estrategia de marca que quiera perdurar"
+seoTitle: "El diagnóstico antes de la estrategia"
 tag: "Marca · Diagnóstico"
 excerpt: "No importa la brillantez de una campaña si la experiencia real del cliente no valida el mensaje."
 description: "Por qué tantas estrategias de marca fallan a pesar de tener presupuesto y buena creatividad, y qué diagnóstico las sostiene."

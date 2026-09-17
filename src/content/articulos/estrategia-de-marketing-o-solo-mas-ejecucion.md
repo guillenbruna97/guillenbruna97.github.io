@@ -1,5 +1,6 @@
 ---
 title: "Cómo saber si tu empresa necesita una estrategia de marketing o solo más ejecución"
+seoTitle: "Marketing, estrategia o solo ejecución"
 tag: "Marketing · Diagnóstico"
 excerpt: "Más equipo, más presupuesto, más plataformas. Y el mismo resultado. La ejecución solo amplifica la estrategia que ya tienes."
 description: "Un framework de autodiagnóstico para distinguir si tu empresa necesita repensar su estrategia de marketing o simplemente ejecutar mejor."

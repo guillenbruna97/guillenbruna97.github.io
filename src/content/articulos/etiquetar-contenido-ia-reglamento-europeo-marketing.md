@@ -1,8 +1,9 @@
 ---
 title: "Desde el 2 de agosto, no etiquetar el contenido con IA de tu empresa es una infracción que pagas tú, no tu agencia"
+seoTitle: "Etiquetar contenido IA, Reglamento UE"
 tag: "Marketing · IA aplicada"
 excerpt: "El Artículo 50 del Reglamento Europeo de IA ya obliga a etiquetar el contenido generado con IA. La responsabilidad legal es de quien publica, no de quien lo produce."
-description: "Qué obliga el Artículo 50 del Reglamento Europeo de IA desde el 2 de agosto de 2026, qué contenido hay que etiquetar, y cómo montar un criterio interno de aprobación antes de publicar."
+description: "Qué obliga el Artículo 50 del Reglamento Europeo de IA desde agosto de 2026, qué etiquetar, y cómo montar un criterio de aprobación antes de publicar."
 date: 2026-08-04
 readingTime: "4 min de lectura"
 image: "/images/articulos/etiquetar-contenido-ia-reglamento-europeo-marketing.jpg"
