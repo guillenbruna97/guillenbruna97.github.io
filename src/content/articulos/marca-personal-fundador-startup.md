@@ -1,6 +1,6 @@
 ---
 title: "Cuando tu nombre y el de tu empresa ya no pueden vivir en el mismo ecosistema"
-seoTitle: "Marca personal del fundador vs. empresa"
+seoTitle: "Marca del fundador vs. de empresa"
 tag: "Marca personal · Fundadores"
 excerpt: "El mercado ha fundido tu nombre con el de tu empresa. La pregunta es qué ocurre el día que uno de los dos falla y el otro no puede permitírselo."
 description: "Un criterio práctico para separar la marca personal del fundador de la marca corporativa antes de que un cambio de rol o una crisis obligue a hacerlo."
