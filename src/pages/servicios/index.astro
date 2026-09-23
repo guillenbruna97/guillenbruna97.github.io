@@ -1,7 +1,15 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ContactBlock from '../../components/ContactBlock.astro';
+import ServiceIcon from '../../components/ServiceIcon.astro';
 import { SERVICES } from '../../consts';
+
+// Los 4 servicios responden a dos públicos distintos: los 3 primeros son para
+// fundadores/equipos de SaaS B2B (pipeline, GTM/ICP, posicionamiento), el
+// último es para comités de dirección en general (mentoría de comunicación).
+// Se agrupan visualmente para que no compitan por el mismo hueco mental.
+const saasB2B = SERVICES.slice(0, 3);
+const altaDireccion = SERVICES.slice(3);
 ---
 <BaseLayout
   title="Estrategia, Marketing y Comunicación Ejecutiva | Guillén Bruna Tricas"
@@ -13,15 +21,38 @@ import { SERVICES } from '../../consts';
     <p class="page-desc">¿Cómo asegurar que cada inversión en marketing o cada mensaje de tu equipo directivo impulse el crecimiento real? Las empresas más ambiciosas saben que la coherencia estratégica es clave. Acompaño a líderes en la construcción de una narrativa sólida, un posicionamiento claro y procesos comerciales eficientes, transformando la visión en acción y decisiones estratégicas.</p>
   </div>
 
-  <div class="services-grid">
-    {SERVICES.map((service, i) => (
-      <a href={`/servicios/${service.slug}/`} class="service-card" data-reveal>
-        <span class="service-number">{String(i + 1).padStart(2, '0')}</span>
-        <h2>{service.name}</h2>
-        <p>{service.tagline}</p>
-        <span class="service-link">Ver servicio →</span>
-      </a>
-    ))}
+  <div class="services-group">
+    <p class="services-kicker">Para fundadores y equipos de SaaS B2B</p>
+    <div class="services-grid services-grid--3">
+      {saasB2B.map((service, i) => (
+        <a href={`/servicios/${service.slug}/`} class="service-card" data-reveal>
+          <div class="service-card-top">
+            <ServiceIcon slug={service.slug} />
+            <span class="service-number">{String(i + 1).padStart(2, '0')}</span>
+          </div>
+          <h2>{service.name}</h2>
+          <p>{service.tagline}</p>
+          <span class="service-link">Ver servicio →</span>
+        </a>
+      ))}
+    </div>
+  </div>
+
+  <div class="services-group">
+    <p class="services-kicker">Para comités de dirección</p>
+    <div class="services-grid services-grid--1">
+      {altaDireccion.map((service, i) => (
+        <a href={`/servicios/${service.slug}/`} class="service-card" data-reveal>
+          <div class="service-card-top">
+            <ServiceIcon slug={service.slug} />
+            <span class="service-number">{String(saasB2B.length + i + 1).padStart(2, '0')}</span>
+          </div>
+          <h2>{service.name}</h2>
+          <p>{service.tagline}</p>
+          <span class="service-link">Ver servicio →</span>
+        </a>
+      ))}
+    </div>
   </div>
 
   <ContactBlock title="¿Hablamos<br>de tu caso?" />
@@ -62,14 +93,28 @@ import { SERVICES } from '../../consts';
   }
   body.dark .page-desc { color: rgba(232,232,232,0.55); }
 
-  .services-grid {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 1rem 2rem 3rem;
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 1.5rem;
+  .services-group { max-width: 900px; margin: 0 auto; padding: 1rem 2rem 0; }
+  .services-group:last-of-type { padding-bottom: 2rem; }
+
+  .services-kicker {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(0,0,0,0.4);
+    margin: 0 0 1rem;
+    transition: color var(--transition);
   }
+  body.dark .services-kicker { color: rgba(232,232,232,0.4); }
+
+  .services-grid {
+    display: grid;
+    gap: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  .services-grid--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .services-grid--1 { grid-template-columns: minmax(0, 1fr); }
+
   .service-card {
     display: flex;
     flex-direction: column;
@@ -84,12 +129,18 @@ import { SERVICES } from '../../consts';
   .service-card:hover { border-color: var(--blue); transform: translateY(-2px); }
   body.dark .service-card:hover { border-color: var(--blue-light); }
 
+  .service-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.9rem;
+  }
+
   .service-number {
     font-family: 'Poppins', sans-serif;
     font-size: 0.78rem;
     font-weight: 600;
     color: var(--blue);
-    margin-bottom: 0.9rem;
     transition: color var(--transition);
   }
   body.dark .service-number { color: var(--blue-light); }
@@ -124,7 +175,12 @@ import { SERVICES } from '../../consts';
   body.dark .service-link { color: var(--blue-light); }
   .service-card:hover .service-link { text-decoration: underline; }
 
+  @media (max-width: 900px) {
+    .services-grid--3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+
   @media (max-width: 640px) {
-    .services-grid { grid-template-columns: 1fr; padding: 1rem 1.5rem 2rem; }
+    .services-group { padding: 1rem 1.5rem 0; }
+    .services-grid--3 { grid-template-columns: 1fr; }
   }
 </style>

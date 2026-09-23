@@ -24,7 +24,7 @@ export const SERVICES: ServiceInfo[] = [
   {
     slug: 'gtm-icp',
     name: 'Estrategia Go-to-Market e ICP',
-    tagline: 'Define a quién le vendes y unifica el mensaje en todos tus canales.',
+    tagline: 'Define a quién le vendes y por qué canales debes llegar a él.',
   },
   {
     slug: 'posicionamiento',
