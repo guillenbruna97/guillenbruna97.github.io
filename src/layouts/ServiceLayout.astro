@@ -10,6 +10,11 @@ interface Step {
   text: string;
 }
 
+interface Faq {
+  question: string;
+  answer: string;
+}
+
 interface Props {
   title: string;
   description: string;
@@ -22,9 +27,10 @@ interface Props {
   recibe: string[];
   pasos: Step[];
   cierre: string;
+  faqs?: Faq[];
 }
 
-const { title, description, heading, subtitle, image, imageAlt, paraQuien, queResuelve, recibe, pasos, cierre } = Astro.props;
+const { title, description, heading, subtitle, image, imageAlt, paraQuien, queResuelve, recibe, pasos, cierre, faqs } = Astro.props;
 const optimizedImage = getServiceImage(image);
 
 const serviceLd = {
@@ -58,10 +64,20 @@ const breadcrumbLd = {
     { '@type': 'ListItem', position: 3, name: heading, item: Astro.url.href },
   ],
 };
+const faqLd = faqs && faqs.length > 0 ? {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((faq) => ({
+    '@type': 'Question',
+    name: faq.question,
+    acceptedAnswer: { '@type': 'Answer', text: faq.answer },
+  })),
+} : null;
 ---
 <BaseLayout title={title} description={description} image={image} ogType="website">
   <script type="application/ld+json" set:html={JSON.stringify(serviceLd)} />
   <script type="application/ld+json" set:html={JSON.stringify(breadcrumbLd)} />
+  {faqLd && <script type="application/ld+json" set:html={JSON.stringify(faqLd)} />}
   <a href="/servicios/" class="back-link">← Volver a servicios</a>
 
   <div class="case-main">
@@ -125,6 +141,20 @@ const breadcrumbLd = {
     </div>
 
     <p class="service-cierre">{cierre}</p>
+
+    {faqs && faqs.length > 0 && (
+      <div class="case-block-full faq-block" data-reveal>
+        <p class="block-label">Preguntas frecuentes</p>
+        <div class="faq-list">
+          {faqs.map((faq) => (
+            <details class="faq-item">
+              <summary>{faq.question}</summary>
+              <p>{faq.answer}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    )}
   </div>
 
   <Divider />
@@ -293,4 +323,51 @@ const breadcrumbLd = {
     transition: color var(--transition), border-color var(--transition);
   }
   body.dark .service-cierre { color: rgba(232,232,232,0.65); border-top-color: rgba(255,255,255,0.08); }
+
+  .faq-block { margin-top: 3rem; }
+  .faq-list { display: flex; flex-direction: column; gap: 0.7rem; max-width: 720px; }
+  .faq-item {
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 10px;
+    padding: 1rem 1.2rem;
+    transition: border-color var(--transition), background var(--transition);
+  }
+  body.dark .faq-item { border-color: rgba(255,255,255,0.12); }
+  .faq-item[open] { background: rgba(0,0,0,0.02); }
+  body.dark .faq-item[open] { background: rgba(255,255,255,0.03); }
+  .faq-item summary {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--black);
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    transition: color var(--transition);
+  }
+  body.dark .faq-item summary { color: #e8e8e8; }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-item summary::after {
+    content: '+';
+    flex: none;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.1rem;
+    color: var(--blue);
+    transition: transform 0.2s ease, color var(--transition);
+  }
+  body.dark .faq-item summary::after { color: var(--blue-light); }
+  .faq-item[open] summary::after { transform: rotate(45deg); }
+  .faq-item summary:hover { color: var(--blue); }
+  body.dark .faq-item summary:hover { color: var(--blue-light); }
+  .faq-item p {
+    font-size: 0.88rem;
+    font-weight: 300;
+    color: rgba(0,0,0,0.7);
+    line-height: 1.7;
+    margin: 0.8rem 0 0;
+    transition: color var(--transition);
+  }
+  body.dark .faq-item p { color: rgba(232,232,232,0.7); }
 </style>
