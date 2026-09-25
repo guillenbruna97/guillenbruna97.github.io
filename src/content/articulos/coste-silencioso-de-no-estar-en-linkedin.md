@@ -5,6 +5,7 @@ tag: "Marca personal · LinkedIn"
 excerpt: "El mercado ya habla de ti aunque no publiques. La pregunta es si controlas esa narrativa o la dejas al azar."
 description: "Qué considerar antes de publicar el primer post en LinkedIn si eres un directivo que quiere construir autoridad, no ruido."
 date: 2026-07-15
+updated: 2026-09-17
 readingTime: "3 min de lectura"
 image: "/images/articulos/coste-silencioso-de-no-estar-en-linkedin.jpg"
 imageAlt: "Ilustración de portada sobre el coste de no tener presencia en LinkedIn como directivo"

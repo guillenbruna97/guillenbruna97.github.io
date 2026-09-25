@@ -5,6 +5,7 @@ tag: "Marca · Posicionamiento"
 excerpt: "El mercado no compra el producto del folleto. Compra la claridad con la que la dirección entiende el problema que resuelve."
 description: "Por qué el posicionamiento de una empresa en su sector depende de cómo comunica su CEO, no solo de la estrategia de marketing."
 date: 2026-07-15
+updated: 2026-09-17
 readingTime: "3 min de lectura"
 image: "/images/articulos/posicionar-tu-empresa-empieza-en-como-comunica-el-ceo.jpg"
 imageAlt: "Ilustración de portada sobre cómo la comunicación del CEO define el posicionamiento de la empresa"

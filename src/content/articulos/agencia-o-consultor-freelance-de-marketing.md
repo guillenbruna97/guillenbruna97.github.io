@@ -5,6 +5,7 @@ tag: "Marketing · Consultoría"
 excerpt: "Contratar agencia por inercia resuelve la ejecución. No resuelve la falta de claridad en el mensaje."
 description: "Los criterios reales para decidir entre una agencia y un consultor de marketing freelance según cuál sea tu verdadero cuello de botella."
 date: 2026-08-01
+updated: 2026-09-17
 readingTime: "3 min de lectura"
 image: "/images/articulos/agencia-o-consultor-freelance-de-marketing.jpg"
 imageAlt: "Ilustración de portada sobre cuándo elegir una agencia o un consultor de marketing freelance"

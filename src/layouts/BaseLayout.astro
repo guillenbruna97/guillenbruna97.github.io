@@ -74,8 +74,13 @@ const { title, description, image, ogType } = Astro.props;
       if ('IntersectionObserver' in window && revealTargets.length) {
         const observer = new IntersectionObserver(
           (entries) => {
+            // Una sola vez: antes era toggle(isIntersecting) y el bloque se
+            // volvía a ocultar al salir de pantalla, dejando huecos en blanco
+            // al volver a subir y en capturas de página completa.
             for (const entry of entries) {
-              entry.target.classList.toggle('is-visible', entry.isIntersecting);
+              if (!entry.isIntersecting) continue;
+              entry.target.classList.add('is-visible');
+              observer.unobserve(entry.target);
             }
           },
           { threshold: 0.15 }

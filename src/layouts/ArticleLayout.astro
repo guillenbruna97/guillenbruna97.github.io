@@ -17,16 +17,19 @@ interface Props {
   tag: string;
   heading: string;
   date: Date;
+  updated?: Date;
   readingTime: string;
   image?: string;
   imageAlt?: string;
   service?: string;
   related?: RelatedArticulo[];
 }
-const { title, description, tag, heading, date, readingTime, image, imageAlt, service, related = [] } = Astro.props;
+const { title, description, tag, heading, date, updated, readingTime, image, imageAlt, service, related = [] } = Astro.props;
 const serviceInfo = getService(service);
 const optimizedImage = getArticleImage(image);
-const formattedDate = date.toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
+const dateFormat: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'long', year: 'numeric' };
+const formattedDate = date.toLocaleDateString('es-ES', dateFormat);
+const formattedUpdated = updated && updated > date ? updated.toLocaleDateString('es-ES', dateFormat) : null;
 const imageUrl = image ? `https://guillenbruna97.github.io${image}` : 'https://guillenbruna97.github.io/isotipo.svg';
 const articleLd = {
   '@context': 'https://schema.org',
@@ -35,7 +38,7 @@ const articleLd = {
   description,
   image: imageUrl,
   datePublished: date.toISOString(),
-  dateModified: date.toISOString(),
+  dateModified: (updated ?? date).toISOString(),
   mainEntityOfPage: Astro.url.href,
   author: {
     '@type': 'Person',
@@ -71,7 +74,11 @@ const breadcrumbLd = {
       <Tag label={tag} />
     </div>
     <h1>{heading}</h1>
-    <p class="article-meta">{formattedDate} · {readingTime}</p>
+    <p class="article-meta">
+      <time datetime={date.toISOString().slice(0, 10)}>{formattedDate}</time>
+      {formattedUpdated && updated && <> · Actualizado el <time datetime={updated.toISOString().slice(0, 10)}>{formattedUpdated}</time></>}
+      {' · '}{readingTime}
+    </p>
 
     {image && (
       <div class="article-hero">

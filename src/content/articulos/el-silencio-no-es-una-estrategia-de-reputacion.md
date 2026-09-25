@@ -5,6 +5,7 @@ tag: "Marca personal · Reputación"
 excerpt: "Un balance sólido no blinda tu reputación. El silencio tampoco es una estrategia, es un vacío que otros llenan por ti."
 description: "Por qué la marca personal de un directivo no es vanidad sino una herramienta de gobernanza que hay que construir antes de necesitarla."
 date: 2026-08-01
+updated: 2026-09-17
 readingTime: "3 min de lectura"
 image: "/images/articulos/el-silencio-no-es-una-estrategia-de-reputacion.jpg"
 imageAlt: "Ilustración de portada sobre por qué el silencio no protege la reputación de un directivo"

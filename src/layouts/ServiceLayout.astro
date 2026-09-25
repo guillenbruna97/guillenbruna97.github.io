@@ -109,30 +109,30 @@ const faqLd = faqs && faqs.length > 0 ? {
 
     <div class="case-blocks">
       <div>
-        <p class="block-label">Para quién es</p>
+        <h2 class="block-label">Para quién es</h2>
         <p class="block-text">{paraQuien}</p>
       </div>
       <div>
-        <p class="block-label">Qué resuelve</p>
+        <h2 class="block-label">Qué resuelve</h2>
         <p class="block-text">{queResuelve}</p>
       </div>
     </div>
 
     <div class="case-block-full" data-reveal>
-      <p class="block-label">Qué recibes</p>
+      <h2 class="block-label">Qué recibes</h2>
       <ul class="deliverable-list">
         {recibe.map((item) => <li>{item}</li>)}
       </ul>
     </div>
 
     <div class="case-block-full" data-reveal>
-      <p class="block-label">Cómo trabajamos</p>
+      <h2 class="block-label">Cómo trabajamos</h2>
       <ol class="process-steps">
         {pasos.map((paso, i) => (
           <li>
             <span class="process-number">{String(i + 1).padStart(2, '0')}</span>
             <div>
-              <p class="process-title">{paso.title}</p>
+              <h3 class="process-title">{paso.title}</h3>
               <p class="process-text">{paso.text}</p>
             </div>
           </li>
@@ -144,7 +144,7 @@ const faqLd = faqs && faqs.length > 0 ? {
 
     {faqs && faqs.length > 0 && (
       <div class="case-block-full faq-block" data-reveal>
-        <p class="block-label">Preguntas frecuentes</p>
+        <h2 class="block-label">Preguntas frecuentes</h2>
         <div class="faq-list">
           {faqs.map((faq) => (
             <details class="faq-item">
@@ -218,7 +218,11 @@ const faqLd = faqs && faqs.length > 0 ? {
     margin-bottom: 2.5rem;
   }
 
+  /* Son h2/h3 reales (estructura para Google y motores de IA) con aspecto de
+     etiqueta: se fija Poppins porque global.css pone serif a h1-h3. */
   .block-label {
+    font-family: 'Poppins', sans-serif;
+    line-height: 1.6;
     font-size: 0.7rem;
     font-weight: 600;
     letter-spacing: 0.1em;
@@ -294,6 +298,8 @@ const faqLd = faqs && faqs.length > 0 ? {
   }
   body.dark .process-number { color: var(--blue-light); }
   .process-title {
+    font-family: 'Poppins', sans-serif;
+    line-height: 1.6;
     font-size: 0.95rem;
     font-weight: 500;
     color: var(--black);

@@ -9,6 +9,11 @@ const articulos = defineCollection({
     excerpt: z.string(),
     description: z.string(),
     date: z.date(),
+    // Última revisión significativa del cuerpo (estructura, secciones, fuentes).
+    // No se rellena por retoques de title/description ni por cambiar un enlace:
+    // alimenta dateModified del schema, el "Actualizado" visible y el <lastmod>
+    // del sitemap (astro.config.mjs), y Google pide que refleje cambios reales.
+    updated: z.date().optional(),
     readingTime: z.string(),
     image: z.string().optional(),
     // Opcional a propósito: la rutina automática semanal (rutina-quincenal.yml)

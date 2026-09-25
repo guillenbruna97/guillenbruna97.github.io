@@ -5,6 +5,7 @@ tag: "Comunicación · Alta dirección"
 excerpt: "La ansiedad escénica no es un rasgo de personalidad. Es la señal de que tu mensaje no tiene una arquitectura estratégica detrás."
 description: "Por qué la comunicación pública de un CEO no se resuelve con técnicas de oratoria sino con un marco estratégico detrás del mensaje."
 date: 2026-07-15
+updated: 2026-09-17
 readingTime: "3 min de lectura"
 image: "/images/articulos/comunicacion-publica-ceo-no-es-carisma-es-estrategia.jpg"
 imageAlt: "Ilustración de portada sobre la comunicación pública del CEO como estrategia, no como carisma"

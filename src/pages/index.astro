@@ -2,7 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ContactBlock from '../components/ContactBlock.astro';
 import TrustMarquee from '../components/TrustMarquee.astro';
-import { BOOKING_URL } from '../consts';
+import { BOOKING_URL, SERVICES } from '../consts';
 
 const trustLogos = [
   { src: '/logo-zebra.svg', alt: 'Zebra Ventures, empresa donde Guillén Bruna Tricas trabaja como Head of Brand & Marketing' },
@@ -39,41 +39,19 @@ const trustLogos = [
 
   <section class="capacidades-band">
     <div class="capacidades-inner">
-      <p class="section-label">Áreas de trabajo</p>
+      <p class="section-label">Servicios</p>
       <h2 class="section-title">Formas de aportar valor desde el primer día</h2>
       <div class="capacidades-list">
-        <a href="/trabajo/" class="capacidad-row" data-reveal>
-          <span class="capacidad-ghost">01</span>
-          <div class="capacidad-body">
-            <h3>Estrategia de marca</h3>
-            <p>Diagnóstico, posicionamiento y mensaje. Para empresas que necesitan que su marca diga lo que de verdad hacen, y para directivos que quieren construir su propia reputación.</p>
-          </div>
-          <span class="capacidad-link">Ver casos →</span>
-        </a>
-        <a href="/trabajo/" class="capacidad-row" data-reveal>
-          <span class="capacidad-ghost">02</span>
-          <div class="capacidad-body">
-            <h3>Go-to-market y lanzamiento</h3>
-            <p>Estrategia para llevar un producto o una línea de negocio al mercado, desde el ICP hasta el funnel de conversión que conecta marketing con ventas.</p>
-          </div>
-          <span class="capacidad-link">Ver casos →</span>
-        </a>
-        <a href="/trabajo/" class="capacidad-row" data-reveal>
-          <span class="capacidad-ghost">03</span>
-          <div class="capacidad-body">
-            <h3>Generación de demanda y contenido</h3>
-            <p>Campañas, contenido y canal digital diseñados para generar tracción real, no solo visibilidad. eCommerce, paid media y posicionamiento de contenido.</p>
-          </div>
-          <span class="capacidad-link">Ver casos →</span>
-        </a>
-        <a href="/trabajo/" class="capacidad-row" data-reveal>
-          <span class="capacidad-ghost">04</span>
-          <div class="capacidad-body">
-            <h3>Consultoría estratégica</h3>
-            <p>Acompañamiento directo a dirección en procesos de transformación, definición de modelo comercial y toma de decisiones de marketing con criterio de negocio.</p>
-          </div>
-          <span class="capacidad-link">Ver casos →</span>
-        </a>
+        {SERVICES.map((service, i) => (
+          <a href={`/servicios/${service.slug}/`} class="capacidad-row" data-reveal>
+            <span class="capacidad-ghost">{String(i + 1).padStart(2, '0')}</span>
+            <div class="capacidad-body">
+              <h3>{service.name}</h3>
+              <p>{service.tagline}</p>
+            </div>
+            <span class="capacidad-link">Ver servicio →</span>
+          </a>
+        ))}
       </div>
     </div>
   </section>

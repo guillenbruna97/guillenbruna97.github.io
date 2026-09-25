@@ -5,6 +5,7 @@ tag: "Marketing · IA aplicada"
 excerpt: "La IA es un motor sin volante. Potente y eficiente, pero no sabe hacia dónde llevarte si tú no lo decides antes."
 description: "Por qué adoptar herramientas de IA en marketing no sustituye la falta de una estrategia y una propuesta de valor claras."
 date: 2026-07-15
+updated: 2026-09-17
 readingTime: "3 min de lectura"
 image: "/images/articulos/la-trampa-de-la-ia-en-la-estrategia-de-marketing.jpg"
 imageAlt: "Ilustración de portada sobre la trampa de usar IA sin una estrategia de marketing clara"

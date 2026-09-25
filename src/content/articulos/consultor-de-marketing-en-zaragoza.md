@@ -5,6 +5,7 @@ tag: "Marketing · Consultoría local"
 excerpt: "En Zaragoza sobran agencias que ejecutan. Falta quien se siente a pensar contigo antes de gastar el primer euro."
 description: "Qué preguntar antes de contratar un consultor de marketing en Zaragoza para distinguir a quien ejecuta de quien piensa contigo."
 date: 2026-08-01
+updated: 2026-09-17
 readingTime: "4 min de lectura"
 image: "/images/articulos/consultor-de-marketing-en-zaragoza.jpg"
 imageAlt: "Ilustración de portada sobre cómo elegir un consultor de marketing en Zaragoza"

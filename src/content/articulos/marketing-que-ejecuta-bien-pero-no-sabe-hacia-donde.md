@@ -5,6 +5,7 @@ tag: "Marketing · Estrategia y foco"
 excerpt: "Mucha actividad, poco impacto medible. El síntoma más común de un departamento sin norte estratégico."
 description: "Cómo detectar cuándo un departamento de marketing ejecuta con intensidad pero sin una dirección estratégica que lo sostenga."
 date: 2026-07-15
+updated: 2026-09-17
 readingTime: "3 min de lectura"
 image: "/images/articulos/marketing-que-ejecuta-bien-pero-no-sabe-hacia-donde.jpg"
 imageAlt: "Ilustración de portada sobre departamentos de marketing que ejecutan bien pero sin dirección estratégica"

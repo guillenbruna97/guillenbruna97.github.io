@@ -5,6 +5,7 @@ tag: "Marketing · IA aplicada"
 excerpt: "El despliegue global ya se completó y un fallo de datos a mediados de agosto explicó una caída que no era real. El informe sigue sin ver nada de ChatGPT ni Perplexity."
 description: "Qué cambió en los informes de Generative AI performance de Search Console, y por qué el punto ciego sobre ChatGPT y Perplexity sigue intacto."
 date: 2026-08-24
+updated: 2026-09-17
 readingTime: "3 min de lectura"
 image: "/images/articulos/informes-generative-ai-performance-search-console.jpg"
 imageAlt: "Ilustración de portada sobre los informes de Generative AI performance en Search Console"

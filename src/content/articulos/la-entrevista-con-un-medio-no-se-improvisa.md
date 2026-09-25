@@ -5,6 +5,7 @@ tag: "Comunicación · Gestión de crisis"
 excerpt: "Veinte años dirigiendo no preparan a nadie para el teléfono de un periodista. Ahí manda otra lógica."
 description: "Un marco de preparación para que un directivo controle el mensaje ante un medio o una crisis, en vez de improvisar."
 date: 2026-08-01
+updated: 2026-09-17
 readingTime: "3 min de lectura"
 image: "/images/articulos/la-entrevista-con-un-medio-no-se-improvisa.jpg"
 imageAlt: "Ilustración de portada sobre cómo preparar una entrevista con un medio de comunicación"

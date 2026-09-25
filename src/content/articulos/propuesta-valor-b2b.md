@@ -5,6 +5,7 @@ tag: "Marketing · GTM y SaaS B2B"
 excerpt: "Muchas propuestas de valor B2B describen el vehículo en vez del destino. Así se distingue una de otra antes de salir al mercado."
 description: "Un marco práctico para separar lo que hace un producto B2B del valor real que aporta, con una prueba para comprobar si se entiende fuera del sector."
 date: 2026-09-07
+updated: 2026-09-17
 readingTime: "4 min de lectura"
 image: "/images/articulos/propuesta-valor-b2b.jpg"
 imageAlt: "Ilustración de portada sobre cómo simplificar una propuesta de valor B2B técnicamente compleja"

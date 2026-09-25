@@ -5,6 +5,7 @@ tag: "Marketing · Estrategia externa"
 excerpt: "Tu equipo interno vive dentro de la pecera. Un asesor externo es el espejo que no distorsiona."
 description: "Qué aporta un asesor externo de estrategia que un equipo interno, por bueno que sea, no puede ver desde dentro."
 date: 2026-08-01
+updated: 2026-09-17
 readingTime: "3 min de lectura"
 image: "/images/articulos/asesor-externo-de-marketing-vs-equipo-interno.jpg"
 imageAlt: "Ilustración de portada sobre lo que un asesor externo de marketing ve y un equipo interno no"
