@@ -2,6 +2,7 @@
 import CaseLayout from '../../../layouts/CaseLayout.astro';
 import { Image } from 'astro:assets';
 import zebraWebImage from '../../../assets/casos/zebra-web.jpg';
+import zebraSisImage from '../../../assets/casos/zebra-sis.jpg';
 import { casos } from '../../../data/casos';
 
 const caso = casos.find((c) => c.slug === 'zebra-ventures')!;
@@ -15,26 +16,52 @@ const caso = casos.find((c) => c.slug === 'zebra-ventures')!;
   skills={caso.skills}
 >
   <div class="case-intro" data-reveal>
-    <p>Cuando llegué, Zebra no tenía una identidad de marca consolidada ni un mensaje claro hacia el mercado. Existía el producto y la ambición, pero faltaba definir qué hace Zebra de verdad, para quién y por qué debería importarle.</p>
+    <p>Cuando llegué a Zebra Ventures, una empresa de transformación digital con inteligencia artificial para pymes, la marca y el mensaje en el mercado no estaban consolidados. Había producto y una ambición clara, pero faltaba una definición precisa de qué hacía Zebra, para quién y por qué su propuesta era relevante.</p>
     <a href="https://zebraventures.eu" target="_blank" rel="noopener noreferrer" class="case-intro-img case-intro-img--linked">
       <Image src={zebraWebImage} alt="Web de Zebra Ventures" width={1200} format="webp" quality={65} />
     </a>
   </div>
 
-  <h2 class="case-section-h2">Estrategia y resultados</h2>
+  <h2 class="case-section-h2">El punto de partida</h2>
+  <div class="case-block-full" data-reveal>
+    <p class="block-text">El desafío no era ejecutar más acciones de marketing. La cuestión principal era estratégica. Había que decidir qué representaba Zebra en el mercado, a qué tipo de cliente se dirigía realmente y cómo comunicar ese valor de forma inequívoca. Sin esa base, cualquier inversión en comunicación sería menos efectiva. Era necesario construir una identidad y un propósito claros antes de escalar.</p>
+  </div>
+
+  <h2 class="case-section-h2">Qué se hizo</h2>
   <div class="case-blocks" data-reveal>
     <div>
-      <p class="block-label">Marca y mensaje</p>
-      <p class="block-text">Diagnóstico del ICP real y reescritura del mensaje central de marca. Rediseño completo de la web y homogeneización de la imagen en todos los canales. Estrategia de contenidos y funnel de conversión que conecta visibilidad con ventas.</p>
+      <h3 class="block-label">Diagnóstico de ICP y mensaje</h3>
+      <p class="block-text">El primer paso fue un diagnóstico del perfil de cliente ideal (ICP) real de Zebra, antes de tocar cualquier elemento de comunicación o diseño. Una vez claro a quién servíamos mejor, reescribimos el mensaje central de la marca para que respondiera directamente a las necesidades de ese público.</p>
     </div>
     <div>
-      <p class="block-label">IA Products</p>
-      <p class="block-text">Lanzamiento de una segunda línea de negocio desde cero: <strong>ICP específico</strong>, mensaje comercial, proceso de venta, funnel y un sistema de conversión automático que trabaja en paralelo con el equipo comercial.</p>
+      <h3 class="block-label">Marca, web y canales</h3>
+      <p class="block-text">Con el mensaje definido, abordamos la presencia de marca. Rediseño completo de la web y homogeneización de la imagen en todos los canales. Una estrategia de contenidos orientada a atraer a ese ICP y un funnel de conversión que conecta la visibilidad de la marca con el proceso de ventas.</p>
     </div>
   </div>
 
   <div class="case-block-full" data-reveal>
-    <p class="block-label">Spain Innovation Summit</p>
-    <p class="block-text">Evento propio con acciones de reconocimiento de marca, incluido un <strong>estudio sobre el estado de la IA en PYMEs españolas</strong> y un manual práctico de adopción según el nivel de madurez de cada empresa. Hoy Zebra opera con dos líneas de negocio con mensaje, marca y sistemas de conversión propios.</p>
+    <h3 class="block-label">Una segunda línea de negocio desde cero</h3>
+    <p class="block-text">Después lideré el lanzamiento de una segunda línea de negocio centrada en productos de inteligencia artificial. Definimos un <strong>ICP específico</strong> para esta oferta, creamos su mensaje comercial, diseñamos el proceso de venta y un funnel propio, e implantamos un sistema de conversión automático que trabaja en paralelo con el equipo comercial.</p>
+  </div>
+
+  <div class="case-block-full" data-reveal>
+    <h3 class="block-label">Spain Innovation Summit</h3>
+    <p class="block-text">Para reforzar el reconocimiento de marca y situar a Zebra como referente, organizamos un evento propio, el Spain Innovation Summit. En él presentamos un <strong>estudio sobre el estado de la inteligencia artificial en las pymes españolas</strong> y un manual práctico de adopción adaptado al nivel de madurez digital de cada empresa.</p>
+    <figure class="case-figure">
+      <Image src={zebraSisImage} alt="Equipo de Zebra Ventures en el Spain Innovation Summit" width={1200} widths={[600, 900, 1200]} sizes="(max-width: 900px) 100vw, 836px" format="webp" quality={60} loading="lazy" />
+      <figcaption>Equipo de Zebra Ventures en el Spain Innovation Summit.</figcaption>
+    </figure>
+  </div>
+
+  <h2 class="case-section-h2">Qué quedó construido</h2>
+  <div class="case-block-full" data-reveal>
+    <p class="block-text">Hoy Zebra Ventures opera con dos líneas de negocio diferenciadas. Cada una cuenta con su propio mensaje, su identidad de marca y sus sistemas de conversión. Una estructura clara sobre la que seguir creciendo.</p>
   </div>
 </CaseLayout>
+
+<style>
+  .case-figure { margin: 1.8rem 0 0; }
+  .case-figure img { width: 100%; height: auto; display: block; border-radius: 4px; }
+  .case-figure figcaption { font-size: 0.75rem; color: rgba(0,0,0,0.5); margin-top: 0.6rem; }
+  :global(body.dark) .case-figure figcaption { color: rgba(232,232,232,0.5); }
+</style>

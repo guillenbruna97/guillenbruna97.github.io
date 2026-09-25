@@ -46,13 +46,13 @@ import momentoSlm from '../../assets/sobre-mi/momento-slm.png';
     </div>
     <div>
       <div class="about-text">
-        <p>Tengo la cabeza de un estratega y las manos de alguien que ejecuta. He pasado por ventas, por consultoría, por eCommerce, por retail y por empresas de producto tecnológico, y en cada etapa me he llevado algo que el anterior no me habría dado. Eso me ha convertido en un profesional difícil de encasillar, lo que a veces incomoda en los procesos de selección, pero que en la práctica es una ventaja real cuando tienes que resolver problemas complejos.</p>
-        <p>Actualmente lidero marketing y marca en <strong>Zebra Ventures</strong>, una empresa de transformación digital con IA enfocada en PYMEs. Gestiono en paralelo la marca corporativa, un SaaS B2B llamado MASAI y una línea de productos de IA. Es el tipo de trabajo que me gusta: con mucho por construir, donde las decisiones importan y donde lo estratégico y lo operativo conviven cada día.</p>
-        <p>Antes fundé <strong>Broco</strong>, una marca de eCommerce que construí desde cero. Fue la experiencia que más me enseñó sobre negocio real: sin red, sin equipo grande, tomando cada decisión con consecuencias directas. También pasé por <strong>Grupo Rey</strong> y por <strong>Integra Consultoría Gerencial</strong>, donde entendí cómo se mueve el marketing en entornos de gran volumen y cómo se trabaja con dirección general cuando los números importan.</p>
+        <p>Tengo la cabeza de un estratega y las manos de alguien que ejecuta. Mi trayectoria en ventas, consultoría, eCommerce, retail y producto tecnológico me ha dado una visión integral del negocio. Cada etapa ha aportado una perspectiva que me permite conectar puntos y resolver desafíos complejos desde múltiples ángulos, no solo desde el marketing.</p>
+        <p>Actualmente lidero marketing y marca en <a href="/trabajo/zebra-ventures/">Zebra Ventures</a>, una empresa de transformación digital con IA enfocada en pymes. Gestiono en paralelo la marca corporativa, un producto B2B llamado MASAI y una línea de productos de IA. Es un rol donde hay mucho por construir, donde las decisiones tienen un impacto directo y donde lo estratégico y lo operativo conviven cada día.</p>
+        <p>Antes fundé <a href="/trabajo/broco/">Broco</a>, una marca de eCommerce que construí desde cero. Fue la experiencia que más me enseñó sobre negocio real. Sin red, sin equipo grande, tomando cada decisión con consecuencias directas. También pasé por <a href="/trabajo/grupo-rey/">Grupo Rey</a> y por <a href="/trabajo/integra/">Integra Consultoría Gerencial</a>, donde entendí cómo se mueve el marketing en entornos de gran volumen y cómo se trabaja con dirección general cuando los números importan.</p>
       </div>
       <div class="about-text" style="margin-top:1.5rem">
-        <p>Fuera del trabajo soy de Zaragoza, y no por accidente sino por elección. Tengo un grupo de amigos con el que llevo años, me gusta el fútbol más de lo que debería, y durante un tiempo lo jugué en serio y luego lo entrené en categorías base. Esa experiencia me dejó algo que ningún máster me habría dado: saber cómo se enseña, cómo se acompaña un proceso y cómo se consigue que alguien mejore sin que sienta que le estás exigiendo demasiado.</p>
-        <p>Soy exigente conmigo mismo, organizo casi todo en sistemas porque es la forma que tengo de gestionar la incertidumbre, y me importa mucho cómo se cuentan las cosas. No delego el tono a la ligera. Si algo lleva mi nombre, quiero que refleje exactamente lo que pienso.</p>
+        <p>Fuera del trabajo soy de Zaragoza, por elección. Mantengo un grupo de amigos desde hace años y el fútbol me apasiona. Lo jugué en serio y luego entrené en categorías base. Esa experiencia me enseñó a acompañar un proceso y a conseguir que alguien mejore sin que sienta una exigencia excesiva.</p>
+        <p>Soy exigente conmigo mismo. Organizo casi todo en sistemas, es mi forma de gestionar la incertidumbre. Me importa mucho cómo se cuentan las cosas. No delego el tono a la ligera. Si algo lleva mi nombre, quiero que refleje exactamente lo que pienso.</p>
         <p>Si has llegado hasta aquí, probablemente tenemos algo de lo que hablar.</p>
       </div>
     </div>
@@ -144,13 +144,24 @@ import momentoSlm from '../../assets/sobre-mi/momento-slm.png';
     align-items: flex-end;
     justify-content: center;
   }
+  /* Encuadre de medio cuerpo: la foto disponible es de cuerpo entero y en
+     pantalón corto, poco adecuada para un CFO. Se recorta a la altura de la
+     cintura con un fundido inferior hasta tener un retrato profesional nuevo. */
+  .about-hero-img {
+    height: 440px;
+    overflow: hidden;
+    align-items: flex-start;
+    -webkit-mask-image: linear-gradient(to bottom, #000 78%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 78%, transparent 100%);
+  }
   .about-hero-img img {
     position: relative;
     z-index: 1;
-    height: 480px;
+    height: 860px;
     width: auto;
+    max-width: none;
     object-fit: contain;
-    object-position: bottom;
+    object-position: top;
   }
 
   .about-ghost-mark {
@@ -203,6 +214,18 @@ import momentoSlm from '../../assets/sobre-mi/momento-slm.png';
   .about-text p + p { margin-top: 1.5rem; }
   .about-text strong { font-weight: 600; color: var(--black); transition: color var(--transition); }
   body.dark .about-text strong { color: #e8e8e8; }
+  /* Las empresas enlazan a su caso: mismo peso que el antiguo <strong>, con subrayado discreto. */
+  .about-text a {
+    font-weight: 600;
+    color: var(--black);
+    text-decoration: underline;
+    text-decoration-color: rgba(0,0,0,0.25);
+    text-underline-offset: 3px;
+    transition: color var(--transition), text-decoration-color var(--transition);
+  }
+  body.dark .about-text a { color: #e8e8e8; text-decoration-color: rgba(255,255,255,0.3); }
+  .about-text a:hover { color: var(--blue); text-decoration-color: currentColor; }
+  body.dark .about-text a:hover { color: var(--blue-light); }
 
   /* MOMENTOS */
   .momentos-section { padding: 5rem 2rem; max-width: 900px; margin: 0 auto; }

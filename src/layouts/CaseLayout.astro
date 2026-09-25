@@ -2,6 +2,8 @@
 import BaseLayout from './BaseLayout.astro';
 import Divider from '../components/Divider.astro';
 import ContactBlock from '../components/ContactBlock.astro';
+import { casos, getCaso } from '../data/casos';
+import { getService } from '../consts';
 
 interface Props {
   title: string;
@@ -13,6 +15,13 @@ interface Props {
   skills: string[];
 }
 const { title, description, ogType = 'article', tags, heading, meta, skills } = Astro.props;
+
+// El slug sale de la URL (/trabajo/<slug>/) para no tener que pasarlo desde
+// cada página de caso. Servicios relacionados y "otros casos" dan a cada caso
+// enlaces internos más allá del listado de /trabajo/.
+const slug = Astro.url.pathname.split('/').filter(Boolean)[1] ?? '';
+const relatedServices = (getCaso(slug)?.services ?? []).map((s) => getService(s)).filter((s) => s !== undefined);
+const otherCasos = casos.filter((c) => c.slug !== slug);
 
 const breadcrumbLd = {
   '@context': 'https://schema.org',
@@ -38,11 +47,34 @@ const breadcrumbLd = {
     <slot />
 
     <div class="skills-section" data-reveal>
-      <p class="skills-label">Habilidades aplicadas</p>
-      <div class="skills-pills">
-        {skills.map((skill) => <span class="skill-pill">{skill}</span>)}
-      </div>
+      <h2 class="skills-label">Qué se trabajó</h2>
+      <p class="skills-list">{skills.join(' · ')}</p>
     </div>
+
+    {relatedServices.length > 0 && (
+      <div class="case-services">
+        <h2 class="skills-label">Servicio relacionado</h2>
+        <ul>
+          {relatedServices.map((service) => (
+            <li><a href={`/servicios/${service.slug}/`}>{service.name} →</a></li>
+          ))}
+        </ul>
+      </div>
+    )}
+
+    <section class="other-cases" aria-label="Otros casos">
+      <h2 class="skills-label">Otros casos</h2>
+      <ul>
+        {otherCasos.map((caso) => (
+          <li>
+            <a href={`/trabajo/${caso.slug}/`}>
+              <span class="other-case-title">{caso.cardHeadline}</span>
+              <span class="other-case-company">{caso.company}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
   </div>
 
   <Divider />
@@ -139,7 +171,10 @@ const breadcrumbLd = {
     margin-bottom: 1rem;
   }
 
+  /* h3 reales con aspecto de etiqueta (global.css pone serif a h1-h3). */
   .block-label {
+    font-family: 'Poppins', sans-serif;
+    line-height: 1.6;
     font-size: 0.7rem;
     font-weight: 600;
     letter-spacing: 0.1em;
@@ -197,6 +232,8 @@ const breadcrumbLd = {
   body.dark .skills-section { border-top-color: rgba(255,255,255,0.08); }
 
   .skills-label {
+    font-family: 'Poppins', sans-serif;
+    line-height: 1.6;
     font-size: 0.68rem;
     font-weight: 500;
     letter-spacing: 0.16em;
@@ -207,20 +244,55 @@ const breadcrumbLd = {
   }
   body.dark .skills-label { color: rgba(232,232,232,0.4); }
 
-  .skills-pills { display: flex; gap: 0.5rem; flex-wrap: wrap; }
-  .skill-pill {
-    display: inline-block;
-    font-size: 0.78rem;
-    font-weight: 500;
-    padding: 0.4rem 0.9rem;
-    border: 1px solid rgba(0,0,0,0.15);
-    border-radius: 2px;
-    color: var(--black);
-    transition: border-color var(--transition), color var(--transition), transform 0.15s ease;
+  /* Sobriedad: lista de texto en vez de pastillas con hover. */
+  .skills-list {
+    font-size: 0.88rem;
+    font-weight: 400;
+    line-height: 1.9;
+    color: rgba(0,0,0,0.7);
+    max-width: 640px;
+    transition: color var(--transition);
   }
-  body.dark .skill-pill { border-color: rgba(255,255,255,0.15); color: #e8e8e8; }
-  .skill-pill:hover { border-color: var(--blue); color: var(--blue); transform: translateY(-1px); }
-  body.dark .skill-pill:hover { border-color: var(--blue-light); color: var(--blue-light); }
+  body.dark .skills-list { color: rgba(232,232,232,0.7); }
+
+  .case-services, .other-cases {
+    margin-top: 2.5rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(0,0,0,0.06);
+  }
+  body.dark .case-services, body.dark .other-cases { border-top-color: rgba(255,255,255,0.08); }
+  .case-services ul, .other-cases ul { list-style: none; padding: 0; margin: 0; }
+  .case-services a {
+    font-size: 0.92rem;
+    font-weight: 500;
+    color: var(--blue);
+    text-decoration: none;
+    line-height: 2;
+  }
+  body.dark .case-services a { color: var(--blue-light); }
+  .case-services a:hover { text-decoration: underline; }
+
+  .other-cases li + li { border-top: 1px solid rgba(0,0,0,0.06); }
+  body.dark .other-cases li + li { border-top-color: rgba(255,255,255,0.08); }
+  .other-cases a {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.9rem 0;
+    text-decoration: none;
+    color: var(--black);
+    transition: color var(--transition);
+  }
+  body.dark .other-cases a { color: #e8e8e8; }
+  .other-cases a:hover { color: var(--blue); }
+  body.dark .other-cases a:hover { color: var(--blue-light); }
+  .other-case-title { font-family: 'Newsreader', Georgia, serif; font-size: 1.1rem; }
+  .other-case-company { font-size: 0.78rem; color: rgba(0,0,0,0.5); white-space: nowrap; align-self: center; }
+  body.dark .other-case-company { color: rgba(232,232,232,0.5); }
+  @media (max-width: 640px) {
+    .other-cases a { flex-direction: column; gap: 0.2rem; }
+    .other-case-company { align-self: flex-start; white-space: normal; }
+  }
 
   @media (max-width: 640px) {
     .case-intro { grid-template-columns: 1fr; }

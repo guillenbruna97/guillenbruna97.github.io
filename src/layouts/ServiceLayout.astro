@@ -4,6 +4,7 @@ import Divider from '../components/Divider.astro';
 import ContactBlock from '../components/ContactBlock.astro';
 import { Picture } from 'astro:assets';
 import { getServiceImage } from '../utils/service-images';
+import { casosForService } from '../data/casos';
 
 interface Step {
   title: string;
@@ -32,6 +33,10 @@ interface Props {
 
 const { title, description, heading, subtitle, image, imageAlt, paraQuien, queResuelve, recibe, pasos, cierre, faqs } = Astro.props;
 const optimizedImage = getServiceImage(image);
+// Casos que prueban este servicio (campo `services` en data/casos.ts). El slug
+// sale de la URL /servicios/<slug>/. Sin casos, el bloque no se pinta.
+const serviceSlug = Astro.url.pathname.split('/').filter(Boolean)[1] ?? '';
+const relatedCasos = casosForService(serviceSlug);
 
 const serviceLd = {
   '@context': 'https://schema.org',
@@ -139,6 +144,22 @@ const faqLd = faqs && faqs.length > 0 ? {
         ))}
       </ol>
     </div>
+
+    {relatedCasos.length > 0 && (
+      <div class="case-block-full" data-reveal>
+        <h2 class="block-label">Caso relacionado</h2>
+        <ul class="service-casos">
+          {relatedCasos.map((caso) => (
+            <li>
+              <a href={`/trabajo/${caso.slug}/`}>
+                <span class="service-caso-title">{caso.cardHeadline}</span>
+                <span class="service-caso-company">{caso.company} · {caso.role}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
 
     <p class="service-cierre">{cierre}</p>
 
@@ -316,6 +337,22 @@ const faqLd = faqs && faqs.length > 0 ? {
     transition: color var(--transition);
   }
   body.dark .process-text { color: rgba(232,232,232,0.6); }
+
+  .service-casos { list-style: none; padding: 0; margin: 0; }
+  .service-casos a {
+    display: block;
+    padding: 1rem 1.2rem;
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 4px;
+    text-decoration: none;
+    color: var(--black);
+    transition: border-color var(--transition), color var(--transition);
+  }
+  body.dark .service-casos a { border-color: rgba(255,255,255,0.12); color: #e8e8e8; }
+  .service-casos a:hover { border-color: var(--blue); }
+  .service-caso-title { display: block; font-family: 'Newsreader', Georgia, serif; font-size: 1.15rem; }
+  .service-caso-company { display: block; font-size: 0.78rem; color: var(--blue); margin-top: 0.2rem; }
+  body.dark .service-caso-company { color: var(--blue-light); }
 
   .service-cierre {
     margin-top: 3rem;
