@@ -42,10 +42,27 @@ const activeSlug = slugify(categoryName);
 const tituloPagina = page.currentPage === 1
   ? `${categoryName} | Artículos | Guillén Bruna Tricas`
   : `${categoryName} | Artículos | Pág. ${page.currentPage} | Guillén Bruna Tricas`;
+
+// Descripción propia por categoría (120-160 caracteres). La genérica de
+// respaldo solo se usa si aparece una categoría nueva sin entrada aquí:
+// añadirla en ese caso para no volver a quedar por debajo de 120.
+const descripciones: Record<string, string> = {
+  branding: 'Branding y posicionamiento para empresas B2B. Cómo construir una marca que se reconoce, se recuerda y sostiene la estrategia comercial.',
+  comunicacion: 'Comunicación ejecutiva para CEO, COO y CFO. Cómo preparar al comité de dirección para hablar ante equipos, medios y situaciones de crisis.',
+  'marca-personal': 'Marca personal para directivos y fundadores. Cómo construir reputación y autoridad en LinkedIn sin separarla de la marca de la empresa.',
+  marca: 'Estrategia de marca para empresas. Diagnóstico, posicionamiento y coherencia entre canales online y offline para ser referente en tu sector.',
+  marketing: 'Estrategia de marketing para empresas y directivos. Foco, go-to-market en SaaS B2B, IA aplicada y cuándo contar con un consultor externo.',
+  seo: 'SEO y visibilidad en motores de IA. Cómo medir si ChatGPT, Perplexity o Google AI Overviews citan a tu empresa, más allá del tráfico web.',
+};
+const descripcionBase = descripciones[activeSlug]
+  ?? `Artículos sobre ${categoryName.toLowerCase()}, dentro de estrategia de marketing y comunicación para empresas y directivos.`;
+const descripcionPagina = page.currentPage === 1
+  ? descripcionBase
+  : `${descripcionBase} Página ${page.currentPage}.`;
 ---
 <BaseLayout
   title={tituloPagina}
-  description={`Artículos sobre ${categoryName.toLowerCase()}, dentro de estrategia de marketing y comunicación para empresas y directivos.`}
+  description={descripcionPagina}
 >
   <div class="page-header">
     <span class="page-tag">Artículos</span>

@@ -29,10 +29,15 @@ const categorias = [...new Set(todosLosArticulos.map((entry) => categoryOf(entry
 const tituloPagina = page.currentPage === 1
   ? 'Artículos de marketing | Guillén Bruna Tricas'
   : `Artículos de marketing | Página ${page.currentPage} | Guillén Bruna Tricas`;
+
+const descripcionBase = 'Artículos sobre estrategia de marketing, marca y go-to-market para empresas y directivos que quieren comunicar con autoridad.';
+const descripcionPagina = page.currentPage === 1
+  ? descripcionBase
+  : `${descripcionBase} Página ${page.currentPage}.`;
 ---
 <BaseLayout
   title={tituloPagina}
-  description="Artículos sobre estrategia de marketing, marca y go-to-market para empresas y directivos que quieren comunicar con autoridad."
+  description={descripcionPagina}
 >
   <div class="page-header">
     <span class="page-tag">Artículos</span>
