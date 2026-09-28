@@ -20,7 +20,7 @@ const REPEATS = 3;
   </div>
 )}
 
-<div class:list={['header-marquee-wrapper', !tag && 'header-marquee-wrapper--top']}>
+<div class="header-marquee-wrapper">
   <div class="header-marquee-track">
     {Array.from({ length: REPEATS }).map((_, i) => (
       <div class="header-marquee-content">
@@ -39,7 +39,6 @@ const REPEATS = 3;
   .page-header.page-header--marquee { padding-bottom: 1.5rem; }
 
   .header-marquee-wrapper { overflow: hidden; width: 100%; padding: 0.85rem 0; }
-  .header-marquee-wrapper--top { margin-top: 2.5rem; }
   .header-marquee-track {
     display: flex;
     width: max-content;
