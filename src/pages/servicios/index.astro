@@ -55,6 +55,10 @@ const altaDireccion = SERVICES.slice(3);
     </div>
   </div>
 
+  <div class="services-group">
+    <p class="services-precios">Precio cerrado desde 2.800 €, sin permanencia y trabajando directamente conmigo. <a href="/como-trabajo/">Precios, formato y condiciones</a></p>
+  </div>
+
   <ContactBlock title="¿Hablamos<br>de tu caso?" />
 </BaseLayout>
 
@@ -174,6 +178,11 @@ const altaDireccion = SERVICES.slice(3);
   }
   body.dark .service-link { color: var(--blue-light); }
   .service-card:hover .service-link { text-decoration: underline; }
+
+  .services-precios { font-size: 0.9rem; font-weight: 300; color: rgba(0,0,0,0.65); line-height: 1.7; margin: 0.5rem 0 1rem; }
+  body.dark .services-precios { color: rgba(232,232,232,0.65); }
+  .services-precios a { color: var(--blue); font-weight: 500; }
+  body.dark .services-precios a { color: var(--blue-light); }
 
   @media (max-width: 900px) {
     .services-grid--3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }

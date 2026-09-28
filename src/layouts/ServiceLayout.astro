@@ -5,6 +5,7 @@ import ContactBlock from '../components/ContactBlock.astro';
 import { Picture } from 'astro:assets';
 import { getServiceImage } from '../utils/service-images';
 import { casosForService } from '../data/casos';
+import { getPrecio, euros } from '../data/precios';
 
 interface Step {
   title: string;
@@ -37,6 +38,7 @@ const optimizedImage = getServiceImage(image);
 // sale de la URL /servicios/<slug>/. Sin casos, el bloque no se pinta.
 const serviceSlug = Astro.url.pathname.split('/').filter(Boolean)[1] ?? '';
 const relatedCasos = casosForService(serviceSlug);
+const precio = getPrecio(serviceSlug);
 
 const serviceLd = {
   '@context': 'https://schema.org',
@@ -59,6 +61,21 @@ const serviceLd = {
     audienceType: 'CEO, COO, CFO, CEO de holding',
   },
   url: Astro.url.href,
+  ...(precio && {
+    offers: {
+      '@type': 'Offer',
+      priceCurrency: 'EUR',
+      price: precio.desde,
+      priceSpecification: {
+        '@type': 'PriceSpecification',
+        priceCurrency: 'EUR',
+        minPrice: precio.desde,
+        ...(precio.hasta && { maxPrice: precio.hasta }),
+        valueAddedTaxIncluded: false,
+      },
+      url: 'https://guillenbruna97.github.io/como-trabajo/',
+    },
+  }),
 };
 const breadcrumbLd = {
   '@context': 'https://schema.org',
@@ -144,6 +161,28 @@ const faqLd = faqs && faqs.length > 0 ? {
         ))}
       </ol>
     </div>
+
+    {precio && (
+      <div class="case-block-full" data-reveal>
+        <h2 class="block-label">Precio y formato</h2>
+        <dl class="precio-grid">
+          <div>
+            <dt>Precio</dt>
+            <dd>
+              <strong>{euros(precio.desde)} + IVA</strong>{precio.unidad && ` ${precio.unidad}`}
+              {precio.rango && <span class="precio-nota">{precio.rango}</span>}
+              {precio.extra && <span class="precio-nota">{precio.extra.label}, {euros(precio.extra.precio)} + IVA</span>}
+            </dd>
+          </div>
+          <div><dt>Duración</dt><dd>{precio.duracion}</dd></div>
+          <div><dt>Tu tiempo</dt><dd>{precio.dedicacion}</dd></div>
+          <div><dt>Pago</dt><dd>{precio.pago}</dd></div>
+          {precio.garantia && <div><dt>Garantía</dt><dd>{precio.garantia}</dd></div>}
+          <div><dt>No incluye</dt><dd>{precio.noIncluye.join('. ')}</dd></div>
+        </dl>
+        <p class="precio-link">Formato mixto, sin permanencia y con acuerdo de confidencialidad. <a href="/como-trabajo/">Así trabajo</a></p>
+      </div>
+    )}
 
     {relatedCasos.length > 0 && (
       <div class="case-block-full" data-reveal>
@@ -337,6 +376,42 @@ const faqLd = faqs && faqs.length > 0 ? {
     transition: color var(--transition);
   }
   body.dark .process-text { color: rgba(232,232,232,0.6); }
+
+  .precio-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.2rem 2.5rem;
+    margin: 0;
+    max-width: 720px;
+  }
+  .precio-grid dt {
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: rgba(0,0,0,0.5);
+    margin-bottom: 0.25rem;
+  }
+  body.dark .precio-grid dt { color: rgba(232,232,232,0.5); }
+  .precio-grid dd {
+    margin: 0;
+    font-size: 0.9rem;
+    font-weight: 300;
+    color: rgba(0,0,0,0.75);
+    line-height: 1.6;
+  }
+  body.dark .precio-grid dd { color: rgba(232,232,232,0.75); }
+  .precio-grid dd strong { font-weight: 600; color: var(--black); font-size: 1.05rem; }
+  body.dark .precio-grid dd strong { color: #e8e8e8; }
+  .precio-nota { display: block; font-size: 0.8rem; color: rgba(0,0,0,0.55); margin-top: 0.2rem; }
+  body.dark .precio-nota { color: rgba(232,232,232,0.55); }
+  .precio-link { font-size: 0.85rem; font-weight: 300; color: rgba(0,0,0,0.6); margin-top: 1.2rem; }
+  body.dark .precio-link { color: rgba(232,232,232,0.6); }
+  .precio-link a { color: var(--blue); }
+  body.dark .precio-link a { color: var(--blue-light); }
+  @media (max-width: 640px) {
+    .precio-grid { grid-template-columns: 1fr; }
+  }
 
   .service-casos { list-style: none; padding: 0; margin: 0; }
   .service-casos a {

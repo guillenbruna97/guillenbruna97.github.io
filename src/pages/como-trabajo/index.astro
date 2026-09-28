@@ -1,0 +1,212 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ContactBlock from '../../components/ContactBlock.astro';
+import { SERVICES } from '../../consts';
+import { PRECIOS, euros } from '../../data/precios';
+
+// Preguntas comunes a los 4 servicios. Salen del banco de preguntas previas a
+// la contratación (seo-ai-system/ai-visibility/preguntas-precompra.csv), solo
+// las que tienen evidencia de búsqueda real, de comprador o de FAQ de
+// competencia. Los datos vienen de your-site/condiciones-servicio.md.
+const faqs = [
+  { question: '¿Trabajaré contigo o con un equipo?', answer: 'Conmigo, directamente. Soy consultor individual, sin juniors ni intermediarios. Quien hace la primera llamada es quien hace el trabajo.' },
+  { question: '¿Cuánto cuesta cada servicio?', answer: 'Diagnóstico de pipeline desde 3.500 €. Posicionamiento y narrativa desde 4.500 €. Go-to-market e ICP desde 6.500 €. Mentoría de comunicación 2.800 € por directivo y trimestre, o 650 € una intervención puntual. Todos los precios son sin IVA y se cierran antes de empezar.' },
+  { question: '¿Trabajas en remoto o presencial?', answer: 'Mixto. En remoto por defecto y presencial en los momentos clave, el arranque y la entrega. Tengo base en Zaragoza y me desplazo a otras ciudades cuando el proyecto lo pide.' },
+  { question: '¿Hay permanencia o contrato largo?', answer: 'No. Cada servicio es un proyecto con alcance y precio cerrados. El acompañamiento posterior es opcional, mes a mes y sin permanencia.' },
+  { question: '¿Cómo se paga?', answer: 'En los proyectos, 50 % al empezar y 50 % en la entrega. En la mentoría, por trimestre adelantado.' },
+  { question: '¿Firmas un acuerdo de confidencialidad?', answer: 'Siempre, antes de acceder a tu CRM, a tus datos o a documentación interna.' },
+  { question: '¿Lo ejecutas tú o mi equipo?', answer: 'Yo diagnostico, defino la estrategia contigo y dejo el trabajo listo para aplicar. La ejecución diaria de campañas, web, redes o CRM la hace tu equipo o tus proveedores. Si quieres acompañamiento para aplicarlo, está disponible desde 1.500 € + IVA al mes.' },
+  { question: 'Ya trabajo con una agencia. ¿Qué pasa con ella?', answer: 'Nada. No la sustituyo. Mi trabajo le da un criterio claro sobre a quién dirigirse y qué decir, y ella sigue ejecutando.' },
+  { question: '¿Puedo empezar por algo pequeño?', answer: 'Sí. El diagnóstico de pipeline o una intervención puntual de mentoría son proyectos cortos y cerrados que te permiten conocer cómo trabajo antes de un proyecto mayor.' },
+  { question: '¿Con qué tipo de empresas trabajas?', answer: 'Con empresas B2B y SaaS que tienen equipo comercial y un directivo que quiere ordenar su marketing y sus ventas. En mentoría, con directivos y altos cargos públicos.' },
+  { question: '¿Me garantizas que voy a vender más?', answer: 'No prometo cifras de facturación, porque dependen de tu producto, de tu equipo y del mercado. Sí me comprometo con entregables concretos, y en el diagnóstico de pipeline el 50 % final solo se paga si el informe documenta al menos 3 fugas con tus datos.' },
+  { question: '¿Puedo pagarlo con el Kit Consulting?', answer: 'No. No estoy adherido al programa como asesor, así que estos servicios no se pueden pagar con el bono.' },
+  { question: '¿Qué diferencia hay entre un consultor y una agencia?', answer: 'Una agencia ejecuta campañas con un equipo. Un consultor analiza, decide contigo la estrategia y deja claro qué ejecutar. Son complementarios.' },
+  { question: '¿Cómo empezamos?', answer: 'Con una llamada de 15 minutos sin compromiso. Si encaja, te envío una propuesta con alcance, precio y fechas cerradas.' },
+];
+
+const filas = SERVICES.map((s) => ({ service: s, precio: PRECIOS.find((p) => p.slug === s.slug)! }));
+
+const faqLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.question, acceptedAnswer: { '@type': 'Answer', text: f.answer } })),
+};
+const breadcrumbLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Inicio', item: 'https://guillenbruna97.github.io/' },
+    { '@type': 'ListItem', position: 2, name: 'Cómo trabajo', item: 'https://guillenbruna97.github.io/como-trabajo/' },
+  ],
+};
+---
+<BaseLayout
+  title="Cómo trabajo, precios y condiciones | Guillén Bruna Tricas"
+  description="Precios cerrados por servicio, formato mixto desde Zaragoza, sin permanencia y con confidencialidad. Lo que conviene saber antes de contratar."
+>
+  <script type="application/ld+json" set:html={JSON.stringify(faqLd)} />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbLd)} />
+
+  <div class="page-header">
+    <span class="page-tag">Cómo trabajo</span>
+    <h1>Precios, formato<br />y condiciones</h1>
+    <p class="page-desc">Precio cerrado antes de empezar, sin permanencia y trabajando directamente conmigo. Aquí tienes lo que cuesta cada servicio y las respuestas a lo que suele preguntarse antes de contratar.</p>
+  </div>
+
+  <section class="ct-section">
+    <h2 class="ct-label">Precios por servicio</h2>
+    <div class="ct-table-wrap">
+      <table class="ct-table">
+        <thead>
+          <tr><th scope="col">Servicio</th><th scope="col">Precio sin IVA</th><th scope="col">Duración</th></tr>
+        </thead>
+        <tbody>
+          {filas.map(({ service, precio }) => (
+            <tr>
+              <th scope="row"><a href={`/servicios/${service.slug}/`}>{service.name}</a></th>
+              <td>
+                {precio.hasta ? `De ${euros(precio.desde)} a ${euros(precio.hasta)}` : `${euros(precio.desde)} ${precio.unidad ?? ''}`}
+                {precio.extra && <span class="ct-nota">Intervención puntual {euros(precio.extra.precio)}</span>}
+              </td>
+              <td>{precio.duracion}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <p class="ct-small">Acompañamiento posterior opcional desde 1.500 € + IVA al mes, sin permanencia.</p>
+  </section>
+
+  <section class="ct-section">
+    <h2 class="ct-label">Preguntas antes de contratar</h2>
+    <div class="faq-list">
+      {faqs.map((faq) => (
+        <details class="faq-item">
+          <summary>{faq.question}</summary>
+          <p>{faq.answer}</p>
+        </details>
+      ))}
+    </div>
+  </section>
+
+  <ContactBlock title="¿Hablamos<br>de tu caso?" />
+</BaseLayout>
+
+<style is:global>
+  /* PAGE HEADER (copiado de las otras páginas: el CSS de una página solo se
+     empaqueta en ella) */
+  .page-header { padding: 5rem 2rem 2rem; max-width: 900px; margin: 0 auto; }
+  .page-tag {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--blue);
+    border: 1px solid var(--blue);
+    padding: 0.3rem 0.8rem;
+    border-radius: 2px;
+    margin-bottom: 2rem;
+    transition: color var(--transition), border-color var(--transition);
+  }
+  body.dark .page-tag { color: var(--blue-light); border-color: var(--blue-light); }
+  .page-header h1 {
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 400;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    margin-bottom: 1rem;
+  }
+  .page-desc {
+    font-size: 1rem;
+    font-weight: 300;
+    color: rgba(0,0,0,0.55);
+    max-width: 560px;
+    line-height: 1.8;
+    transition: color var(--transition);
+  }
+  body.dark .page-desc { color: rgba(232,232,232,0.55); }
+
+  .ct-section { max-width: 900px; margin: 0 auto; padding: 1.5rem 2rem 1rem; }
+  .ct-label {
+    font-family: 'Poppins', sans-serif;
+    line-height: 1.6;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 1rem;
+  }
+  body.dark .ct-label { color: var(--blue-light); }
+
+  .ct-table-wrap { overflow-x: auto; }
+  .ct-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; max-width: 760px; }
+  .ct-table th, .ct-table td {
+    text-align: left;
+    padding: 0.85rem 1rem 0.85rem 0;
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+    vertical-align: top;
+    font-weight: 300;
+    color: rgba(0,0,0,0.75);
+  }
+  body.dark .ct-table th, body.dark .ct-table td { border-bottom-color: rgba(255,255,255,0.1); color: rgba(232,232,232,0.75); }
+  .ct-table thead th { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(0,0,0,0.5); }
+  body.dark .ct-table thead th { color: rgba(232,232,232,0.5); }
+  .ct-table tbody th a { color: var(--black); font-weight: 500; text-decoration: none; }
+  body.dark .ct-table tbody th a { color: #e8e8e8; }
+  .ct-table tbody th a:hover { color: var(--blue); }
+  .ct-nota { display: block; font-size: 0.8rem; color: rgba(0,0,0,0.55); }
+  body.dark .ct-nota { color: rgba(232,232,232,0.55); }
+  .ct-small { font-size: 0.85rem; font-weight: 300; color: rgba(0,0,0,0.6); margin-top: 1rem; }
+  body.dark .ct-small { color: rgba(232,232,232,0.6); }
+
+  /* FAQ (mismo estilo que ServiceLayout) */
+  .faq-list { display: flex; flex-direction: column; gap: 0.7rem; max-width: 720px; padding-bottom: 2rem; }
+  .faq-item {
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 10px;
+    padding: 1rem 1.2rem;
+    transition: border-color var(--transition), background var(--transition);
+  }
+  body.dark .faq-item { border-color: rgba(255,255,255,0.12); }
+  .faq-item[open] { background: rgba(0,0,0,0.02); }
+  body.dark .faq-item[open] { background: rgba(255,255,255,0.03); }
+  .faq-item summary {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--black);
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  body.dark .faq-item summary { color: #e8e8e8; }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-item summary::after {
+    content: '+';
+    flex: none;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.1rem;
+    color: var(--blue);
+    transition: transform 0.2s ease;
+  }
+  body.dark .faq-item summary::after { color: var(--blue-light); }
+  .faq-item[open] summary::after { transform: rotate(45deg); }
+  .faq-item summary:hover { color: var(--blue); }
+  .faq-item p {
+    font-size: 0.88rem;
+    font-weight: 300;
+    color: rgba(0,0,0,0.7);
+    line-height: 1.7;
+    margin: 0.8rem 0 0;
+  }
+  body.dark .faq-item p { color: rgba(232,232,232,0.7); }
+
+  @media (max-width: 640px) {
+    .ct-section { padding: 1.5rem 1.5rem 1rem; }
+  }
+</style>
