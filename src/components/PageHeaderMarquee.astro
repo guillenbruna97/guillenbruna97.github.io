@@ -38,8 +38,8 @@ const REPEATS = 3;
 <style is:global>
   .page-header.page-header--marquee { padding-bottom: 1.5rem; }
 
-  .header-marquee-wrapper { overflow: hidden; width: 100%; padding-bottom: 2.5rem; }
-  .header-marquee-wrapper--top { padding-top: 5rem; }
+  .header-marquee-wrapper { overflow: hidden; width: 100%; padding: 0.85rem 0; }
+  .header-marquee-wrapper--top { margin-top: 2.5rem; }
   .header-marquee-track {
     display: flex;
     width: max-content;
@@ -50,24 +50,25 @@ const REPEATS = 3;
   .header-marquee-content {
     display: flex;
     align-items: center;
-    gap: 2rem;
-    padding-right: 2rem;
+    gap: 0.9rem;
+    padding-right: 0.9rem;
     flex-shrink: 0;
   }
 
   .header-marquee-heading {
-    font-size: clamp(1.4rem, 3.2vw, 2.3rem);
-    font-weight: 400;
-    letter-spacing: -0.02em;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.76rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
     line-height: 1.1;
     white-space: nowrap;
     margin: 0;
   }
 
   .header-marquee-sep {
-    font-family: 'Newsreader', Georgia, serif;
-    font-style: italic;
-    font-size: 1.6rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    font-size: 0.76rem;
     color: var(--blue);
     transition: color var(--transition);
   }
@@ -79,9 +80,5 @@ const REPEATS = 3;
   }
   @media (prefers-reduced-motion: reduce) {
     .header-marquee-track { animation: none; }
-  }
-
-  @media (max-width: 640px) {
-    .header-marquee-heading { font-size: 1.15rem; }
   }
 </style>

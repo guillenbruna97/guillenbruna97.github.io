@@ -41,8 +41,7 @@ const descripcionPagina = page.currentPage === 1
   description={descripcionPagina}
 >
   <PageHeaderMarquee
-    tag="Artículos"
-    message="Ideas sobre marketing y negocio — Escribo sobre lo que aprendo trabajando. Sin teoría vacía, sin contenido de relleno."
+    message="Ideas sobre marketing y negocio | Escribo sobre lo que aprendo trabajando. Sin teoría vacía, sin contenido de relleno."
   />
 
   <Divider />
@@ -54,21 +53,3 @@ const descripcionPagina = page.currentPage === 1
   <ContactBlock title="¿Trabajamos<br>juntos?" />
 </BaseLayout>
 
-<style is:global>
-  .page-header { padding: 5rem 2rem 3rem; max-width: 900px; margin: 0 auto; }
-
-  .page-tag {
-    display: inline-block;
-    font-size: 0.7rem;
-    font-weight: 500;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--blue);
-    border: 1px solid var(--blue);
-    padding: 0.3rem 0.8rem;
-    border-radius: 2px;
-    margin-bottom: 2rem;
-    transition: color var(--transition), border-color var(--transition);
-  }
-  body.dark .page-tag { color: var(--blue-light); border-color: var(--blue-light); }
-</style>
