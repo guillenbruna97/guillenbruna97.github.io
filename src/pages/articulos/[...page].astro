@@ -5,6 +5,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Divider from '../../components/Divider.astro';
 import ContactBlock from '../../components/ContactBlock.astro';
 import ArticlesListing from '../../components/ArticlesListing.astro';
+import PageHeaderMarquee from '../../components/PageHeaderMarquee.astro';
 import { categoryOf, slugify } from '../../utils/articles';
 
 export const getStaticPaths = (async ({ paginate }) => {
@@ -39,11 +40,10 @@ const descripcionPagina = page.currentPage === 1
   title={tituloPagina}
   description={descripcionPagina}
 >
-  <div class="page-header">
-    <span class="page-tag">Artículos</span>
-    <h1>Ideas sobre<br />marketing y negocio</h1>
-    <p class="page-desc">Escribo sobre lo que aprendo trabajando. Sin teoría vacía, sin contenido de relleno.</p>
-  </div>
+  <PageHeaderMarquee
+    tag="Artículos"
+    message="Ideas sobre marketing y negocio — Escribo sobre lo que aprendo trabajando. Sin teoría vacía, sin contenido de relleno."
+  />
 
   <Divider />
 
@@ -71,21 +71,4 @@ const descripcionPagina = page.currentPage === 1
     transition: color var(--transition), border-color var(--transition);
   }
   body.dark .page-tag { color: var(--blue-light); border-color: var(--blue-light); }
-
-  .page-header h1 {
-    font-size: clamp(2rem, 4vw, 3.2rem);
-    font-weight: 400;
-    line-height: 1.05;
-    letter-spacing: -0.03em;
-    margin-bottom: 1rem;
-  }
-  .page-desc {
-    font-size: 1rem;
-    font-weight: 300;
-    color: rgba(0,0,0,0.55);
-    max-width: 520px;
-    line-height: 1.8;
-    transition: color var(--transition);
-  }
-  body.dark .page-desc { color: rgba(232,232,232,0.55); }
 </style>

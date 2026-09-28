@@ -3,6 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Divider from '../../components/Divider.astro';
 import ContactBlock from '../../components/ContactBlock.astro';
 import TrustMarquee from '../../components/TrustMarquee.astro';
+import PageHeaderMarquee from '../../components/PageHeaderMarquee.astro';
 import { Image } from 'astro:assets';
 import { casos } from '../../data/casos';
 
@@ -19,11 +20,9 @@ const trustLogos = [
   title="Casos reales de marketing | Guillén Bruna Tricas"
   description="Proyectos de estrategia de marca, lanzamiento de producto y generación de demanda. Casos reales para empresas y directivos."
 >
-  <div class="page-header">
-    <span class="page-tag">Portfolio</span>
-    <h1>Casos<br />reales</h1>
-    <p class="page-desc">Proyectos donde estrategia, ejecución y resultados fueron de la mano.</p>
-  </div>
+  <PageHeaderMarquee
+    message="Casos reales — Proyectos donde estrategia, ejecución y resultados fueron de la mano."
+  />
 
   <Divider />
 
@@ -60,41 +59,6 @@ const trustLogos = [
 </BaseLayout>
 
 <style is:global>
-  /* PAGE HEADER */
-  .page-header { padding: 5rem 2rem 2rem; max-width: 900px; margin: 0 auto; }
-  .page-tag {
-    display: inline-block;
-    font-size: 0.7rem;
-    font-weight: 500;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--blue);
-    border: 1px solid var(--blue);
-    padding: 0.3rem 0.8rem;
-    border-radius: 2px;
-    margin-bottom: 2rem;
-    transition: color var(--transition), border-color var(--transition);
-  }
-  body.dark .page-tag { color: var(--blue-light); border-color: var(--blue-light); }
-
-  .page-header h1 {
-    font-size: clamp(2rem, 4vw, 3.2rem);
-    font-weight: 400;
-    line-height: 1.05;
-    letter-spacing: -0.03em;
-    margin-bottom: 1rem;
-  }
-  .page-desc {
-    font-size: 1rem;
-    font-weight: 300;
-    color: rgba(0,0,0,0.55);
-    max-width: 520px;
-    line-height: 1.8;
-    transition: color var(--transition);
-  }
-  body.dark .page-desc { color: rgba(232,232,232,0.55); }
-
-
   /* CASES */
   .cases { padding: 3rem 2rem; max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2rem; }
   .case-item {

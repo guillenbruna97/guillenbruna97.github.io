@@ -1,0 +1,87 @@
+---
+// Cabecera de página (Artículos, Casos reales...) con la label estática
+// arriba y el H1 + descripción fundidos en una sola línea que se desliza
+// como una cinta, en vez del bloque estático de título + párrafo.
+// Misma técnica que TrustMarquee.astro (repeticiones en flex, solo la
+// primera visible para lectores de pantalla) pero con clases propias:
+// este componente no depende de que TrustMarquee esté también en la
+// página. La única copia sin aria-hidden va dentro del <h1>, así el SEO
+// y la jerarquía de encabezados no cambian.
+interface Props {
+  tag?: string;
+  message: string;
+}
+const { tag, message } = Astro.props;
+const REPEATS = 3;
+---
+{tag && (
+  <div class="page-header page-header--marquee">
+    <span class="page-tag">{tag}</span>
+  </div>
+)}
+
+<div class:list={['header-marquee-wrapper', !tag && 'header-marquee-wrapper--top']}>
+  <div class="header-marquee-track">
+    {Array.from({ length: REPEATS }).map((_, i) => (
+      <div class="header-marquee-content">
+        {i === 0 ? (
+          <h1 class="header-marquee-heading">{message}</h1>
+        ) : (
+          <p class="header-marquee-heading" aria-hidden="true">{message}</p>
+        )}
+        <span class="header-marquee-sep" aria-hidden="true">*</span>
+      </div>
+    ))}
+  </div>
+</div>
+
+<style is:global>
+  .page-header.page-header--marquee { padding-bottom: 1.5rem; }
+
+  .header-marquee-wrapper { overflow: hidden; width: 100%; padding-bottom: 2.5rem; }
+  .header-marquee-wrapper--top { padding-top: 5rem; }
+  .header-marquee-track {
+    display: flex;
+    width: max-content;
+    animation: header-marquee-ltr 32s linear infinite;
+  }
+  .header-marquee-wrapper:hover .header-marquee-track { animation-play-state: paused; }
+
+  .header-marquee-content {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    padding-right: 2rem;
+    flex-shrink: 0;
+  }
+
+  .header-marquee-heading {
+    font-size: clamp(1.4rem, 3.2vw, 2.3rem);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    white-space: nowrap;
+    margin: 0;
+  }
+
+  .header-marquee-sep {
+    font-family: 'Newsreader', Georgia, serif;
+    font-style: italic;
+    font-size: 1.6rem;
+    color: var(--blue);
+    transition: color var(--transition);
+  }
+  body.dark .header-marquee-sep { color: var(--blue-light); }
+
+  @keyframes header-marquee-ltr {
+    from { transform: translateX(0%); }
+    to   { transform: translateX(-33.3333%); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .header-marquee-track { animation: none; }
+  }
+
+  @media (max-width: 640px) {
+    .header-marquee-heading { font-size: 1.15rem; }
+  }
+</style>
