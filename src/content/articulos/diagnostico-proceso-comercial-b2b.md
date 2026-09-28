@@ -6,6 +6,8 @@ excerpt: "Marketing entrega oportunidades y el equipo comercial no las cierra. A
 description: "Un marco práctico para localizar en qué etapa del proceso comercial B2B se pierden las oportunidades, sin necesidad de CRM ni herramientas complejas."
 date: 2026-09-28
 readingTime: "3 min de lectura"
+image: "/images/articulos/diagnostico-proceso-comercial-b2b.jpg"
+imageAlt: "Ilustración de un hombre vertiendo figuras de leads en un embudo que se estrecha en un cuello de botella, donde la mayoría de las oportunidades quedan atascadas y solo una logra pasar, sobre los fallos estructurales del proceso comercial B2B"
 service: "pipeline"
 ---
 
