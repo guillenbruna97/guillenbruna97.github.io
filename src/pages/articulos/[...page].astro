@@ -39,6 +39,7 @@ const descripcionPagina = page.currentPage === 1
 <BaseLayout
   title={tituloPagina}
   description={descripcionPagina}
+  noindex={page.currentPage > 1}
 >
   <PageHeaderMarquee
     message="Ideas sobre marketing y negocio | Escribo sobre lo que aprendo trabajando. Sin teoría vacía, sin contenido de relleno."
