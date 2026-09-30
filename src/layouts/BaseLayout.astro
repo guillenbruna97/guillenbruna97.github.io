@@ -12,8 +12,9 @@ interface Props {
   description: string;
   image?: string;
   ogType?: string;
+  noindex?: boolean;
 }
-const { title, description, image, ogType } = Astro.props;
+const { title, description, image, ogType, noindex } = Astro.props;
 ---
 <!doctype html>
 <html lang="es">
@@ -35,7 +36,7 @@ const { title, description, image, ogType } = Astro.props;
       http-equiv="Content-Security-Policy"
       content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://www.google-analytics.com; font-src 'self'; connect-src 'self' https://www.google-analytics.com https://analytics.google.com; frame-src https://www.youtube.com; base-uri 'self'; object-src 'none';"
     />
-    <SEO title={title} description={description} image={image} ogType={ogType} />
+    <SEO title={title} description={description} image={image} ogType={ogType} noindex={noindex} />
     <!-- Google Analytics: se carga solo tras consentimiento, ver CookieConsent.astro -->
   </head>
   <body>

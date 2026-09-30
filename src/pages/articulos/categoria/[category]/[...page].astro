@@ -63,6 +63,7 @@ const descripcionPagina = page.currentPage === 1
 <BaseLayout
   title={tituloPagina}
   description={descripcionPagina}
+  noindex={page.currentPage > 1}
 >
   <div class="page-header">
     <span class="page-tag">Artículos</span>
