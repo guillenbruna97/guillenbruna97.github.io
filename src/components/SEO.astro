@@ -7,13 +7,20 @@ interface Props {
   image?: string;
   url?: string;
   ogType?: string;
+  noindex?: boolean;
 }
 const {
   title,
   description,
-  image = '/isotipo.svg',
+  // Antes por defecto era /isotipo.svg: Facebook/LinkedIn/X/WhatsApp no
+  // renderizan SVG como og:image de forma fiable, así que cualquier página
+  // sin imagen propia (home, listados, contacto, privacidad...) compartía
+  // una tarjeta social en blanco. og-default.jpg es un retrato real en el
+  // ratio 1200x630 que todas esas páginas heredan ahora.
+  image = '/og-default.jpg',
   url = Astro.url.href,
   ogType = 'website',
+  noindex = false,
 } = Astro.props;
 const imageUrl = image.startsWith('http') ? image : `https://guillenbruna97.github.io${image}`;
 
@@ -22,7 +29,7 @@ const personLd = {
   '@type': 'ProfessionalService',
   name: 'Guillén Bruna Tricas — Estrategia de marketing y marca',
   url: 'https://guillenbruna97.github.io/',
-  image: 'https://guillenbruna97.github.io/guillen-chaqueta.png',
+  image: 'https://guillenbruna97.github.io/guillen-chaqueta.jpg',
   description: 'Asesoro a empresas y a directivos que quieren comunicar con autoridad y posicionarse como referentes en su sector.',
   areaServed: [
     { '@type': 'City', name: 'Zaragoza' },
@@ -33,7 +40,7 @@ const personLd = {
     '@type': 'Person',
     name: 'Guillén Bruna Tricas',
     url: 'https://guillenbruna97.github.io/sobre-mi/',
-    image: 'https://guillenbruna97.github.io/guillen-chaqueta.png',
+    image: 'https://guillenbruna97.github.io/guillen-chaqueta.jpg',
     jobTitle: 'Asesor de marketing y estrategia de marca',
     sameAs: [LINKEDIN_URL],
   },
@@ -43,6 +50,7 @@ const personLd = {
 <title>{title}</title>
 <meta name="description" content={description} />
 <link rel="canonical" href={url} />
+{noindex && <meta name="robots" content="noindex,follow" />}
 
 <meta property="og:type" content={ogType} />
 <meta property="og:title" content={title} />
