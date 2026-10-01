@@ -24,6 +24,10 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      # La rutina automática publica directo en main sin PR: este paso impide
+      # que un artículo sin H2, enlaces internos o metadatos válidos llegue a
+      # producción (ver scripts/check-articles.mjs).
+      - run: node scripts/check-articles.mjs
       - run: npm run build
       - uses: actions/upload-pages-artifact@v3
         with:

@@ -9,6 +9,13 @@ readingTime: "7 min de lectura"
 image: "/images/articulos/marketing-que-no-retorna.jpg"
 imageAlt: "Ilustración de portada sobre por qué las campañas puntuales no construyen marca"
 service: "posicionamiento"
+faqs:
+  - question: "¿Qué diferencia hay entre marketing de activación y marketing de marca?"
+    answer: "El marketing de activación busca respuestas inmediatas con promociones, ofertas o campañas de respuesta directa. El de marca construye reconocimiento, preferencia y confianza a lo largo del tiempo. Ambos tienen su papel, pero depender solo de la activación obliga a invertir de nuevo en cada pico de ventas."
+  - question: "¿Por qué las campañas puntuales no construyen marca?"
+    answer: "Porque cada campaña es un reinicio que no acumula capital de marca. Los clientes se acostumbran a esperar descuentos, el valor percibido cae, cuesta más justificar precios superiores y la relación se vuelve transaccional. Un posicionamiento sólido permite generar demanda sin depender de la siguiente oferta."
+  - question: "¿Cómo se construye una marca con retorno a largo plazo?"
+    answer: "Con una comunicación de marketing integrada en la que todos los puntos de contacto hablan con una sola voz, una estrategia creativa que haga memorable el mensaje y una experiencia homogénea online y offline. La coherencia sostenida reduce el coste de adquisición a largo plazo y refuerza la resiliencia ante una crisis."
 ---
 
 La inversión en marketing es, a menudo, una de las partidas presupuestarias más escrutadas en cualquier organización. La presión por demostrar un retorno inmediato puede llevar a decisiones que, si bien generan picos de actividad o ventas a corto plazo, no siempre contribuyen a la construcción de un activo de marca duradero. Esta tensión entre el resultado instantáneo y el valor sostenido es una constante en el panorama empresarial actual.

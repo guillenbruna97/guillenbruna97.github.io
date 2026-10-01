@@ -7,8 +7,16 @@ description: "Los criterios reales para decidir entre una agencia y un consultor
 date: 2026-08-01
 updated: 2026-09-17
 readingTime: "3 min de lectura"
+service: "posicionamiento"
 image: "/images/articulos/agencia-o-consultor-freelance-de-marketing.jpg"
 imageAlt: "Ilustración de portada sobre cuándo elegir una agencia o un consultor de marketing freelance"
+faqs:
+  - question: "¿Qué diferencia hay entre un consultor de marketing y una agencia?"
+    answer: "Una agencia aporta capacidad de ejecución y suele trabajar con una iguala mensual que vive de la continuidad del servicio. Un consultor de marketing trabaja sobre las decisiones, es decir el mensaje, la asignación de recursos y la alineación con la cuenta de resultados. Su trabajo termina cuando la estrategia es sólida y el equipo, interno o externo, sabe exactamente qué ejecutar."
+  - question: "¿Cuándo conviene contratar una agencia de marketing?"
+    answer: "Una agencia es la opción correcta cuando el modelo de negocio ya está validado y lo que hace falta es escalar con un despliegue amplio de canales. Su fortaleza es implementar tácticas probadas. Si el problema no es la falta de manos sino la falta de claridad en el mensaje, contratar una agencia suele quemar presupuesto sin resolverlo."
+  - question: "¿Merece la pena un consultor de marketing freelance?"
+    answer: "Merece la pena cuando el cuello de botella es la toma de decisiones y no la capacidad de ejecución, por ejemplo si ventas y marketing no hablan el mismo idioma o si el mensaje no traslada el valor real de la empresa. Un consultor freelance actúa como un brazo extendido de la dirección y cobra por su criterio, no por vender horas de producción."
 ---
 
 La mayoría de los directivos eligen entre una agencia de marketing y un consultor independiente basándose en la estructura que ya conocen o en la reputación de marca de quien tienen enfrente. Es una decisión que suele tomarse por inercia operativa o por la falsa seguridad que transmite una oficina llena de gente. Sin embargo, cuando ocupas una posición de máxima responsabilidad, el problema no es quién tiene más empleados en nómina sino quién tiene la capacidad de alinearse con la visión de tu cuenta de resultados.

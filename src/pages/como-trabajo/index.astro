@@ -2,7 +2,8 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ContactBlock from '../../components/ContactBlock.astro';
 import { SERVICES } from '../../consts';
-import { PRECIOS, euros } from '../../data/precios';
+import { PRECIOS, euros, SESION_DIAGNOSTICO } from '../../data/precios';
+import { BOOKING_URL } from '../../consts';
 
 // Preguntas comunes a los 4 servicios. Salen del banco de preguntas previas a
 // la contratación (seo-ai-system/ai-visibility/preguntas-precompra.csv), solo
@@ -10,14 +11,14 @@ import { PRECIOS, euros } from '../../data/precios';
 // competencia. Los datos vienen de your-site/condiciones-servicio.md.
 const faqs = [
   { question: '¿Trabajaré contigo o con un equipo?', answer: 'Trabajarás conmigo, directamente. Soy consultor individual, sin juniors ni intermediarios. Quien hace la primera llamada es quien hace el trabajo.' },
-  { question: '¿Cuánto cuesta cada servicio?', answer: 'El Diagnóstico de pipeline cuesta desde 3.500 € hasta 5.000 €. Posicionamiento y narrativa, desde 4.500 € hasta 6.500 €. Go-to-market e ICP, desde 6.500 € hasta 9.000 €. La mentoría son 2.800 € por directivo y trimestre, o 650 € por intervención puntual. Todos los precios son más IVA y cerrados antes de empezar.' },
+  { question: '¿Cuánto cuesta cada servicio?', answer: 'El Diagnóstico de pipeline cuesta desde 3.500 € hasta 5.000 €. Posicionamiento y narrativa, desde 4.500 € hasta 6.500 €. Go-to-market e ICP, desde 6.500 € hasta 9.000 €. La mentoría son 2.800 € por directivo y trimestre, o 650 € por intervención puntual. Para empezar, la sesión de diagnóstico cuesta 650 €. Todos los precios son más IVA y cerrados antes de empezar.' },
   { question: '¿Trabajas en remoto o presencial?', answer: 'Mi trabajo es mixto. Por defecto, opero en remoto. Los momentos clave del proyecto, como el arranque y la entrega, son presenciales. Tengo mi base en Zaragoza, pero me desplazo a otras ciudades cuando el proyecto lo requiere.' },
   { question: '¿Hay permanencia o contrato largo?', answer: 'No, no hay permanencia ni contratos largos. Cada servicio que ofrezco es un proyecto con un alcance y un precio cerrados desde el inicio. Si necesitas un acompañamiento posterior, es opcional, se gestiona mes a mes y sin ningún tipo de permanencia.' },
   { question: '¿Cómo se paga?', answer: 'En los proyectos, el pago se realiza en dos partes. Un 50 % se abona al empezar el trabajo y el 50 % restante se paga en la entrega del proyecto. Para la mentoría, el pago se efectúa por trimestre adelantado.' },
   { question: '¿Firmas un acuerdo de confidencialidad?', answer: 'Sí, siempre firmo un acuerdo de confidencialidad. Es un paso fundamental antes de acceder a cualquier CRM, datos sensibles o documentación interna de tu empresa.' },
   { question: '¿Lo ejecutas tú o mi equipo?', answer: 'Yo diagnostico, defino la estrategia y dejo el trabajo listo para que lo apliques. La ejecución diaria, como campañas, gestión web, redes sociales o CRM, la realiza tu equipo o tus proveedores. Si necesitas acompañamiento para la aplicación, está disponible desde 1.500 € más IVA al mes.' },
   { question: 'Ya trabajo con una agencia. ¿Qué pasa con ella?', answer: 'Nada, mi trabajo no sustituye a tu agencia. Mi rol es complementario. Lo que hago es proporcionarle un criterio claro sobre a quién debe dirigirse tu empresa y qué mensaje comunicar. Ella seguirá encargándose de la ejecución.' },
-  { question: '¿Puedo empezar por algo pequeño?', answer: 'Sí, puedes empezar por algo pequeño. El diagnóstico de pipeline o una intervención puntual de mentoría son proyectos cortos y cerrados. Te permiten conocer mi metodología de trabajo antes de comprometerte con un proyecto de mayor envergadura.' },
+  { question: '¿Puedo empezar por algo pequeño?', answer: 'Sí. La sesión de diagnóstico cuesta 650 € más IVA e incluye 2 horas de trabajo sobre tu caso y una nota escrita con el problema principal, tres prioridades y qué servicio encaja, o si no encaja ninguno. Si contratas un proyecto en los 30 días siguientes, esos 650 € se descuentan de su precio.' },
   { question: '¿Con qué tipo de empresas trabajas?', answer: 'Trabajo con empresas B2B y SaaS que tienen equipo comercial y un directivo que busca ordenar su marketing y sus ventas. En el ámbito de la mentoría, colaboro con directivos y altos cargos públicos.' },
   { question: '¿Me garantizas que voy a vender más?', answer: 'No prometo cifras de facturación, ya que dependen de tu producto, tu equipo y el mercado. Sí me comprometo a entregables concretos. En el diagnóstico de pipeline, el 50 % final solo se paga si el informe documenta al menos 3 fugas con tus propios datos.' },
   { question: '¿Puedo pagarlo con el Kit Consulting?', answer: 'No, no puedes pagarlo con el Kit Consulting. No estoy adherido a ese programa como asesor, por lo tanto, los servicios que ofrezco no son elegibles para ser abonados con el bono del Kit Consulting.' },
@@ -79,6 +80,15 @@ const breadcrumbLd = {
   </section>
 
   <section class="ct-section">
+    <h2 class="ct-label">Para empezar sin comprometerte a un proyecto</h2>
+    <div class="ct-entrada">
+      <p class="ct-entrada-precio"><strong>{SESION_DIAGNOSTICO.nombre}</strong> · {euros(SESION_DIAGNOSTICO.precio)} + IVA</p>
+      <p>{SESION_DIAGNOSTICO.formato}. {SESION_DIAGNOSTICO.descuento}.</p>
+      <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" class="ct-entrada-link">Pídela en una llamada de 15 minutos →</a>
+    </div>
+  </section>
+
+  <section class="ct-section">
     <h2 class="ct-label">Preguntas antes de contratar</h2>
     <div class="faq-list">
       {faqs.map((faq) => (
@@ -94,6 +104,24 @@ const breadcrumbLd = {
 </BaseLayout>
 
 <style is:global>
+  .ct-entrada {
+    border: 1px solid var(--blue);
+    border-radius: 10px;
+    padding: 1.4rem 1.5rem;
+    max-width: 720px;
+    font-size: 0.92rem;
+    font-weight: 300;
+    line-height: 1.7;
+    transition: border-color var(--transition);
+  }
+  body.dark .ct-entrada { border-color: var(--blue-light); }
+  .ct-entrada p { margin: 0 0 0.8rem; }
+  .ct-entrada-precio { font-size: 1rem; }
+  .ct-entrada-precio strong { font-weight: 500; }
+  .ct-entrada-link { font-size: 0.85rem; font-weight: 500; color: var(--blue); text-decoration: none; }
+  body.dark .ct-entrada-link { color: var(--blue-light); }
+  .ct-entrada-link:hover { text-decoration: underline; }
+
   /* PAGE HEADER (copiado de las otras páginas: el CSS de una página solo se
      empaqueta en ella) */
   .page-header { padding: 5rem 2rem 2rem; max-width: 900px; margin: 0 auto; }

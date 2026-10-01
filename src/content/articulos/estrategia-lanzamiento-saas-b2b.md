@@ -9,6 +9,13 @@ readingTime: "6 min de lectura"
 image: "/images/articulos/estrategia-lanzamiento-saas-b2b.jpg"
 imageAlt: "Ilustración de portada sobre el diseño de una estrategia de lanzamiento de un SaaS B2B"
 service: "gtm-icp"
+faqs:
+  - question: "¿Qué debe incluir una estrategia de lanzamiento de un producto SaaS B2B?"
+    answer: "Tres decisiones antes que cualquier lista de tareas. El segmento cabeza de playa al que se vende primero, el canal de adquisición prioritario según la economía del modelo de negocio y la secuencia del mensaje según la madurez de la categoría. Sin esas decisiones, el lanzamiento es una suma de acciones de marketing y ventas sin dirección."
+  - question: "¿Qué es el segmento cabeza de playa en un SaaS?"
+    answer: "Es el grupo de clientes que comparte un problema tan urgente que adopta una solución nueva aunque todavía no tenga todas las integraciones deseadas. Delimitarlo evita vender a todo el mercado potencial desde el primer día, algo que diluye el mensaje y agota los recursos comerciales."
+  - question: "¿Qué canal de adquisición elegir para lanzar un SaaS B2B?"
+    answer: "Depende de la economía del producto, no de las preferencias del equipo. Un SaaS con un contrato anual elevado necesita venta consultiva con prospección directa, mientras que uno de menor coste unitario necesita autoservicio y adquisición digital. Conviene elegir un único motor de captación para los primeros seis meses y diversificar cuando sea predecible."
 ---
 
 La proximidad del lanzamiento o relanzamiento de una plataforma SaaS B2B suele generar un tipo de actividad muy específica en los comités de dirección. El equipo de desarrollo ultima la versión estable, el área de ventas prepara las plantillas de prospección y el departamento de marketing presenta un plan de acción lleno de iniciativas. Hay campañas de publicidad digital planificadas, notas de prensa redactadas y un calendario de publicaciones para redes sociales listo para ejecutarse.
@@ -29,7 +36,7 @@ Para identificar este segmento, resulta útil analizar qué tipo de organizacion
 
 Intentar activar todos los canales de adquisición de clientes de forma simultánea suele ser una receta para la mediocridad. El crecimiento orgánico mediante contenidos, la publicidad de pago, la prospección directa y las alianzas con terceros requieren dinámicas y capacidades internas completamente diferentes. Esta elección no es un capítulo aislado del lanzamiento, es el núcleo de la estrategia de marketing SaaS que sostendrá el crecimiento del producto mucho después del primer trimestre.
 
-La selección del canal prioritario para el lanzamiento no debe responder a las preferencias del equipo de marketing, sino a la economía del propio modelo de negocio. Un SaaS con un valor de contrato anual elevado requiere un proceso de venta consultiva apoyado en prospección directa y relaciones estrechas. Por el contrario, un producto de menor coste unitario necesita apoyarse en mecanismos de autoservicio y adquisición digital orgánica o de pago para mantener la viabilidad financiera.
+La selección del canal prioritario para el lanzamiento no debe responder a las preferencias del equipo de marketing, sino a la economía del propio modelo de negocio. Un SaaS con un valor de contrato anual elevado requiere un [proceso de venta consultiva](/articulos/diagnostico-proceso-comercial-b2b/) apoyado en prospección directa y relaciones estrechas. Por el contrario, un producto de menor coste unitario necesita apoyarse en mecanismos de autoservicio y adquisición digital orgánica o de pago para mantener la viabilidad financiera.
 
 La pregunta clave que debe responder el plan de lanzamiento es cuál será el motor principal de captación durante los primeros seis meses. Una vez que ese canal demuestre predictibilidad y eficiencia en el coste de adquisición, será el momento de diversificar y explorar nuevas vías de crecimiento.
 

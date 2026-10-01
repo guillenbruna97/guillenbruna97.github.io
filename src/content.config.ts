@@ -29,6 +29,10 @@ const articulos = defineCollection({
     // editorial (más largo y evocador, `title`) no cambian. Opcional: si falta,
     // ArticleLayout usa `title` como fallback.
     seoTitle: z.string().optional(),
+    // Preguntas frecuentes del artículo: se pintan al final y generan el
+    // schema FAQPage (components/FaqList.astro). Opcional en el esquema para
+    // no romper el build, pero scripts/check-articles.mjs exige 3-5.
+    faqs: z.array(z.object({ question: z.string(), answer: z.string() })).optional(),
   }),
 });
 

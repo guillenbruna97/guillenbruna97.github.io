@@ -9,6 +9,13 @@ readingTime: "4 min de lectura"
 image: "/images/articulos/estrategia-marca-pyme.jpg"
 imageAlt: "Ilustración de portada sobre construir una estrategia de marca pyme que no dependa de personas concretas"
 service: "posicionamiento"
+faqs:
+  - question: "¿Cómo puede una pyme B2B diferenciar su marca?"
+    answer: "Con decisiones de negocio difíciles de copiar, no con declaraciones de intenciones. Especializarse en un problema concreto, diseñar un modelo de entrega o una política de garantías que resuelva una fricción que la competencia ignora y decidir qué clientes y servicios no se quieren. Cambiar el logotipo o la web no diferencia si la propuesta sigue siendo la misma."
+  - question: "¿Qué riesgo tiene que una pyme dependa de las relaciones personales?"
+    answer: "Que el valor de la empresa no le pertenece, porque está repartido en las agendas de personas concretas. Si el mejor comercial se marcha o entra un competidor con precios más bajos, la fidelidad basada en el trato personal puede romperse. Una marca con diferenciación real protege ese valor pase lo que pase con el equipo."
+  - question: "¿Cómo saber si mi marca es intercambiable con la competencia?"
+    answer: "Con una pregunta. ¿Podría un competidor afirmar exactamente lo mismo en su presentación comercial y cumplirlo de la misma manera? Si la respuesta es sí, la marca es intercambiable y el cliente terminará decidiendo por precio o por la relación con el comercial de turno."
 ---
 
 Muchos comités de dirección de pymes industriales y de servicios miran su cartera de clientes con una mezcla de orgullo y tranquilidad. Tienen clientes que llevan diez años con ellos, la reputación en el sector es excelente y el trato personal es impecable. Es fácil asumir que esa fidelidad equivale a tener una marca sólida. Sin embargo, ¿qué ocurriría si su mejor comercial se marchara mañana a la competencia? ¿O si un competidor extranjero entrara en su mercado con un precio un treinta por ciento inferior?
@@ -31,10 +38,10 @@ Existe una pregunta sencilla para identificar si su propuesta es verdaderamente 
 
 ## La estrategia de marca nace en dirección, no en marketing
 
-La verdadera estrategia de marca no se construye en el departamento de marketing para consumo interno, sino que nace de las decisiones estratégicas de la dirección. Implica elegir qué clientes no queremos tener, qué servicios vamos a dejar de prestar y qué batallas operativas estamos dispuestos a dar para que el mercado entienda que somos la única opción lógica para resolver su problema — el mismo criterio que debería aplicarse a [una propuesta de valor B2B que se entienda fuera del propio sector](/articulos/propuesta-valor-b2b/).
+La verdadera estrategia de marca no se construye en el departamento de marketing para consumo interno, sino que nace de las decisiones estratégicas de la dirección. Implica elegir qué clientes no queremos tener, qué servicios vamos a dejar de prestar y qué batallas operativas estamos dispuestos a dar para que el mercado entienda que somos la única opción lógica para resolver su problema. Es el mismo criterio que debería aplicarse a [una propuesta de valor B2B que se entienda fuera del propio sector](/articulos/propuesta-valor-b2b/).
 
 ## De activo intangible a herramienta comercial diaria
 
-Este enfoque transforma la marca en una herramienta comercial diaria. Cuando la diferenciación está clara, el equipo de ventas ya no necesita recurrir al descuento de última hora para cerrar un acuerdo, ni depende exclusivamente de su carisma personal para mantener la puerta abierta. La marca trabaja para la empresa, facilitando la captación de clientes cualificados y justificando un precio premium frente a competidores genéricos — el mismo efecto que produce [la coherencia de marca sostenida en el tiempo](/articulos/coherencia-de-marca-posicionamiento/).
+Este enfoque transforma la marca en una herramienta comercial diaria. Cuando la diferenciación está clara, el equipo de ventas ya no necesita recurrir al descuento de última hora para cerrar un acuerdo, ni depende exclusivamente de su carisma personal para mantener la puerta abierta. La marca trabaja para la empresa, facilitando la captación de clientes cualificados y justificando un precio premium frente a competidores genéricos. Es el mismo efecto que produce [la coherencia de marca sostenida en el tiempo](/articulos/coherencia-de-marca-posicionamiento/).
 
 Consolidar en una estructura sólida y duradera el prestigio que una pyme ha construido durante años gracias a las relaciones personales suele requerir una mirada externa a la dirección, capaz de separar qué parte de ese éxito depende de personas concretas y qué parte puede convertirse en un activo de marca que la empresa conserve pase lo que pase con su equipo comercial o con la presión de precio de la competencia. Si quiere partir de ese diagnóstico, [hablemos de su caso](/contacto/).

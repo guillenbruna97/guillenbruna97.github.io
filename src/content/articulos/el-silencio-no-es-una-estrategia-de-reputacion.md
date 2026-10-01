@@ -10,6 +10,13 @@ readingTime: "3 min de lectura"
 image: "/images/articulos/el-silencio-no-es-una-estrategia-de-reputacion.jpg"
 imageAlt: "Ilustración de portada sobre por qué el silencio no protege la reputación de un directivo"
 service: "mentoria-comunicacion"
+faqs:
+  - question: "¿Por qué un directivo necesita marca personal si sus resultados ya hablan por él?"
+    answer: "Porque los resultados no explican el razonamiento detrás de las decisiones. Cuando llega una crisis sectorial, una ronda de financiación o la necesidad de atraer talento, el directivo sin presencia descubre que su reputación es una hoja en blanco o una narrativa escrita por terceros. El silencio no es neutro, es un vacío que otros llenan."
+  - question: "¿Qué es la marca personal para un CEO o un CFO?"
+    answer: "Una herramienta de gobernanza, no de vanidad. Sirve para reducir la fricción en las negociaciones y para controlar el marco en el que se discute su gestión. No consiste en acumular seguidores ni en publicar contenido genérico sobre liderazgo, sino en ser relevante para sus pares y para el mercado."
+  - question: "¿Por dónde empieza un directivo a gestionar su reputación?"
+    answer: "Por definir su tesis de pensamiento, es decir las tres ideas sobre el futuro de su industria que defiende con convicción. A partir de ahí, la prioridad es estar presente donde se toman las decisiones que afectan a su sector, no en todas partes, y articular la complejidad de su mercado de una forma que nadie más pueda replicar."
 ---
 
 Muchos directivos de alto nivel mantienen una creencia arraigada. Piensan que la excelencia en sus resultados operativos y la solidez de sus números son suficientes para blindar su reputación. Asumen que si el negocio funciona y los accionistas están satisfechos, su figura pública es un activo que se gestiona solo por inercia. Es una postura lógica desde la gestión interna, pero es un riesgo crítico cuando el mercado o los medios ponen el foco sobre ellos.

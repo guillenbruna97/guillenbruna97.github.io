@@ -10,6 +10,13 @@ readingTime: "3 min de lectura"
 image: "/images/articulos/posicionar-tu-empresa-empieza-en-como-comunica-el-ceo.jpg"
 imageAlt: "Ilustración de portada sobre cómo la comunicación del CEO define el posicionamiento de la empresa"
 service: "posicionamiento"
+faqs:
+  - question: "¿Qué es el posicionamiento de una empresa?"
+    answer: "Es decidir qué lugar ocupa la empresa en la mente de sus clientes antes de que ellos se formen una opinión por su cuenta. No es un eslogan que se encarga a una agencia. Si la dirección no lidera ese discurso, el mercado asigna una posición por defecto, normalmente la de una commodity más."
+  - question: "¿Qué papel tiene el CEO en el posicionamiento de su empresa?"
+    answer: "El central. El mercado compra la claridad con la que la dirección entiende el problema que resuelve, y cuando el CEO deja de articular la visión y delega la narrativa en terceros, la empresa pierde fuerza. Cerrar la brecha entre lo que la empresa aporta y lo que proyecta exige un trabajo que solo puede hacerse desde la silla del CEO."
+  - question: "¿Cómo recupera una empresa el control de su narrativa?"
+    answer: "Auditando su propia comunicación, reduciendo la propuesta de valor a una afirmación que la competencia no pueda reclamar sin sonar a copia, eliminando los adjetivos vacíos y definiendo con naturalidad qué tipo de cliente no es para ella. Intentar gustar a todo el mercado es la forma más rápida de volverse invisible."
 ---
 
 El mercado no compra el producto que aparece en el folleto. El mercado compra la claridad con la que la alta dirección entiende el problema que resuelve. Cuando una empresa pierde fuerza en su sector, la mayoría de los directivos buscan el error en el presupuesto de publicidad o en la estrategia de ventas. Sin embargo, el origen del estancamiento suele ser mucho más silencioso. Ocurre en el momento en que [el CEO deja de articular la visión](/articulos/comunicacion-publica-ceo-no-es-carisma-es-estrategia/) y empieza a delegar la narrativa de su negocio en terceros que no conocen la profundidad de la operación.

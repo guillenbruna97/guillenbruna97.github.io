@@ -9,6 +9,13 @@ readingTime: "3 min de lectura"
 image: "/images/articulos/marca-personal-fundador-startup.jpg"
 imageAlt: "Ilustración de un fundador partido en dos por una línea, mitad persona y mitad edificio de su empresa, sobre la separación entre marca personal y marca corporativa"
 service: "mentoria-comunicacion"
+faqs:
+  - question: "¿Cómo separar la marca personal del fundador de la marca de la empresa?"
+    answer: "Asignando activos distintos a cada una. Bajo el nombre del fundador va lo que trasciende a la empresa actual, como su visión del sector, sus aprendizajes de gestión y su criterio económico. Bajo la marca de la empresa van el método, la resolución de problemas de los clientes, la solvencia técnica y la cultura operativa."
+  - question: "¿Qué riesgo tiene que una empresa dependa de la reputación de su fundador?"
+    answer: "Que el riesgo va en las dos direcciones. Una salida, un cambio de prioridades o un conflicto personal del fundador se convierte en una crisis operativa para la empresa, y una crisis de la empresa puede invalidar los siguientes proyectos profesionales del fundador."
+  - question: "¿Qué papel debe tener el fundador en la comunicación cuando la empresa crece?"
+    answer: "Pasar de ser el motor principal de la visibilidad a ser el respaldo institucional de la marca. La empresa tiene que demostrar que genera valor y retiene clientes sin que el fundador salga en la foto cada semana, mientras él mantiene su voz en los temas que trascienden al proyecto."
 ---
 
 Dedicas años a construir una empresa y descubres que el mercado ha terminado por fundir tu DNI con el logotipo corporativo. Cada post que publicas, cada entrevista que concedes y cada decisión que tomas se convierte en el balance de situación de la compañía. Al principio funciona como un acelerador perfecto porque la confianza se deposita en una persona de carne y hueso antes que en una estructura legal.

@@ -10,6 +10,13 @@ readingTime: "3 min de lectura"
 image: "/images/articulos/coste-silencioso-de-no-estar-en-linkedin.jpg"
 imageAlt: "Ilustración de portada sobre el coste de no tener presencia en LinkedIn como directivo"
 service: "mentoria-comunicacion"
+faqs:
+  - question: "¿Debe un directivo tener presencia activa en LinkedIn?"
+    answer: "Sí, si quiere controlar su narrativa. El mercado habla de los directivos aunque no estén presentes, y el silencio se interpreta como falta de opinión o irrelevancia. Bien gestionada, la presencia en LinkedIn acorta ciclos de venta, atrae talento y posiciona al directivo como referente antes de que empiece la conversación sobre una oportunidad."
+  - question: "¿Qué debe publicar un CEO en LinkedIn?"
+    answer: "Lo que resuelve mejor que nadie desde su nivel de responsabilidad, no gestión generalista. Por ejemplo, cómo integrar una adquisición o cómo alinear a un consejo de administración con una visión nueva. Conviene publicar solo cuando hay una perspectiva distinta al consenso del sector, sin necesidad de hacerlo a diario."
+  - question: "¿Cómo debe ser el perfil de LinkedIn de un directivo?"
+    answer: "Un activo de negocio y no un currículum. La biografía debe explicar qué hace y por qué alguien querría sentarse a hablar con él, sin frases hechas sobre liderazgo y con el foco puesto en los resultados tangibles que su visión aporta a una organización."
 ---
 
 Muchos directivos ven LinkedIn como un tablero de anuncios donde solo se busca talento o se publica contenido vacuo para ganar visibilidad barata. Esa percepción es la que mantiene a perfiles brillantes en la sombra mientras otros con menos capacidad ocupan el espacio de autoridad en su sector. El miedo a la exposición no nace de la falta de ideas sino de la incertidumbre sobre qué impacto tendrá esa visibilidad en la reputación que tanto tiempo ha costado construir.
@@ -30,7 +37,7 @@ Tercero, limpia tu perfil para que sea un activo de negocio y no un currículum.
 
 ## Por qué esto no es vanidad
 
-La exposición controlada no es marketing de vanidad. Es una herramienta de influencia que acorta los ciclos de venta, atrae a los mejores perfiles hacia tu estructura y te posiciona como un referente antes incluso de que la conversación sobre una oportunidad se inicie.
+La exposición controlada no es marketing de vanidad. Es una herramienta de influencia que acorta los ciclos de venta, atrae a los mejores perfiles hacia tu estructura y te posiciona como [un referente](/articulos/posicionar-tu-empresa-empieza-en-como-comunica-el-ceo/) antes incluso de que la conversación sobre una oportunidad se inicie.
 
 ## El siguiente paso
 

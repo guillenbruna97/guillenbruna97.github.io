@@ -5,9 +5,17 @@ tag: "IA en marketing · Regulación"
 excerpt: "El Artículo 50 del Reglamento Europeo de IA ya obliga a etiquetar el contenido generado con IA. La responsabilidad legal es de quien publica, no de quien lo produce."
 description: "Qué obliga el Artículo 50 del Reglamento Europeo de IA desde agosto de 2026, qué etiquetar, y cómo montar un criterio de aprobación antes de publicar."
 date: 2026-08-04
-readingTime: "4 min de lectura"
+readingTime: "6 min de lectura"
+service: "posicionamiento"
 image: "/images/articulos/etiquetar-contenido-ia-reglamento-europeo-marketing.jpg"
 imageAlt: "Ilustración de portada sobre la obligación de etiquetar contenido con IA según el Reglamento Europeo de IA"
+faqs:
+  - question: "¿Es obligatorio etiquetar el contenido generado con IA en la Unión Europea?"
+    answer: "Sí, desde el 2 de agosto de 2026 por el Artículo 50 del Reglamento Europeo de IA. Hay que avisar de forma clara y visible cuando una imagen, un audio, un vídeo o un texto generado o modificado con IA pueda confundirse con contenido real, y cuando un texto sobre asuntos de interés público se publica sin revisión editorial humana."
+  - question: "¿Quién es responsable si una agencia entrega contenido con IA sin etiquetar?"
+    answer: "La empresa que lo publica. Como responsable del despliegue, la obligación de avisar es suya y no del proveedor de IA ni de la agencia que lo produjo. Se puede exigir por contrato que la agencia declare el uso de IA, pero esa cláusula no traslada la responsabilidad ante el regulador."
+  - question: "¿Cuáles son las sanciones por no etiquetar contenido creado con IA?"
+    answer: "Pueden llegar a 15 millones de euros o al 3 por ciento de la facturación global anual, la cifra que sea mayor. El aviso visible ya es exigible, aunque la norma no es retroactiva para lo publicado antes del 2 de agosto de 2026, y el marcado técnico invisible tiene margen hasta diciembre de 2026 para sistemas que ya estaban en el mercado."
 ---
 
 ¿Sabes qué proporción del contenido que ha publicado tu empresa este año lleva alguna intervención de inteligencia artificial? Probablemente más de la que cree tu comité de dirección, y desde el 2 de agosto de 2026 esa cifra dejó de ser una curiosidad interna para convertirse en una obligación legal.
@@ -28,7 +36,7 @@ Esta obligación tampoco es retroactiva: el contenido que tu empresa publicó an
 
 Este es el punto que más confusión genera dentro de los equipos de marketing. El Reglamento distingue dos figuras: el proveedor, quien desarrolla y pone en el mercado el sistema de IA, y el responsable del despliegue, quien lo usa bajo su propia autoridad, que en la práctica sueles ser tú o tu empresa cuando publicas con una herramienta de IA. La mayoría de equipos de marketing son responsables del despliegue, no proveedores, porque usan herramientas de terceros en vez de construir su propia tecnología, y solo serían proveedores si desarrollan o ponen en el mercado su propio sistema de IA generativa. No toda la responsabilidad recae sobre quien publica: marcar el contenido sintético en un formato legible por máquina es una obligación que el Artículo 50 pone sobre el proveedor de la tecnología, no sobre ti.
 
-Pero como responsable del despliegue sí tienes obligaciones propias y directas, y es la parte que más te interesa como responsable último: si publicas un deepfake o un texto sobre un asunto de interés público generado por IA sin revisión editorial humana, avisar de ello es tu obligación, no la de tu proveedor de IA ni la de la agencia que lo produjo. Si una agencia o un freelance te entrega una pieza generada con IA sin avisarte, la sanción por no etiquetarla al publicarla es para la empresa que la puso delante de sus clientes, no para quien la produjo.
+Pero como responsable del despliegue sí tienes obligaciones propias y directas, y es la parte que más te interesa como responsable último: si publicas un deepfake o un texto sobre un asunto de interés público generado por IA sin revisión editorial humana, avisar de ello es tu obligación, no la de tu proveedor de IA ni la de la agencia que lo produjo. Si [una agencia o un freelance](/articulos/agencia-o-consultor-freelance-de-marketing/) te entrega una pieza generada con IA sin avisarte, la sanción por no etiquetarla al publicarla es para la empresa que la puso delante de sus clientes, no para quien la produjo.
 
 Eso convierte el etiquetado en una decisión de gobierno interno, no en un detalle técnico que se resuelve pidiéndole a un proveedor que "se encargue". Puedes exigir en un contrato que tu agencia declare el uso de IA en cada entrega, y deberías hacerlo, pero esa cláusula no te traslada la responsabilidad ante el regulador. Solo te da una base para reclamar después de haber pagado la multa.
 
