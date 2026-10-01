@@ -1,7 +1,7 @@
 ---
 title: "El coste silencioso de no estar donde se toman las decisiones"
 seoTitle: "El coste de no estar en LinkedIn"
-tag: "Marca personal · LinkedIn"
+tag: "Comunicación · Marca personal"
 excerpt: "El mercado ya habla de ti aunque no publiques. La pregunta es si controlas esa narrativa o la dejas al azar."
 description: "Qué considerar antes de publicar el primer post en LinkedIn si eres un directivo que quiere construir autoridad, no ruido."
 date: 2026-07-15

@@ -1,7 +1,7 @@
 ---
 title: "El cuello de botella invisible en tu proceso comercial"
 seoTitle: "Diagnóstico del pipeline B2B"
-tag: "Pipeline · Proceso comercial B2B"
+tag: "Go-to-market · Proceso comercial B2B"
 excerpt: "Marketing entrega oportunidades y el equipo comercial no las cierra. Antes de dudar del talento, conviene mirar el diseño del propio proceso."
 description: "Un marco práctico para localizar en qué etapa del proceso comercial B2B se pierden las oportunidades, sin necesidad de CRM ni herramientas complejas."
 date: 2026-09-28
