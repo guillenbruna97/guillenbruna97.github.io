@@ -1,7 +1,7 @@
 ---
 title: "El informe de marketing dice que todo va bien pero sus clientes ya preguntan a ChatGPT"
 seoTitle: "Tráfico y visibilidad en IA"
-tag: "SEO · Visibilidad en IA"
+tag: "IA en marketing · Visibilidad en IA"
 excerpt: "Tráfico al alza y posiciones ganadas en Google no explican por qué esas visitas ya no se traducen en negocio."
 description: "Por qué medir marketing solo con tráfico y posición en Google ya no explica el negocio, y qué debe mirar un CEO cuando la compra se decide en resúmenes de IA."
 date: 2026-08-04

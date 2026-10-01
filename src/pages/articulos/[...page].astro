@@ -6,7 +6,7 @@ import Divider from '../../components/Divider.astro';
 import ContactBlock from '../../components/ContactBlock.astro';
 import ArticlesListing from '../../components/ArticlesListing.astro';
 import PageHeaderMarquee from '../../components/PageHeaderMarquee.astro';
-import { categoryOf, slugify } from '../../utils/articles';
+import { activeCategories } from '../../utils/articles';
 
 export const getStaticPaths = (async ({ paginate }) => {
   const articulos = (await getCollection('articulos')).sort(
@@ -22,16 +22,13 @@ const { page } = Astro.props;
 
 const todosLosArticulos = await getCollection('articulos');
 
-const categorias = [...new Set(todosLosArticulos.map((entry) => categoryOf(entry.data.tag)))].map((nombre) => ({
-  nombre,
-  slug: slugify(nombre),
-}));
+const categorias = activeCategories(todosLosArticulos.map((entry) => entry.data.tag));
 
 const tituloPagina = page.currentPage === 1
   ? 'Artículos de marketing | Guillén Bruna Tricas'
   : `Artículos de marketing | Página ${page.currentPage} | Guillén Bruna Tricas`;
 
-const descripcionBase = 'Artículos sobre estrategia de marketing, marca y go-to-market para empresas y directivos que quieren comunicar con autoridad.';
+const descripcionBase = 'Artículos sobre estrategia de marketing, marca, comunicación directiva y go-to-market B2B para empresas y directivos que quieren comunicar con autoridad.';
 const descripcionPagina = page.currentPage === 1
   ? descripcionBase
   : `${descripcionBase} Página ${page.currentPage}.`;

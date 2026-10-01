@@ -1,7 +1,7 @@
 ---
 title: "El nuevo tablero de la IA en Google y el punto ciego de su comité de dirección"
 seoTitle: "Informes de IA en Search Console"
-tag: "Marketing · IA aplicada"
+tag: "IA en marketing · Search Console"
 excerpt: "El despliegue global ya se completó y un fallo de datos a mediados de agosto explicó una caída que no era real. El informe sigue sin ver nada de ChatGPT ni Perplexity."
 description: "Qué cambió en los informes de Generative AI performance de Search Console, y por qué el punto ciego sobre ChatGPT y Perplexity sigue intacto."
 date: 2026-08-24

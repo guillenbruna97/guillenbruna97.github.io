@@ -4,6 +4,7 @@ import type { CollectionEntry } from 'astro:content';
 import { Picture } from 'astro:assets';
 import { getArticleImage } from '../utils/article-images';
 import Tag from './Tag.astro';
+import { displayTag } from '../utils/articles';
 
 interface Props {
   page: Page<CollectionEntry<'articulos'>>;
@@ -53,7 +54,7 @@ const pageHref = (num: number) => (num === 1 ? `${basePath}/` : `${basePath}/${n
       )}
       <div class="case-content">
         <div class="case-tags">
-          <Tag label={entry.data.tag} />
+          <Tag label={displayTag(entry.data.tag)} />
         </div>
         <h2><a href={`/articulos/${entry.id}/`}>{entry.data.title}</a></h2>
         <p class="case-desc">{entry.data.excerpt}</p>

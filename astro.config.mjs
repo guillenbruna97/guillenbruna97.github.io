@@ -39,17 +39,29 @@ const articleLastmod = new Map(
     .filter(([, date]) => date)
 );
 
+// Categorías del blog fusionadas en la reorganización de octubre de 2026
+// (ver src/utils/articles.ts). En salida estática Astro genera una página con
+// meta refresh + canonical hacia el destino; se excluyen del sitemap abajo.
+const categoryRedirects = {
+  '/articulos/categoria/branding/': '/articulos/categoria/marca/',
+  '/articulos/categoria/marca-personal/': '/articulos/categoria/comunicacion/',
+  '/articulos/categoria/pipeline/': '/articulos/categoria/go-to-market/',
+  '/articulos/categoria/seo/': '/articulos/categoria/ia-en-marketing/',
+};
+
 export default defineConfig({
   site: 'https://guillenbruna97.github.io',
   output: 'static',
   build: {
     format: 'directory',
   },
+  redirects: categoryRedirects,
   markdown: {
     remarkPlugins: [remarkStripRawHtml],
   },
   integrations: [
     sitemap({
+      filter: (page) => !(new URL(page).pathname in categoryRedirects),
       serialize(item) {
         const lastmod = articleLastmod.get(new URL(item.url).pathname);
         if (lastmod) item.lastmod = new Date(lastmod).toISOString();

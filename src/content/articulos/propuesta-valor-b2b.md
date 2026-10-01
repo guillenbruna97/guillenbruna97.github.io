@@ -1,7 +1,7 @@
 ---
 title: "La trampa de la complejidad técnica en la propuesta de valor B2B"
 seoTitle: "Simplifica tu propuesta de valor B2B"
-tag: "Marketing · GTM y SaaS B2B"
+tag: "Go-to-market · Propuesta de valor"
 excerpt: "Muchas propuestas de valor B2B describen el vehículo en vez del destino. Así se distingue una de otra antes de salir al mercado."
 description: "Un marco práctico para separar lo que hace un producto B2B del valor real que aporta, con una prueba para comprobar si se entiende fuera del sector."
 date: 2026-09-07
