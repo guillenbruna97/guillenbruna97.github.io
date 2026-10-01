@@ -5,7 +5,7 @@ import ContactBlock from '../components/ContactBlock.astro';
 import { Picture } from 'astro:assets';
 import { getServiceImage } from '../utils/service-images';
 import { casosForService } from '../data/casos';
-import { getPrecio, euros } from '../data/precios';
+import { getPrecio, euros, SESION_DIAGNOSTICO } from '../data/precios';
 import FaqList, { type Faq } from '../components/FaqList.astro';
 
 interface Step {
@@ -158,6 +158,9 @@ const breadcrumbLd = {
               <strong>{euros(precio.desde)} + IVA</strong>{precio.unidad && ` ${precio.unidad}`}
               {precio.rango && <span class="precio-nota">{precio.rango}</span>}
               {precio.extra && <span class="precio-nota">{precio.extra.label}, {euros(precio.extra.precio)} + IVA</span>}
+              {!precio.extra && (
+                <span class="precio-nota">¿Prefieres empezar por algo más pequeño? {SESION_DIAGNOSTICO.nombre} de 2 horas con nota escrita, {euros(SESION_DIAGNOSTICO.precio)} + IVA, que se descuenta si después contratas el proyecto.</span>
+              )}
             </dd>
           </div>
           <div><dt>Duración</dt><dd>{precio.duracion}</dd></div>

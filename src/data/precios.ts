@@ -67,6 +67,16 @@ export const PRECIOS: Precio[] = [
   },
 ];
 
+// Puerta de entrada a los servicios de consultoría (pipeline, gtm-icp y
+// posicionamiento). Mentoría tiene la suya propia en `extra`. Decidida el
+// 2026-10-01: 2 horas + nota escrita, 650 € + IVA, descontable del proyecto.
+export const SESION_DIAGNOSTICO = {
+  precio: 650,
+  nombre: 'Sesión de diagnóstico',
+  formato: 'Sesión de 2 horas sobre tu caso y una nota escrita con el problema principal, tres prioridades y qué servicio encaja, o si no encaja ninguno',
+  descuento: 'Si contratas un proyecto en los 30 días siguientes, los 650 € se descuentan de su precio',
+};
+
 export const getPrecio = (slug?: string) => PRECIOS.find((p) => p.slug === slug);
 
 export const euros = (n: number) => `${n.toLocaleString('es-ES', { useGrouping: 'always' } as Intl.NumberFormatOptions)} €`;
