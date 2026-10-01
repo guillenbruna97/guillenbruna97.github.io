@@ -66,14 +66,16 @@ jobs:
             --max-turns 100 \
             2>&1 | tee "$KNOWLEDGE_BASE_DIR/logs/rutina_${GITHUB_RUN_ID}.log"
 
-      - name: Verificar build del portfolio
+      - name: Verificar artículos y build del portfolio
         working-directory: portfolio
-        run: npm run build
+        run: |
+          node scripts/check-articles.mjs
+          npm run build
 
       - name: Commit y push del portfolio
         working-directory: portfolio
         run: |
-          if ! git diff --quiet; then
+          if [ -n "$(git status --porcelain)" ]; then
             git config user.name "github-actions[bot]"
             git config user.email "github-actions[bot]@users.noreply.github.com"
             git add .
@@ -84,7 +86,7 @@ jobs:
       - name: Commit y push de la knowledge base
         working-directory: seo-ai-system
         run: |
-          if ! git diff --quiet; then
+          if [ -n "$(git status --porcelain knowledge-base .gitignore)" ]; then
             git config user.name "github-actions[bot]"
             git config user.email "github-actions[bot]@users.noreply.github.com"
             git add knowledge-base .gitignore
