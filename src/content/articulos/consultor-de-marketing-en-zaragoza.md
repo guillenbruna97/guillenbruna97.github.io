@@ -41,6 +41,6 @@ La tercera cuestión evalúa la capacidad de interlocución con la dirección. P
 
 ## Lo que Zaragoza necesita de verdad
 
-El tejido empresarial de Zaragoza merece un enfoque que combine la visión de negocio con la claridad comunicativa, lejos de las fórmulas empaquetadas del sector digital. Se trata de recuperar la figura del asesor de confianza, ese profesional que no busca venderle una iguala mensual de servicios de diseño, sino convertirse en [el sparring estratégico que su organización necesita](/articulos/asesor-externo-de-marketing-vs-equipo-interno/) para tomar decisiones con seguridad.
+El tejido empresarial de Zaragoza merece un enfoque que combine la visión de negocio con la claridad comunicativa, lejos de las fórmulas empaquetadas del sector digital. Se trata de recuperar la figura del consultor de confianza, ese profesional que no busca venderle una iguala mensual de servicios de diseño, sino convertirse en [el sparring estratégico que su organización necesita](/articulos/asesor-externo-de-marketing-vs-equipo-interno/) para tomar decisiones con seguridad.
 
 Si siente que su empresa ha superado la fase de la simple ejecución y necesita un espacio de reflexión estratégica para ordenar su comunicación y su marketing, hablemos. Sin compromisos de permanencia, solo una conversación de negocio a negocio.
