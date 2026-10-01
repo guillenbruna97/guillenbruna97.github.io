@@ -10,6 +10,13 @@ readingTime: "4 min de lectura"
 service: "posicionamiento"
 image: "/images/articulos/consultor-de-marketing-en-zaragoza.jpg"
 imageAlt: "Ilustración de portada sobre cómo elegir un consultor de marketing en Zaragoza"
+faqs:
+  - question: "¿Hay consultores de marketing estratégico en Zaragoza?"
+    answer: "Sí, aunque la oferta local está dominada por agencias de ejecución digital, gestión de redes y diseño web. Guillén Bruna Tricas trabaja desde Zaragoza como consultor independiente de estrategia de marketing y comunicación para pymes y directivos, centrado en el posicionamiento, el mensaje y la comunicación de la dirección antes de invertir en ejecución."
+  - question: "¿Cómo distinguir a un consultor estratégico de un perfil ejecutor?"
+    answer: "Con tres preguntas. Si cobra comisiones por las herramientas, agencias o medios que recomienda, porque un consultor real cobra solo por su tiempo y criterio. Si ante un problema de margen o de entrada en un mercado responde con tácticas digitales o con la propuesta de valor. Y cómo trabajará con la dirección, en sesiones de debate o con informes por correo."
+  - question: "¿Qué necesita una pyme industrial de un consultor de marketing?"
+    answer: "Un interlocutor con quien contrastar decisiones de posicionamiento y comunicación antes de gastar en herramientas o campañas. Muchas pymes industriales, logísticas y de servicios no tienen un problema de falta de manos sino de dirección, y necesitan que el marketing se trate como una prolongación de la estrategia comercial y financiera de la empresa."
 ---
 
 Zaragoza tiene un tejido empresarial potente. Las PYMEs industriales, logísticas y de servicios de la región tiran del carro con una solvencia envidiable. Sin embargo, cuando el director general de una de estas compañías decide dar un paso adelante en su estrategia comercial, se encuentra con un vacío recurrente. Al buscar un consultor de marketing para PYMEs en Zaragoza, la pantalla se llena de ofertas de agencias de ejecución digital, especialistas en redes sociales o plataformas de networking local.

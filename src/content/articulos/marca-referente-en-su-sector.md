@@ -9,6 +9,13 @@ readingTime: "6 min de lectura"
 image: "/images/articulos/marca-referente-en-su-sector.jpg"
 imageAlt: "Ilustración de portada sobre cómo una marca se convierte en referente de su sector"
 service: "posicionamiento"
+faqs:
+  - question: "¿Cómo se convierte una marca en referente de su sector?"
+    answer: "Con una acumulación sostenida de decisiones estratégicas, no con una campaña puntual. Hace falta una propuesta de valor clara, una narrativa coherente, una comunicación integrada en todos los canales y contenido que aporte valor real a la audiencia en lugar de autopromoción."
+  - question: "¿Qué diferencia hay entre notoriedad y reconocimiento de marca?"
+    answer: "La notoriedad es un pico de atención que genera una campaña o un evento y que se disipa. El reconocimiento es saber qué representa la marca, qué valor aporta y confiar en ella. Se construye poco a poco y es lo que sostiene el liderazgo de una marca a cinco o diez años."
+  - question: "¿Qué tipo de contenido ayuda a una marca a ganar autoridad?"
+    answer: "El que resuelve problemas de la audiencia, analiza tendencias o aporta una perspectiva propia, como artículos, informes técnicos, estudios de caso, webinars o conferencias. El contenido centrado en hablar del propio producto informa, pero no convierte a la marca en una autoridad de su campo."
 ---
 
 La aspiración de toda organización es [no solo competir, sino liderar](/articulos/posicionar-tu-empresa-empieza-en-como-comunica-el-ceo/). Sin embargo, la senda hacia el liderazgo de un sector rara vez se pavimenta con éxitos efímeros o golpes de efecto publicitarios. El verdadero referente no nace de una campaña puntual, por brillante que sea, sino de una acumulación sostenida de decisiones estratégicas en comunicación que, con el tiempo, forjan una posición inexpugnable en la mente de su audiencia.

@@ -10,6 +10,13 @@ readingTime: "4 min de lectura"
 image: "/images/articulos/propuesta-valor-b2b.jpg"
 imageAlt: "Ilustración de portada sobre cómo simplificar una propuesta de valor B2B técnicamente compleja"
 service: "posicionamiento"
+faqs:
+  - question: "¿Cómo se redacta una propuesta de valor B2B clara?"
+    answer: "Separando el vehículo del destino. El vehículo es la herramienta, el software o la metodología. El destino es el resultado que obtiene el cliente, como ahorro, control o reducción de riesgos. Una propuesta de valor B2B eficaz habla del destino y deja el vehículo para cuando el cliente pregunte por él."
+  - question: "¿Cómo comprobar si una propuesta de valor se entiende?"
+    answer: "Formulándola en una sola frase y presentándola a alguien que dirija un negocio en un sector ajeno. Si puede explicar con sus palabras a quién ayuda la empresa y qué problema resuelve, funciona. Si pregunta por el funcionamiento técnico o responde con un silencio educado, el mensaje sigue atrapado en la jerga interna."
+  - question: "¿Por qué un buen producto B2B no se vende?"
+    answer: "Con frecuencia porque la empresa lo presenta como una lista de características técnicas y obliga al cliente a descifrar qué gana. En B2B, donde el tiempo de los decisores es escaso, ese esfuerzo enfría la venta. La claridad del mensaje es una decisión de negocio que protege los márgenes y cohesiona al equipo comercial."
 ---
 
 Cuando un director general prepara [el lanzamiento de un nuevo producto](/articulos/estrategia-lanzamiento-saas-b2b/) o decide reposicionar la oferta de su empresa, suele enfrentarse a un enemigo silencioso. Este enemigo no es la competencia directa ni la falta de presupuesto en el departamento comercial, sino la complejidad de su propio discurso.

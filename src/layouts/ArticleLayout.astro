@@ -5,6 +5,7 @@ import ContactBlock from '../components/ContactBlock.astro';
 import { Picture } from 'astro:assets';
 import { getArticleImage } from '../utils/article-images';
 import { getService } from '../consts';
+import FaqList, { type Faq } from '../components/FaqList.astro';
 
 interface RelatedArticulo {
   id: string;
@@ -23,8 +24,9 @@ interface Props {
   imageAlt?: string;
   service?: string;
   related?: RelatedArticulo[];
+  faqs?: Faq[];
 }
-const { title, description, tag, heading, date, updated, readingTime, image, imageAlt, service, related = [] } = Astro.props;
+const { title, description, tag, heading, date, updated, readingTime, image, imageAlt, service, related = [], faqs = [] } = Astro.props;
 const serviceInfo = getService(service);
 const optimizedImage = getArticleImage(image);
 const dateFormat: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'long', year: 'numeric' };
@@ -103,6 +105,13 @@ const breadcrumbLd = {
     <div class="article-prose">
       <slot />
     </div>
+
+    {faqs.length > 0 && (
+      <section class="article-faq" aria-labelledby="preguntas-frecuentes">
+        <h2 id="preguntas-frecuentes">Preguntas frecuentes</h2>
+        <FaqList faqs={faqs} />
+      </section>
+    )}
 
     {serviceInfo && (
       <p class="service-note">
@@ -224,6 +233,17 @@ const breadcrumbLd = {
   body.dark .article-prose h2 { color: #e8e8e8; }
 
   .article-prose h2:first-child { margin-top: 0; }
+
+  .article-faq { margin: 3rem 0 0; }
+  .article-faq h2 {
+    font-size: 1.3rem;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    color: var(--black);
+    margin: 0 0 1.2rem;
+    transition: color var(--transition);
+  }
+  body.dark .article-faq h2 { color: #e8e8e8; }
 
   .article-prose strong { font-weight: 600; color: var(--black); transition: color var(--transition); }
   body.dark .article-prose strong { color: #e8e8e8; }

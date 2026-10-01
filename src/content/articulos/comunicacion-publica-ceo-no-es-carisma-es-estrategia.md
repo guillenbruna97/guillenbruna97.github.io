@@ -10,6 +10,13 @@ readingTime: "3 min de lectura"
 image: "/images/articulos/comunicacion-publica-ceo-no-es-carisma-es-estrategia.jpg"
 imageAlt: "Ilustración de portada sobre la comunicación pública del CEO como estrategia, no como carisma"
 service: "mentoria-comunicacion"
+faqs:
+  - question: "¿Un CEO necesita carisma para comunicar bien en público?"
+    answer: "No. La incomodidad ante una audiencia rara vez es un problema de personalidad, dicción o lenguaje corporal. Suele ser la falta de una estrategia detrás del mensaje. Cuando el directivo sabe qué impacto debe tener su intervención en el negocio y qué decisión espera de la audiencia, la ansiedad baja porque el foco pasa del orador al valor que entrega."
+  - question: "¿Cómo debe preparar un CEO una intervención importante?"
+    answer: "Respondiendo antes a tres preguntas. Cuál es el riesgo de que la audiencia no entienda el mensaje, qué decisión concreta deben tomar los asistentes al terminar y cómo refuerza ese mensaje la autoridad de la dirección. Es mejor llegar con una lista de cambios que se quieren provocar que con una lista de temas que se quieren cubrir."
+  - question: "¿Qué diferencia hay entre un asesor de comunicación y un curso de oratoria?"
+    answer: "Un curso de oratoria trabaja la forma, como la voz, los gestos o la respiración. Un asesor de comunicación trabaja la estructura del mensaje y la cuestiona hasta que sea imposible malinterpretarla, conectándola con un objetivo financiero o estratégico claro. Ninguna técnica de escenario compensa un mensaje sin propósito."
 ---
 
 Muchos directivos asumen que la incomodidad frente a una audiencia es una carencia de personalidad. Creen que el carisma es un rasgo genético que se tiene o no se tiene. Esta creencia es un error costoso porque convierte un desafío operativo en una limitación personal. Cuando un CEO siente que su comunicación pública es un obstáculo, suele buscar clases de oratoria o técnicas de respiración. Sin embargo, el problema rara vez está en la dicción o en el lenguaje corporal. El problema está en la falta de una arquitectura estratégica detrás de cada palabra.

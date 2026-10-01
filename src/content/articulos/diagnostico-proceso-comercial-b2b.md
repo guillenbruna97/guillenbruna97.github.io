@@ -9,6 +9,13 @@ readingTime: "3 min de lectura"
 image: "/images/articulos/diagnostico-proceso-comercial-b2b.jpg"
 imageAlt: "Ilustración de un hombre vertiendo figuras de leads en un embudo que se estrecha en un cuello de botella, donde la mayoría de las oportunidades quedan atascadas y solo una logra pasar, sobre los fallos estructurales del proceso comercial B2B"
 service: "pipeline"
+faqs:
+  - question: "¿Por qué genero leads pero no cierro ventas?"
+    answer: "Normalmente por un fallo en el diseño del proceso comercial, no por falta de talento del equipo. Las causas más comunes son una cualificación que mide curiosidad en lugar de necesidad real, propuestas presentadas a interlocutores que no pueden decidir y criterios difusos para pasar una oportunidad de una etapa a otra."
+  - question: "¿Cómo se hace un diagnóstico rápido del proceso comercial B2B?"
+    answer: "Revisando tres puntos del ciclo de venta. La cualificación inicial, para ver si valida una necesidad urgente o solo interés. El poder de decisión, para confirmar que se habla con quien autoriza el gasto. Y el criterio de avance entre etapas, que debe exigir pruebas tangibles como un problema validado o una fecha de resolución comprometida."
+  - question: "¿Hace falta auditar el CRM para diagnosticar el pipeline?"
+    answer: "No para un primer diagnóstico. Basta con revisar la calidad de la información en la cualificación, la identificación del decisor y los criterios de avance entre etapas. Si las oportunidades se estancan siempre en los mismos puntos, el problema está en el diseño del embudo y no en las herramientas ni en las personas."
 ---
 
 Muchos directivos observan una desconexión frustrante en su ciclo de ventas. El equipo de marketing entrega un volumen constante de contactos y el equipo comercial está activo cada día pero los resultados finales no se mueven al ritmo esperado. La tentación habitual es atribuir este estancamiento a la falta de agresividad comercial o a una supuesta brecha de talento en el departamento de ventas. Sin embargo, culpar a las personas suele ocultar un [fallo estructural en el diseño del proceso](/articulos/diagnostico-antes-de-la-estrategia-de-marca/).

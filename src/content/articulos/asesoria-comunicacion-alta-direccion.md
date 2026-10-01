@@ -9,6 +9,13 @@ readingTime: "6 min de lectura"
 image: "/images/articulos/asesoria-comunicacion-alta-direccion.jpg"
 imageAlt: "Ilustración de portada sobre asesoría de comunicación para altos directivos y cargos públicos"
 service: "mentoria-comunicacion"
+faqs:
+  - question: "¿Qué hace un asesor de comunicación para directivos?"
+    answer: "Trabaja la capacidad del directivo para articular su pensamiento, transmitir decisiones con seguridad y traducir ideas complejas en mensajes claros. No redacta comunicados ni crea eslóganes, eso corresponde a marketing o a prensa. Prepara al líder para entrevistas, presentaciones ante inversores, comunicaciones internas delicadas o la explicación pública de decisiones difíciles."
+  - question: "¿Es útil la asesoría de comunicación para cargos públicos?"
+    answer: "Sí, por la misma razón que lo es para un CEO. Un alto cargo público encarna la institución que representa, y cada intervención ante la ciudadanía construye o erosiona confianza. La asesoría le ayuda a explicar decisiones complejas sin generar incertidumbre y a mantener un mensaje coherente en medios, comparecencias y comunicación interna."
+  - question: "¿Por qué la comunicación del CEO forma parte de la estrategia de marca?"
+    answer: "Porque la voz del líder es uno de los puntos de contacto con más peso en la percepción de la marca. Una comunicación directiva deficiente puede deshacer años de inversión en marketing, mientras que un líder que comunica con claridad y coherencia refuerza la confianza de clientes, inversores y equipo. No es un lujo de imagen sino parte de la arquitectura de marca."
 ---
 
 La estrategia de marca y el posicionamiento en el mercado son el resultado de una orquestación meticulosa donde cada elemento contribuye a la percepción general. Las organizaciones invierten recursos significativos en campañas de marketing sofisticadas, en el desarrollo de identidades visuales impactantes y en la optimización de sus canales digitales. Sin embargo, existe un pilar fundamental cuya coherencia e impacto a menudo se subestiman, a pesar de ser uno de los más poderosos generadores de confianza y lealtad: la voz de su liderazgo.

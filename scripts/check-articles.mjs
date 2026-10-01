@@ -2,7 +2,8 @@
 // y SEO del blog. Lo ejecutan el CI, el deploy y la rutina automática de
 // artículos (seo-ai-system/knowledge-base/rutina-quincenal.md) antes de
 // publicar, para que un artículo nuevo salga ya con H2, enlaces internos,
-// categoría válida y metadatos en longitud, sin retoques manuales después.
+// categoría válida, preguntas frecuentes y metadatos en longitud, sin retoques
+// manuales después.
 //
 // Uso: node scripts/check-articles.mjs [slug ...]
 //   Sin argumentos revisa todos. Errores = exit 1. Avisos no bloquean.
@@ -35,7 +36,7 @@ function parse(raw) {
     const kv = line.match(/^(\w+):\s*(.*)$/);
     if (kv) data[kv[1]] = kv[2].replace(/^"(.*)"$/, '$1');
   }
-  return { data, body: match[2] };
+  return { data, body: match[2], frontmatter: match[1] };
 }
 
 const countWords = (text) =>
@@ -65,6 +66,9 @@ for (const slug of targets) {
     continue;
   }
   const { data, body } = parsed;
+
+  // faqs: lista YAML de { question, answer } con valores entre comillas en una línea.
+  const faqs = [...parsed.frontmatter.matchAll(/^\s+- question: "(.*)"\n\s+answer: "(.*)"$/gm)].map((m) => ({ q: m[1], a: m[2] }));
 
   if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(slug)) errors.push('el nombre de archivo (slug) debe ir en minúsculas, sin tildes y con guiones');
 
@@ -104,6 +108,15 @@ for (const slug of targets) {
 
   if (!data.image) warnings.push('sin imagen de portada (image/imageAlt): pendiente de añadir a mano');
   else if (!data.imageAlt) errors.push('tiene image pero falta imageAlt');
+
+  // Preguntas frecuentes (schema FAQPage): 3-5, autocontenidas, 30-90 palabras.
+  if (faqs.length < 3 || faqs.length > 5) errors.push(`${faqs.length} preguntas en faqs; deben ser entre 3 y 5 (formato: faqs: / - question: "¿...?" / answer: "...")`);
+  for (const { q, a } of faqs) {
+    if (!/^¿.+\?$/.test(q)) errors.push(`pregunta de faqs sin formato "¿...?": ${q}`);
+    const words = a.split(/\s+/).filter(Boolean).length;
+    if (words < 30 || words > 90) errors.push(`respuesta de faqs con ${words} palabras (30-90): "${q}"`);
+    if (/—/.test(a)) errors.push(`respuesta de faqs con guion largo: "${q}"`);
+  }
 
   // Cuerpo
   if (/^# /m.test(body)) errors.push('el cuerpo no debe llevar H1 (# ...): el H1 sale del campo title');

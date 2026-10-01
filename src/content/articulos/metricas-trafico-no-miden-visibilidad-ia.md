@@ -9,6 +9,13 @@ readingTime: "5 min de lectura"
 service: "posicionamiento"
 image: "/images/articulos/metricas-trafico-no-miden-visibilidad-ia.jpg"
 imageAlt: "Ilustración de portada sobre por qué las métricas de tráfico ya no explican la visibilidad en IA"
+faqs:
+  - question: "¿Por qué el tráfico web ya no mide bien la visibilidad de una empresa?"
+    answer: "Porque muchos compradores piden a ChatGPT, a Perplexity o a las respuestas con IA de los buscadores que comparen opciones y reciben una recomendación con tres o cuatro nombres sin hacer clic. Si la empresa no aparece en esa síntesis, las buenas posiciones en Google y el aumento de visitas no se traducen en oportunidades."
+  - question: "¿Qué debe medir un comité de dirección sobre la visibilidad en IA?"
+    answer: "Tres cosas. La cuota de mención, es decir con qué frecuencia y con qué atributos aparece la marca cuando se pregunta a los modelos de IA por su categoría. La autoridad del contenido por encima del volumen. Y el tráfico de alta intención, que vale más que mucho tráfico informativo general."
+  - question: "¿Cómo consigue una empresa que ChatGPT la recomiende?"
+    answer: "Los modelos de IA se nutren de información de calidad, opiniones de expertos reconocidos y menciones en medios de referencia. Por eso funciona mejor publicar análisis profundos y originales que muchos artículos genéricos, y estudiar qué fuentes usan los modelos cuando recomiendan a la competencia."
 ---
 
 En el último comité de dirección, el informe de marketing probablemente mostraba gráficos ascendentes. Más visitas a la web, mejores posiciones en Google para una lista de conceptos técnicos y un aumento en el volumen de contenidos publicados. En el papel, la estrategia de posicionamiento orgánico es un éxito rotundo. Sin embargo, cuando analiza el origen de las oportunidades de negocio reales, la relación entre ese tráfico y las ventas parece cada vez más difusa.

@@ -9,6 +9,13 @@ readingTime: "6 min de lectura"
 service: "posicionamiento"
 image: "/images/articulos/etiquetar-contenido-ia-reglamento-europeo-marketing.jpg"
 imageAlt: "Ilustración de portada sobre la obligación de etiquetar contenido con IA según el Reglamento Europeo de IA"
+faqs:
+  - question: "¿Es obligatorio etiquetar el contenido generado con IA en la Unión Europea?"
+    answer: "Sí, desde el 2 de agosto de 2026 por el Artículo 50 del Reglamento Europeo de IA. Hay que avisar de forma clara y visible cuando una imagen, un audio, un vídeo o un texto generado o modificado con IA pueda confundirse con contenido real, y cuando un texto sobre asuntos de interés público se publica sin revisión editorial humana."
+  - question: "¿Quién es responsable si una agencia entrega contenido con IA sin etiquetar?"
+    answer: "La empresa que lo publica. Como responsable del despliegue, la obligación de avisar es suya y no del proveedor de IA ni de la agencia que lo produjo. Se puede exigir por contrato que la agencia declare el uso de IA, pero esa cláusula no traslada la responsabilidad ante el regulador."
+  - question: "¿Cuáles son las sanciones por no etiquetar contenido creado con IA?"
+    answer: "Pueden llegar a 15 millones de euros o al 3 por ciento de la facturación global anual, la cifra que sea mayor. El aviso visible ya es exigible, aunque la norma no es retroactiva para lo publicado antes del 2 de agosto de 2026, y el marcado técnico invisible tiene margen hasta diciembre de 2026 para sistemas que ya estaban en el mercado."
 ---
 
 ¿Sabes qué proporción del contenido que ha publicado tu empresa este año lleva alguna intervención de inteligencia artificial? Probablemente más de la que cree tu comité de dirección, y desde el 2 de agosto de 2026 esa cifra dejó de ser una curiosidad interna para convertirse en una obligación legal.

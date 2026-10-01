@@ -9,6 +9,13 @@ readingTime: "4 min de lectura"
 image: "/images/articulos/la-mentoria-de-comunicacion-no-es-solo-para-el-ceo.jpg"
 imageAlt: "Ilustración de portada sobre la mentoría de comunicación para el CFO y el COO, no solo el CEO"
 service: "mentoria-comunicacion"
+faqs:
+  - question: "¿Necesitan el CFO y el COO mentoría de comunicación?"
+    answer: "Sí. Defienden reestructuraciones ante bancos, explican problemas operativos ante el consejo y responden a inversores en momentos de presión. En esas situaciones su competencia técnica se da por supuesta y lo que se evalúa es su capacidad de transmitir control, credibilidad y dirección estratégica."
+  - question: "¿En qué se diferencia la comunicación del CEO de la del CFO o el COO?"
+    answer: "La del CEO suele ser de inspiración, centrada en la visión, la cultura y el rumbo a largo plazo. La del CFO y el COO es de validación, centrada en demostrar que el plan es viable, que los riesgos están medidos y que la ejecución es sólida. Por eso necesitan una preparación distinta."
+  - question: "¿Cómo puede un director financiero comunicar con más autoridad?"
+    answer: "Con tres cambios. Empezar por el impacto financiero u operativo y bajar al detalle solo si se lo piden. Enmarcar los riesgos dentro de un plan de contingencia en lugar de negarlos. Y conectar cada dato con lo que significa para la estrategia de la compañía, evitando la sobreinformación."
 ---
 
 Es habitual asumir que la portavocía y la proyección pública de una compañía recaen exclusivamente en la figura del CEO. Bajo esta premisa, los recursos de preparación, el entrenamiento de portavoces y el refinamiento del discurso se concentran en una sola persona. Mientras tanto, las direcciones financiera y de operaciones se centran en lo que mejor saben hacer, que es gestionar la viabilidad y la eficiencia de la organización.

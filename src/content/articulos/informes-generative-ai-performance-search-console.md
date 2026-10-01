@@ -10,6 +10,13 @@ readingTime: "3 min de lectura"
 service: "posicionamiento"
 image: "/images/articulos/informes-generative-ai-performance-search-console.jpg"
 imageAlt: "Ilustración de portada sobre los informes de Generative AI performance en Search Console"
+faqs:
+  - question: "¿Qué mide el informe de IA generativa de Search Console?"
+    answer: "Mide el rendimiento de una web en las funciones de IA de Google, como las respuestas generadas en el buscador, su modo conversacional y su sección de descubrimiento. Google completó su despliegue global el 11 de agosto de 2026. Sirve para evaluar ese canal, pero no mide lo que ocurre fuera de Google."
+  - question: "¿Por qué cayeron las impresiones de IA en Search Console entre el 13 y el 17 de agosto de 2026?"
+    answer: "Por un error de registro de datos confirmado por Google, no por una pérdida real de visibilidad ni por una penalización. Durante esos cinco días el informe infravaloró las métricas, aunque la presencia de las webs en las búsquedas se mantuvo estable."
+  - question: "¿Basta con Search Console para medir la visibilidad de una marca en la IA?"
+    answer: "No. El informe solo cubre el ecosistema de Google y deja fuera las recomendaciones que hacen ChatGPT, Perplexity o Claude. Para tener una visión completa, el equipo de marketing necesita una metodología que rastree de forma directa cuándo y cómo esos modelos mencionan y recomiendan a la empresa."
 ---
 
 Como director general o miembro del comité de dirección, usted sabe que las métricas de adquisición digital suelen llegar a su mesa digeridas y simplificadas. Sin embargo, en las últimas semanas es muy probable que haya visto aparecer un nuevo indicador en sus informes de control. El pasado 11 de agosto de 2026, Google completó el despliegue global de su nuevo informe de rendimiento de IA generativa en [Search Console](https://developers.google.com/search/docs/appearance/ai-features). El cambio se produjo sin previo aviso, mediante una notificación emergente que apareció de repente en las pantallas de los equipos técnicos de todo el mundo.

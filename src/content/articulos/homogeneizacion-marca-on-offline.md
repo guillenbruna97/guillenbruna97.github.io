@@ -9,6 +9,13 @@ readingTime: "6 min de lectura"
 image: "/images/articulos/homogeneizacion-marca-on-offline.jpg"
 imageAlt: "Ilustración de portada sobre homogeneizar el mensaje de marca online y offline"
 service: "posicionamiento"
+faqs:
+  - question: "¿Qué es la homogeneización de marca?"
+    answer: "Es conseguir que la marca transmita el mismo propósito, tono y propuesta de valor en todos los canales, online y offline. No se limita a la identidad visual. Lo que promete la web o las redes sociales debe cumplirse en la atención telefónica, en la tienda y en la conversación con el equipo comercial."
+  - question: "¿Qué pasa cuando una marca dice una cosa online y hace otra offline?"
+    answer: "Se rompe la confianza en el momento en que más importa. El cliente atraído por la promesa digital se siente defraudado si la experiencia física o de atención es fría o contradictoria, percibe falta de autenticidad y la inversión en marketing digital se diluye."
+  - question: "¿Cómo se consigue una voz de marca unificada en todos los canales?"
+    answer: "Definiendo una narrativa central, alineando a toda la plantilla con ella, rompiendo los silos entre marketing, ventas, atención y producto, diseñando cada punto de contacto para reflejar la marca y contando con el patrocinio de la dirección. La tecnología debe centralizar y estandarizar, no abrir nuevas vías de dispersión."
 ---
 
 En la era de la omnipresencia digital, la promesa de una marca resuena en múltiples frentes. Desde el scroll de una red social hasta el mostrador de una tienda física, cada interacción moldea la percepción del cliente. La verdadera prueba de la fortaleza de una marca no reside solo en su alcance, sino en la coherencia inquebrantable de su mensaje a través de cada uno de esos puntos de contacto. Sin embargo, la desconexión entre lo que una marca dice online y lo que representa offline es un fallo estratégico silencioso, una grieta que erosiona la confianza en el momento exacto en que más importa.

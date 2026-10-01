@@ -9,6 +9,13 @@ readingTime: "5 min de lectura"
 image: "/images/articulos/diagnostico-antes-de-la-estrategia-de-marca.jpg"
 imageAlt: "Ilustración de portada sobre el diagnóstico previo a toda estrategia de marca"
 service: "pipeline"
+faqs:
+  - question: "¿Qué es un diagnóstico de marca y qué incluye?"
+    answer: "Es el análisis previo a cualquier estrategia de marca. Revisa tres cosas, la propuesta de valor real y distintiva de la empresa, el conocimiento profundo del cliente objetivo más allá de la demografía y la coherencia operativa entre lo que la marca promete y lo que viven los clientes en ventas, atención y producto."
+  - question: "¿Por qué hay que hacer un diagnóstico antes de la estrategia de marca?"
+    answer: "Porque saltárselo lleva a invertir en creatividad, campañas y canales sobre una base que no existe. Muchas estrategias fallan no por falta de presupuesto o de talento creativo, sino por falta de claridad en la propuesta de valor, desconocimiento del cliente o incoherencia interna, y eso genera mensajes dispersos que no consolidan posicionamiento."
+  - question: "¿Cómo saber si mi marketing está funcionando o solo está ocupado?"
+    answer: "Comprobando si la actividad se apoya en una propuesta de valor clara, un cliente bien definido y una experiencia coherente con lo que se promete. Si hay mucha visibilidad pero la marca no consolida posicionamiento ni confianza, lo habitual es que falte ese diagnóstico de base y no más inversión en ejecución."
 ---
 
 ¿No sabe si su marketing está funcionando de verdad o simplemente está ocupado? Toda organización aspira a construir una marca que no solo resuene en el mercado, sino que perdure, generando confianza y lealtad inquebrantables. Se invierten recursos significativos en creatividad, campañas y comunicación, buscando capturar la atención y forjar una identidad distintiva. Sin embargo, no es raro observar cómo, a pesar de estas inversiones, muchas de estas iniciativas no logran consolidar un posicionamiento robusto a largo plazo. La ambición de una marca referente, aquella que se asienta como un pilar en su sector, a menudo se ve frustrada por una desconexión fundamental. La clave para entender esta brecha no reside en la ejecución de las campañas, sino en la fase previa, en un paso que a menudo se subestima o se salta por completo: un diagnóstico de marca honesto y profundo.

@@ -10,6 +10,13 @@ readingTime: "3 min de lectura"
 image: "/images/articulos/la-entrevista-con-un-medio-no-se-improvisa.jpg"
 imageAlt: "Ilustración de portada sobre cómo preparar una entrevista con un medio de comunicación"
 service: "mentoria-comunicacion"
+faqs:
+  - question: "¿Cómo se prepara un directivo para una entrevista con un medio?"
+    answer: "Con un marco de tres pasos. Definir el mensaje ancla, la única idea que debe sobrevivir a la edición del periodista. Fijar el límite de la información, con una respuesta firme para lo confidencial. Y preparar el puente, una frase de transición que devuelve cualquier pregunta incómoda al mensaje ancla sin parecer evasivo."
+  - question: "¿Por qué un directivo con experiencia no debe improvisar ante la prensa?"
+    answer: "Porque la lógica de la gestión interna no sirve ante un medio. En la empresa se busca eficiencia y soluciones directas, mientras que el periodista busca un titular que encaje en su línea editorial. Sin preparación, el dominio técnico del directivo puede convertirse en su mayor vulnerabilidad."
+  - question: "¿Qué hacer cuando un periodista llama en plena crisis?"
+    answer: "Tener una estructura de comunicación preparada antes de que suene el teléfono, porque el tiempo de reacción es mínimo. En una crisis ni el silencio ni la transparencia total son una opción. Hay que decidir de antemano qué datos se comparten, cuáles no y qué mensaje debe quedar."
 ---
 
 Tu trayectoria te ha dado la capacidad de resolver conflictos complejos en una sala de juntas. Llevas años tomando decisiones bajo presión y navegando crisis corporativas con resultados medibles. Es natural que sientas que esa misma soltura te servirá cuando un periodista te llame para pedir explicaciones sobre un problema o cuando el mercado exija una postura pública ante una situación delicada.

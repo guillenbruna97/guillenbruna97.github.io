@@ -9,6 +9,13 @@ readingTime: "3 min de lectura"
 image: "/images/articulos/estrategia-de-marketing-o-solo-mas-ejecucion.jpg"
 imageAlt: "Ilustración de portada sobre cómo distinguir falta de estrategia de marketing y falta de ejecución"
 service: "gtm-icp"
+faqs:
+  - question: "¿Cómo saber si mi empresa necesita una estrategia de marketing o más ejecución?"
+    answer: "Con tres preguntas. Si los clientes entienden por qué eligen a la empresa sin una larga explicación, si el equipo de ventas siente que marketing le facilita el trabajo y si la propuesta de valor ha evolucionado al ritmo del mercado. Un no en cualquiera de ellas apunta a un problema de estrategia que más ejecución no resolverá."
+  - question: "¿Por qué invertir más en marketing no siempre da más resultados?"
+    answer: "Porque la ejecución amplifica la estrategia, sea buena o mala. Si el mensaje es confuso o el posicionamiento es débil, más presupuesto, más equipo o una agencia nueva solo generan más ruido, más leads de baja calidad y más pérdida de recursos."
+  - question: "¿Qué revisar antes de aprobar una nueva inversión publicitaria?"
+    answer: "Tres cosas. Qué diferencia de verdad a la empresa, entendido como el problema que resuelve mejor que nadie. Si esa diferencia cabe en una frase que cualquier directivo explique en diez segundos. Y dónde está la fricción del embudo, porque si la gente entra pero no se queda el problema es la promesa inicial, no el tráfico."
 ---
 
 La mayoría de los directivos que lideran empresas con tracción sienten que el marketing es una rueda que gira sin mover el vehículo con la velocidad esperada. Es probable que hayas probado ampliar el equipo, cambiar de agencia o probar nuevas plataformas publicitarias. El resultado suele ser el mismo. Obtienes más ruido, más leads de baja calidad o una sensación persistente de que el mercado no acaba de entender el valor real de lo que vendes.

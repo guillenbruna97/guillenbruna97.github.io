@@ -9,6 +9,13 @@ readingTime: "6 min de lectura"
 image: "/images/articulos/coherencia-de-marca-posicionamiento.jpg"
 imageAlt: "Ilustración de portada sobre la coherencia de marca como estrategia de posicionamiento"
 service: "posicionamiento"
+faqs:
+  - question: "¿Qué es la coherencia de marca?"
+    answer: "Es mantener la misma esencia, promesa, tono de voz y mensaje en cada punto de contacto con el cliente y a lo largo del tiempo. Va más allá del logotipo o de la paleta de colores. Incluye la web, las redes, el equipo comercial, la atención al cliente y la forma en que comunican los directivos."
+  - question: "¿Por qué la coherencia de marca es rentable?"
+    answer: "Porque reduce la necesidad de reeducar al mercado en cada campaña, mejora la retención y el valor de vida del cliente y permite sostener precios superiores gracias a la confianza acumulada. La inconsistencia hace lo contrario. Obliga al cliente a reinterpretar la marca una y otra vez y destruye el capital de marca invertido."
+  - question: "¿Cómo se audita la coherencia de una marca?"
+    answer: "Revisando de forma sistemática todos los puntos de contacto, es decir la estrategia de comunicación, la identidad visual y verbal, la experiencia del cliente en canales digitales y físicos y la cultura interna. Un mapa del customer journey suele revelar contradicciones, y conviene comprobar que marketing, ventas, atención al cliente y dirección cuentan la misma historia."
 ---
 
 La construcción de una marca duradera, capaz de trascender las fluctuaciones del mercado y las modas pasajeras, no es fruto del azar ni de [campañas puntuales](/articulos/marketing-que-no-retorna/). Es el resultado de una visión estratégica profunda, donde la coherencia se erige como el pilar fundamental del posicionamiento a largo plazo. En un entorno saturado de mensajes, la distinción ya no reside solo en lo que se dice, sino en cómo se mantiene ese mensaje, de forma ininterrumpida y unificada, a lo largo del tiempo y en cada punto de contacto.
