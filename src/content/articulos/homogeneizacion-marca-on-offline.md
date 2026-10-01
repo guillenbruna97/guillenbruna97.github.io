@@ -3,7 +3,7 @@ title: "Homogeneización de marca: el mismo mensaje online y offline"
 seoTitle: "Marca coherente online y offline"
 tag: "Marca · Homogeneización"
 excerpt: "La desconexión entre lo digital y lo físico rompe la confianza justo en el momento en que más importa."
-description: "Por qué el mensaje de marca debe ser idéntico en todos los canales, y qué falla cuando no lo es."
+description: "Por qué el mensaje de marca debe ser el mismo online y offline, qué se rompe cuando cada canal cuenta una historia distinta y cómo homogeneizarlo."
 date: 2026-06-07
 readingTime: "6 min de lectura"
 image: "/images/articulos/homogeneizacion-marca-on-offline.jpg"

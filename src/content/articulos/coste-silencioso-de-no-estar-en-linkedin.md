@@ -30,7 +30,7 @@ Tercero, limpia tu perfil para que sea un activo de negocio y no un currículum.
 
 ## Por qué esto no es vanidad
 
-La exposición controlada no es marketing de vanidad. Es una herramienta de influencia que acorta los ciclos de venta, atrae a los mejores perfiles hacia tu estructura y te posiciona como un referente antes incluso de que la conversación sobre una oportunidad se inicie.
+La exposición controlada no es marketing de vanidad. Es una herramienta de influencia que acorta los ciclos de venta, atrae a los mejores perfiles hacia tu estructura y te posiciona como [un referente](/articulos/posicionar-tu-empresa-empieza-en-como-comunica-el-ceo/) antes incluso de que la conversación sobre una oportunidad se inicie.
 
 ## El siguiente paso
 

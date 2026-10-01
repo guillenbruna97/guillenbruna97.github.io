@@ -7,6 +7,7 @@ description: "Los criterios reales para decidir entre una agencia y un consultor
 date: 2026-08-01
 updated: 2026-09-17
 readingTime: "3 min de lectura"
+service: "posicionamiento"
 image: "/images/articulos/agencia-o-consultor-freelance-de-marketing.jpg"
 imageAlt: "Ilustración de portada sobre cuándo elegir una agencia o un consultor de marketing freelance"
 ---

@@ -3,7 +3,7 @@ title: "Por qué los altos directivos y cargos públicos necesitan asesoría de 
 seoTitle: "Asesoría de comunicación ejecutiva"
 tag: "Comunicación · Alta dirección"
 excerpt: "La voz del líder es una extensión directa de la marca. Y rara vez recibe la misma disciplina que la publicidad."
-description: "Por qué la asesoría de comunicación ejecutiva es una parte central, no un lujo de imagen, de la estrategia de marca."
+description: "Por qué la asesoría de comunicación para altos directivos y cargos públicos es una parte central de la estrategia de marca y no un lujo de imagen."
 date: 2026-06-14
 readingTime: "6 min de lectura"
 image: "/images/articulos/asesoria-comunicacion-alta-direccion.jpg"

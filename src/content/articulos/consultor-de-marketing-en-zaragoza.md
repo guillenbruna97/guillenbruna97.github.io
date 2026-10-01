@@ -7,6 +7,7 @@ description: "Qué preguntar antes de contratar un consultor de marketing en Zar
 date: 2026-08-01
 updated: 2026-09-17
 readingTime: "4 min de lectura"
+service: "posicionamiento"
 image: "/images/articulos/consultor-de-marketing-en-zaragoza.jpg"
 imageAlt: "Ilustración de portada sobre cómo elegir un consultor de marketing en Zaragoza"
 ---

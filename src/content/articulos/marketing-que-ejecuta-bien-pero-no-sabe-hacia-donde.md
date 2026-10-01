@@ -30,7 +30,7 @@ El acompañamiento a un departamento de marketing para focalizar el trabajo haci
 
 Para empezar a cambiar esto mañana mismo, aplica el filtro de la reducción. Elimina el veinte por ciento de las actividades que menos impacto generan en la captación o retención de clientes estratégicos. Observa qué sucede con el tiempo liberado. Ese tiempo es el que debe reasignarse a la planificación basada en los retos reales de tu industria, no en las tendencias pasajeras del sector.
 
-La comunicación corporativa efectiva en entornos de transformación digital no consiste en estar en todos los canales. Consiste en ser la referencia necesaria cuando tu cliente potencial se encuentra ante un problema complejo que solo tu organización puede resolver. Si tu equipo de marketing todavía no tiene claro cómo articular esa diferencia, es probable que necesites ajustar la estrategia desde la dirección antes de seguir invirtiendo en ejecución.
+La comunicación corporativa efectiva en entornos de transformación digital no consiste en estar en todos los canales. Consiste en ser [la referencia necesaria](/articulos/marca-referente-en-su-sector/) cuando tu cliente potencial se encuentra ante un problema complejo que solo tu organización puede resolver. Si tu equipo de marketing todavía no tiene claro cómo articular esa diferencia, es probable que necesites ajustar la estrategia desde la dirección antes de seguir invirtiendo en ejecución.
 
 ## El siguiente paso
 

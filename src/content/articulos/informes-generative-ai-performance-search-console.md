@@ -7,13 +7,14 @@ description: "Qué cambió en los informes de Generative AI performance de Searc
 date: 2026-08-24
 updated: 2026-09-17
 readingTime: "3 min de lectura"
+service: "posicionamiento"
 image: "/images/articulos/informes-generative-ai-performance-search-console.jpg"
 imageAlt: "Ilustración de portada sobre los informes de Generative AI performance en Search Console"
 ---
 
 Como director general o miembro del comité de dirección, usted sabe que las métricas de adquisición digital suelen llegar a su mesa digeridas y simplificadas. Sin embargo, en las últimas semanas es muy probable que haya visto aparecer un nuevo indicador en sus informes de control. El pasado 11 de agosto de 2026, Google completó el despliegue global de su nuevo informe de rendimiento de IA generativa en [Search Console](https://developers.google.com/search/docs/appearance/ai-features). El cambio se produjo sin previo aviso, mediante una notificación emergente que apareció de repente en las pantallas de los equipos técnicos de todo el mundo.
 
-Este movimiento ha sido recibido por muchos departamentos de marketing como la solución definitiva para medir la visibilidad de las empresas en la era de la inteligencia artificial. Pero tomar decisiones estratégicas basándose únicamente en esta nueva herramienta es un error de perspectiva que puede costar caro a su organización.
+Este movimiento ha sido recibido por muchos departamentos de marketing como la solución definitiva para medir la visibilidad de las empresas en la era de la inteligencia artificial. Pero [tomar decisiones estratégicas basándose únicamente en esta nueva herramienta](/articulos/la-trampa-de-la-ia-en-la-estrategia-de-marketing/) es un error de perspectiva que puede costar caro a su organización.
 
 ## El error de dato que no fue una caída real
 

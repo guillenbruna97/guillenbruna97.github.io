@@ -7,6 +7,7 @@ description: "Por qué adoptar herramientas de IA en marketing no sustituye la f
 date: 2026-07-15
 updated: 2026-09-17
 readingTime: "3 min de lectura"
+service: "gtm-icp"
 image: "/images/articulos/la-trampa-de-la-ia-en-la-estrategia-de-marketing.jpg"
 imageAlt: "Ilustración de portada sobre la trampa de usar IA sin una estrategia de marketing clara"
 ---
