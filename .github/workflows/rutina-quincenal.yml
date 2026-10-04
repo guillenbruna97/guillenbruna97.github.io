@@ -19,11 +19,11 @@ jobs:
           path: portfolio
           token: ${{ secrets.REPOS_TOKEN }}
 
-      - name: Checkout SEO knowledge base
+      - name: Checkout marca personal (puesto SEO y GEO)
         uses: actions/checkout@v5
         with:
-          repository: guillenbruna97/seo-ai-system
-          path: seo-ai-system
+          repository: guillenbruna97/marca-personal
+          path: marca-personal
           token: ${{ secrets.REPOS_TOKEN }}
 
       - name: Setup Node
@@ -46,12 +46,12 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
       - name: Ejecutar rutina quincenal
-        working-directory: seo-ai-system
+        working-directory: marca-personal/seo-geo
         env:
           CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           PORTFOLIO_DIR: ${{ github.workspace }}/portfolio
-          KNOWLEDGE_BASE_DIR: ${{ github.workspace }}/seo-ai-system/knowledge-base
+          KNOWLEDGE_BASE_DIR: ${{ github.workspace }}/marca-personal/seo-geo/knowledge-base
         run: |
           set -o pipefail
           mkdir -p "$KNOWLEDGE_BASE_DIR/logs"
@@ -83,13 +83,13 @@ jobs:
             git push
           fi
 
-      - name: Commit y push de la knowledge base
-        working-directory: seo-ai-system
+      - name: Commit y push de marca personal
+        working-directory: marca-personal
         run: |
-          if [ -n "$(git status --porcelain knowledge-base .gitignore)" ]; then
+          if [ -n "$(git status --porcelain seo-geo/knowledge-base seo-geo/perfil.md oficina/index.html .gitignore)" ]; then
             git config user.name "github-actions[bot]"
             git config user.email "github-actions[bot]@users.noreply.github.com"
-            git add knowledge-base .gitignore
-            git commit -m "chore: actualizar knowledge base desde rutina quincenal"
+            git add seo-geo/knowledge-base seo-geo/perfil.md oficina/index.html .gitignore
+            git commit -m "chore: rutina semanal del puesto SEO y GEO (knowledge base, perfil y oficina)"
             git push
           fi
