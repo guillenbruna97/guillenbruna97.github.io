@@ -37,4 +37,4 @@ La mayoría de los ejecutivos llega a sus compromisos públicos con una lista de
 
 ## La pregunta que de verdad importa
 
-La próxima vez que tengas una intervención importante, no te preguntes si estarás a la altura. Pregúntate si tu mensaje tiene la capacidad de mover la aguja de tu negocio. Si la respuesta es incierta, quizás sea el momento de revisar tu estrategia de comunicación antes de volver a exponer [tu marca personal](/articulos/el-silencio-no-es-una-estrategia-de-reputacion/) y la de tu compañía.
+La próxima vez que tengas una intervención importante, no te preguntes si estarás a la altura. Pregúntate si [tu mensaje](/articulos/comunicar-la-vision-de-una-empresa/) tiene la capacidad de mover la aguja de tu negocio. Si la respuesta es incierta, quizás sea el momento de revisar tu estrategia de comunicación antes de volver a exponer [tu marca personal](/articulos/el-silencio-no-es-una-estrategia-de-reputacion/) y la de tu compañía.
