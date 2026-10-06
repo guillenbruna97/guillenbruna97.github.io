@@ -6,6 +6,8 @@ excerpt: "Tu visión es clara en tu cabeza pero suena genérica al decirla. Apli
 description: "Aprende a mejorar la narrativa de tu compañía ante clientes, inversores y otros stakeholders con tres pruebas clave para evitar mensajes genéricos."
 date: 2026-10-05
 readingTime: "5 min de lectura"
+image: "/images/articulos/comunicar-la-vision-de-una-empresa.jpg"
+imageAlt: "Ilustración de un directivo que recorta con un molde estrellas idénticas en una mesa, todas iguales salvo una amarilla que destaca, sobre cómo comunicar la visión de una empresa sin sonar como un competidor más"
 service: "posicionamiento"
 faqs:
   - question: "¿Cómo saber si mi visión de empresa es demasiado genérica?"
