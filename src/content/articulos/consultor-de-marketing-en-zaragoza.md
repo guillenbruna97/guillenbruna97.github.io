@@ -1,6 +1,6 @@
 ---
 title: "Por qué en Zaragoza es más fácil encontrar una agencia de marketing que un consultor que piense contigo"
-seoTitle: "Consultor de marketing en Zaragoza para pymes"
+seoTitle: "Consultor de marketing en Zaragoza"
 tag: "Marketing · Consultoría local"
 excerpt: "En Zaragoza sobran agencias que ejecutan. Falta quien se siente a pensar contigo antes de gastar el primer euro."
 description: "¿Buscas un consultor de marketing en Zaragoza que piense contigo antes de ejecutar? Tres preguntas para distinguirlo de una agencia y elegir bien."
