@@ -159,7 +159,7 @@ const breadcrumbLd = {
             <dt>Precio</dt>
             <dd>
               <strong>{euros(precio.desde)} + IVA</strong>{precio.unidad && ` ${precio.unidad}`}
-              {precio.normal && <span class="precio-lanzamiento"><s>{euros(precio.normal.desde)}</s> {LANZAMIENTO.etiqueta}, {LANZAMIENTO.condicion}</span>}
+              {precio.normal && <span class="precio-nota">Antes <s>{euros(precio.normal.desde)}</s>. Tarifa inicial en el primer proyecto con tu empresa, {LANZAMIENTO.condicion}.</span>}
               {precio.rango && <span class="precio-nota">{precio.rango}</span>}
               {precio.extra && <span class="precio-nota">{precio.extra.label}, {euros(precio.extra.precio)} + IVA</span>}
               {!precio.extra && (
@@ -389,10 +389,6 @@ const breadcrumbLd = {
   body.dark .precio-grid dd { color: rgba(232,232,232,0.75); }
   .precio-grid dd strong { font-weight: 600; color: var(--black); font-size: 1.05rem; }
   body.dark .precio-grid dd strong { color: #e8e8e8; }
-  .precio-lanzamiento { display: block; font-size: 0.8rem; font-weight: 500; color: var(--blue); margin-top: 0.2rem; }
-  .precio-lanzamiento s { font-weight: 400; color: rgba(0,0,0,0.45); margin-right: 0.3rem; }
-  body.dark .precio-lanzamiento { color: var(--blue-light); }
-  body.dark .precio-lanzamiento s { color: rgba(232,232,232,0.45); }
   .precio-nota { display: block; font-size: 0.8rem; color: rgba(0,0,0,0.55); margin-top: 0.2rem; }
   body.dark .precio-nota { color: rgba(232,232,232,0.55); }
   .precio-link { font-size: 0.85rem; font-weight: 300; color: rgba(0,0,0,0.6); margin-top: 1.2rem; }

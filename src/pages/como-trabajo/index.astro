@@ -61,7 +61,6 @@ const breadcrumbLd = {
 
   <section class="ct-section">
     <h2 class="ct-label">Precios por servicio</h2>
-    {enLanzamiento() && <p class="ct-lanzamiento">Tarifa inicial para el primer proyecto con cada empresa, {LANZAMIENTO.condicion}. Lo que vale este trabajo es la tarifa normal, que ves tachada, pero prefiero demostrarlo antes de cobrarlo. Desde el segundo proyecto, cuando ya hemos trabajado juntos, se aplica la normal.</p>}
     <div class="ct-table-wrap">
       <table class="ct-table">
         <thead>
@@ -82,7 +81,7 @@ const breadcrumbLd = {
         </tbody>
       </table>
     </div>
-    <p class="ct-small">Acompañamiento posterior opcional desde 1.500 € + IVA al mes, sin permanencia.</p>
+    <p class="ct-small">{enLanzamiento() && <>Tarifa inicial en el primer proyecto con cada empresa, {LANZAMIENTO.condicion}. Desde el segundo proyecto se aplica la tarifa normal. </>}Acompañamiento posterior opcional desde 1.500 € + IVA al mes, sin permanencia.</p>
   </section>
 
   <section class="ct-section">
@@ -192,8 +191,6 @@ const breadcrumbLd = {
   body.dark .ct-table tbody th a { color: #e8e8e8; }
   .ct-table tbody th a:hover { color: var(--blue); }
   .ct-nota { display: block; font-size: 0.8rem; color: rgba(0,0,0,0.55); }
-  .ct-lanzamiento { font-size: 0.9rem; font-weight: 500; color: var(--blue); margin: 0 0 1rem; }
-  body.dark .ct-lanzamiento { color: var(--blue-light); }
   .ct-antes s, s.ct-antes { opacity: 0.6; }
   body.dark .ct-nota { color: rgba(232,232,232,0.55); }
   .ct-small { font-size: 0.85rem; font-weight: 300; color: rgba(0,0,0,0.6); margin-top: 1rem; }
