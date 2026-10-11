@@ -6,7 +6,7 @@ import { PRECIOS, euros, SESION_DIAGNOSTICO, vigente, precioDe, diagnosticoVigen
 
 const [pip, pos, gtm, men] = ['pipeline', 'posicionamiento', 'gtm-icp', 'mentoria-comunicacion'].map(precioDe);
 const diag = diagnosticoVigente();
-const notaLanzamiento = enLanzamiento() ? ` Son precios de lanzamiento, válidos hasta el 31 de marzo de 2027.` : '';
+const notaLanzamiento = enLanzamiento() ? ` Son tarifas iniciales para el primer proyecto con cada empresa, contratando hasta el 31 de marzo de 2027. Desde el segundo proyecto se aplica la tarifa normal.` : '';
 import { BOOKING_URL } from '../../consts';
 
 // Preguntas comunes a los 4 servicios. Salen del banco de preguntas previas a
@@ -61,7 +61,7 @@ const breadcrumbLd = {
 
   <section class="ct-section">
     <h2 class="ct-label">Precios por servicio</h2>
-    {enLanzamiento() && <p class="ct-lanzamiento">{LANZAMIENTO.etiqueta}. Después se aplican los precios normales, que ves tachados.</p>}
+    {enLanzamiento() && <p class="ct-lanzamiento">Tarifa inicial para el primer proyecto con cada empresa, {LANZAMIENTO.condicion}. Lo que vale este trabajo es la tarifa normal, que ves tachada, pero prefiero demostrarlo antes de cobrarlo. Desde el segundo proyecto, cuando ya hemos trabajado juntos, se aplica la normal.</p>}
     <div class="ct-table-wrap">
       <table class="ct-table">
         <thead>
