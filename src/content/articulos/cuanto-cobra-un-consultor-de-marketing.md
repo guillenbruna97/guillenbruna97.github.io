@@ -6,6 +6,8 @@ excerpt: "Las cifras que circulan mezclan al que ejecuta con el que piensa. Rang
 description: "Cuánto cobra un consultor de marketing en España, con cifras de fuentes reales, las formas de pago habituales y cómo saber si un precio es justo."
 date: 2026-10-11
 readingTime: "6 min de lectura"
+image: "/images/articulos/cuanto-cobra-un-consultor-de-marketing.jpg"
+imageAlt: "Ilustración de un directivo junto a una balanza en la que un montón de manos levantadas pesa menos que una brújula, sobre la diferencia entre pagar por ejecución y pagar por criterio al contratar un consultor de marketing"
 service: "posicionamiento"
 faqs:
   - question: "¿Cuánto cobra por hora un consultor de marketing en España?"
