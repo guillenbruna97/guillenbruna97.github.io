@@ -1,6 +1,10 @@
 ---
 import ServiceLayout from '../../../layouts/ServiceLayout.astro';
 import { getService } from '../../../consts';
+import { precioDe, enLanzamiento, euros } from '../../../data/precios';
+
+const p = precioDe('mentoria-comunicacion');
+const lanz = enLanzamiento() ? ' Es precio de lanzamiento, válido hasta el 31 de marzo de 2027.' : '';
 
 const service = getService('mentoria-comunicacion')!;
 ---
@@ -31,7 +35,7 @@ const service = getService('mentoria-comunicacion')!;
     },
     {
       question: '¿Cuánto cuesta la mentoría de comunicación ejecutiva?',
-      answer: 'El programa trimestral de mentoría de comunicación ejecutiva cuesta 2.800 € más IVA por directivo. Este precio incluye 6 sesiones de 90 minutos, notas de decisión y apoyo entre sesiones. Para un comité de tres directivos, el coste es de 7.200 € más IVA por trimestre. Una intervención puntual, con una sesión de 2 horas y nota de decisión, cuesta 650 € más IVA. El pago es por trimestre adelantado.',
+      answer: `El programa trimestral de mentoría de comunicación ejecutiva cuesta ${euros(p.desde)} más IVA por directivo. Este precio incluye 6 sesiones de 90 minutos, notas de decisión y apoyo entre sesiones. Para un comité de tres directivos, el coste es de ${euros(p.comite!)} más IVA por trimestre. Una intervención puntual, con una sesión de 2 horas y nota de decisión, cuesta ${euros(p.extra!.precio)} más IVA. El pago es por trimestre adelantado.${lanz}`,
     },
     {
       question: '¿Trabajas con alcaldes y cargos públicos?',
@@ -51,7 +55,7 @@ const service = getService('mentoria-comunicacion')!;
     },
     {
       question: '¿Me ayudas si surge una intervención urgente?',
-      answer: 'Sí, te ayudo si surge una intervención urgente. Dentro del programa de mentoría, tienes apoyo entre sesiones para estas situaciones, con respuesta en 24 horas laborables. Si no estás en el programa, puedes solicitar una intervención puntual, que cuesta 650 € más IVA.',
+      answer: `Sí, te ayudo si surge una intervención urgente. Dentro del programa de mentoría, tienes apoyo entre sesiones para estas situaciones, con respuesta en 24 horas laborables. Si no estás en el programa, puedes solicitar una intervención puntual, que cuesta ${euros(p.extra!.precio)} más IVA.`,
     },
     {
       question: '¿Cómo se gestiona la confidencialidad?',

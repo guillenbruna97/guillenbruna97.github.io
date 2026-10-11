@@ -5,7 +5,7 @@ import ContactBlock from '../components/ContactBlock.astro';
 import { Picture } from 'astro:assets';
 import { getServiceImage } from '../utils/service-images';
 import { casosForService } from '../data/casos';
-import { getPrecio, euros, SESION_DIAGNOSTICO } from '../data/precios';
+import { getPrecio, vigente, diagnosticoVigente, euros, SESION_DIAGNOSTICO, LANZAMIENTO } from '../data/precios';
 import FaqList, { type Faq } from '../components/FaqList.astro';
 
 interface Step {
@@ -34,7 +34,9 @@ const optimizedImage = getServiceImage(image);
 // sale de la URL /servicios/<slug>/. Sin casos, el bloque no se pinta.
 const serviceSlug = Astro.url.pathname.split('/').filter(Boolean)[1] ?? '';
 const relatedCasos = casosForService(serviceSlug);
-const precio = getPrecio(serviceSlug);
+const base = getPrecio(serviceSlug);
+const precio = base && vigente(base);
+const diag = diagnosticoVigente();
 
 const serviceLd = {
   '@context': 'https://schema.org',
@@ -69,6 +71,7 @@ const serviceLd = {
         ...(precio.hasta && { maxPrice: precio.hasta }),
         valueAddedTaxIncluded: false,
       },
+      ...(precio.normal && { priceValidUntil: LANZAMIENTO.hasta }),
       url: 'https://guillenbruna97.github.io/como-trabajo/',
     },
   }),
@@ -156,10 +159,11 @@ const breadcrumbLd = {
             <dt>Precio</dt>
             <dd>
               <strong>{euros(precio.desde)} + IVA</strong>{precio.unidad && ` ${precio.unidad}`}
+              {precio.normal && <span class="precio-lanzamiento"><s>{euros(precio.normal.desde)}</s> {LANZAMIENTO.etiqueta}</span>}
               {precio.rango && <span class="precio-nota">{precio.rango}</span>}
               {precio.extra && <span class="precio-nota">{precio.extra.label}, {euros(precio.extra.precio)} + IVA</span>}
               {!precio.extra && (
-                <span class="precio-nota">¿Prefieres empezar por algo más pequeño? {SESION_DIAGNOSTICO.nombre} de 2 horas con nota escrita, {euros(SESION_DIAGNOSTICO.precio)} + IVA, que se descuenta si después contratas el proyecto.</span>
+                <span class="precio-nota">¿Prefieres empezar por algo más pequeño? {SESION_DIAGNOSTICO.nombre} de 2 horas con nota escrita, {euros(diag.precio)} + IVA, que se descuenta si después contratas el proyecto.</span>
               )}
             </dd>
           </div>
@@ -385,6 +389,10 @@ const breadcrumbLd = {
   body.dark .precio-grid dd { color: rgba(232,232,232,0.75); }
   .precio-grid dd strong { font-weight: 600; color: var(--black); font-size: 1.05rem; }
   body.dark .precio-grid dd strong { color: #e8e8e8; }
+  .precio-lanzamiento { display: block; font-size: 0.8rem; font-weight: 500; color: var(--blue); margin-top: 0.2rem; }
+  .precio-lanzamiento s { font-weight: 400; color: rgba(0,0,0,0.45); margin-right: 0.3rem; }
+  body.dark .precio-lanzamiento { color: var(--blue-light); }
+  body.dark .precio-lanzamiento s { color: rgba(232,232,232,0.45); }
   .precio-nota { display: block; font-size: 0.8rem; color: rgba(0,0,0,0.55); margin-top: 0.2rem; }
   body.dark .precio-nota { color: rgba(232,232,232,0.55); }
   .precio-link { font-size: 0.85rem; font-weight: 300; color: rgba(0,0,0,0.6); margin-top: 1.2rem; }
