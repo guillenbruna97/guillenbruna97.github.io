@@ -59,7 +59,7 @@ Trabajo por proyecto cerrado y publico los precios en [cómo trabajo](/como-trab
 - **[Estrategia go to market y cliente ideal](/servicios/gtm-icp/).** De 3.000 a 4.500 euros, en 6 semanas.
 - **[Mentoría de comunicación para directivos](/servicios/mentoria-comunicacion/).** 1.500 euros por directivo y trimestre, con 6 sesiones de 90 minutos. Un comité de tres directivos, 3.900 euros por trimestre.
 
-Los proyectos se pagan al 50 % al empezar y al 50 % en la entrega, sin permanencia. Con estos precios estoy en la **parte media y baja** de lo que verás publicado para trabajo de estrategia, y lo hago a propósito mientras empiezo a trabajar por mi cuenta. Lo que no cambia es la forma de trabajar. Sabes desde el primer día qué recibes, cuándo y cuánto cuesta, y trabajas conmigo directamente, sin intermediarios. A partir de abril de 2027 se aplicarán los precios normales, que también están publicados.
+Los proyectos se pagan al 50 % al empezar y al 50 % en la entrega, sin permanencia. Son **precios de lanzamiento** para los primeros clientes de esta etapa, hasta el 31 de marzo de 2027. Después se aplican los precios normales, que también están publicados. Lo que no cambia es la forma de trabajar. Sabes desde el primer día qué recibes, cuándo y cuánto cuesta, y trabajas conmigo directamente, sin intermediarios.
 
 ## Cómo saber si un precio es justo
 
