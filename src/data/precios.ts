@@ -24,12 +24,14 @@ export interface Precio {
   lanzamiento?: { desde: number; hasta?: number; rango?: string; extra?: number; comite?: number };
 }
 
-// Precios de lanzamiento: decididos por Dirección el 2026-10-11 para entrar en
-// el mercado en la parte media-baja. Valen hasta el día indicado, incluido; la
-// web vuelve sola a los precios normales en el primer build posterior.
+// Tarifa inicial (en el código, «lanzamiento»): decidida por Dirección el 2026-10-11.
+// Se aplica al PRIMER proyecto con cada empresa que contrate hasta la fecha indicada,
+// incluida; desde el segundo proyecto, tarifa normal. Tras la fecha, la web vuelve sola
+// a la tarifa normal en el primer build posterior.
 export const LANZAMIENTO = {
   hasta: '2027-03-31',
-  etiqueta: 'Precio de lanzamiento hasta el 31 de marzo de 2027',
+  etiqueta: 'Tarifa inicial para el primer proyecto con tu empresa',
+  condicion: 'contratando hasta el 31 de marzo de 2027',
 };
 
 export const PRECIOS: Precio[] = [

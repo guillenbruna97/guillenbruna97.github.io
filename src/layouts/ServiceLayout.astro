@@ -159,7 +159,7 @@ const breadcrumbLd = {
             <dt>Precio</dt>
             <dd>
               <strong>{euros(precio.desde)} + IVA</strong>{precio.unidad && ` ${precio.unidad}`}
-              {precio.normal && <span class="precio-lanzamiento"><s>{euros(precio.normal.desde)}</s> {LANZAMIENTO.etiqueta}</span>}
+              {precio.normal && <span class="precio-lanzamiento"><s>{euros(precio.normal.desde)}</s> {LANZAMIENTO.etiqueta}, {LANZAMIENTO.condicion}</span>}
               {precio.rango && <span class="precio-nota">{precio.rango}</span>}
               {precio.extra && <span class="precio-nota">{precio.extra.label}, {euros(precio.extra.precio)} + IVA</span>}
               {!precio.extra && (

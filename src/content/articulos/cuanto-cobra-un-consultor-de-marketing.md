@@ -52,14 +52,14 @@ La alternativa a un consultor no suele ser no hacer nada, sino contratar. Un dir
 
 ## Lo que cobro yo
 
-Trabajo por proyecto cerrado y publico los precios en [cómo trabajo](/como-trabajo/). Hasta el 31 de marzo de 2027 aplico **precios de lanzamiento**, que son estos.
+Trabajo por proyecto cerrado y publico los precios en [cómo trabajo](/como-trabajo/). El primer proyecto con cada empresa va con **tarifa inicial**, para quien contrate hasta el 31 de marzo de 2027. Es esta.
 
 - **[Diagnóstico de pipeline B2B](/servicios/pipeline/).** De 1.800 a 2.500 euros, en 3 semanas. El 50 % final solo se paga si el informe documenta al menos 3 fugas con datos de tu CRM, cada una con su acción priorizada.
 - **[Posicionamiento y propuesta de valor](/servicios/posicionamiento/).** De 2.200 a 3.000 euros, en 4 semanas, con dos rondas de revisión incluidas.
 - **[Estrategia go to market y cliente ideal](/servicios/gtm-icp/).** De 3.000 a 4.500 euros, en 6 semanas.
 - **[Mentoría de comunicación para directivos](/servicios/mentoria-comunicacion/).** 1.500 euros por directivo y trimestre, con 6 sesiones de 90 minutos. Un comité de tres directivos, 3.900 euros por trimestre.
 
-Los proyectos se pagan al 50 % al empezar y al 50 % en la entrega, sin permanencia. Son **precios de lanzamiento** para los primeros clientes de esta etapa, hasta el 31 de marzo de 2027. Después se aplican los precios normales, que también están publicados. Lo que no cambia es la forma de trabajar. Sabes desde el primer día qué recibes, cuándo y cuánto cuesta, y trabajas conmigo directamente, sin intermediarios.
+Los proyectos se pagan al 50 % al empezar y al 50 % en la entrega, sin permanencia. Lo que vale este trabajo está en la tarifa normal, que también publico, pero prefiero demostrarlo antes de cobrarlo. Me gusta formar parte del crecimiento de las empresas con las que trabajo, y la confianza se gana con resultados, no con un presupuesto. Por eso el primer proyecto va con tarifa inicial y la normal llega cuando ya hemos trabajado juntos. Lo que no cambia es la forma de trabajar. Sabes desde el primer día qué recibes, cuándo y cuánto cuesta, y trabajas conmigo directamente, sin intermediarios.
 
 ## Cómo saber si un precio es justo
 
@@ -75,4 +75,4 @@ Si la respuesta a la primera es vaga, el precio da igual, porque no sabrás si h
 
 ## Por dónde empezar
 
-Si todavía no sabes qué necesitas, no contrates un proyecto. Empieza por una **sesión de diagnóstico** de dos horas sobre tu caso. Te llevas una nota escrita con el problema principal, tres prioridades y qué servicio encaja, o si no encaja ninguno. Cuesta 250 euros más IVA hasta el 31 de marzo de 2027 y, si contratas un proyecto en los 30 días siguientes, se descuentan de su precio.
+Si todavía no sabes qué necesitas, no contrates un proyecto. Empieza por una **sesión de diagnóstico** de dos horas sobre tu caso. Te llevas una nota escrita con el problema principal, tres prioridades y qué servicio encaja, o si no encaja ninguno. Con tarifa inicial cuesta 250 euros más IVA y, si contratas un proyecto en los 30 días siguientes, se descuentan de su precio.

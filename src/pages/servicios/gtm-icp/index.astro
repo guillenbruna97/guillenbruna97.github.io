@@ -4,7 +4,7 @@ import { getService } from '../../../consts';
 import { precioDe, diagnosticoVigente, enLanzamiento, euros } from '../../../data/precios';
 
 const p = precioDe('gtm-icp');
-const lanz = enLanzamiento() ? ' Es precio de lanzamiento, válido hasta el 31 de marzo de 2027.' : '';
+const lanz = enLanzamiento() ? ' Es tarifa inicial para el primer proyecto con tu empresa, contratando hasta el 31 de marzo de 2027. Desde el segundo proyecto se aplica la tarifa normal.' : '';
 
 const service = getService('gtm-icp')!;
 ---
