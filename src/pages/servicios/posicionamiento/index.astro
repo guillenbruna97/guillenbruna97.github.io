@@ -1,6 +1,10 @@
 ---
 import ServiceLayout from '../../../layouts/ServiceLayout.astro';
 import { getService } from '../../../consts';
+import { precioDe, diagnosticoVigente, enLanzamiento, euros } from '../../../data/precios';
+
+const p = precioDe('posicionamiento');
+const lanz = enLanzamiento() ? ' Es precio de lanzamiento, válido hasta el 31 de marzo de 2027.' : '';
 
 const service = getService('posicionamiento')!;
 ---
@@ -31,7 +35,7 @@ const service = getService('posicionamiento')!;
     },
     {
       question: '¿Cuánto cuesta el proyecto de posicionamiento?',
-      answer: 'El proyecto de posicionamiento cuesta 4.500 € más IVA. Este precio es cerrado. Si trabajamos con más de dos segmentos de cliente, el coste puede ascender a 6.500 € más IVA. Se paga un 50 % al inicio del proyecto y el 50 % restante en el momento de la entrega final.',
+      answer: `El proyecto de posicionamiento cuesta ${euros(p.desde)} más IVA. Este precio es cerrado. Si trabajamos con más de dos segmentos de cliente, el coste puede ascender a ${euros(p.hasta!)} más IVA. Se paga un 50 % al inicio del proyecto y el 50 % restante en el momento de la entrega final.${lanz}`,
     },
     {
       question: '¿Cuánto dura y cuánto tiempo necesitas de mí?',

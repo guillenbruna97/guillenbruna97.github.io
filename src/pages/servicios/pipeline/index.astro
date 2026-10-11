@@ -1,6 +1,10 @@
 ---
 import ServiceLayout from '../../../layouts/ServiceLayout.astro';
 import { getService } from '../../../consts';
+import { precioDe, diagnosticoVigente, enLanzamiento, euros } from '../../../data/precios';
+
+const p = precioDe('pipeline');
+const lanz = enLanzamiento() ? ' Es precio de lanzamiento, válido hasta el 31 de marzo de 2027.' : '';
 
 const service = getService('pipeline')!;
 ---
@@ -31,7 +35,7 @@ const service = getService('pipeline')!;
     },
     {
       question: '¿Cuánto cuesta el diagnóstico de pipeline?',
-      answer: 'El diagnóstico de pipeline cuesta 3.500 € más IVA. Puede llegar a 5.000 € más IVA si tienes varias líneas de negocio o más de un equipo comercial. El precio es cerrado antes de empezar. Pagarás el 50 % al inicio y el 50 % restante en la entrega.',
+      answer: `El diagnóstico de pipeline cuesta ${euros(p.desde)} más IVA. Puede llegar a ${euros(p.hasta!)} más IVA si tienes varias líneas de negocio o más de un equipo comercial. El precio es cerrado antes de empezar. Pagarás el 50 % al inicio y el 50 % restante en la entrega.${lanz}`,
     },
     {
       question: '¿Hay alguna garantía?',
