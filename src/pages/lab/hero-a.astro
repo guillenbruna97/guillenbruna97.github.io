@@ -1,0 +1,76 @@
+---
+// Prueba de hero, variante A: retrato con credenciales. Página de laboratorio, sin indexar.
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { Picture } from 'astro:assets';
+import { BOOKING_URL } from '../../consts';
+import foto from '../../assets/lab/foto-perfil.png';
+
+const logos = ['/logo-zebra.svg', '/logo-grupo-rey.svg', '/logo-integra.svg', '/logo-slm.svg', '/logo-tuco.svg'];
+---
+<BaseLayout title="Prueba de hero A | Guillén Bruna Tricas" description="Página de prueba del hero." noindex>
+  <section class="ha">
+    <div class="ha-text">
+      <p class="ha-kicker"><i></i>Consultor de estrategia de marketing y marca · Zaragoza</p>
+      <h1>Tu empresa ejecuta marketing, pero <span class="accent">el mercado no la recuerda.</span></h1>
+      <p class="ha-desc">Ayudo a empresas y a quienes las lideran a encontrar dónde se pierde ese esfuerzo, en el mensaje, en el proceso comercial o en cómo comunica quien la dirige.</p>
+      <div class="ha-actions">
+        <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" class="ha-btn ha-btn--primary">Reservar llamada de 15 minutos</a>
+        <a href="/trabajo/" class="ha-btn">Ver casos reales</a>
+      </div>
+      <div class="ha-trust">
+        <p>Han confiado en mí</p>
+        <div class="ha-logos">{logos.map((src) => <img src={src} alt="" height="28" loading="lazy" />)}</div>
+      </div>
+    </div>
+    <div class="ha-visual">
+      <div class="ha-back" aria-hidden="true"></div>
+      <div class="ha-photo">
+        <Picture src={foto} alt="Guillén Bruna Tricas" width={560} height={560} formats={['avif', 'webp']} quality={70} loading="eager" fetchpriority="high" />
+      </div>
+      <div class="ha-card ha-card--1"><b>Head of Brand &amp; Marketing</b><span>en Zebra Ventures</span></div>
+      <div class="ha-card ha-card--2"><b>Precio cerrado</b><span>sin permanencia, conmigo directamente</span></div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .ha { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 4rem; align-items: center; max-width: 1280px; margin: 0 auto; padding: 4.5rem 4vw 5rem; }
+  .ha-kicker { display: flex; align-items: center; gap: 0.6rem; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--blue); margin-bottom: 1.6rem; }
+  .ha-kicker i { width: 9px; height: 9px; background: var(--blue-light); display: inline-block; }
+  h1 { font-family: 'Newsreader', Georgia, serif; font-size: clamp(2.4rem, 4.6vw, 4rem); font-weight: 400; line-height: 1.04; letter-spacing: -0.03em; margin-bottom: 1.6rem; }
+  h1 .accent { color: var(--blue); font-style: italic; }
+  .ha-desc { font-size: 1.08rem; font-weight: 300; line-height: 1.75; color: rgba(0,0,0,0.65); max-width: 540px; }
+  .ha-actions { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 2.2rem; }
+  .ha-btn { display: inline-flex; align-items: center; padding: 0.95rem 1.5rem; border-radius: 6px; font-size: 0.92rem; font-weight: 500; border: 1px solid rgba(0,0,0,0.18); color: var(--black); text-decoration: none; transition: transform 0.2s, background 0.2s; }
+  .ha-btn:hover { transform: translateY(-2px); }
+  .ha-btn--primary { background: var(--blue); border-color: var(--blue); color: #fff; }
+  .ha-trust { margin-top: 3rem; padding-top: 1.6rem; border-top: 1px solid rgba(0,0,0,0.08); }
+  .ha-trust p { font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(0,0,0,0.45); margin-bottom: 1rem; }
+  .ha-logos { display: flex; flex-wrap: wrap; align-items: center; gap: 1.6rem 2.4rem; }
+  .ha-logos img { height: 40px; width: auto; filter: grayscale(1) contrast(1.4); opacity: 0.8; }
+  .ha-visual { position: relative; justify-self: center; width: min(460px, 100%); aspect-ratio: 1; }
+  .ha-back { position: absolute; inset: 8% -6% -6% 8%; background: var(--blue); border-radius: 14px; }
+  .ha-photo { position: absolute; inset: 0; border-radius: 14px; overflow: hidden; background: #fff; box-shadow: 0 30px 60px -30px rgba(0,30,80,0.45); }
+  .ha-photo :global(img) { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .ha-card { position: absolute; background: #fff; border-radius: 10px; padding: 0.8rem 1.1rem; box-shadow: 0 16px 40px -16px rgba(0,0,0,0.35); display: flex; flex-direction: column; gap: 0.15rem; font-size: 0.82rem; color: rgba(0,0,0,0.6); }
+  .ha-card b { font-size: 0.9rem; font-weight: 600; color: var(--black); }
+  .ha-card--1 { left: -12%; top: 12%; border-left: 3px solid var(--blue-light); }
+  .ha-card--2 { right: -9%; bottom: -5%; border-left: 3px solid var(--blue); }
+  @media (prefers-reduced-motion: no-preference) {
+    .ha-text > *, .ha-visual { opacity: 0; animation: ha-in 0.8s cubic-bezier(.16,1,.3,1) forwards; }
+    .ha-text > *:nth-child(2) { animation-delay: 0.08s; } .ha-text > *:nth-child(3) { animation-delay: 0.16s; }
+    .ha-text > *:nth-child(4) { animation-delay: 0.24s; } .ha-text > *:nth-child(5) { animation-delay: 0.32s; } .ha-visual { animation-delay: 0.2s; }
+  }
+  @keyframes ha-in { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+  :global(body.dark) h1 .accent { color: var(--blue-light); }
+  :global(body.dark) .ha-desc { color: rgba(232,232,232,0.65); }
+  :global(body.dark) .ha-btn { color: #e8e8e8; border-color: rgba(255,255,255,0.25); }
+  :global(body.dark) .ha-trust p { color: rgba(232,232,232,0.5); }
+  :global(body.dark) .ha-logos img { filter: grayscale(1) invert(1); }
+  @media (max-width: 900px) {
+    .ha { grid-template-columns: 1fr; gap: 3rem; padding: 3rem 6vw 4rem; }
+    .ha-visual { width: min(320px, 84%); margin-bottom: 1.5rem; }
+    .ha-card { font-size: 0.75rem; padding: 0.6rem 0.8rem; }
+    .ha-card--1 { display: none; } .ha-card--2 { right: -6%; bottom: -8%; }
+  }
+</style>
