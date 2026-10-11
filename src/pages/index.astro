@@ -1,11 +1,12 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ContactBlock from '../components/ContactBlock.astro';
-import TrustMarquee from '../components/TrustMarquee.astro';
+import { Picture } from 'astro:assets';
+import heroIlustracion from '../assets/articulos/consultor-de-marketing-en-zaragoza.jpg';
 import { BOOKING_URL, SERVICES } from '../consts';
 
 const trustLogos = [
-  { src: '/logo-zebra.svg', alt: 'Logo de Zebra Ventures' },
+  { src: '/logo-zebra.svg', alt: 'Logo de Zebra AI Transformation Company' },
   { src: '/logo-rey.png', alt: 'Logo de Muebles Rey' },
   { src: '/logo-tuco.svg', alt: 'Logo de Muebles Tuco' },
   { src: '/logo-grupo-rey.svg', alt: 'Logo de Grupo Rey Corporación' },
@@ -17,25 +18,23 @@ const trustLogos = [
   title="Consultor de estrategia de marketing y marca | Guillén Bruna Tricas"
   description="Consultor de estrategia de marketing y marca. Tu empresa ejecuta marketing, pero el mercado no la recuerda: encuentro dónde se pierde ese esfuerzo y lo corrijo."
 >
-  <div class="hero-wrapper">
-    <span class="ghost-mark hero-ghost-mark" aria-hidden="true">*</span>
-
-    <div class="hero">
-      <div class="hero-content">
-        <h1 class="hero-headline">Tu empresa ejecuta marketing, pero <span class="accent">el mercado no la recuerda.</span></h1>
-        <div class="hero-sub">
-          <div class="hero-sub-text">
-            <p class="hero-name">Guillén Bruna Tricas</p>
-            <p class="hero-desc">Ayudo a empresas y a quienes las lideran a encontrar dónde se pierde ese esfuerzo: en el mensaje, en el proceso comercial o en cómo comunica quien la dirige.</p>
-          </div>
-          <div class="hero-actions">
-            <a href="/trabajo/" class="btn-primary">Ver casos reales</a>
-            <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" class="btn-secondary">Reservar llamada</a>
-          </div>
-        </div>
+  <section class="hh">
+    <div class="hh-art" aria-hidden="true">
+      <Picture src={heroIlustracion} alt="" width={1376} height={768} formats={['avif', 'webp']} quality={72} loading="eager" fetchpriority="high" />
+    </div>
+    <div class="hh-inner">
+      <h1 class="hh-headline">Tu empresa ejecuta marketing, pero <span class="accent">el mercado no la recuerda.</span></h1>
+      <p class="hh-desc">Ayudo a empresas y a quienes las lideran a encontrar dónde se pierde ese esfuerzo, en el mensaje, en el proceso comercial o en cómo comunica quien la dirige.</p>
+      <div class="hh-actions">
+        <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" class="btn-primary">Reservar llamada de 15 minutos</a>
+        <a href="/trabajo/" class="btn-secondary">Ver casos reales</a>
+      </div>
+      <div class="hh-trust">
+        <p>Han confiado en mí</p>
+        <div class="hh-logos">{trustLogos.map((logo) => <img src={logo.src} alt={logo.alt} height="40" loading="lazy" decoding="async" />)}</div>
       </div>
     </div>
-  </div>
+  </section>
 
   <section class="capacidades-band">
     <div class="capacidades-inner">
@@ -76,7 +75,6 @@ const trustLogos = [
     </div>
   </section>
 
-  <TrustMarquee logos={trustLogos} />
 
   <ContactBlock
     title="¿Tu marca necesita una estrategia clara?"
@@ -86,66 +84,42 @@ const trustLogos = [
 
 <style is:global>
   /* HERO */
-  .hero-wrapper { position: relative; overflow: hidden; contain: style; }
-  .hero { padding: 3.5rem 3rem 3.5rem 0; max-width: 1400px; margin: 0 4vw; }
-  .hero-content { position: relative; z-index: 1; }
-
-  /* Signature ghost mark: a typographic asterisk, not a number — no implied sequence */
-  .hero-ghost-mark {
-    font-size: clamp(9rem, 22vw, 17rem);
-    top: -1.5rem;
-    right: 4%;
-  }
-
-  /* Hero entrance animation */
+  /* Hero: la ilustración entera a la derecha sobre el color del papel; solo se suavizan sus bordes.
+     Se mantiene claro también en modo oscuro, porque la ilustración es sobre papel. */
+  .hh { position: relative; overflow: hidden; background: #efebe3; min-height: min(84vh, 760px); display: flex; align-items: center; }
+  .hh-art { position: absolute; top: 50%; right: 3vw; width: 50%; aspect-ratio: 1376 / 768; transform: translateY(-50%); pointer-events: none;
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 18%, #000 84%, transparent 100%), linear-gradient(to bottom, transparent 0%, #000 18%, #000 82%, transparent 100%);
+    mask-image: linear-gradient(to right, transparent 0%, #000 18%, #000 84%, transparent 100%), linear-gradient(to bottom, transparent 0%, #000 18%, #000 82%, transparent 100%);
+    -webkit-mask-composite: source-in; mask-composite: intersect; }
+  .hh-art picture, .hh-art img { width: 100%; height: 100%; display: block; object-fit: contain; }
+  .hh-inner { position: relative; z-index: 1; width: 100%; max-width: 1400px; margin: 0 4vw; padding: 4.5rem 0 4rem; }
+  .hh-inner > * { max-width: 560px; }
+  .hh-headline { font-size: clamp(2.4rem, 4.8vw, 4.2rem); font-weight: 400; line-height: 1.04; letter-spacing: -0.03em; margin-bottom: 1.6rem; color: #0a0a0a; }
+  .hh-headline .accent { color: var(--blue); font-style: italic; }
+  .hh-desc { font-size: 1.08rem; font-weight: 300; line-height: 1.75; color: rgba(0,0,0,0.68); }
+  .hh-actions { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 2.2rem; }
+  .hh .btn-secondary, body.dark .hh .btn-secondary { background: rgba(239,235,227,0.9); color: #0a0a0a; border-color: rgba(0,0,0,0.18); }
+  .hh .btn-secondary:hover, body.dark .hh .btn-secondary:hover { border-color: var(--blue); color: var(--blue); }
+  body.dark .hh-headline .accent { color: var(--blue); }
+  body.dark .hh .btn-primary { background: var(--blue); color: #fff; }
+  .hh-trust { margin-top: 2.6rem; padding-top: 1.4rem; border-top: 1px solid rgba(0,0,0,0.08); }
+  .hh-trust p { font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(0,0,0,0.45); margin-bottom: 0.9rem; }
+  .hh-logos { display: flex; flex-wrap: wrap; align-items: center; gap: 1.4rem 2.4rem; }
+  .hh-logos img { height: 40px; width: auto; filter: grayscale(1) contrast(1.4); opacity: 0.8; }
   @media (prefers-reduced-motion: no-preference) {
-    .hero-content > * { opacity: 0; animation: hero-fade-up 0.7s ease forwards; }
-    .hero-content > *:nth-child(1) { animation-delay: 0s; }
-    .hero-content > *:nth-child(2) { animation-delay: 0.1s; }
+    .hh-inner > * { opacity: 0; animation: hh-in 0.8s cubic-bezier(.16,1,.3,1) forwards; }
+    .hh-inner > *:nth-child(2) { animation-delay: 0.08s; } .hh-inner > *:nth-child(3) { animation-delay: 0.16s; } .hh-inner > *:nth-child(4) { animation-delay: 0.26s; }
+    .hh-art { opacity: 0; animation: hh-fade 1.2s ease 0.1s forwards; }
   }
-  @keyframes hero-fade-up {
-    from { opacity: 0; transform: translateY(16px); }
-    to { opacity: 1; transform: translateY(0); }
+  @keyframes hh-in { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+  @keyframes hh-fade { to { opacity: 1; } }
+  @media (max-width: 900px) {
+    .hh { display: block; min-height: 0; }
+    .hh-art { position: relative; top: auto; right: auto; transform: none; width: 100%; aspect-ratio: auto; height: 300px;
+      -webkit-mask-image: linear-gradient(to bottom, #000 40%, transparent 96%); mask-image: linear-gradient(to bottom, #000 40%, transparent 96%); }
+    .hh-inner { margin: -16px 0 0; padding: 0 6vw 3.5rem; }
+    .hh-inner > * { max-width: none; }
   }
-
-  .hero-headline {
-    font-size: clamp(2.2rem, 4.5vw, 3.6rem);
-    font-weight: 400;
-    line-height: 1.08;
-    letter-spacing: -0.03em;
-    margin-bottom: 1.75rem;
-    max-width: 780px;
-  }
-  .hero-headline .accent { color: var(--blue); font-style: italic; transition: color var(--transition); }
-  body.dark .hero-headline .accent { color: var(--blue-light); }
-
-  .hero-sub {
-    display: grid;
-    grid-template-columns: 1.4fr 1fr;
-    gap: 3rem;
-    align-items: start;
-  }
-  .hero-sub-text { max-width: 480px; }
-
-  .hero-name {
-    font-size: 0.95rem;
-    font-weight: 500;
-    color: rgba(0,0,0,0.55);
-    margin-bottom: 1.2rem;
-    transition: color var(--transition);
-  }
-  body.dark .hero-name { color: rgba(232,232,232,0.55); }
-
-  .hero-desc {
-    font-size: 1.05rem;
-    font-weight: 300;
-    color: rgba(0,0,0,0.6);
-    line-height: 1.8;
-    transition: color var(--transition);
-  }
-  body.dark .hero-desc { color: rgba(232,232,232,0.6); }
-
-  .hero-actions { display: flex; align-items: center; padding-top: 0.75rem; }
 
   .btn-primary {
     display: inline-flex;
@@ -338,10 +312,6 @@ const trustLogos = [
   }
 
   @media (max-width: 900px) {
-    .hero { margin: 0 2vw; padding: 5rem 1.5rem 4rem; }
-    .hero-sub { grid-template-columns: 1fr; gap: 2rem; }
-    .hero-actions { padding-top: 0; }
-    .hero-ghost-mark { font-size: clamp(6rem, 26vw, 9rem); top: -0.5rem; right: -2%; }
     .capacidad-row { grid-template-columns: auto 1fr; }
     .capacidad-link { display: none; }
     .capacidad-row:nth-child(even) .capacidad-ghost { order: 1; text-align: left; }
