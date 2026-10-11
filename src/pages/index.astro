@@ -3,15 +3,16 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import ContactBlock from '../components/ContactBlock.astro';
 import { Picture } from 'astro:assets';
 import heroIlustracion from '../assets/articulos/consultor-de-marketing-en-zaragoza.jpg';
+import heroIlustracionOscura from '../assets/hero/ilustracion-oscura.jpg';
 import { BOOKING_URL, SERVICES } from '../consts';
 
 const trustLogos = [
-  { src: '/logo-zebra.svg', alt: 'Logo de Zebra AI Transformation Company' },
-  { src: '/logo-rey.png', alt: 'Logo de Muebles Rey' },
-  { src: '/logo-tuco.svg', alt: 'Logo de Muebles Tuco' },
-  { src: '/logo-grupo-rey.svg', alt: 'Logo de Grupo Rey Corporación' },
-  { src: '/logo-slm.svg', alt: 'Logo de SLM' },
-  { src: '/logo-integra.svg', alt: 'Logo de Integra Consultoría Gerencial' },
+  { src: '/logos/zebra.png', alt: 'Logo de Zebra AI Transformation Company' },
+  { src: '/logos/rey.png', alt: 'Logo de Muebles Rey' },
+  { src: '/logos/tuco.png', alt: 'Logo de Muebles Tuco' },
+  { src: '/logos/grupo-rey.png', alt: 'Logo de Grupo Rey Corporación' },
+  { src: '/logos/slm.png', alt: 'Logo de SLM' },
+  { src: '/logos/integra.png', alt: 'Logo de Integra Consultoría Gerencial' },
 ];
 ---
 <BaseLayout
@@ -20,7 +21,8 @@ const trustLogos = [
 >
   <section class="hh">
     <div class="hh-art" aria-hidden="true">
-      <Picture src={heroIlustracion} alt="" width={1376} height={768} formats={['avif', 'webp']} quality={72} loading="eager" fetchpriority="high" />
+      <Picture src={heroIlustracion} alt="" width={1376} height={768} formats={['avif', 'webp']} quality={72} loading="eager" fetchpriority="high" class="hh-claro" />
+      <Picture src={heroIlustracionOscura} alt="" width={1376} height={768} formats={['avif', 'webp']} quality={72} loading="lazy" class="hh-oscuro" />
     </div>
     <div class="hh-inner">
       <h1 class="hh-headline">Tu empresa ejecuta marketing, pero <span class="accent">el mercado no la recuerda.</span></h1>
@@ -85,27 +87,38 @@ const trustLogos = [
 <style is:global>
   /* HERO */
   /* Hero: la ilustración entera a la derecha sobre el color del papel; solo se suavizan sus bordes.
-     Se mantiene claro también en modo oscuro, porque la ilustración es sobre papel. */
+     En modo oscuro se usa la versión oscura de la ilustración sobre el negro de la web. */
   .hh { position: relative; overflow: hidden; background: #efebe3; min-height: min(84vh, 760px); display: flex; align-items: center; }
   .hh-art { position: absolute; top: 50%; right: 3vw; width: 50%; aspect-ratio: 1376 / 768; transform: translateY(-50%); pointer-events: none;
     -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 18%, #000 84%, transparent 100%), linear-gradient(to bottom, transparent 0%, #000 18%, #000 82%, transparent 100%);
     mask-image: linear-gradient(to right, transparent 0%, #000 18%, #000 84%, transparent 100%), linear-gradient(to bottom, transparent 0%, #000 18%, #000 82%, transparent 100%);
     -webkit-mask-composite: source-in; mask-composite: intersect; }
-  .hh-art picture, .hh-art img { width: 100%; height: 100%; display: block; object-fit: contain; }
+  .hh-art picture { position: absolute; inset: 0; display: block; }
+  .hh-art img { width: 100%; height: 100%; display: block; object-fit: contain; }
+  .hh-art .hh-oscuro { display: none; }
+  body.dark .hh { background: var(--dark-bg); }
+  body.dark .hh-art .hh-claro { display: none; }
+  body.dark .hh-art .hh-oscuro { display: block; }
+  body.dark .hh-headline { color: #e8e8e8; }
+  body.dark .hh-desc { color: rgba(232,232,232,0.7); }
+  body.dark .hh-trust { border-top-color: rgba(255,255,255,0.1); }
+  body.dark .hh-trust p { color: rgba(232,232,232,0.45); }
+  body.dark .hh-logos img { filter: invert(1); opacity: 0.7; }
   .hh-inner { position: relative; z-index: 1; width: 100%; max-width: 1400px; margin: 0 4vw; padding: 4.5rem 0 4rem; }
   .hh-inner > * { max-width: 560px; }
   .hh-headline { font-size: clamp(2.4rem, 4.8vw, 4.2rem); font-weight: 400; line-height: 1.04; letter-spacing: -0.03em; margin-bottom: 1.6rem; color: #0a0a0a; }
   .hh-headline .accent { color: var(--blue); font-style: italic; }
   .hh-desc { font-size: 1.08rem; font-weight: 300; line-height: 1.75; color: rgba(0,0,0,0.68); }
   .hh-actions { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 2.2rem; }
-  .hh .btn-secondary, body.dark .hh .btn-secondary { background: rgba(239,235,227,0.9); color: #0a0a0a; border-color: rgba(0,0,0,0.18); }
-  .hh .btn-secondary:hover, body.dark .hh .btn-secondary:hover { border-color: var(--blue); color: var(--blue); }
-  body.dark .hh-headline .accent { color: var(--blue); }
-  body.dark .hh .btn-primary { background: var(--blue); color: #fff; }
+  .hh .btn-secondary { background: rgba(239,235,227,0.9); color: #0a0a0a; border-color: rgba(0,0,0,0.18); }
+  .hh .btn-secondary:hover { border-color: var(--blue); color: var(--blue); }
+  body.dark .hh .btn-secondary { background: transparent; color: #e8e8e8; border-color: rgba(232,232,232,0.25); }
+  body.dark .hh .btn-secondary:hover { border-color: var(--blue-light); color: var(--blue-light); }
+  body.dark .hh-headline .accent { color: var(--blue-light); }
   .hh-trust { margin-top: 2.6rem; padding-top: 1.4rem; border-top: 1px solid rgba(0,0,0,0.08); }
   .hh-trust p { font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(0,0,0,0.45); margin-bottom: 0.9rem; }
-  .hh-logos { display: flex; flex-wrap: wrap; align-items: center; gap: 1.4rem 2.4rem; }
-  .hh-logos img { height: 40px; width: auto; filter: grayscale(1) contrast(1.4); opacity: 0.8; }
+  .hh-logos { display: flex; flex-wrap: wrap; align-items: center; gap: 1.2rem 1.6rem; }
+  .hh-logos img { height: 44px; width: auto; opacity: 0.82; }
   @media (prefers-reduced-motion: no-preference) {
     .hh-inner > * { opacity: 0; animation: hh-in 0.8s cubic-bezier(.16,1,.3,1) forwards; }
     .hh-inner > *:nth-child(2) { animation-delay: 0.08s; } .hh-inner > *:nth-child(3) { animation-delay: 0.16s; } .hh-inner > *:nth-child(4) { animation-delay: 0.26s; }
@@ -113,10 +126,14 @@ const trustLogos = [
   }
   @keyframes hh-in { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
   @keyframes hh-fade { to { opacity: 1; } }
-  @media (max-width: 900px) {
+  /* Hasta 1180 px la ilustración va arriba: a anchos intermedios se montaría sobre los botones */
+  @media (max-width: 1180px) {
     .hh { display: block; min-height: 0; }
-    .hh-art { position: relative; top: auto; right: auto; transform: none; width: 100%; aspect-ratio: auto; height: 300px;
-      -webkit-mask-image: linear-gradient(to bottom, #000 40%, transparent 96%); mask-image: linear-gradient(to bottom, #000 40%, transparent 96%); }
+    /* Misma proporción que el dibujo y bordes fundidos por los cuatro lados, para que no se vea el rectángulo del papel */
+    .hh-art { position: relative; top: auto; right: auto; transform: none; width: min(100%, 620px); margin: 1rem auto 0; aspect-ratio: 1376 / 768; height: auto;
+      -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 16%, #000 84%, transparent 100%), linear-gradient(to bottom, transparent 0%, #000 14%, #000 72%, transparent 100%);
+      mask-image: linear-gradient(to right, transparent 0%, #000 16%, #000 84%, transparent 100%), linear-gradient(to bottom, transparent 0%, #000 14%, #000 72%, transparent 100%);
+      -webkit-mask-composite: source-in; mask-composite: intersect; }
     .hh-inner { margin: -16px 0 0; padding: 0 6vw 3.5rem; }
     .hh-inner > * { max-width: none; }
   }
