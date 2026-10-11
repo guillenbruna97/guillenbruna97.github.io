@@ -13,27 +13,33 @@ export interface ServiceInfo {
   slug: string;
   name: string;
   tagline: string;
+  /** Término que se busca: título de la página y H1. El nombre comercial (`name`) se usa en el resto de la web. */
+  seoTitle: string;
 }
 
 export const SERVICES: ServiceInfo[] = [
   {
     slug: 'pipeline',
     name: 'Diagnóstico de Pipeline B2B',
+    seoTitle: 'Diagnóstico comercial y de pipeline B2B',
     tagline: 'Localiza en qué etapa de tu proceso comercial se pierden las oportunidades y por qué.',
   },
   {
     slug: 'gtm-icp',
     name: 'Estrategia Go-to-Market e ICP',
+    seoTitle: 'Estrategia go to market y cliente ideal B2B',
     tagline: 'Define a quién le vendes y por qué canales debes llegar a él.',
   },
   {
     slug: 'posicionamiento',
     name: 'Posicionamiento y Narrativa de Producto',
+    seoTitle: 'Posicionamiento de marca y propuesta de valor B2B',
     tagline: 'Convierte tu propuesta de valor técnica en un mensaje que se entiende y convence.',
   },
   {
     slug: 'mentoria-comunicacion',
     name: 'Mentoría de Comunicación Ejecutiva',
+    seoTitle: 'Media training y comunicación para directivos',
     tagline: 'Prepara al comité de dirección para hablar en público con criterio estratégico.',
   },
 ];
