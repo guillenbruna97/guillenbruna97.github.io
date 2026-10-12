@@ -6,6 +6,8 @@ excerpt: "Dominar los números no garantiza el apoyo del consejo. Aprende a estr
 description: "Aprende a estructurar tus presentaciones para consejo o inversores enfocándote en la decisión, no solo en los datos. Transforma tu comunicación ejecutiva."
 date: 2026-10-12
 readingTime: 4 min de lectura
+image: "/images/articulos/presentacion-ante-consejo-o-inversores.jpg"
+imageAlt: "Ilustración de un directivo que señala con una gran flecha amarilla la dirección a seguir ante tres consejeros sentados a la mesa, mientras un informe arrugado queda olvidado sobre ella, sobre presentar al consejo la decisión antes que el detalle"
 service: "mentoria-comunicacion"
 faqs:
   - question: "¿Cómo puedo evitar que el consejo se pierda en los detalles de mi presentación?"
