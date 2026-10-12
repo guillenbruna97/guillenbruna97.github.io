@@ -33,7 +33,15 @@ const trustLogos = [
       </div>
       <div class="hh-trust">
         <p>Han confiado en mí</p>
-        <div class="hh-logos">{trustLogos.map((logo) => <img src={logo.src} alt={logo.alt} height="40" loading="lazy" decoding="async" />)}</div>
+        <div class="hh-logos">
+          <div class="hh-logos-track">
+            {[0, 1, 2].map((i) => (
+              <div class="hh-logos-set" aria-hidden={i === 0 ? undefined : 'true'}>
+                {trustLogos.map((logo) => <img src={logo.src} alt={i === 0 ? logo.alt : ''} height="44" loading="lazy" decoding="async" />)}
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -117,8 +125,22 @@ const trustLogos = [
   body.dark .hh-headline .accent { color: var(--blue-light); }
   .hh-trust { margin-top: 2.6rem; padding-top: 1.4rem; border-top: 1px solid rgba(0,0,0,0.08); }
   .hh-trust p { font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(0,0,0,0.45); margin-bottom: 0.9rem; }
-  .hh-logos { display: flex; flex-wrap: wrap; align-items: center; gap: 1.2rem 1.6rem; }
+  /* Banda de logos: tres copias en fila que se desplazan hacia la derecha un tercio y vuelven a empezar sin salto.
+     Los bordes se funden para que los logos entren y salgan suaves. */
+  .hh-logos { overflow: hidden;
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 10%, #000 90%, transparent 100%);
+    mask-image: linear-gradient(to right, transparent 0%, #000 10%, #000 90%, transparent 100%); }
+  .hh-logos-track { display: flex; width: max-content; animation: hh-logos-ltr 28s linear infinite; }
+  .hh-logos:hover .hh-logos-track { animation-play-state: paused; }
+  .hh-logos-set { display: flex; align-items: center; gap: 3.2rem; padding-right: 3.2rem; flex-shrink: 0; }
   .hh-logos img { height: 44px; width: auto; opacity: 0.82; }
+  @keyframes hh-logos-ltr { from { transform: translateX(-33.3333%); } to { transform: translateX(0); } }
+  @media (prefers-reduced-motion: reduce) {
+    .hh-logos { -webkit-mask-image: none; mask-image: none; }
+    .hh-logos-track { animation: none; width: auto; }
+    .hh-logos-set { flex-wrap: wrap; gap: 1.2rem 1.6rem; padding-right: 0; flex-shrink: 1; }
+    .hh-logos-set[aria-hidden] { display: none; }
+  }
   @media (prefers-reduced-motion: no-preference) {
     .hh-inner > * { opacity: 0; animation: hh-in 0.8s cubic-bezier(.16,1,.3,1) forwards; }
     .hh-inner > *:nth-child(2) { animation-delay: 0.08s; } .hh-inner > *:nth-child(3) { animation-delay: 0.16s; } .hh-inner > *:nth-child(4) { animation-delay: 0.26s; }
