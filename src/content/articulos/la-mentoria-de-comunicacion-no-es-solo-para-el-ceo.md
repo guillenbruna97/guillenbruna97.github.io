@@ -20,7 +20,7 @@ faqs:
 
 Es habitual asumir que la portavocía y la proyección pública de una compañía recaen exclusivamente en la figura del CEO. Bajo esta premisa, los recursos de preparación, el entrenamiento de portavoces y el refinamiento del discurso se concentran en una sola persona. Mientras tanto, las direcciones financiera y de operaciones se centran en lo que mejor saben hacer, que es gestionar la viabilidad y la eficiencia de la organización.
 
-Sin embargo, la realidad de los comités de dirección actuales exige una presencia activa que va mucho más allá de la gestión interna. ¿Cuántas veces ha tenido un CFO que defender una reestructuración de deuda ante un pool bancario especialmente reticente? ¿En cuántas ocasiones ha debido un COO explicar un cuello de botella logístico ante un consejo de administración preocupado por los márgenes del trimestre?
+Sin embargo, la realidad de los comités de dirección actuales exige una presencia activa que va mucho más allá de la gestión interna. ¿Cuántas veces ha tenido un CFO que defender una reestructuración de deuda ante un pool bancario especialmente reticente? ¿En cuántas ocasiones ha debido un COO explicar un cuello de botella logístico ante [un consejo de administración](/articulos/presentacion-ante-consejo-o-inversores/) preocupado por los márgenes del trimestre?
 
 En esos momentos, la competencia técnica ya se da por sentada. Lo que se evalúa es la capacidad de transmitir control, credibilidad y dirección estratégica. Es ahí donde se hace evidente que la mentoría de comunicación para CFO y COO no es un extra opcional, sino una herramienta de protección de valor.
 
