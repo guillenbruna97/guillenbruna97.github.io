@@ -7,12 +7,12 @@ import heroIlustracionOscura from '../assets/hero/ilustracion-oscura.jpg';
 import { BOOKING_URL, SERVICES } from '../consts';
 
 const trustLogos = [
-  { src: '/logos/zebra.png', alt: 'Logo de Zebra AI Transformation Company' },
-  { src: '/logos/rey.png', alt: 'Logo de Muebles Rey' },
-  { src: '/logos/tuco.png', alt: 'Logo de Muebles Tuco' },
-  { src: '/logos/grupo-rey.png', alt: 'Logo de Grupo Rey Corporación' },
-  { src: '/logos/slm.png', alt: 'Logo de SLM' },
-  { src: '/logos/integra.png', alt: 'Logo de Integra Consultoría Gerencial' },
+  { src: '/logos/zebra.png', width: 290, alt: 'Logo de Zebra AI Transformation Company' },
+  { src: '/logos/rey.png', width: 212, alt: 'Logo de Muebles Rey' },
+  { src: '/logos/tuco.png', width: 276, alt: 'Logo de Muebles Tuco' },
+  { src: '/logos/grupo-rey.png', width: 152, alt: 'Logo de Grupo Rey Corporación' },
+  { src: '/logos/slm.png', width: 249, alt: 'Logo de SLM' },
+  { src: '/logos/integra.png', width: 227, alt: 'Logo de Integra Consultoría Gerencial' },
 ];
 ---
 <BaseLayout
@@ -31,16 +31,16 @@ const trustLogos = [
         <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" class="btn-primary">Reservar llamada de 15 minutos</a>
         <a href="/trabajo/" class="btn-secondary">Ver casos reales</a>
       </div>
-      <div class="hh-trust">
-        <p>Han confiado en mí</p>
-        <div class="hh-logos">
-          <div class="hh-logos-track">
-            {[0, 1, 2].map((i) => (
-              <div class="hh-logos-set" aria-hidden={i === 0 ? undefined : 'true'}>
-                {trustLogos.map((logo) => <img src={logo.src} alt={i === 0 ? logo.alt : ''} height="44" loading="lazy" decoding="async" />)}
-              </div>
-            ))}
-          </div>
+    </div>
+    <div class="hh-trust">
+      <p class="hh-trust-label">Han confiado en mí</p>
+      <div class="hh-logos">
+        <div class="hh-logos-track">
+          {[0, 1, 2, 3].map((i) => (
+            <div class="hh-logos-set" aria-hidden={i === 0 ? undefined : 'true'}>
+              {trustLogos.map((logo) => <img src={logo.src} alt={i === 0 ? logo.alt : ''} width={logo.width} height="160" loading="eager" decoding="async" />)}
+            </div>
+          ))}
         </div>
       </div>
     </div>
@@ -96,7 +96,7 @@ const trustLogos = [
   /* HERO */
   /* Hero: la ilustración entera a la derecha sobre el color del papel; solo se suavizan sus bordes.
      En modo oscuro se usa la versión oscura de la ilustración sobre el negro de la web. */
-  .hh { position: relative; overflow: hidden; background: #efebe3; min-height: min(84vh, 760px); display: flex; align-items: center; }
+  .hh { position: relative; overflow: hidden; background: #efebe3; min-height: min(84vh, 760px); display: flex; flex-direction: column; justify-content: center; }
   .hh-art { position: absolute; top: 50%; right: 3vw; width: 50%; aspect-ratio: 1376 / 768; transform: translateY(-50%); pointer-events: none;
     -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 18%, #000 84%, transparent 100%), linear-gradient(to bottom, transparent 0%, #000 18%, #000 82%, transparent 100%);
     mask-image: linear-gradient(to right, transparent 0%, #000 18%, #000 84%, transparent 100%), linear-gradient(to bottom, transparent 0%, #000 18%, #000 82%, transparent 100%);
@@ -109,10 +109,9 @@ const trustLogos = [
   body.dark .hh-art .hh-oscuro { display: block; }
   body.dark .hh-headline { color: #e8e8e8; }
   body.dark .hh-desc { color: rgba(232,232,232,0.7); }
-  body.dark .hh-trust { border-top-color: rgba(255,255,255,0.1); }
-  body.dark .hh-trust p { color: rgba(232,232,232,0.45); }
+  body.dark .hh-trust-label { color: rgba(232,232,232,0.45); border-top-color: rgba(255,255,255,0.1); }
   body.dark .hh-logos img { filter: invert(1); opacity: 0.7; }
-  .hh-inner { position: relative; z-index: 1; width: 100%; max-width: 1400px; margin: 0 4vw; padding: 4.5rem 0 4rem; }
+  .hh-inner { position: relative; z-index: 1; max-width: 1400px; margin: 0 4vw; padding: 4.5rem 0 2.6rem; }
   .hh-inner > * { max-width: 560px; }
   .hh-headline { font-size: clamp(2.4rem, 4.8vw, 4.2rem); font-weight: 400; line-height: 1.04; letter-spacing: -0.03em; margin-bottom: 1.6rem; color: #0a0a0a; }
   .hh-headline .accent { color: var(--blue); font-style: italic; }
@@ -123,27 +122,28 @@ const trustLogos = [
   body.dark .hh .btn-secondary { background: transparent; color: #e8e8e8; border-color: rgba(232,232,232,0.25); }
   body.dark .hh .btn-secondary:hover { border-color: var(--blue-light); color: var(--blue-light); }
   body.dark .hh-headline .accent { color: var(--blue-light); }
-  .hh-trust { margin-top: 2.6rem; padding-top: 1.4rem; border-top: 1px solid rgba(0,0,0,0.08); }
-  .hh-trust p { font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(0,0,0,0.45); margin-bottom: 0.9rem; }
-  /* Banda de logos: tres copias en fila que se desplazan hacia la derecha un tercio y vuelven a empezar sin salto.
-     Los bordes se funden para que los logos entren y salgan suaves. */
+  /* Banda de logos a todo el ancho, al pie del hero: cuatro copias en fila que se desplazan hacia la derecha
+     un cuarto y vuelven a empezar sin salto. Cada copia abre con su hueco, así el primer logo nunca sale cortado. */
+  .hh-trust { position: relative; z-index: 1; padding-bottom: 3rem; }
+  .hh-trust-label { margin: 0 4vw 1.2rem; padding-top: 1.4rem; border-top: 1px solid rgba(0,0,0,0.08); font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(0,0,0,0.45); }
   .hh-logos { overflow: hidden;
-    -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 10%, #000 90%, transparent 100%);
-    mask-image: linear-gradient(to right, transparent 0%, #000 10%, #000 90%, transparent 100%); }
-  .hh-logos-track { display: flex; width: max-content; animation: hh-logos-ltr 28s linear infinite; }
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 5%, #000 95%, transparent 100%);
+    mask-image: linear-gradient(to right, transparent 0%, #000 5%, #000 95%, transparent 100%); }
+  .hh-logos-track { display: flex; width: max-content; animation: hh-logos-ltr 30s linear infinite; }
   .hh-logos:hover .hh-logos-track { animation-play-state: paused; }
-  .hh-logos-set { display: flex; align-items: center; gap: 3.2rem; padding-right: 3.2rem; flex-shrink: 0; }
+  .hh-logos-set { display: flex; align-items: center; gap: 5rem; padding-left: 5rem; flex-shrink: 0; }
   .hh-logos img { height: 44px; width: auto; opacity: 0.82; }
-  @keyframes hh-logos-ltr { from { transform: translateX(-33.3333%); } to { transform: translateX(0); } }
+  @keyframes hh-logos-ltr { from { transform: translateX(-25%); } to { transform: translateX(0); } }
   @media (prefers-reduced-motion: reduce) {
-    .hh-logos { -webkit-mask-image: none; mask-image: none; }
+    .hh-logos { margin: 0 4vw; -webkit-mask-image: none; mask-image: none; }
     .hh-logos-track { animation: none; width: auto; }
-    .hh-logos-set { flex-wrap: wrap; gap: 1.2rem 1.6rem; padding-right: 0; flex-shrink: 1; }
+    .hh .hh-logos-set { flex-wrap: wrap; gap: 1.2rem 1.6rem; padding-left: 0; flex-shrink: 1; }
     .hh-logos-set[aria-hidden] { display: none; }
   }
   @media (prefers-reduced-motion: no-preference) {
     .hh-inner > * { opacity: 0; animation: hh-in 0.8s cubic-bezier(.16,1,.3,1) forwards; }
-    .hh-inner > *:nth-child(2) { animation-delay: 0.08s; } .hh-inner > *:nth-child(3) { animation-delay: 0.16s; } .hh-inner > *:nth-child(4) { animation-delay: 0.26s; }
+    .hh-inner > *:nth-child(2) { animation-delay: 0.08s; } .hh-inner > *:nth-child(3) { animation-delay: 0.16s; }
+    .hh-trust { opacity: 0; animation: hh-fade 1s ease 0.3s forwards; }
     .hh-art { opacity: 0; animation: hh-fade 1.2s ease 0.1s forwards; }
   }
   @keyframes hh-in { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
@@ -156,7 +156,9 @@ const trustLogos = [
       -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 16%, #000 84%, transparent 100%), linear-gradient(to bottom, transparent 0%, #000 14%, #000 72%, transparent 100%);
       mask-image: linear-gradient(to right, transparent 0%, #000 16%, #000 84%, transparent 100%), linear-gradient(to bottom, transparent 0%, #000 14%, #000 72%, transparent 100%);
       -webkit-mask-composite: source-in; mask-composite: intersect; }
-    .hh-inner { margin: -16px 0 0; padding: 0 6vw 3.5rem; }
+    .hh-inner { margin: -16px 0 0; padding: 0 6vw 2.4rem; }
+    .hh-trust-label { margin: 0 6vw 1rem; }
+    .hh-logos-set { gap: 3.5rem; padding-left: 3.5rem; }
     .hh-inner > * { max-width: none; }
   }
 
