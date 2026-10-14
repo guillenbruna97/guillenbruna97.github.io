@@ -1,0 +1,107 @@
+---
+// Banner que invita a hacer el diagnóstico de marketing. Toda la tarjeta
+// es un enlace. Los textos salen de GAMES (consts.ts) para que el banner
+// y la tarjeta del listado de minijuegos digan siempre lo mismo.
+import { GAMES } from '../consts';
+
+const game = GAMES.find((g) => g.slug === 'diagnostico-marketing')!;
+---
+<section class="diag-banner-wrap">
+  <a href={`/recursos/minijuegos/${game.slug}/`} class="diag-banner" data-reveal data-diag-banner>
+    <div class="diag-banner-text">
+      <p class="diag-banner-kicker">{game.tag} · {game.meta}</p>
+      <p class="diag-banner-hook">{game.hook}</p>
+      <p class="diag-banner-desc">{game.excerpt}</p>
+    </div>
+    <span class="diag-banner-cta">{game.cta} <span aria-hidden="true">→</span></span>
+  </a>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLAnchorElement>('[data-diag-banner]').forEach((banner) => {
+    banner.addEventListener('click', () => {
+      const gtag = (window as any).gtag;
+      if (typeof gtag === 'function') {
+        gtag('event', 'banner_diagnostico_click', { page_path: location.pathname, transport_type: 'beacon' });
+      }
+    });
+  });
+</script>
+
+<style is:global>
+  /* Mismos márgenes laterales que el hero de la home (.hh-inner): 4vw, y 6vw por debajo de 1180px */
+  .diag-banner-wrap { max-width: 1400px; margin: 3.5rem 4vw 4rem; }
+  @media (max-width: 1180px) {
+    .diag-banner-wrap { margin: 2.5rem 6vw 3rem; }
+  }
+
+  .diag-banner {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 3rem;
+    padding: 2.5rem 3rem;
+    border: 1px solid rgba(0,0,0,0.1);
+    border-left: 4px solid var(--blue);
+    border-radius: 8px;
+    background: var(--off-white);
+    color: inherit;
+    text-decoration: none;
+    transition: border-color var(--transition), background var(--transition), transform 0.2s ease, opacity 0.6s ease;
+  }
+  body.dark .diag-banner { background: var(--dark-surface); border-color: rgba(255,255,255,0.12); border-left-color: var(--blue-light); }
+  .diag-banner:hover { border-color: var(--blue); transform: translateY(-2px); }
+  body.dark .diag-banner:hover { border-color: var(--blue-light); }
+
+  .diag-banner-kicker {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 0.8rem;
+  }
+  body.dark .diag-banner-kicker { color: var(--blue-light); }
+
+  .diag-banner-hook {
+    font-family: 'Newsreader', serif;
+    font-size: clamp(1.5rem, 3vw, 2.3rem);
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: var(--black);
+    margin-bottom: 0.7rem;
+    transition: color var(--transition);
+  }
+  body.dark .diag-banner-hook { color: #e8e8e8; }
+
+  .diag-banner-desc {
+    font-size: 0.95rem;
+    font-weight: 300;
+    line-height: 1.7;
+    max-width: 620px;
+    color: rgba(0,0,0,0.6);
+    transition: color var(--transition);
+  }
+  body.dark .diag-banner-desc { color: rgba(232,232,232,0.6); }
+
+  .diag-banner-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.95rem 1.6rem;
+    border-radius: 8px;
+    background: var(--blue);
+    color: #fff;
+    font-size: 0.88rem;
+    font-weight: 500;
+    white-space: nowrap;
+    transition: background var(--transition);
+  }
+  .diag-banner-cta span { transition: transform 0.2s ease; }
+  .diag-banner:hover .diag-banner-cta span { transform: translateX(4px); }
+
+  @media (max-width: 760px) {
+    .diag-banner { grid-template-columns: 1fr; gap: 1.5rem; padding: 2rem 1.5rem; }
+    .diag-banner-cta { justify-self: start; }
+  }
+</style>
