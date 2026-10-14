@@ -39,3 +39,63 @@ export const SERVICES: ServiceInfo[] = [
 ];
 
 export const getService = (slug?: string) => SERVICES.find((s) => s.slug === slug);
+
+// Secciones de /recursos/: alimentan el desplegable del nav y el índice
+// de src/pages/recursos/index.astro. Artículos mantiene su URL histórica
+// (/articulos/) para no perder lo que Google ya tiene indexado.
+export interface ResourceSection {
+  href: string;
+  name: string;
+  tagline: string;
+}
+
+export const RESOURCES: ResourceSection[] = [
+  {
+    href: '/articulos/',
+    name: 'Artículos',
+    tagline: 'Posicionamiento, marca, go-to-market y comunicación para quien toma las decisiones.',
+  },
+  {
+    href: '/recursos/minijuegos/',
+    name: 'Minijuegos',
+    tagline: 'Minijuegos de marketing para directivos. Pon a prueba tu visión estratégica con retos que te harán pensar.',
+  },
+];
+
+// Minijuegos publicados en /recursos/minijuegos/<slug>/. Para añadir uno
+// nuevo basta con crear su página y una entrada aquí: el listado de
+// /recursos/minijuegos/ se genera a partir de este array.
+export interface GameInfo {
+  slug: string;
+  name: string;
+  tag: string;
+  excerpt: string;
+  // Frase grande de la cabecera de la tarjeta (hace de "portada").
+  hook: string;
+  meta: string;
+  cta: string;
+}
+
+export const GAMES: GameInfo[] = [
+  {
+    slug: 'diagnostico-marketing',
+    name: 'Diagnóstico de marketing para directivos',
+    tag: 'Autodiagnóstico',
+    excerpt: 'Doce preguntas sobre cómo vende hoy tu empresa. Descubre qué hay detrás de lo que notas en las ventas y cuáles son tus tres primeros pasos.',
+    hook: '¿Cuál de estas frases has dicho o pensado este año?',
+    meta: '12 preguntas · 3 minutos',
+    cta: 'Empezar diagnóstico',
+  },
+];
+
+// Envío de los leads del autodiagnóstico al CRM (HubSpot gratuito) por
+// la Forms API pública, sin scripts de HubSpot en la web. Los IDs no son
+// secretos: viajan igualmente en cualquier formulario incrustado.
+// Mientras HUBSPOT_PORTAL_ID o HUBSPOT_FORM_ID estén vacíos el diagnóstico
+// funciona igual pero NO guarda el lead (avisa por consola).
+export const HUBSPOT_PORTAL_ID = '149544949';
+export const HUBSPOT_FORM_ID = 'd6b840dc-a0b8-44e3-8074-c60ba91de19b';
+// ID del tipo de suscripción de marketing (Configuración > Marketing >
+// Email > Tipos de suscripción). Con él HubSpot registra el consentimiento
+// comercial en la ficha del contacto.
+export const HUBSPOT_SUBSCRIPTION_TYPE_ID = '3864981948';

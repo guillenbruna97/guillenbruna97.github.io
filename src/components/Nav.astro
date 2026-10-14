@@ -1,5 +1,5 @@
 ---
-import { SERVICES } from '../consts';
+import { SERVICES, RESOURCES } from '../consts';
 
 const pathname = Astro.url.pathname;
 const isActive = (href: string) => {
@@ -24,7 +24,16 @@ const isActive = (href: string) => {
     </li>
     <li><a href="/trabajo/" class={isActive('/trabajo/') ? 'active' : ''}>Casos reales</a></li>
     <li><a href="/sobre-mi/" class={isActive('/sobre-mi/') ? 'active' : ''}>Sobre mí</a></li>
-    <li><a href="/articulos/" class={isActive('/articulos/') ? 'active' : ''}>Artículos</a></li>
+    <li class="has-dropdown">
+      <a href="/recursos/" class={isActive('/recursos/') || isActive('/articulos/') ? 'active' : ''}>Recursos <span class="chevron">▾</span></a>
+      <ul class="dropdown-menu">
+        {RESOURCES.map((r) => (
+          <li>
+            <a href={r.href} class={isActive(r.href) ? 'active' : ''}>{r.name}</a>
+          </li>
+        ))}
+      </ul>
+    </li>
     <li><a href="/contacto/" class={isActive('/contacto/') ? 'active' : ''}>Contacto</a></li>
   </ul>
   <div class="nav-right">

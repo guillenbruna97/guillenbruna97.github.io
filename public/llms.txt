@@ -19,5 +19,6 @@ Precios cerrados y publicados, sin IVA ([detalle y condiciones](https://guillenb
 
 - [Casos reales](https://guillenbruna97.github.io/trabajo/): proyectos de estrategia de marca, lanzamiento de producto y generación de demanda.
 - [Artículos](https://guillenbruna97.github.io/articulos/): piezas de autoridad sobre posicionamiento, marca, GTM y comunicación ejecutiva, sin narrativa autobiográfica.
+- [Minijuegos de marketing](https://guillenbruna97.github.io/recursos/minijuegos/): retos interactivos para directivos. El primero es un [diagnóstico de marketing](https://guillenbruna97.github.io/recursos/minijuegos/diagnostico-marketing/) de 12 preguntas que traduce síntomas comerciales (ventas que dependen de una persona, competir por precio, inversión en marketing sin retorno claro) a su causa de fondo en proceso comercial, cliente ideal y canales, o posicionamiento, con tres primeros pasos.
 - [Sobre mí](https://guillenbruna97.github.io/sobre-mi/): trayectoria profesional.
 - [Contacto](https://guillenbruna97.github.io/contacto/): agenda de llamada, email y LinkedIn.

@@ -1,0 +1,656 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import {
+  BOOKING_URL,
+  CONTACT_EMAIL,
+  MAILTO_URL,
+  HUBSPOT_PORTAL_ID,
+  HUBSPOT_FORM_ID,
+  HUBSPOT_SUBSCRIPTION_TYPE_ID,
+} from '../../../../consts';
+import { AREAS, AREA_NAMES, PREGUNTAS, RESULTADOS, UMBRAL_SOLIDO, TRANSICION_CONTEXTO } from '../../../../data/diagnostico';
+
+// Textos de las casillas. Se envían literalmente a HubSpot como prueba
+// de qué aceptó cada contacto, así que si cambian aquí cambian también
+// en el registro de consentimiento.
+const TEXTO_PRIVACIDAD = 'He leído y acepto la política de privacidad.';
+const TEXTO_COMERCIAL = 'Quiero recibir por email contenidos y propuestas comerciales de Guillén Bruna. Puedes darte de baja cuando quieras.';
+
+const config = {
+  preguntas: PREGUNTAS,
+  resultados: RESULTADOS,
+  areas: AREAS,
+  areaNames: AREA_NAMES,
+  umbralSolido: UMBRAL_SOLIDO,
+  transicion: TRANSICION_CONTEXTO,
+  hubspot: {
+    portalId: HUBSPOT_PORTAL_ID,
+    formId: HUBSPOT_FORM_ID,
+    subscriptionTypeId: HUBSPOT_SUBSCRIPTION_TYPE_ID,
+  },
+  textoPrivacidad: TEXTO_PRIVACIDAD,
+  textoComercial: TEXTO_COMERCIAL,
+};
+
+const pageUrl = 'https://guillenbruna97.github.io/recursos/minijuegos/diagnostico-marketing/';
+const breadcrumbLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Inicio', item: 'https://guillenbruna97.github.io/' },
+    { '@type': 'ListItem', position: 2, name: 'Recursos', item: 'https://guillenbruna97.github.io/recursos/' },
+    { '@type': 'ListItem', position: 3, name: 'Minijuegos', item: 'https://guillenbruna97.github.io/recursos/minijuegos/' },
+    { '@type': 'ListItem', position: 4, name: 'Diagnóstico de marketing para directivos', item: pageUrl },
+  ],
+};
+---
+<BaseLayout
+  title="Diagnóstico de marketing B2B para CEOs y directivos"
+  description="Doce preguntas y 3 minutos para descubrir qué hay detrás de tus problemas de ventas y marketing B2B, con tres primeros pasos para empezar esta semana."
+>
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbLd)} />
+  <script type="application/json" id="diag-data" set:html={JSON.stringify(config)} />
+
+  <section class="diag" aria-live="polite">
+    <a href="/recursos/minijuegos/" class="diag-back">← Minijuegos</a>
+
+    <div class="diag-screen" id="screen-start">
+      <p class="diag-kicker">Autodiagnóstico · 3 minutos</p>
+      <h1>Diagnóstico de marketing para directivos</h1>
+      <p class="diag-intro">Doce preguntas sobre cómo vende hoy tu empresa. En 3 minutos sabrás qué hay detrás de lo que notas en las ventas y cuáles son tus tres primeros pasos.</p>
+      <button type="button" class="diag-btn" id="btn-start">Empieza ahora</button>
+    </div>
+
+    <div class="diag-screen" id="screen-question" hidden>
+      <div class="diag-progress">
+        <button type="button" class="diag-prev" id="btn-prev">← Anterior</button>
+        <span id="question-label"></span>
+      </div>
+      <div class="diag-bar"><span id="question-bar"></span></div>
+      <p class="diag-kicker" id="question-transition" hidden></p>
+      <h2 class="diag-question" id="question"></h2>
+      <div class="diag-options" id="options"></div>
+    </div>
+
+    <div class="diag-screen" id="screen-form" hidden>
+      <p class="diag-kicker">Último paso</p>
+      <h2>Tu resultado está listo</h2>
+      <p class="diag-intro">Déjame tus datos y te lo enseño ahora mismo.</p>
+      <form id="lead-form" class="diag-form" novalidate>
+        <div class="diag-field">
+          <label for="f-nombre">Nombre</label>
+          <input id="f-nombre" name="nombre" type="text" autocomplete="given-name" required />
+        </div>
+        <div class="diag-field">
+          <label for="f-empresa">Empresa</label>
+          <input id="f-empresa" name="empresa" type="text" autocomplete="organization" required />
+        </div>
+        <div class="diag-field">
+          <label for="f-email">Email</label>
+          <input id="f-email" name="email" type="email" autocomplete="email" required />
+        </div>
+        <div class="diag-field">
+          <label for="f-telefono">Teléfono <span class="diag-optional">(opcional)</span></label>
+          <input id="f-telefono" name="telefono" type="tel" autocomplete="tel" />
+        </div>
+        <div class="diag-honeypot" aria-hidden="true">
+          <label for="f-web">No rellenes este campo</label>
+          <input id="f-web" name="web" type="text" tabindex="-1" autocomplete="off" />
+        </div>
+        <label class="diag-check">
+          <input type="checkbox" name="privacidad" required />
+          <span>He leído y acepto la <a href="/privacidad/" target="_blank" rel="noopener">política de privacidad</a>.</span>
+        </label>
+        <label class="diag-check">
+          <input type="checkbox" name="comercial" />
+          <span>{TEXTO_COMERCIAL}</span>
+        </label>
+        <p class="diag-error" id="form-error" hidden></p>
+        <button type="submit" class="diag-btn" id="btn-submit">Ver mi resultado</button>
+        <p class="diag-legal">El responsable de tus datos es Guillén Bruna Tricas. Los uso para mostrarte el resultado y contactarte sobre él y, solo si lo marcas, para enviarte comunicaciones comerciales. La base legal es tu consentimiento. Se guardan en HubSpot, el CRM que uso como proveedor. Puedes acceder, rectificar o suprimir tus datos escribiendo a <a href={MAILTO_URL}>{CONTACT_EMAIL}</a>. Tienes toda la información en la <a href="/privacidad/" target="_blank" rel="noopener">política de privacidad</a>.</p>
+      </form>
+    </div>
+
+    <div class="diag-screen" id="screen-result" hidden>
+      <p class="diag-kicker">Tu resultado</p>
+      <h2 id="result-title"></h2>
+      <div class="diag-areas" id="result-areas"></div>
+      <div class="diag-insight">
+        <div>
+          <h3>Lo que ves</h3>
+          <p id="result-sees"></p>
+        </div>
+        <div class="diag-insight-cause">
+          <h3>Lo que hay detrás</h3>
+          <p id="result-cause"></p>
+        </div>
+      </div>
+      <h3>Tus primeros pasos</h3>
+      <ol class="diag-steps" id="result-steps"></ol>
+      <div class="diag-service">
+        <p id="result-service"></p>
+        <a href="#" class="diag-link" id="result-service-link">Ver el servicio →</a>
+      </div>
+      <div class="diag-cta">
+        <p>Si quieres, revisamos tu resultado juntos en 15 minutos. Si tiene sentido, el siguiente paso es una sesión de diagnóstico de 2 horas con nota escrita.</p>
+        <div class="diag-actions">
+          <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" class="diag-btn">Agenda 15 minutos</a>
+          <button type="button" class="diag-btn diag-btn--ghost" id="btn-restart">Repetir diagnóstico</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  import type { Area, Pregunta, Resultado } from '../../../../data/diagnostico';
+
+  const config = JSON.parse(document.getElementById('diag-data')!.textContent!) as {
+    preguntas: Pregunta[];
+    resultados: Record<Area | 'solido', Resultado>;
+    areas: Area[];
+    areaNames: Record<Area, string>;
+    umbralSolido: number;
+    transicion: string;
+    hubspot: { portalId: string; formId: string; subscriptionTypeId: string };
+    textoPrivacidad: string;
+    textoComercial: string;
+  };
+  const { preguntas, resultados, areas, areaNames, umbralSolido, hubspot } = config;
+
+  const $ = (id: string) => document.getElementById(id)!;
+  const screens = {
+    start: $('screen-start'),
+    question: $('screen-question'),
+    form: $('screen-form'),
+    result: $('screen-result'),
+  };
+  const track = (name: string, params: Record<string, unknown> = {}) => {
+    const gtag = (window as any).gtag;
+    if (typeof gtag === 'function') gtag('event', name, params);
+  };
+
+  // Índice de la opción elegida en cada pregunta (null si aún no responde).
+  let respuestas: (number | null)[] = [];
+  let current = 0;
+
+  const show = (name: keyof typeof screens) => {
+    Object.entries(screens).forEach(([key, el]) => (el.hidden = key !== name));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const maxPuntos = Object.fromEntries(
+    areas.map((area) => [
+      area,
+      preguntas.reduce((sum, p) => sum + Math.max(0, ...p.opciones.map((o) => o.puntos?.[area] ?? 0)), 0),
+    ])
+  ) as Record<Area, number>;
+
+  const calcular = () => {
+    const puntos = Object.fromEntries(areas.map((a) => [a, 0])) as Record<Area, number>;
+    respuestas.forEach((idx, i) => {
+      if (idx === null) return;
+      const opcion = preguntas[i].opciones[idx];
+      areas.forEach((a) => (puntos[a] += opcion.puntos?.[a] ?? 0));
+    });
+    // En empate gana el orden de `areas` (reduce se queda con el primero).
+    const ganadora = areas.reduce((best, a) => (puntos[a] > puntos[best] ? a : best), areas[0]);
+    const clave: Area | 'solido' = puntos[ganadora] <= umbralSolido ? 'solido' : ganadora;
+    return { puntos, clave };
+  };
+
+  const renderQuestion = () => {
+    const pregunta = preguntas[current];
+    $('question-label').textContent = `Pregunta ${current + 1} de ${preguntas.length}`;
+    ($('question-bar') as HTMLElement).style.width = `${(current / preguntas.length) * 100}%`;
+    ($('btn-prev') as HTMLButtonElement).style.visibility = current === 0 ? 'hidden' : 'visible';
+    $('question').textContent = pregunta.pregunta;
+
+    // Aviso antes del bloque final de preguntas de contexto (las que no
+    // puntúan), para que no parezca que el test se alarga sin fin.
+    const transicion = $('question-transition');
+    const primeraContexto = preguntas.findIndex((p) => p.contexto);
+    transicion.hidden = current !== primeraContexto;
+    transicion.textContent = config.transicion;
+
+    const options = $('options');
+    options.replaceChildren();
+    pregunta.opciones.forEach((opcion, idx) => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'diag-option';
+      if (respuestas[current] === idx) btn.classList.add('is-selected');
+      btn.textContent = opcion.texto;
+      btn.addEventListener('click', () => {
+        respuestas[current] = idx;
+        btn.classList.add('is-selected');
+        options.querySelectorAll('button').forEach((b) => (b.disabled = true));
+        // Pequeña pausa para que se vea la opción marcada antes de avanzar.
+        setTimeout(next, 220);
+      });
+      options.appendChild(btn);
+    });
+  };
+
+  const next = () => {
+    track('diagnostico_pregunta', { pregunta: preguntas[current].id, numero: current + 1 });
+    current++;
+    if (current < preguntas.length) renderQuestion();
+    else {
+      show('form');
+      track('diagnostico_formulario');
+    }
+  };
+
+  const renderResult = () => {
+    const { puntos, clave } = calcular();
+    const resultado = resultados[clave];
+    $('result-title').textContent = resultado.titulo;
+    $('result-sees').textContent = resultado.loQueVes;
+    $('result-cause').textContent = resultado.loQueHayDetras;
+    $('result-service').textContent = resultado.servicio;
+
+    const link = $('result-service-link') as HTMLAnchorElement;
+    link.hidden = !resultado.servicioSlug;
+    if (resultado.servicioSlug) link.href = `/servicios/${resultado.servicioSlug}/`;
+
+    const steps = $('result-steps');
+    steps.replaceChildren(
+      ...resultado.pasos.map((paso) => {
+        const li = document.createElement('li');
+        li.textContent = paso;
+        return li;
+      })
+    );
+
+    // Barras por área: cuanto más llena, más margen de mejora en esa área.
+    const areasEl = $('result-areas');
+    areasEl.replaceChildren(
+      ...areas.map((area) => {
+        const pct = maxPuntos[area] ? Math.round((puntos[area] / maxPuntos[area]) * 100) : 0;
+        const row = document.createElement('div');
+        row.className = 'diag-area' + (area === clave ? ' is-main' : '');
+        row.innerHTML = `<div class="diag-area-head"><span></span><span>${pct}%</span></div><div class="diag-area-bar"><span style="width:${pct}%"></span></div>`;
+        row.querySelector('span')!.textContent = areaNames[area];
+        return row;
+      })
+    );
+    const leyenda = document.createElement('p');
+    leyenda.className = 'diag-area-legend';
+    leyenda.textContent = 'Margen de mejora en cada área según tus respuestas.';
+    areasEl.appendChild(leyenda);
+
+    show('result');
+    track('diagnostico_resultado', { resultado: clave });
+    return { puntos, clave };
+  };
+
+  const enviarLead = async (datos: Record<string, string>, comercial: boolean) => {
+    const { puntos, clave } = calcular();
+    if (!hubspot.portalId || !hubspot.formId) {
+      console.warn('[diagnóstico] HubSpot sin configurar: el lead NO se ha guardado.', datos);
+      return;
+    }
+    const respuesta = (id: string) => {
+      const i = preguntas.findIndex((p) => p.id === id);
+      const idx = i >= 0 ? respuestas[i] : null;
+      return idx != null ? preguntas[i].opciones[idx].texto : '';
+    };
+    // Urgencia e intentos previos arriba del todo: es lo primero que
+    // conviene leer en la ficha para decidir a quién llamar antes.
+    const detalle = [
+      `Urgencia: ${respuesta('urgencia') || '(sin respuesta)'}`,
+      `Intentos previos: ${respuesta('intentos') || '(sin respuesta)'}`,
+      `Puntos: ${areas.map((a) => `${areaNames[a]} ${puntos[a]}/${maxPuntos[a]}`).join(', ')}`,
+      `Consentimiento comercial: ${comercial ? 'sí' : 'no'}`,
+      '',
+      ...preguntas.map((p, i) => `${p.pregunta} ${respuestas[i] !== null ? p.opciones[respuestas[i]!].texto : '(sin respuesta)'}`),
+    ].join('\n');
+
+    const fields = [
+      { name: 'email', value: datos.email },
+      { name: 'firstname', value: datos.nombre },
+      { name: 'company', value: datos.empresa },
+      { name: 'phone', value: datos.telefono },
+      { name: 'jobtitle', value: respuesta('cargo') },
+      { name: 'diagnostico_resultado', value: clave === 'solido' ? 'Base sólida' : areaNames[clave] },
+      { name: 'diagnostico_respuestas', value: detalle },
+    ].filter((f) => f.value);
+
+    const consent: Record<string, unknown> = {
+      consentToProcess: true,
+      text: config.textoPrivacidad,
+    };
+    if (hubspot.subscriptionTypeId) {
+      consent.communications = [
+        { value: comercial, subscriptionTypeId: Number(hubspot.subscriptionTypeId), text: config.textoComercial },
+      ];
+    }
+
+    const res = await fetch(
+      `https://api.hsforms.com/submissions/v3/integration/submit/${hubspot.portalId}/${hubspot.formId}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          fields,
+          context: { pageUri: location.href, pageName: document.title },
+          legalConsentOptions: { consent },
+        }),
+      }
+    );
+    if (!res.ok) throw new Error(`HubSpot ${res.status}: ${await res.text()}`);
+  };
+
+  const form = $('lead-form') as HTMLFormElement;
+  const errorEl = $('form-error');
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const fd = new FormData(form);
+    const datos = {
+      nombre: String(fd.get('nombre') ?? '').trim(),
+      empresa: String(fd.get('empresa') ?? '').trim(),
+      email: String(fd.get('email') ?? '').trim(),
+      telefono: String(fd.get('telefono') ?? '').trim(),
+    };
+    const privacidad = fd.get('privacidad') === 'on';
+    const comercial = fd.get('comercial') === 'on';
+
+    let error = '';
+    if (!datos.nombre || !datos.empresa) error = 'Escribe tu nombre y el de tu empresa.';
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(datos.email)) error = 'Revisa el email, parece que falta algo.';
+    else if (!privacidad) error = 'Para ver el resultado necesitas aceptar la política de privacidad.';
+    errorEl.textContent = error;
+    errorEl.hidden = !error;
+    if (error) return;
+
+    const submit = $('btn-submit') as HTMLButtonElement;
+    submit.disabled = true;
+    submit.textContent = 'Preparando tu resultado…';
+
+    // Un bot que rellena el campo oculto ve el resultado, pero no llega al CRM.
+    if (!fd.get('web')) {
+      try {
+        await enviarLead(datos, comercial);
+        track('diagnostico_lead', { comercial });
+      } catch (err) {
+        // El resultado se muestra igualmente: perder el lead es malo, pero
+        // dejar a la persona sin su diagnóstico después de darnos sus
+        // datos es peor.
+        console.error(err);
+        track('diagnostico_error_envio');
+      }
+    }
+
+    submit.disabled = false;
+    submit.textContent = 'Ver mi resultado';
+    renderResult();
+  });
+
+  const start = () => {
+    respuestas = preguntas.map(() => null);
+    current = 0;
+    show('question');
+    renderQuestion();
+    track('diagnostico_inicio');
+  };
+
+  $('btn-start').addEventListener('click', start);
+  $('btn-restart').addEventListener('click', start);
+  $('btn-prev').addEventListener('click', () => {
+    if (current === 0) return;
+    current--;
+    renderQuestion();
+  });
+</script>
+
+<style is:global>
+  .diag {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 4rem 2rem 5rem;
+    min-height: 70vh;
+  }
+
+  .diag-back {
+    display: inline-block;
+    font-size: 0.78rem;
+    color: rgba(0,0,0,0.5);
+    text-decoration: none;
+    margin-bottom: 2.5rem;
+    transition: color var(--transition);
+  }
+  body.dark .diag-back { color: rgba(232,232,232,0.5); }
+  .diag-back:hover { color: var(--blue); }
+  body.dark .diag-back:hover { color: var(--blue-light); }
+
+  .diag-kicker {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 1rem;
+  }
+  body.dark .diag-kicker { color: var(--blue-light); }
+
+  .diag h1,
+  .diag h2 {
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 400;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    margin-bottom: 1rem;
+  }
+
+  .diag h3 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    margin: 2rem 0 0.8rem;
+  }
+
+  .diag-intro {
+    font-size: 1rem;
+    font-weight: 300;
+    color: rgba(0,0,0,0.6);
+    line-height: 1.8;
+    max-width: 560px;
+    margin-bottom: 2rem;
+    transition: color var(--transition);
+  }
+  body.dark .diag-intro { color: rgba(232,232,232,0.6); }
+
+  .diag-btn {
+    display: inline-block;
+    padding: 0.85rem 1.5rem;
+    border: 1px solid var(--blue);
+    border-radius: 8px;
+    background: var(--blue);
+    color: #fff;
+    font: inherit;
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background var(--transition), color var(--transition), border-color var(--transition), opacity 0.2s;
+  }
+  .diag-btn:hover { opacity: 0.9; }
+  .diag-btn:disabled { opacity: 0.6; cursor: wait; }
+  .diag-btn--ghost { background: transparent; color: var(--blue); }
+  body.dark .diag-btn--ghost { color: var(--blue-light); border-color: var(--blue-light); }
+
+  .diag-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+
+  /* PREGUNTAS */
+  .diag-progress {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: rgba(0,0,0,0.5);
+    margin-bottom: 0.6rem;
+  }
+  body.dark .diag-progress { color: rgba(232,232,232,0.5); }
+
+  .diag-prev {
+    background: none;
+    border: none;
+    padding: 0;
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+  }
+  .diag-prev:hover { color: var(--blue); }
+
+  .diag-bar {
+    height: 3px;
+    background: rgba(0,0,0,0.08);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 3rem;
+  }
+  body.dark .diag-bar { background: rgba(255,255,255,0.1); }
+  .diag-bar span { display: block; height: 100%; width: 0; background: var(--blue); transition: width 0.3s ease; }
+
+  .diag .diag-question {
+    font-family: 'Newsreader', serif;
+    font-size: clamp(1.6rem, 3.5vw, 2.3rem);
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    margin-bottom: 2.5rem;
+  }
+
+  .diag-options { display: flex; flex-direction: column; gap: 0.75rem; }
+
+  .diag-option {
+    padding: 1rem 1.2rem;
+    border: 1px solid rgba(0,0,0,0.12);
+    border-radius: 8px;
+    background: var(--white);
+    color: var(--black);
+    font: inherit;
+    font-size: 0.95rem;
+    text-align: left;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s, transform 0.15s;
+  }
+  body.dark .diag-option { background: var(--dark-bg); border-color: rgba(255,255,255,0.14); color: #e8e8e8; }
+  .diag-option:hover:not(:disabled) { border-color: var(--blue); transform: translateX(4px); }
+  .diag-option:disabled { cursor: default; }
+  .diag-option.is-selected { border-color: var(--blue); background: rgba(0,74,173,0.08); }
+  body.dark .diag-option.is-selected { border-color: var(--blue-light); }
+
+  /* FORMULARIO */
+  .diag-form { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem 1.25rem; }
+  .diag-field { display: flex; flex-direction: column; gap: 0.35rem; }
+  .diag-field label { font-size: 0.8rem; font-weight: 500; }
+  .diag-optional { font-weight: 300; opacity: 0.7; }
+  .diag-field input {
+    padding: 0.8rem 0.9rem;
+    border: 1px solid rgba(0,0,0,0.15);
+    border-radius: 8px;
+    background: var(--white);
+    color: var(--black);
+    font: inherit;
+    font-size: 0.95rem;
+  }
+  body.dark .diag-field input { background: var(--dark-bg); border-color: rgba(255,255,255,0.18); color: #e8e8e8; }
+  .diag-field input:focus { outline: 2px solid var(--blue); outline-offset: 1px; border-color: transparent; }
+
+  .diag-honeypot { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+  .diag-check {
+    grid-column: 1 / -1;
+    display: flex;
+    gap: 0.7rem;
+    align-items: flex-start;
+    font-size: 0.85rem;
+    font-weight: 300;
+    line-height: 1.6;
+    cursor: pointer;
+  }
+  .diag-check input { margin-top: 0.3rem; width: 16px; height: 16px; accent-color: var(--blue); flex-shrink: 0; }
+  .diag-check a, .diag-legal a { color: var(--blue); }
+  body.dark .diag-check a, body.dark .diag-legal a { color: var(--blue-light); }
+
+  .diag-form .diag-btn { grid-column: 1 / -1; justify-self: start; margin-top: 0.5rem; }
+
+  .diag-error {
+    grid-column: 1 / -1;
+    font-size: 0.85rem;
+    color: #b3261e;
+  }
+  body.dark .diag-error { color: #f2b8b5; }
+
+  .diag-legal {
+    grid-column: 1 / -1;
+    font-size: 0.72rem;
+    font-weight: 300;
+    line-height: 1.6;
+    color: rgba(0,0,0,0.5);
+  }
+  body.dark .diag-legal { color: rgba(232,232,232,0.5); }
+
+  /* RESULTADO */
+  .diag-areas { margin: 1.5rem 0 2rem; display: flex; flex-direction: column; gap: 0.9rem; }
+  .diag-area-head { display: flex; justify-content: space-between; font-size: 0.82rem; margin-bottom: 0.35rem; opacity: 0.65; }
+  .diag-area.is-main .diag-area-head { opacity: 1; font-weight: 500; }
+  .diag-area-bar { height: 8px; border-radius: 4px; background: rgba(0,0,0,0.08); overflow: hidden; }
+  body.dark .diag-area-bar { background: rgba(255,255,255,0.1); }
+  .diag-area-bar span { display: block; height: 100%; background: rgba(0,74,173,0.35); border-radius: 4px; }
+  .diag-area.is-main .diag-area-bar span { background: var(--blue); }
+  body.dark .diag-area.is-main .diag-area-bar span { background: var(--blue-light); }
+  .diag-area-legend { font-size: 0.72rem; opacity: 0.5; }
+
+  .diag-insight {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  .diag-insight h3 { margin-top: 0; }
+  .diag-insight p {
+    font-size: 0.95rem;
+    font-weight: 300;
+    line-height: 1.75;
+    color: rgba(0,0,0,0.65);
+    transition: color var(--transition);
+  }
+  body.dark .diag-insight p { color: rgba(232,232,232,0.65); }
+  .diag-insight-cause {
+    padding-left: 1.5rem;
+    border-left: 2px solid var(--blue);
+  }
+  body.dark .diag-insight-cause { border-left-color: var(--blue-light); }
+  .diag-insight-cause p { font-weight: 400; color: var(--black); }
+  body.dark .diag-insight-cause p { color: #e8e8e8; }
+
+  .diag-steps { padding-left: 1.2rem; margin-bottom: 2rem; }
+  .diag-steps li { font-size: 0.95rem; line-height: 1.7; margin-bottom: 0.4rem; }
+
+  .diag-service {
+    padding: 1.25rem 1.4rem;
+    border-left: 2px solid var(--blue);
+    background: var(--off-white);
+    border-radius: 0 8px 8px 0;
+    margin-bottom: 2.5rem;
+  }
+  body.dark .diag-service { background: var(--dark-surface); border-left-color: var(--blue-light); }
+  .diag-service p { font-size: 0.95rem; line-height: 1.7; margin-bottom: 0.6rem; }
+  .diag-link { font-size: 0.82rem; font-weight: 500; color: var(--blue); text-decoration: none; }
+  body.dark .diag-link { color: var(--blue-light); }
+  .diag-link:hover { text-decoration: underline; }
+
+  .diag-cta p { font-family: 'Newsreader', serif; font-size: 1.3rem; line-height: 1.4; margin-bottom: 1.2rem; }
+
+  @media (max-width: 640px) {
+    .diag { padding: 3rem 1.5rem 4rem; }
+    .diag-form { grid-template-columns: 1fr; }
+    .diag-insight { grid-template-columns: 1fr; }
+    .diag-insight-cause { padding-left: 1rem; }
+  }
+</style>

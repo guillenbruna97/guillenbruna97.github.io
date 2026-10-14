@@ -12,7 +12,7 @@
 # un Referrer-Policy reforzado solo pueden llegar a producción migrando de
 # hosting o poniendo un proxy (p. ej. Cloudflare) delante de GitHub Pages.
 /*
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://www.google-analytics.com; font-src 'self'; connect-src 'self' https://www.google-analytics.com https://analytics.google.com; frame-src https://www.youtube.com; frame-ancestors 'none';
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://www.google-analytics.com; font-src 'self'; connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://api.hsforms.com; frame-src https://www.youtube.com; frame-ancestors 'none';
   Referrer-Policy: strict-origin-when-cross-origin
   X-Content-Type-Options: nosniff
   Strict-Transport-Security: max-age=31536000; includeSubDomains
