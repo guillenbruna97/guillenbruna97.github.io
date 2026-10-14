@@ -1,0 +1,42 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ContactBlock from '../../components/ContactBlock.astro';
+import ResourceCards from '../../components/ResourceCards.astro';
+import { RESOURCES } from '../../consts';
+
+const cards = RESOURCES.map((r) => ({ ...r, cta: 'Ver sección' }));
+---
+<BaseLayout
+  title="Recursos de marketing | Guillén Bruna Tricas"
+  description="Artículos y minijuegos de marketing para CEO, COO y CFO. Posicionamiento, marca, go-to-market y estrategia comercial para quien toma decisiones."
+>
+  <div class="page-header">
+    <h1>Recursos</h1>
+    <p class="page-desc">Artículos para pensar la estrategia y minijuegos para ponerla a prueba. Todo pensado para quien toma las decisiones.</p>
+  </div>
+
+  <ResourceCards cards={cards} />
+
+  <ContactBlock title="¿Hablamos<br>de tu caso?" />
+</BaseLayout>
+
+<style is:global>
+  .page-header { padding: 5rem 2rem 2rem; max-width: 900px; margin: 0 auto; }
+
+  .page-header h1 {
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 400;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    margin-bottom: 1rem;
+  }
+  .page-desc {
+    font-size: 1rem;
+    font-weight: 300;
+    color: rgba(0,0,0,0.55);
+    max-width: 560px;
+    line-height: 1.8;
+    transition: color var(--transition);
+  }
+  body.dark .page-desc { color: rgba(232,232,232,0.55); }
+</style>
