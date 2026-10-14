@@ -1,107 +1,131 @@
 ---
-// Banner que invita a hacer el diagnóstico de marketing. Toda la tarjeta
-// es un enlace. Los textos salen de GAMES (consts.ts) para que el banner
-// y la tarjeta del listado de minijuegos digan siempre lo mismo.
+// Banda a todo el ancho que invita a hacer el diagnóstico de marketing.
+// Muestra la primera pregunta con sus respuestas como botones: cada uno
+// abre el diagnóstico con esa respuesta ya marcada (?s=<índice>), así la
+// persona entra habiendo empezado. Los textos salen de GAMES y de
+// PREGUNTAS para que digan siempre lo mismo que el propio diagnóstico.
 import { GAMES } from '../consts';
+import { PREGUNTAS } from '../data/diagnostico';
 
 const game = GAMES.find((g) => g.slug === 'diagnostico-marketing')!;
+const href = `/recursos/minijuegos/${game.slug}/`;
+const primera = PREGUNTAS[0];
 ---
-<section class="diag-banner-wrap">
-  <a href={`/recursos/minijuegos/${game.slug}/`} class="diag-banner" data-reveal data-diag-banner>
-    <div class="diag-banner-text">
-      <p class="diag-banner-kicker">{game.tag} · {game.meta}</p>
-      <p class="diag-banner-hook">{game.hook}</p>
-      <p class="diag-banner-desc">{game.excerpt}</p>
+<section class="diag-band" aria-labelledby="diag-band-title">
+  <div class="diag-band-inner" data-reveal>
+    <p class="diag-band-kicker">{game.tag} · {game.meta}</p>
+    <h2 class="diag-band-title" id="diag-band-title">{primera.pregunta}</h2>
+    <p class="diag-band-hint">Elige la tuya y descubre qué hay detrás.</p>
+    <div class="diag-band-options">
+      {primera.opciones.map((opcion, i) => (
+        <a href={`${href}?s=${i}`} class="diag-band-option" data-diag-banner="sintoma">{opcion.texto}</a>
+      ))}
     </div>
-    <span class="diag-banner-cta">{game.cta} <span aria-hidden="true">→</span></span>
-  </a>
+    <a href={href} class="diag-band-cta" data-diag-banner="boton">{game.cta} <span aria-hidden="true">→</span></a>
+  </div>
 </section>
 
 <script>
-  document.querySelectorAll<HTMLAnchorElement>('[data-diag-banner]').forEach((banner) => {
-    banner.addEventListener('click', () => {
+  document.querySelectorAll<HTMLAnchorElement>('[data-diag-banner]').forEach((link) => {
+    link.addEventListener('click', () => {
       const gtag = (window as any).gtag;
       if (typeof gtag === 'function') {
-        gtag('event', 'banner_diagnostico_click', { page_path: location.pathname, transport_type: 'beacon' });
+        gtag('event', 'banner_diagnostico_click', {
+          origen: link.dataset.diagBanner,
+          page_path: location.pathname,
+          transport_type: 'beacon',
+        });
       }
     });
   });
 </script>
 
 <style is:global>
+  .diag-band {
+    background: var(--dark-surface);
+    color: #fff;
+    transition: background var(--transition);
+  }
+  /* En modo oscuro la banda de servicios que va debajo ya usa --dark-surface:
+     un gris algo más claro evita que las dos se fundan. */
+  body.dark .diag-band { background: #262626; }
+
   /* Mismos márgenes laterales que el hero de la home (.hh-inner): 4vw, y 6vw por debajo de 1180px */
-  .diag-banner-wrap { max-width: 1400px; margin: 3.5rem 4vw 4rem; }
-  @media (max-width: 1180px) {
-    .diag-banner-wrap { margin: 2.5rem 6vw 3rem; }
-  }
+  .diag-band-inner { max-width: 1400px; margin: 0 4vw; padding: 5rem 0; }
 
-  .diag-banner {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    align-items: center;
-    gap: 3rem;
-    padding: 2.5rem 3rem;
-    border: 1px solid rgba(0,0,0,0.1);
-    border-left: 4px solid var(--blue);
-    border-radius: 8px;
-    background: var(--off-white);
-    color: inherit;
-    text-decoration: none;
-    transition: border-color var(--transition), background var(--transition), transform 0.2s ease, opacity 0.6s ease;
-  }
-  body.dark .diag-banner { background: var(--dark-surface); border-color: rgba(255,255,255,0.12); border-left-color: var(--blue-light); }
-  .diag-banner:hover { border-color: var(--blue); transform: translateY(-2px); }
-  body.dark .diag-banner:hover { border-color: var(--blue-light); }
-
-  .diag-banner-kicker {
-    font-size: 0.7rem;
+  .diag-band-kicker {
+    font-size: 0.72rem;
     font-weight: 600;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: var(--blue);
-    margin-bottom: 0.8rem;
+    color: var(--blue-light);
+    margin-bottom: 1.2rem;
   }
-  body.dark .diag-banner-kicker { color: var(--blue-light); }
 
-  .diag-banner-hook {
+  .diag-band-title {
     font-family: 'Newsreader', serif;
-    font-size: clamp(1.5rem, 3vw, 2.3rem);
-    line-height: 1.2;
-    letter-spacing: -0.02em;
-    color: var(--black);
-    margin-bottom: 0.7rem;
-    transition: color var(--transition);
+    font-size: clamp(2rem, 4.4vw, 3.6rem);
+    font-weight: 400;
+    line-height: 1.08;
+    letter-spacing: -0.03em;
+    max-width: 900px;
+    color: #fff;
+    margin-bottom: 0.9rem;
   }
-  body.dark .diag-banner-hook { color: #e8e8e8; }
 
-  .diag-banner-desc {
-    font-size: 0.95rem;
+  .diag-band-hint {
+    font-size: 1rem;
     font-weight: 300;
-    line-height: 1.7;
-    max-width: 620px;
-    color: rgba(0,0,0,0.6);
-    transition: color var(--transition);
+    color: rgba(255,255,255,0.65);
+    margin-bottom: 2.2rem;
   }
-  body.dark .diag-banner-desc { color: rgba(232,232,232,0.6); }
 
-  .diag-banner-cta {
+  .diag-band-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .diag-band-option {
+    padding: 0.85rem 1.2rem;
+    border: 1px solid rgba(255,255,255,0.22);
+    border-radius: 8px;
+    color: #fff;
+    font-size: 0.92rem;
+    line-height: 1.4;
+    text-decoration: none;
+    transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  }
+  .diag-band-option:hover,
+  .diag-band-option:focus-visible {
+    background: rgba(255,255,255,0.08);
+    border-color: var(--blue-light);
+    transform: translateY(-2px);
+  }
+
+  .diag-band-cta {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
-    padding: 0.95rem 1.6rem;
+    gap: 0.6rem;
+    padding: 1.1rem 2rem;
     border-radius: 8px;
     background: var(--blue);
     color: #fff;
-    font-size: 0.88rem;
+    font-size: 1rem;
     font-weight: 500;
-    white-space: nowrap;
-    transition: background var(--transition);
+    text-decoration: none;
+    transition: background 0.2s ease;
   }
-  .diag-banner-cta span { transition: transform 0.2s ease; }
-  .diag-banner:hover .diag-banner-cta span { transform: translateX(4px); }
+  .diag-band-cta:hover { background: #0057cc; }
+  .diag-band-cta span { transition: transform 0.2s ease; }
+  .diag-band-cta:hover span { transform: translateX(4px); }
 
-  @media (max-width: 760px) {
-    .diag-banner { grid-template-columns: 1fr; gap: 1.5rem; padding: 2rem 1.5rem; }
-    .diag-banner-cta { justify-self: start; }
+  @media (max-width: 1180px) {
+    .diag-band-inner { margin: 0 6vw; padding: 4rem 0; }
+  }
+  @media (max-width: 640px) {
+    .diag-band-options { flex-direction: column; }
+    .diag-band-cta { width: 100%; justify-content: center; }
   }
 </style>

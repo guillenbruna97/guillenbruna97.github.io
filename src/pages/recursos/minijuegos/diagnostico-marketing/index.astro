@@ -387,21 +387,34 @@ const breadcrumbLd = {
     renderResult();
   });
 
-  const start = () => {
+  const start = (origen = 'pagina') => {
     respuestas = preguntas.map(() => null);
     current = 0;
     show('question');
     renderQuestion();
-    track('diagnostico_inicio');
+    track('diagnostico_inicio', { origen });
   };
 
-  $('btn-start').addEventListener('click', start);
-  $('btn-restart').addEventListener('click', start);
+  $('btn-start').addEventListener('click', () => start());
+  $('btn-restart').addEventListener('click', () => start());
   $('btn-prev').addEventListener('click', () => {
     if (current === 0) return;
     current--;
     renderQuestion();
   });
+
+  // Entrada desde el banner de la home: ?s=<índice> trae ya elegida la
+  // respuesta de la primera pregunta, así que se marca y se salta a la
+  // segunda. Se puede volver atrás para cambiarla.
+  const sParam = new URLSearchParams(location.search).get('s');
+  const s = sParam ? Number(sParam) : NaN;
+  if (Number.isInteger(s) && s >= 0 && s < preguntas[0].opciones.length) {
+    start('banner');
+    respuestas[0] = s;
+    track('diagnostico_pregunta', { pregunta: preguntas[0].id, numero: 1 });
+    current = 1;
+    renderQuestion();
+  }
 </script>
 
 <style is:global>
