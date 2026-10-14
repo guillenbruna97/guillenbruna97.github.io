@@ -10,6 +10,12 @@ import { PREGUNTAS } from '../data/diagnostico';
 const game = GAMES.find((g) => g.slug === 'diagnostico-marketing')!;
 const href = `/recursos/minijuegos/${game.slug}/`;
 const primera = PREGUNTAS[0];
+// El banner muestra 4 respuestas en una rejilla de 2x2. Se deja fuera la
+// primera ("No vendemos lo suficiente..."), la más genérica: las otras
+// cuatro ya cubren las tres áreas. Cada botón conserva su índice real
+// para que ?s= marque la respuesta correcta en el diagnóstico.
+const SINTOMAS_BANNER = [1, 2, 3, 4];
+const opciones = SINTOMAS_BANNER.map((i) => ({ i, texto: primera.opciones[i].texto }));
 ---
 <section class="diag-band" aria-labelledby="diag-band-title">
   <div class="diag-band-inner" data-reveal>
@@ -17,8 +23,8 @@ const primera = PREGUNTAS[0];
     <h2 class="diag-band-title" id="diag-band-title">{primera.pregunta}</h2>
     <p class="diag-band-hint">Elige la tuya y descubre qué hay detrás.</p>
     <div class="diag-band-options">
-      {primera.opciones.map((opcion, i) => (
-        <a href={`${href}?s=${i}`} class="diag-band-option" data-diag-banner="sintoma">{opcion.texto}</a>
+      {opciones.map(({ i, texto }) => (
+        <a href={`${href}?s=${i}`} class="diag-band-option" data-diag-banner="sintoma">{texto}</a>
       ))}
     </div>
     <a href={href} class="diag-band-cta" data-diag-banner="boton">{game.cta} <span aria-hidden="true">→</span></a>
@@ -80,15 +86,21 @@ const primera = PREGUNTAS[0];
     margin-bottom: 2.2rem;
   }
 
+  /* Rejilla 2x2: columnas del mismo ancho y, al estirarse por defecto, las
+     cuatro cajas de la misma altura aunque un texto ocupe más líneas. */
   .diag-band-options {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: 1fr;
     gap: 0.75rem;
+    max-width: 900px;
     margin-bottom: 2.5rem;
   }
 
   .diag-band-option {
-    padding: 0.85rem 1.2rem;
+    display: flex;
+    align-items: center;
+    padding: 1.1rem 1.3rem;
     border: 1px solid rgba(255,255,255,0.22);
     border-radius: 8px;
     color: #fff;
@@ -125,7 +137,7 @@ const primera = PREGUNTAS[0];
     .diag-band-inner { margin: 0 6vw; padding: 4rem 0; }
   }
   @media (max-width: 640px) {
-    .diag-band-options { flex-direction: column; }
+    .diag-band-options { grid-template-columns: 1fr; }
     .diag-band-cta { width: 100%; justify-content: center; }
   }
 </style>
