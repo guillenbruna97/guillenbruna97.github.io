@@ -8,8 +8,8 @@
 //   distinto según el perfil (porPerfil), como en B2B no se vende igual
 //   a un CEO con prisa que a un comité de compra.
 // - Cada momento tiene varios planteamientos (variantes) y sale uno al
-//   azar. Los que llevan `evento` son imprevistos (como mucho uno por
-//   partida).
+//   azar, evitando los que el jugador ha visto en sus últimas partidas.
+//   Los que llevan `evento` son imprevistos (como mucho uno por partida).
 // - Cada planteamiento tiene tres opciones con el mismo patrón, una
 //   claramente buena, una a medias (lo habitual, no un error grave) y una
 //   claramente mala.
@@ -17,7 +17,7 @@
 // Regla de copy: sin dos puntos ni guiones largos en los textos visibles.
 
 export type Calidad = 'bien' | 'regular' | 'mal';
-export type PerfilId = 'prisa' | 'grupo' | 'compara';
+export type PerfilId = 'prisa' | 'grupo' | 'compara' | 'esceptico';
 export type NivelId = 'facil' | 'normal' | 'dificil';
 
 // Lo que cambia de una opción para un perfil concreto.
@@ -70,6 +70,9 @@ export interface Momento {
   id: string;
   nombre: string;
   b2b: string;
+  // Lo que hay que tener claro en esta fase. Se enseña al final en las
+  // fases donde el jugador flaquea, como la clave que se le escapa.
+  clave: string;
   variantes: Variante[];
   // Si el hambre llega al umbral del nivel, el momento se resuelve solo.
   automatico?: { texto: string; reaccion: string; b2b: string };
@@ -161,6 +164,13 @@ export const PERFILES: Perfil[] = [
     b2b: 'Es el cliente que pide tres presupuestos y compara antes de decidir.',
     pista: 'Necesita saber por qué tú y cuánto cuesta. No escondas el precio.',
   },
+  {
+    id: 'esceptico',
+    nombre: 'El que viene escarmentado',
+    pizza: 'Entra mirándolo todo con lupa. La última pizzería le falló y no piensa dejar que le vuelva a pasar.',
+    b2b: 'Es el cliente que ya tuvo un mal proveedor y desconfía de cualquier promesa.',
+    pista: 'No le prometas, demuéstralo. Pregunta qué falló la otra vez y dale pruebas.',
+  },
 ];
 
 export const HAMBRE_VUELVE = 60;
@@ -175,6 +185,7 @@ export const MOMENTOS: Momento[] = [
     id: 'calle',
     nombre: 'La calle',
     b2b: 'Atracción',
+    clave: 'Atrae a quien tiene el problema que resuelves, no a cualquiera que pase por delante.',
     variantes: [
       {
         id: 'calle-cartel',
@@ -212,6 +223,9 @@ export const MOMENTOS: Momento[] = [
             reaccion: 'Eso lo dicen todos',
             b2b: 'Es el anuncio que habla de ti y no de quien lo lee. No le da nada al que pasa por delante y tampoco te dice quién es ni qué busca.',
             calidad: 'mal',
+            porPerfil: {
+              esceptico: { delta: 5, reaccion: 'Eso me dijeron en la otra', b2b: 'Al que viene escarmentado, una promesa sin pruebas le recuerda justo a quien le falló.' },
+            },
           },
         ],
       },
@@ -228,6 +242,9 @@ export const MOMENTOS: Momento[] = [
             reaccion: 'Esto está buenísimo',
             b2b: 'Es la demo o la prueba gratuita. Quien prueba sabe lo que se lleva y entra con ganas. Atraes menos gente que con un anuncio masivo, pero más interesada.',
             calidad: 'bien',
+            porPerfil: {
+              esceptico: { delta: 60, reaccion: 'Probarlo antes, eso me gusta', b2b: 'Al que viene escarmentado nada le convence tanto como probar antes de comprometerse. La demo le quita el miedo.' },
+            },
           },
           {
             texto: 'Una cuña en la radio local',
@@ -254,12 +271,89 @@ export const MOMENTOS: Momento[] = [
           },
         ],
       },
+      {
+        id: 'calle-competencia',
+        pregunta: 'Han abierto otra pizzería en tu misma calle y regalan la bebida. ¿Qué pones en tu cartel?',
+        evento: 'Imprevisto',
+        opciones: [
+          {
+            texto: 'Para qué tipo de comida es tu pizza, con un ejemplo concreto',
+            rotulo: 'Pizza para comidas de equipo',
+            gente: 3,
+            interes: 'una comida con su equipo',
+            delta: 50,
+            reaccion: 'Justo lo que buscaba para el viernes',
+            b2b: 'Es posicionarte en un nicho. En vez de competir por todo el mundo, hablas a quien tiene un problema concreto y te conviertes en la opción obvia para él.',
+            calidad: 'bien',
+          },
+          {
+            texto: 'Bebida gratis también, para no quedarte atrás',
+            rotulo: 'Bebida gratis con tu pizza',
+            gente: 5,
+            interes: 'la bebida gratis',
+            delta: 30,
+            reaccion: 'Pues aquí también la regalan',
+            b2b: 'Copiar la oferta del competidor te mantiene en la carrera, pero quien pasa ya no ve ninguna diferencia entre los dos.',
+            calidad: 'regular',
+          },
+          {
+            texto: 'Un cartel que dice que la de al lado es peor',
+            rotulo: 'Aquí no somos como esos',
+            gente: 2,
+            interes: 'ver el lío entre pizzerías',
+            delta: 10,
+            reaccion: 'Qué mal rollo',
+            b2b: 'Definirte por oposición al competidor le da todo el protagonismo a él. Quien pasa por delante sigue sin saber qué haces tú mejor.',
+            calidad: 'mal',
+          },
+        ],
+      },
+      {
+        id: 'calle-escaparate',
+        pregunta: 'Tienes un escaparate que da a la calle. ¿Qué pones en él?',
+        opciones: [
+          {
+            texto: 'Fotos de clientes como él comiendo y lo que dijeron',
+            rotulo: 'Lo que dicen nuestros clientes',
+            gente: 3,
+            interes: 'ver qué opinan otros como él',
+            delta: 50,
+            reaccion: 'Si a ellos les gustó…',
+            b2b: 'Son los casos de éxito y los testimonios. Ver que alguien parecido ya confió en ti quita el miedo a equivocarse.',
+            calidad: 'bien',
+            porPerfil: {
+              esceptico: { delta: 60, reaccion: 'Vale, esto ya es otra cosa', b2b: 'Al que viene escarmentado no le convencen tus promesas, le convencen otros clientes. Los casos reales son su mejor puerta de entrada.' },
+            },
+          },
+          {
+            texto: 'La carta completa pegada en el cristal',
+            rotulo: 'Nuestra carta',
+            gente: 4,
+            interes: 'mirar la carta',
+            delta: 30,
+            reaccion: 'Mucha cosa, ya veré',
+            b2b: 'Es la web que enseña todo el catálogo. Informa, pero no ayuda a quien pasa a ver qué le encaja a él.',
+            calidad: 'regular',
+          },
+          {
+            texto: 'Fotos del equipo con los premios que habéis ganado',
+            rotulo: 'Premio a la mejor masa',
+            gente: 2,
+            interes: 'saber de qué es el premio',
+            delta: 15,
+            reaccion: '¿Y eso a mí qué me aporta?',
+            b2b: 'Hablar de tus logros en vez de los problemas del cliente es el error más habitual en la web de una empresa B2B.',
+            calidad: 'mal',
+          },
+        ],
+      },
     ],
   },
   {
     id: 'puerta',
     nombre: 'La puerta',
     b2b: 'Captación de datos',
+    clave: 'Pide solo los datos que vas a usar y pregunta siempre qué le ha traído.',
     variantes: [
       {
         id: 'puerta-datos',
@@ -325,12 +419,73 @@ export const MOMENTOS: Momento[] = [
           },
         ],
       },
+      {
+        id: 'puerta-reserva',
+        pregunta: 'El cliente llama por teléfono para reservar. ¿Qué le preguntas?',
+        opciones: [
+          {
+            texto: 'Para cuántos, a qué hora y si es por algo especial',
+            delta: 10,
+            reaccion: 'Es una comida de trabajo, sí',
+            b2b: 'Tres preguntas que cambian lo que harás después. Un formulario corto con una pregunta sobre el motivo vale más que diez campos.',
+            calidad: 'bien',
+          },
+          {
+            texto: 'Solo el nombre y la hora',
+            delta: 0,
+            marca: 'sinInteres',
+            reaccion: 'Vale, apuntado',
+            b2b: 'Tienes el contacto, pero no sabes para qué viene. Le podrás atender, pero no preparar nada pensando en él.',
+            calidad: 'regular',
+          },
+          {
+            texto: 'Que reserve por la web, que por teléfono no se puede',
+            delta: -20,
+            reaccion: '¿En serio? Si ya estoy hablando contigo',
+            b2b: 'Obligar al contacto a usar tu canal y no el suyo es una barrera más. Si ya tienes su atención, no le mandes a otro sitio.',
+            calidad: 'mal',
+            porPerfil: {
+              prisa: { delta: -30, reaccion: 'No tengo tiempo para webs', b2b: 'Al decisor con prisa cada paso de más le hace buscar a otro. Si te llama, atiéndele ahí.' },
+            },
+          },
+        ],
+      },
+      {
+        id: 'puerta-escarmentado',
+        pregunta: 'Nada más entrar te cuenta que en la última pizzería le sirvieron la pizza fría. ¿Qué haces?',
+        soloPerfiles: ['esceptico'],
+        opciones: [
+          {
+            texto: 'Le preguntas qué pasó y apuntas lo que no quiere que se repita',
+            delta: 15,
+            reaccion: 'Pues mira, te cuento',
+            b2b: 'Las malas experiencias anteriores son información valiosa. Saber qué falló con el proveedor anterior te dice exactamente qué tienes que cuidar.',
+            calidad: 'bien',
+          },
+          {
+            texto: 'Le aseguras que aquí eso no pasa',
+            delta: 0,
+            marca: 'sinInteres',
+            reaccion: 'Eso me dijeron allí también',
+            b2b: 'Prometer sin preguntar no convence a quien ya se ha quemado. Y además te quedas sin saber qué le importa.',
+            calidad: 'regular',
+          },
+          {
+            texto: 'Le dices que esa pizzería no tiene nada que ver con la tuya y le sientas',
+            delta: -20,
+            reaccion: 'No me has escuchado',
+            b2b: 'Pasar por encima de la objeción para seguir con tu proceso le confirma que aquí tampoco le van a escuchar.',
+            calidad: 'mal',
+          },
+        ],
+      },
     ],
   },
   {
     id: 'espera',
     nombre: 'La espera',
     b2b: 'Seguimiento personalizado',
+    clave: 'Responde rápido y con algo conectado con lo que el contacto vino buscando.',
     variantes: [
       {
         id: 'espera-aperitivo',
@@ -409,12 +564,103 @@ export const MOMENTOS: Momento[] = [
           },
         ],
       },
+      {
+        id: 'espera-retraso',
+        pregunta: 'Hay mucho lío en cocina y el cliente lleva diez minutos sin que nadie le atienda. ¿Qué haces?',
+        evento: 'Imprevisto',
+        opciones: [
+          {
+            texto: 'Te acercas, le dices cuándo le atienden y le dejas algo de picar',
+            delta: 15,
+            escena: ['aperitivo'],
+            reaccion: 'Gracias, así sí espero',
+            b2b: 'Es la primera respuesta bien hecha. Confirma que le has visto, le dice cuándo le atenderán y le da algo útil mientras tanto.',
+            calidad: 'bien',
+          },
+          {
+            texto: 'Mandas al camarero en cuanto quede uno libre',
+            delta: -5,
+            reaccion: 'Por fin alguien',
+            b2b: 'Le atiendes, pero tarde. En B2B, las primeras horas después de que alguien contacta son las que más pesan para que acabe comprando.',
+            calidad: 'regular',
+            porPerfil: {
+              prisa: { delta: -15, calidad: 'mal', reaccion: 'Ya no me da tiempo', b2b: 'Con un decisor con prisa, responder tarde es lo mismo que no responder.' },
+            },
+          },
+          {
+            texto: 'Nada, ya se dará cuenta de que hay mucho lío',
+            delta: -25,
+            reaccion: '¿Se habrán olvidado de mí?',
+            b2b: 'El silencio se interpreta como desinterés. Un contacto que no recibe respuesta da por hecho que no le quieres como cliente.',
+            calidad: 'mal',
+          },
+        ],
+      },
+      {
+        id: 'espera-mesa',
+        pregunta: 'Los tres de la mesa miran el móvil y nadie ha cogido la carta. ¿Qué haces?',
+        soloPerfiles: ['grupo'],
+        opciones: [
+          {
+            texto: 'Les llevas algo para compartir y preguntas a cada uno qué le apetece',
+            delta: 25,
+            escena: ['aperitivo'],
+            reaccion: 'Oye, pues sí',
+            b2b: 'Con un comité de compra, el seguimiento tiene que llegar a cada persona con lo que le importa a ella. Lo que convence a dirección no convence a finanzas.',
+            calidad: 'bien',
+          },
+          {
+            texto: 'Le hablas solo al que entró primero',
+            delta: 0,
+            reaccion: 'Ya se lo comento a ellos',
+            b2b: 'Tener un único contacto en la empresa es cómodo, pero dependes de que él convenza a los demás por ti.',
+            calidad: 'regular',
+          },
+          {
+            texto: 'Les pones en la pantalla un vídeo de cómo hacéis la pizza',
+            delta: -15,
+            reaccion: 'Estamos hablando de lo nuestro',
+            b2b: 'Es el webinar que nadie ha pedido. Contenido sobre ti cuando el cliente está pensando en sus cosas.',
+            calidad: 'mal',
+          },
+        ],
+      },
+      {
+        id: 'espera-pruebas',
+        pregunta: 'El cliente pregunta si la masa es casera de verdad o congelada. ¿Qué haces?',
+        soloPerfiles: ['esceptico', 'compara'],
+        opciones: [
+          {
+            texto: 'Le invitas a ver cómo el pizzero estira la masa',
+            delta: 25,
+            escena: ['aperitivo'],
+            reaccion: 'Vale, esto me deja tranquilo',
+            b2b: 'Ante un cliente desconfiado, enseñar vale más que contar. Es la demo, la visita a un cliente actual o el caso real con datos.',
+            calidad: 'bien',
+          },
+          {
+            texto: 'Le dices que sí, que es casera de toda la vida',
+            delta: 5,
+            reaccion: 'Ya, eso dicen todos',
+            b2b: 'Puede ser verdad, pero sin pruebas suena igual que lo que dice cualquier competidor.',
+            calidad: 'regular',
+          },
+          {
+            texto: 'Le dices que no se preocupe por esas cosas',
+            delta: -20,
+            reaccion: 'Pues a mí sí me preocupa',
+            b2b: 'Quitar importancia a la duda del cliente es decirle que su criterio no cuenta. La desconfianza crece.',
+            calidad: 'mal',
+          },
+        ],
+      },
     ],
   },
   {
     id: 'llamada',
     nombre: 'La llamada',
     b2b: 'Paso al equipo comercial',
+    clave: 'Ventas entra cuando el cliente está listo y llega sabiendo lo que ya contó.',
     automatico: {
       texto: 'El cliente levanta la mano y llama él al camarero.',
       reaccion: '¡Camarero, cuando pueda!',
@@ -492,17 +738,87 @@ export const MOMENTOS: Momento[] = [
           },
         ],
       },
+      {
+        id: 'llamada-momento',
+        pregunta: 'El cliente acaba de cerrar la carta. ¿Cuándo va el camarero?',
+        opciones: [
+          {
+            texto: 'En cuanto la cierra, que es la señal de que ya ha decidido',
+            delta: 15,
+            escena: ['camarero'],
+            reaccion: 'Justo a tiempo',
+            b2b: 'Es leer las señales de compra. Algunas acciones del contacto indican que está listo, como mirar la página de precios. Ventas tiene que llegar en ese momento, ni antes ni después.',
+            calidad: 'bien',
+          },
+          {
+            texto: 'Cuando termine con las otras mesas que tiene asignadas',
+            delta: -10,
+            escena: ['camarero'],
+            reaccion: 'Llevo un rato con la carta cerrada',
+            b2b: 'Seguir tu turno y no las señales del cliente hace que llegues tarde a quien ya estaba listo para comprar.',
+            calidad: 'regular',
+            porPerfil: {
+              prisa: { delta: -20, calidad: 'mal', reaccion: 'Me voy a tener que ir', b2b: 'Al decisor con prisa no le puedes hacer esperar a que te venga bien. Su ventana de decisión es muy corta.' },
+            },
+          },
+          {
+            texto: 'Antes de que la abra, para tomar nota cuanto antes',
+            delta: -15,
+            escena: ['camarero'],
+            reaccion: 'Si aún no he mirado nada',
+            b2b: 'Pasar el contacto a ventas antes de tiempo es la llamada comercial a quien solo se ha descargado una guía. Le espantas.',
+            calidad: 'mal',
+          },
+        ],
+      },
+      {
+        id: 'llamada-turno',
+        pregunta: 'El camarero que le atendió acaba su turno justo ahora. ¿Qué haces?',
+        evento: 'Imprevisto',
+        opciones: [
+          {
+            texto: 'Le presenta al compañero que entra y le cuenta lo que ya sabe del cliente',
+            delta: 10,
+            escena: ['camarero'],
+            reaccion: 'Perfecto, encantado',
+            b2b: 'Cuando cambia la persona que lleva la cuenta, un traspaso con contexto evita que el cliente sienta que empieza de cero. Que el CRM recoja lo hablado lo hace posible.',
+            calidad: 'bien',
+            siMarca: {
+              marca: 'sinInteres',
+              delta: 0,
+              b2b: 'El traspaso se hace, pero no hay nada que contar porque en la puerta no se apuntó qué buscaba. Sin datos, no hay contexto que pasar.',
+              calidad: 'regular',
+            },
+          },
+          {
+            texto: 'Entra el compañero y empieza desde cero',
+            delta: -10,
+            escena: ['camarero'],
+            reaccion: '¿Otra vez lo mismo?',
+            b2b: 'Al cliente no le importa vuestro cambio de turno. Para él es repetir todo lo que ya contó.',
+            calidad: 'regular',
+          },
+          {
+            texto: 'Nadie va a la mesa hasta que alguien se dé cuenta',
+            delta: -25,
+            reaccion: 'Aquí no me hace caso nadie',
+            b2b: 'Es el contacto que se queda sin dueño en el CRM cuando alguien cambia de cartera o deja la empresa. Nadie le llama y se enfría del todo.',
+            calidad: 'mal',
+          },
+        ],
+      },
     ],
   },
   {
     id: 'pedido',
     nombre: 'El pedido',
     b2b: 'Reunión de descubrimiento',
+    clave: 'Escucha antes de proponer. Entiende qué necesita, quién decide y con qué urgencia.',
     variantes: [
       {
         id: 'pedido-nota',
         pregunta: 'El camarero ya está en la mesa. ¿Cómo toma nota?',
-        soloPerfiles: ['grupo', 'compara'],
+        soloPerfiles: ['grupo', 'compara', 'esceptico'],
         opciones: [
           {
             texto: 'Pregunta qué le apetece, con quién viene y cuánto tiempo tiene',
@@ -586,12 +902,71 @@ export const MOMENTOS: Momento[] = [
           },
         ],
       },
+      {
+        id: 'pedido-objetivo',
+        pregunta: 'El camarero ya está en la mesa. ¿Por dónde empieza?',
+        opciones: [
+          {
+            texto: 'Pregunta para qué es la comida de hoy',
+            delta: 20,
+            reaccion: 'Celebramos un cierre, algo especial',
+            b2b: 'Entender el motivo de la compra cambia lo que vas a proponer. Es la pregunta por el objetivo de negocio, la que casi nadie hace.',
+            calidad: 'bien',
+            porPerfil: {
+              prisa: { delta: 15, reaccion: 'Comer rápido, tengo una reunión', b2b: 'Con un decisor con prisa la pregunta por el objetivo también funciona, siempre que sea una sola y vaya al grano.' },
+            },
+          },
+          {
+            texto: 'Pregunta qué quiere tomar',
+            delta: 0,
+            reaccion: 'Pues no sé, ¿qué tenéis?',
+            b2b: 'Ir directo al pedido es rápido, pero te quedas sin entender qué necesita y la propuesta será genérica.',
+            calidad: 'regular',
+          },
+          {
+            texto: 'Le cuenta todas las ofertas del día antes de que diga nada',
+            delta: -20,
+            reaccion: 'Uf, cuánta información',
+            b2b: 'Es la presentación comercial de cuarenta diapositivas en la primera reunión. El cliente aún no ha dicho nada y ya está saturado.',
+            calidad: 'mal',
+          },
+        ],
+      },
+      {
+        id: 'pedido-garantia',
+        pregunta: 'El cliente pregunta qué pasa si la pizza no le gusta. ¿Qué responde el camarero?',
+        soloPerfiles: ['esceptico'],
+        opciones: [
+          {
+            texto: 'Que se la cambian sin coste, y le pregunta qué no le gustó la última vez',
+            delta: 25,
+            reaccion: 'Así sí me atrevo',
+            b2b: 'Quitar riesgo con una garantía clara es clave con quien ya se quemó. Y de paso descubres qué le importa de verdad.',
+            calidad: 'bien',
+          },
+          {
+            texto: 'Que a todo el mundo le gusta',
+            delta: -5,
+            reaccion: 'Eso no responde a mi pregunta',
+            b2b: 'La opinión de otros ayuda, pero no responde a su miedo. Necesita saber qué pasa si sale mal.',
+            calidad: 'regular',
+          },
+          {
+            texto: 'Que eso aquí nunca ha pasado',
+            delta: -20,
+            reaccion: 'Seguro que sí',
+            b2b: 'Negar el riesgo ante alguien desconfiado destruye tu credibilidad. Es mejor reconocerlo y explicar cómo lo resuelves.',
+            calidad: 'mal',
+          },
+        ],
+      },
     ],
   },
   {
     id: 'carta',
     nombre: 'La carta',
     b2b: 'Propuesta',
+    clave: 'Una recomendación clara y con el precio a la vista hace fácil decir que sí.',
     variantes: [
       {
         id: 'carta-ensenar',
@@ -625,6 +1000,7 @@ export const MOMENTOS: Momento[] = [
             calidad: 'mal',
             porPerfil: {
               compara: { delta: -30, reaccion: 'Pues enfrente sí ponen precio', b2b: 'Al que compara, si no le das precio, se lo pedirá a otro. Es lo primero que necesita para decidir.' },
+              esceptico: { delta: -30, reaccion: 'Esto ya me pasó una vez', b2b: 'Al que ya se quemó, un precio que no se dice le suena a sorpresa en la factura. Es lo que más teme.' },
             },
           },
         ],
@@ -691,6 +1067,73 @@ export const MOMENTOS: Momento[] = [
             reaccion: 'Eso es lo que diría cualquiera',
             b2b: 'Hablar mal de la competencia resta credibilidad. El cliente quiere saber por qué tú, no por qué ellos no.',
             calidad: 'mal',
+            porPerfil: {
+              esceptico: { delta: -25, reaccion: 'Lo mismo dirán ellos de ti' },
+            },
+          },
+        ],
+      },
+      {
+        id: 'carta-opciones',
+        pregunta: 'Ya sabes lo que necesita. ¿Cómo le presentas lo que le recomiendas?',
+        opciones: [
+          {
+            texto: 'La que le recomiendas y otra más sencilla, cada una con su precio',
+            delta: 20,
+            escena: ['cartaCorta'],
+            reaccion: 'Me quedo con la primera',
+            b2b: 'Una recomendación y una alternativa ayudan a decidir sin sentir que te imponen nada. Es la propuesta con dos opciones bien escogidas.',
+            calidad: 'bien',
+          },
+          {
+            texto: 'La recomendación y tres alternativas más por si acaso',
+            delta: -5,
+            escena: ['cartaLarga'],
+            reaccion: 'Déjame pensarlo',
+            b2b: 'Cada opción de más alarga la decisión. Quieres cubrirlo todo y acabas frenando el sí.',
+            calidad: 'regular',
+            porPerfil: {
+              prisa: { delta: -15, calidad: 'mal', reaccion: 'No tengo tiempo para comparar', b2b: 'Un decisor con prisa quiere que decidas por él. Darle cuatro opciones es devolverle el trabajo.' },
+            },
+          },
+          {
+            texto: 'La que más margen te deja, aunque no encaje del todo',
+            delta: -20,
+            escena: ['cartaCorta'],
+            reaccion: 'Esto no es lo que te he dicho',
+            b2b: 'Proponer lo que te conviene a ti y no lo que necesita el cliente se nota enseguida y rompe la confianza que ganaste escuchando.',
+            calidad: 'mal',
+          },
+        ],
+      },
+      {
+        id: 'carta-mesa',
+        pregunta: 'Cada uno de la mesa quiere una pizza distinta y no se ponen de acuerdo. ¿Qué propones?',
+        soloPerfiles: ['grupo'],
+        opciones: [
+          {
+            texto: 'Una pizza por mitades y otra para compartir, explicando qué se lleva cada uno',
+            delta: 25,
+            escena: ['cartaCorta'],
+            reaccion: 'Así estamos todos contentos',
+            b2b: 'Una buena propuesta para un comité resuelve la prioridad de cada persona y deja claro qué gana cada una. Así nadie la bloquea.',
+            calidad: 'bien',
+          },
+          {
+            texto: 'La que quiere el que parece que manda',
+            delta: -5,
+            escena: ['cartaCorta'],
+            reaccion: 'Bueno, si ella lo dice…',
+            b2b: 'Convences a quien decide, pero los demás no se sienten escuchados y pueden frenar la compra más adelante.',
+            calidad: 'regular',
+          },
+          {
+            texto: 'Les dejas la carta y que lo decidan entre ellos',
+            delta: -15,
+            escena: ['cartaLarga'],
+            reaccion: 'Esto va para largo',
+            b2b: 'Dejar al comité a solas con tu catálogo es la propuesta que se queda en un cajón porque nadie la defiende dentro.',
+            calidad: 'mal',
           },
         ],
       },
@@ -700,6 +1143,7 @@ export const MOMENTOS: Momento[] = [
     id: 'servicio',
     nombre: 'Cocina y servicio',
     b2b: 'Trabajo y entrega',
+    clave: 'Entrega lo prometido y avisa de cualquier cambio antes de que el cliente pregunte.',
     variantes: [
       {
         id: 'servicio-salida',
@@ -722,6 +1166,7 @@ export const MOMENTOS: Momento[] = [
             calidad: 'regular',
             porPerfil: {
               prisa: { delta: -20, calidad: 'mal', reaccion: 'Ya llego tarde a mi reunión', b2b: 'Para un decisor con prisa, el plazo es parte del producto. Un buen trabajo fuera de tiempo le falla igual.' },
+              esceptico: { delta: -20, calidad: 'mal', reaccion: 'Lo que me temía', b2b: 'Al cliente escarmentado, un retraso sin aviso le confirma su miedo. Con él, avisar a tiempo es todavía más importante.' },
             },
           },
           {
@@ -768,12 +1213,76 @@ export const MOMENTOS: Momento[] = [
           },
         ],
       },
+      {
+        id: 'servicio-cambio',
+        pregunta: 'Con la pizza ya en el horno, el cliente pide que le añadas burrata. ¿Qué haces?',
+        opciones: [
+          {
+            texto: 'Le dices que sí, lo que cuesta y cuánto tarda, y esperas a su visto bueno',
+            delta: 15,
+            escena: ['pizza'],
+            reaccion: 'Perfecto, adelante',
+            b2b: 'Es gestionar un cambio de alcance. Se puede hacer, pero con precio y plazo claros antes de empezar. Así nadie se lleva sorpresas en la factura.',
+            calidad: 'bien',
+          },
+          {
+            texto: 'Se la añades sin decir nada y la cobras al final',
+            delta: -5,
+            escena: ['pizza'],
+            reaccion: 'Ah, ¿y esto me lo cobras?',
+            b2b: 'Aceptar cambios sin hablar de coste parece buen servicio, pero la sorpresa en la factura estropea la relación.',
+            calidad: 'regular',
+            porPerfil: {
+              compara: { delta: -15, calidad: 'mal', reaccion: 'Esto no estaba en el precio', b2b: 'Al que compara, un coste que no esperaba le hace sentir engañado. Para él el precio cerrado es sagrado.' },
+            },
+          },
+          {
+            texto: 'Le dices que no, que el pedido ya está cerrado',
+            delta: -15,
+            escena: ['pizza'],
+            reaccion: 'Qué poca flexibilidad',
+            b2b: 'Negarte a cualquier cambio protege tu margen, pero el cliente siente que el contrato te importa más que él.',
+            calidad: 'mal',
+          },
+        ],
+      },
+      {
+        id: 'servicio-control',
+        pregunta: 'La pizza sale hacia la mesa. ¿Qué hace el camarero mientras el cliente come?',
+        opciones: [
+          {
+            texto: 'Pasa una vez a los cinco minutos a preguntar si está como esperaba',
+            delta: 15,
+            escena: ['pizza'],
+            reaccion: 'Todo perfecto, gracias',
+            b2b: 'Comprobar la satisfacción durante la entrega, y no solo al final, permite corregir a tiempo. Es la reunión de seguimiento del proyecto.',
+            calidad: 'bien',
+          },
+          {
+            texto: 'No pasa por la mesa, para no molestar',
+            delta: 0,
+            escena: ['pizza'],
+            reaccion: 'Me falta el aceite picante…',
+            b2b: 'No molestar está bien, pero si algo falla durante la entrega te enterarás cuando ya no tenga arreglo.',
+            calidad: 'regular',
+          },
+          {
+            texto: 'Pasa cada poco a contarle cómo hacen cada ingrediente',
+            delta: -15,
+            escena: ['pizza'],
+            reaccion: 'Déjame comer tranquilo',
+            b2b: 'Es el informe semanal de cuarenta páginas que nadie lee. Mucha comunicación sobre ti y poca sobre lo que le importa al cliente.',
+            calidad: 'mal',
+          },
+        ],
+      },
     ],
   },
   {
     id: 'sobremesa',
     nombre: 'La sobremesa',
     b2b: 'Posventa',
+    clave: 'Después de la venta empieza la siguiente. Pregunta cómo ha ido, cuida y pide la recomendación.',
     variantes: [
       {
         id: 'sobremesa-postre',
@@ -839,6 +1348,71 @@ export const MOMENTOS: Momento[] = [
             escena: ['cuenta'],
             reaccion: 'Yo no he pedido esto',
             b2b: 'Meter a un cliente en comunicaciones que no ha pedido estropea una buena experiencia justo al final del camino.',
+            calidad: 'mal',
+          },
+        ],
+      },
+      {
+        id: 'sobremesa-queja',
+        pregunta: 'El cliente comenta que la pizza estaba algo salada. ¿Qué haces?',
+        evento: 'Imprevisto',
+        opciones: [
+          {
+            texto: 'Le das las gracias por decirlo, preguntas qué cambiaría y le invitas al café',
+            delta: 15,
+            escena: ['cuenta'],
+            reaccion: 'Así da gusto volver',
+            b2b: 'Una queja bien atendida fideliza más que un servicio sin fallos. Escuchar, agradecer y compensar convierte al cliente en defensor.',
+            calidad: 'bien',
+            porPerfil: {
+              esceptico: { delta: 20, reaccion: 'Esto en la otra no me pasó', b2b: 'Al cliente escarmentado le demuestras con hechos que aquí sí le escuchan. Es justo lo que no encontró en su proveedor anterior.' },
+            },
+          },
+          {
+            texto: 'Le pides perdón y le llevas la cuenta',
+            delta: -5,
+            escena: ['cuenta'],
+            reaccion: 'Vale, no pasa nada',
+            b2b: 'Reconoces el fallo, pero no aprovechas para entender qué pasó ni para reparar la relación.',
+            calidad: 'regular',
+          },
+          {
+            texto: 'Le explicas que la receta es así y que a todos les gusta',
+            delta: -20,
+            escena: ['cuenta'],
+            reaccion: 'Pues a mí no',
+            b2b: 'Defenderte ante una queja le dice al cliente que su opinión no cuenta. Es el cliente que no renueva y no te dice por qué.',
+            calidad: 'mal',
+          },
+        ],
+      },
+      {
+        id: 'sobremesa-referido',
+        pregunta: 'El cliente ha comido muy a gusto. ¿Cómo consigues que vuelva y lo cuente?',
+        opciones: [
+          {
+            texto: 'Le preguntas si conoce a alguien a quien le encantaría y le das una invitación para esa persona',
+            delta: 15,
+            escena: ['postre'],
+            venta: { concepto: 'Café de la casa', precio: 2.5 },
+            reaccion: 'Se la doy a mi socia',
+            b2b: 'Es el programa de recomendaciones. Pedirla en el momento de más satisfacción, y facilitarla con algo concreto, multiplica las que llegan.',
+            calidad: 'bien',
+          },
+          {
+            texto: 'Le das una tarjeta de fidelización de diez sellos',
+            delta: 0,
+            escena: ['cuenta'],
+            reaccion: 'Otra tarjeta más',
+            b2b: 'Los programas de puntos genéricos retienen algo, pero no generan recomendaciones ni conversación.',
+            calidad: 'regular',
+          },
+          {
+            texto: 'Le pides que suba una foto a redes antes de traerle la cuenta',
+            delta: -15,
+            escena: ['cuenta'],
+            reaccion: '¿Y si no lo hago qué?',
+            b2b: 'Condicionar el servicio a que el cliente te promocione suena a que su experiencia solo te interesa como anuncio.',
             calidad: 'mal',
           },
         ],
