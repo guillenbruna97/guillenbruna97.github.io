@@ -1,6 +1,16 @@
 ---
 import BaseLayout from '../../../../layouts/BaseLayout.astro';
-import { BOOKING_URL } from '../../../../consts';
+import {
+  BOOKING_URL,
+  CONTACT_EMAIL,
+  MAILTO_URL,
+  SERVICES,
+  HUBSPOT_PORTAL_ID,
+  HUBSPOT_FORM_ID,
+  HUBSPOT_SUBSCRIPTION_TYPE_ID,
+  LEAD_TEXTO_PRIVACIDAD,
+  LEAD_TEXTO_COMERCIAL,
+} from '../../../../consts';
 import {
   MOMENTOS,
   PERFILES,
@@ -13,6 +23,7 @@ import {
   PRECIO_PIZZA,
   CLIENTES_JORNADA,
   JORNADA,
+  INFORMES,
 } from '../../../../data/pizzeria';
 
 const config = {
@@ -26,6 +37,15 @@ const config = {
   clientesJornada: CLIENTES_JORNADA,
   jornada: JORNADA,
   url: 'https://guillenbruna97.github.io/recursos/minijuegos/pizzeria-b2b/',
+  informes: INFORMES,
+  servicios: Object.fromEntries(SERVICES.map((s) => [s.slug, s.name])),
+  hubspot: {
+    portalId: HUBSPOT_PORTAL_ID,
+    formId: HUBSPOT_FORM_ID,
+    subscriptionTypeId: HUBSPOT_SUBSCRIPTION_TYPE_ID,
+  },
+  textoPrivacidad: LEAD_TEXTO_PRIVACIDAD,
+  textoComercial: LEAD_TEXTO_COMERCIAL,
 };
 
 const pageUrl = 'https://guillenbruna97.github.io/recursos/minijuegos/pizzeria-b2b/';
@@ -130,6 +150,53 @@ const breadcrumbLd = {
         <p id="pz-debil-texto"></p>
       </div>
 
+      <div class="pz-informe-bloque">
+        <div id="pz-lead">
+          <p class="pz-kicker">Informe gratuito</p>
+          <h3 class="pz-informe-titulo">Consigue tu informe con el punto débil y cómo mejorarlo</h3>
+          <p class="pz-intro">Qué significa tu punto débil en una empresa B2B y tres acciones concretas para empezar esta semana. Lo ves al momento en esta misma página.</p>
+          <form id="pz-lead-form" class="pz-form" novalidate>
+            <div class="pz-field">
+              <label for="pz-f-nombre">Nombre</label>
+              <input id="pz-f-nombre" name="nombre" type="text" autocomplete="given-name" required />
+            </div>
+            <div class="pz-field">
+              <label for="pz-f-empresa">Empresa</label>
+              <input id="pz-f-empresa" name="empresa" type="text" autocomplete="organization" required />
+            </div>
+            <div class="pz-field pz-field--ancho">
+              <label for="pz-f-email">Email</label>
+              <input id="pz-f-email" name="email" type="email" autocomplete="email" required />
+            </div>
+            <div class="pz-honeypot" aria-hidden="true">
+              <label for="pz-f-web">No rellenes este campo</label>
+              <input id="pz-f-web" name="web" type="text" tabindex="-1" autocomplete="off" />
+            </div>
+            <label class="pz-check">
+              <input type="checkbox" name="privacidad" required />
+              <span>He leído y acepto la <a href="/privacidad/" target="_blank" rel="noopener">política de privacidad</a>.</span>
+            </label>
+            <label class="pz-check">
+              <input type="checkbox" name="comercial" />
+              <span>{LEAD_TEXTO_COMERCIAL}</span>
+            </label>
+            <p class="pz-error" id="pz-lead-error" hidden></p>
+            <button type="submit" class="pz-btn" id="pz-lead-submit">Ver mi informe</button>
+            <p class="pz-legal">El responsable de tus datos es Guillén Bruna Tricas. Los uso para enseñarte el informe y contactarte sobre él y, solo si lo marcas, para enviarte comunicaciones comerciales. La base legal es tu consentimiento. Se guardan en HubSpot, el CRM que uso como proveedor. Puedes acceder, rectificar o suprimir tus datos escribiendo a <a href={MAILTO_URL}>{CONTACT_EMAIL}</a>. Tienes toda la información en la <a href="/privacidad/" target="_blank" rel="noopener">política de privacidad</a>.</p>
+          </form>
+        </div>
+
+        <div id="pz-informe" hidden>
+          <p class="pz-kicker">Tu informe</p>
+          <h3 class="pz-informe-titulo" id="pz-inf-titulo"></h3>
+          <p class="pz-inf-diag" id="pz-inf-diag"></p>
+          <p class="pz-label">Tres acciones para esta semana</p>
+          <ol class="pz-inf-pasos" id="pz-inf-pasos"></ol>
+          <p class="pz-inf-servicio" id="pz-inf-servicio"></p>
+          <a class="pz-link" id="pz-inf-link" href="/servicios/pipeline/">Ver el servicio →</a>
+        </div>
+      </div>
+
       <div class="pz-end-grid">
         <div class="pz-ticket-col">
           <div class="pz-ticket" aria-label="Ticket de la mesa">
@@ -187,8 +254,13 @@ const breadcrumbLd = {
     clientesJornada: number;
     jornada: { minimo: number; titulo: string; b2b: string }[];
     url: string;
+    informes: Record<string, { titulo: string; diagnostico: string; pasos: string[]; servicio: string }>;
+    servicios: Record<string, string>;
+    hubspot: { portalId: string; formId: string; subscriptionTypeId: string };
+    textoPrivacidad: string;
+    textoComercial: string;
   };
-  const { momentos, perfiles, niveles, desenlaces, impaciencia, umbrales, precioPizza, clientesJornada, jornada, url } = config;
+  const { momentos, perfiles, niveles, desenlaces, impaciencia, umbrales, precioPizza, clientesJornada, jornada, url, informes, servicios, hubspot } = config;
 
   const $ = (id: string) => document.getElementById(id)!;
   const track = (name: string, params: Record<string, unknown> = {}) => {
@@ -719,6 +791,8 @@ const breadcrumbLd = {
       $('pz-debil-texto').textContent = debil.paso?.b2b ?? '';
     }
 
+    prepararInforme(mDebil ? mDebil.id : 'general');
+
     // Recorrido. En la jornada se agrupa por momento con un punto por cliente.
     $('pz-route-titulo').textContent = enJornada ? 'Tu proceso comercial con cada cliente' : 'Tu proceso comercial, momento a momento';
     if (enJornada) {
@@ -791,6 +865,124 @@ const breadcrumbLd = {
     $('pz-end').scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
     if (enJornada) track('pizzeria_jornada_final', { estrellas: suma, total, nivel: nivel.id });
   };
+
+  // ── Informe a cambio de los datos (se guarda en HubSpot) ──────────
+  // Quien ya dejó sus datos en este navegador ve el informe directamente.
+  let leadEnviado = leer<boolean>('pz-lead', false);
+  let informeClave = 'general';
+
+  const mostrarInforme = () => {
+    const inf = informes[informeClave] ?? informes.general;
+    $('pz-inf-titulo').textContent = inf.titulo;
+    $('pz-inf-diag').textContent = inf.diagnostico;
+    $('pz-inf-pasos').replaceChildren(...inf.pasos.map((paso) => {
+      const li = document.createElement('li');
+      li.textContent = paso;
+      return li;
+    }));
+    const nombre = servicios[inf.servicio] ?? 'Diagnóstico de Pipeline B2B';
+    $('pz-inf-servicio').textContent = `Si quieres trabajarlo con ayuda, el servicio que encaja es ${nombre}.`;
+    ($('pz-inf-link') as HTMLAnchorElement).href = `/servicios/${inf.servicio}/`;
+    $('pz-lead').hidden = true;
+    $('pz-informe').hidden = false;
+  };
+
+  const prepararInforme = (clave: string) => {
+    informeClave = clave;
+    if (leadEnviado) return mostrarInforme();
+    $('pz-lead').hidden = false;
+    $('pz-informe').hidden = true;
+  };
+
+  const enviarLead = async (datos: { nombre: string; empresa: string; email: string }, comercial: boolean) => {
+    if (!hubspot.portalId || !hubspot.formId) {
+      console.warn('[pizzería] HubSpot sin configurar: el lead NO se ha guardado.', datos);
+      return;
+    }
+    const mDebil = momentos.find((m) => m.id === informeClave);
+    const suma = resultados.reduce((a, r) => a + r.estrellas, 0);
+    // Resumen legible en la ficha del contacto, lo más útil arriba.
+    const detalle = [
+      `Origen: La pizzería B2B (${modo === 'jornada' ? 'jornada completa' : 'partida rápida'}, nivel ${nivel.nombre.toLowerCase()})`,
+      `Punto débil: ${mDebil ? `${mDebil.nombre} (${mDebil.b2b})` : 'ninguno'}`,
+      `Estrellas: ${suma} de ${maxEstrellas()}`,
+      `Consentimiento comercial: ${comercial ? 'sí' : 'no'}`,
+      '',
+      ...resultados.flatMap((r, i) => [
+        `Cliente ${i + 1}: ${r.perfil.nombre}, ${desenlaces[r.clave].titulo.toLowerCase()}`,
+        ...r.historial.map((h) => `  ${momentos.find((m) => m.id === h.momento)?.nombre} [${h.calidad}] ${h.texto}`),
+      ]),
+    ].join('\n');
+
+    const fields = [
+      { name: 'email', value: datos.email },
+      { name: 'firstname', value: datos.nombre },
+      { name: 'company', value: datos.empresa },
+      { name: 'diagnostico_resultado', value: `Pizzería B2B · ${mDebil ? mDebil.b2b : 'sin punto débil'}` },
+      { name: 'diagnostico_respuestas', value: detalle },
+    ].filter((f) => f.value);
+
+    const consent: Record<string, unknown> = { consentToProcess: true, text: config.textoPrivacidad };
+    if (hubspot.subscriptionTypeId) {
+      consent.communications = [
+        { value: comercial, subscriptionTypeId: Number(hubspot.subscriptionTypeId), text: config.textoComercial },
+      ];
+    }
+    const res = await fetch(
+      `https://api.hsforms.com/submissions/v3/integration/submit/${hubspot.portalId}/${hubspot.formId}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          fields,
+          context: { pageUri: location.href, pageName: document.title },
+          legalConsentOptions: { consent },
+        }),
+      }
+    );
+    if (!res.ok) throw new Error(`HubSpot ${res.status}: ${await res.text()}`);
+  };
+
+  const formLead = $('pz-lead-form') as HTMLFormElement;
+  formLead.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const fd = new FormData(formLead);
+    const datos = {
+      nombre: String(fd.get('nombre') ?? '').trim(),
+      empresa: String(fd.get('empresa') ?? '').trim(),
+      email: String(fd.get('email') ?? '').trim(),
+    };
+    const comercial = fd.get('comercial') === 'on';
+    let error = '';
+    if (!datos.nombre || !datos.empresa) error = 'Escribe tu nombre y el de tu empresa.';
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(datos.email)) error = 'Revisa el email, parece que falta algo.';
+    else if (fd.get('privacidad') !== 'on') error = 'Para ver el informe necesitas aceptar la política de privacidad.';
+    const errorEl = $('pz-lead-error');
+    errorEl.textContent = error;
+    errorEl.hidden = !error;
+    if (error) return;
+
+    const boton = $('pz-lead-submit') as HTMLButtonElement;
+    boton.disabled = true;
+    boton.textContent = 'Preparando tu informe…';
+    // Un bot que rellena el campo oculto ve el informe, pero no llega al CRM.
+    if (!fd.get('web')) {
+      try {
+        await enviarLead(datos, comercial);
+        track('pizzeria_lead', { comercial, punto_debil: informeClave, modo, nivel: nivel.id });
+      } catch (err) {
+        // El informe se enseña igualmente: dejar a la persona sin él
+        // después de darnos sus datos es peor que perder el lead.
+        console.error(err);
+        track('pizzeria_lead_error');
+      }
+    }
+    boton.disabled = false;
+    boton.textContent = 'Ver mi informe';
+    leadEnviado = true;
+    guardar('pz-lead', true);
+    mostrarInforme();
+  });
 
   // ── Ticket para compartir (imagen 1080x1350, formato vertical de LinkedIn) ─
   const crearImagen = async (): Promise<Blob | null> => {
@@ -1332,6 +1524,48 @@ const breadcrumbLd = {
   .pz-debil-titulo { font-family: 'Newsreader', serif; font-size: 1.35rem; line-height: 1.3; margin-bottom: 0.4rem; }
   .pz-debil p:last-child { font-size: 0.92rem; line-height: 1.65; }
 
+  .pz-informe-bloque {
+    max-width: 720px;
+    padding: 1.6rem 1.7rem;
+    border: 1px solid rgba(0,74,173,0.25);
+    border-radius: 12px;
+    background: rgba(0,74,173,0.04);
+    margin: 0 0 2.5rem;
+  }
+  body.dark .pz-informe-bloque { border-color: rgba(149,192,250,0.3); background: rgba(149,192,250,0.05); }
+  .pz-informe-titulo { font-family: 'Newsreader', serif !important; font-size: 1.5rem !important; font-weight: 400 !important; line-height: 1.25; margin-bottom: 0.7rem !important; }
+  .pz-inf-diag { font-size: 0.95rem; line-height: 1.75; margin-bottom: 1.2rem; }
+  .pz-inf-pasos { padding-left: 1.2rem; margin-bottom: 1.2rem; }
+  .pz-inf-pasos li { font-size: 0.93rem; line-height: 1.7; margin-bottom: 0.5rem; }
+  .pz-inf-servicio { font-size: 0.92rem; line-height: 1.6; margin-bottom: 0.4rem; }
+
+  .pz-form { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem 1.1rem; margin-top: 1rem; }
+  .pz-field { display: flex; flex-direction: column; gap: 0.35rem; }
+  .pz-field--ancho { grid-column: 1 / -1; }
+  .pz-field label { font-size: 0.8rem; font-weight: 500; }
+  .pz-field input {
+    padding: 0.75rem 0.9rem;
+    border: 1px solid rgba(0,0,0,0.15);
+    border-radius: 8px;
+    background: var(--white);
+    color: var(--black);
+    font: inherit;
+    font-size: 0.95rem;
+  }
+  body.dark .pz-field input { background: var(--dark-bg); border-color: rgba(255,255,255,0.18); color: #e8e8e8; }
+  .pz-field input:focus { outline: 2px solid var(--blue); outline-offset: 1px; border-color: transparent; }
+  .pz-honeypot { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+  .pz-check { grid-column: 1 / -1; display: flex; gap: 0.7rem; align-items: flex-start; font-size: 0.85rem; font-weight: 300; line-height: 1.6; cursor: pointer; }
+  .pz-check input { margin-top: 0.3rem; width: 16px; height: 16px; accent-color: var(--blue); flex-shrink: 0; }
+  .pz-check a, .pz-legal a { color: var(--blue); }
+  body.dark .pz-check a, body.dark .pz-legal a { color: var(--blue-light); }
+  .pz-form .pz-btn { grid-column: 1 / -1; justify-self: start; }
+  .pz-form .pz-btn:disabled { opacity: 0.6; cursor: wait; }
+  .pz-error { grid-column: 1 / -1; font-size: 0.85rem; color: #b3261e; }
+  .pz-error[hidden] { display: none; }
+  body.dark .pz-error { color: #f2b8b5; }
+  .pz-legal { grid-column: 1 / -1; font-size: 0.72rem; font-weight: 300; line-height: 1.6; opacity: 0.6; }
+
   .pz-share {
     position: relative;
     display: flex;
@@ -1392,6 +1626,8 @@ const breadcrumbLd = {
     .pz-end-grid { grid-template-columns: 1fr; gap: 2rem; }
     .pz-ticket { max-width: 320px; }
     .pz-cta { padding: 1.5rem 1.25rem; }
+    .pz-informe-bloque { padding: 1.3rem 1.1rem; }
+    .pz-form { grid-template-columns: 1fr; }
   }
 
   @media (prefers-reduced-motion: reduce) {

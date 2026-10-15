@@ -114,3 +114,10 @@ export const HUBSPOT_FORM_ID = 'd6b840dc-a0b8-44e3-8074-c60ba91de19b';
 // Email > Tipos de suscripción). Con él HubSpot registra el consentimiento
 // comercial en la ficha del contacto.
 export const HUBSPOT_SUBSCRIPTION_TYPE_ID = '3864981948';
+
+// Textos de las casillas de consentimiento de los formularios que envían a
+// HubSpot (autodiagnóstico y minijuegos). Se envían literalmente como prueba
+// de qué aceptó cada contacto, así que si cambian aquí cambian también en el
+// registro de consentimiento.
+export const LEAD_TEXTO_PRIVACIDAD = 'He leído y acepto la política de privacidad.';
+export const LEAD_TEXTO_COMERCIAL = 'Quiero recibir por email contenidos y propuestas comerciales de Guillén Bruna. Puedes darte de baja cuando quieras.';

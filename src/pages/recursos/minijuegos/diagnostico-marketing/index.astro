@@ -7,14 +7,14 @@ import {
   HUBSPOT_PORTAL_ID,
   HUBSPOT_FORM_ID,
   HUBSPOT_SUBSCRIPTION_TYPE_ID,
+  LEAD_TEXTO_PRIVACIDAD,
+  LEAD_TEXTO_COMERCIAL,
 } from '../../../../consts';
 import { AREAS, AREA_NAMES, PREGUNTAS, RESULTADOS, UMBRAL_SOLIDO, TRANSICION_CONTEXTO } from '../../../../data/diagnostico';
 
-// Textos de las casillas. Se envían literalmente a HubSpot como prueba
-// de qué aceptó cada contacto, así que si cambian aquí cambian también
-// en el registro de consentimiento.
-const TEXTO_PRIVACIDAD = 'He leído y acepto la política de privacidad.';
-const TEXTO_COMERCIAL = 'Quiero recibir por email contenidos y propuestas comerciales de Guillén Bruna. Puedes darte de baja cuando quieras.';
+// Textos de las casillas, compartidos con los minijuegos (ver consts.ts).
+const TEXTO_PRIVACIDAD = LEAD_TEXTO_PRIVACIDAD;
+const TEXTO_COMERCIAL = LEAD_TEXTO_COMERCIAL;
 
 const config = {
   preguntas: PREGUNTAS,

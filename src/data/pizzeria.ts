@@ -898,3 +898,106 @@ export const JORNADA = [
     b2b: 'Los clientes se enfrían en varios puntos del camino. El problema no es que falten clientes, es un proceso que no los acompaña hasta el final.',
   },
 ];
+
+// Informe que se desbloquea al dejar los datos al final del juego: el
+// punto débil traducido a una empresa B2B, tres acciones para empezar y el
+// servicio que encaja. `general` se usa si no hay ningún punto débil.
+export interface Informe {
+  titulo: string;
+  diagnostico: string;
+  pasos: [string, string, string];
+  servicio: 'pipeline' | 'gtm-icp' | 'posicionamiento';
+}
+
+export const INFORMES: Record<string, Informe> = {
+  calle: {
+    titulo: 'Atraes, pero no a quien te compra',
+    diagnostico: 'Tu marketing genera contactos, pero muchos llegan por curiosidad o por el regalo y no porque tengan el problema que resuelves. El resto del proceso comercial carga con leads que nunca iban a comprar.',
+    pasos: [
+      'Escribe en una frase quién es tu cliente ideal. Sector, tamaño, cargo que decide y el problema que más le preocupa.',
+      'Revisa tus últimos diez contactos y marca cuántos encajan con esa frase. Esa proporción es la calidad real de tu atracción.',
+      'Cambia un lead magnet genérico por uno que solo interese a quien tiene el problema, como un diagnóstico o una calculadora.',
+    ],
+    servicio: 'gtm-icp',
+  },
+  puerta: {
+    titulo: 'Captas contactos, pero no lo que necesitas saber de ellos',
+    diagnostico: 'Tus formularios piden demasiado o demasiado poco. O el contacto abandona antes de enviarlo, o llega a tu CRM sin el dato que te permitiría hacerle un seguimiento útil.',
+    pasos: [
+      'Repasa cada campo de tus formularios y quita los que no cambian lo que haces con ese contacto.',
+      'Añade una sola pregunta sobre qué le ha traído o qué problema quiere resolver.',
+      'Comprueba que ese dato llega a tu CRM y que alguien lo usa en el primer seguimiento.',
+    ],
+    servicio: 'pipeline',
+  },
+  espera: {
+    titulo: 'Tus contactos se enfrían mientras esperan',
+    diagnostico: 'Entre que alguien te deja sus datos y que habla con tu equipo pasa demasiado tiempo, o le llegan comunicaciones genéricas que no conectan con lo que buscaba.',
+    pasos: [
+      'Mide cuántos días pasan de media entre el primer contacto y la primera respuesta personalizada.',
+      'Prepara un primer seguimiento distinto para cada motivo de entrada, aunque sean solo dos o tres versiones.',
+      'Sustituye un envío masivo de este mes por un mensaje útil a los contactos que más encajan.',
+    ],
+    servicio: 'pipeline',
+  },
+  llamada: {
+    titulo: 'El paso de marketing a ventas se pierde por el camino',
+    diagnostico: 'Ventas llega tarde, llega sin contexto o llega hablando del producto. El contacto tiene que repetirlo todo o siente que le persiguen.',
+    pasos: [
+      'Define qué tiene que pasar para que un contacto pase a ventas, por ejemplo una acción concreta o una respuesta.',
+      'Haz que cada traspaso incluya qué le interesó y qué ha visto, en una nota de tres líneas.',
+      'Fija un plazo máximo para el primer contacto comercial y revísalo cada semana.',
+    ],
+    servicio: 'pipeline',
+  },
+  pedido: {
+    titulo: 'Propones antes de entender',
+    diagnostico: 'Tus reuniones comerciales empiezan contando quién eres y qué haces. Cuando llega la propuesta, todavía no sabes quién decide, con qué urgencia ni qué pasa si no hace nada.',
+    pasos: [
+      'Prepara cinco preguntas de descubrimiento y úsalas antes de enseñar nada.',
+      'Apunta en cada oportunidad quién decide, quién influye y para cuándo lo necesitan.',
+      'En tu próxima reunión, fíjate en cuánto tiempo habla el cliente y cuánto tu equipo.',
+    ],
+    servicio: 'pipeline',
+  },
+  carta: {
+    titulo: 'Tus propuestas no ayudan a decidir',
+    diagnostico: 'Envías catálogos, opciones de más o precios poco claros. El cliente no ve por qué tú y lo deja para otro día, o te compara solo por precio.',
+    pasos: [
+      'Abre tu última propuesta y comprueba si en la primera página aparece lo que el cliente te contó.',
+      'Reduce las opciones a una recomendación clara y, como mucho, una alternativa.',
+      'Escribe en dos frases por qué tú y no la alternativa más barata, y llévalas a todas las propuestas.',
+    ],
+    servicio: 'posicionamiento',
+  },
+  servicio: {
+    titulo: 'La entrega no está a la altura de lo que vendiste',
+    diagnostico: 'Cambios de alcance sin avisar, retrasos que el cliente descubre por su cuenta o expectativas que nadie fijó. Lo que vendió tu equipo comercial se resiente en el día a día.',
+    pasos: [
+      'Escribe qué se entrega, cuándo y cómo se mide, y compártelo con el cliente al empezar.',
+      'Acuerda una regla interna para avisar de cualquier retraso antes de que el cliente pregunte.',
+      'Pregunta a tus tres últimos clientes qué les sorprendió para mal durante el proyecto.',
+    ],
+    servicio: 'pipeline',
+  },
+  sobremesa: {
+    titulo: 'Vendes una vez y desapareces',
+    diagnostico: 'Cuando termina el proyecto, se acaba la relación. No preguntas cómo ha ido, no detectas nuevas necesidades y las recomendaciones dependen de la suerte.',
+    pasos: [
+      'Programa una llamada de seguimiento a las dos semanas de cada entrega, sin intención de vender.',
+      'Apunta en el CRM qué otra necesidad detectas en esa conversación.',
+      'Pide una recomendación concreta solo a los clientes que te dicen que están contentos.',
+    ],
+    servicio: 'pipeline',
+  },
+  general: {
+    titulo: 'Tu proceso aguanta con todos los clientes',
+    diagnostico: 'En la pizzería has acompañado bien a cada cliente. La pregunta es si tu empresa lo hace igual de bien cuando hay más volumen, más equipo o menos tiempo.',
+    pasos: [
+      'Escribe las fases de tu proceso comercial tal y como funcionan hoy, no como deberían funcionar.',
+      'Marca en cuál pierdes más oportunidades según tu CRM de los últimos seis meses.',
+      'Elige una sola mejora para ese punto y revísala dentro de un mes.',
+    ],
+    servicio: 'pipeline',
+  },
+};
