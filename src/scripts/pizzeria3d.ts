@@ -7,7 +7,7 @@ import * as THREE from 'three';
 export type Actor = 'cliente' | 'camarero' | 'pizza';
 export type Objeto =
   | 'formulario' | 'aperitivo' | 'cartaCorta' | 'cartaLarga'
-  | 'postre' | 'extras' | 'cuenta' | 'libreta' | 'pizza' | 'amigos';
+  | 'postre' | 'extras' | 'cuenta' | 'libreta' | 'pizza' | 'amigos' | 'caja';
 
 export interface Escena {
   ok: boolean;
@@ -20,6 +20,8 @@ export interface Escena {
   horno(on: boolean): void;
   gente(n: number): void;
   decir(texto: string | null): void;
+  // Aspecto del cliente según su perfil (prisa, grupo o compara).
+  perfil(id: string): void;
   reset(): void;
 }
 
@@ -71,7 +73,7 @@ const PALETAS = {
 const noop = async () => {};
 const vacia: Escena = {
   ok: false, mover: noop, foco() {}, mostrar() {}, rotulo() {}, humor() {},
-  pizzaMal() {}, horno() {}, gente() {}, decir() {}, reset() {},
+  pizzaMal() {}, horno() {}, gente() {}, decir() {}, perfil() {}, reset() {},
 };
 
 export function crearEscena(
@@ -102,7 +104,7 @@ export function crearEscena(
   const M = {
     suelo: mat(0), calle: mat(0), pared: mat(0), paredLado: mat(0), madera: mat(0),
     ladrillo: mat(0), ventana: mat(0), fantasma: mat(0),
-    azul: mat(0x004aad), azulClaro: mat(0x95c0fa), blanco: mat(0xffffff), negro: mat(0x1a1a1a),
+    azul: mat(0x004aad), azulClaro: mat(0x95c0fa), cliente: mat(0x004aad), carton: mat(0xd8b27a), blanco: mat(0xffffff), negro: mat(0x1a1a1a),
     oscuro: mat(0x2b2b2b), piel: mat(0xf2c7a0), papel: mat(0xffffff), boca: mat(0x3a1f14),
     queso: mat(0xffd166), tomate: mat(0xd9472b), verde: mat(0x6b8e23), masa: mat(0xe7b86a),
     botella: mat(0x2e6b3a), crema: mat(0xfff6e0), pizarra: mat(0x2b2b2b),
@@ -254,7 +256,8 @@ export function crearEscena(
   extras.add(caja(0.2, 0.26, 0.02, M.papel, 0.25, 0.13, 0.05));
   extras.position.set(-0.25, Y_MESA, 0.05);
   const cuenta = caja(0.22, 0.01, 0.3, M.papel, -0.3, Y_MESA + 0.01, 0.55);
-  mundo.add(aperitivo, cartaCorta, cartaLarga, postre, extras, cuenta);
+  const cajaPizza = caja(0.5, 0.08, 0.5, M.carton, -0.25, Y_MESA + 0.04, 0.35);
+  mundo.add(aperitivo, cartaCorta, cartaLarga, postre, extras, cuenta, cajaPizza);
 
   // Barra.
   mundo.add(caja(2.3, 1.05, 0.8, M.azul, 3, 0.525, -0.6));
@@ -327,7 +330,19 @@ export function crearEscena(
     return { grupo, cuerpo, piernas, bocas };
   };
 
-  const cliente = persona(M.azul);
+  const cliente = persona(M.cliente);
+  // Complementos de cada perfil de cliente.
+  const corbata = caja(0.07, 0.32, 0.03, M.tomate, 0, 1.0, 0.27);
+  const maletin = caja(0.36, 0.27, 0.1, M.oscuro, 0.38, 0.42, 0.04);
+  const movil = caja(0.1, 0.17, 0.025, M.negro, 0.22, 1.2, 0.3);
+  movil.rotation.x = -0.5;
+  cliente.cuerpo.add(corbata, maletin, movil);
+  // Compañeros del perfil "grupo": siguen al cliente a cierta distancia.
+  const acompanantes = [
+    { p: persona(mat(0x95c0fa)), off: new THREE.Vector3(-0.8, 0, -0.65) },
+    { p: persona(mat(0xd9a441)), off: new THREE.Vector3(0.15, 0, 0.95) },
+  ];
+  acompanantes.forEach((a) => (a.p.grupo.visible = false));
   const anfitrion = persona(M.azulClaro, { delantal: true });
   anfitrion.grupo.position.set(-3.5, 0, -0.95);
   const chef = persona(M.blanco, { delantal: true, gorro: true });
@@ -537,6 +552,24 @@ export function crearEscena(
       }
     }
 
+    // Los acompañantes siguen al cliente con un poco de retraso.
+    acompanantes.forEach((a, i) => {
+      if (!a.p.grupo.visible) return;
+      tmp.copy(cliente.grupo.position).add(a.off).sub(a.p.grupo.position);
+      const dist = tmp.length();
+      const andando = dist > 0.05;
+      if (andando) {
+        a.p.grupo.position.addScaledVector(tmp.normalize(), Math.min(dist, Math.max(2.2, dist * 2) * dt));
+        a.p.grupo.rotation.y += (Math.atan2(tmp.x, tmp.z) - a.p.grupo.rotation.y) * Math.min(1, dt * 10);
+      } else {
+        a.p.grupo.rotation.y += (0.15 - a.p.grupo.rotation.y) * Math.min(1, dt * 6);
+      }
+      const s = Math.sin(t * 11 + i);
+      a.p.piernas[0].rotation.x = andando ? s * 0.55 : 0;
+      a.p.piernas[1].rotation.x = andando ? -s * 0.55 : 0;
+      a.p.cuerpo.position.y = andando ? Math.abs(s) * 0.05 : 0;
+    });
+
     // Respiración suave de los personajes quietos.
     [anfitrion, chef].forEach((p, i) => (p.cuerpo.position.y = Math.sin(t * 2 + i) * 0.012));
 
@@ -568,6 +601,7 @@ export function crearEscena(
   const objetos: Record<Objeto, THREE.Object3D[]> = {
     formulario: [formulario], aperitivo: [aperitivo], cartaCorta: [cartaCorta], cartaLarga: [cartaLarga],
     postre: [postre], extras: [extras], cuenta: [cuenta], libreta: [libreta], pizza: [pizza], amigos: amigos.map((a) => a.grupo),
+    caja: [cajaPizza],
   };
   const mostrar: Escena['mostrar'] = (obj, on) => objetos[obj].forEach((o) => (o.visible = on));
 
@@ -599,6 +633,15 @@ export function crearEscena(
     },
     horno(on) { cocinando = on; },
     gente(n) { gentePendiente = n; },
+    perfil(id) {
+      corbata.visible = maletin.visible = id === 'prisa';
+      movil.visible = id === 'compara';
+      M.cliente.color.setHex(id === 'prisa' ? 0x22314f : id === 'compara' ? 0x2f8a5b : 0x004aad);
+      acompanantes.forEach((a) => {
+        a.p.grupo.visible = id === 'grupo';
+        a.p.grupo.position.copy(cliente.grupo.position).add(a.off);
+      });
+    },
     decir(texto) {
       hablando = !!texto;
       bocadillo.hidden = !texto;
@@ -623,6 +666,7 @@ export function crearEscena(
   };
 
   escena.reset();
+  escena.perfil('');
   mover('cliente', POS.calle[0], POS.calle[1], { ms: 0 });
   // Con la fuente web ya cargada, los rótulos se repintan con Poppins.
   document.fonts?.ready.then(() => { titulo.repintar(); pizarra.repintar(); salidaTxt.repintar(); });
