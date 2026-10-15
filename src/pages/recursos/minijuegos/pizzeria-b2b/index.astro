@@ -68,13 +68,6 @@ const breadcrumbLd = {
   <script type="application/json" id="pz-data" set:html={JSON.stringify(config)} />
 
   <section class="pz">
-    <a href="/recursos/minijuegos/" class="pz-back">← Minijuegos</a>
-    <div class="pz-head">
-      <p class="pz-kicker">Juego · 4 minutos</p>
-      <h1>La pizzería B2B</h1>
-      <p class="pz-sub">El juego que te ayuda a ver en qué fase de tu proceso comercial flaqueas y qué claves no estás viendo.</p>
-    </div>
-
     <div class="pz-stage" id="pz-stage" role="region" aria-label="Escena de la pizzería en 3D">
       <div class="pz-bocadillo" id="pz-bocadillo" hidden aria-live="polite"></div>
 
@@ -87,6 +80,15 @@ const breadcrumbLd = {
         <p class="pz-interest" id="pz-interest" hidden></p>
         <p class="pz-impaciencia" id="pz-impaciencia" hidden>Se está impacientando</p>
       </div>
+
+      <!-- Explicación de la última decisión, al lado de la tarjeta de preguntas. -->
+      <aside class="pz-explica pz-glass" id="pz-explica" hidden aria-live="polite">
+        <button type="button" class="pz-explica-cerrar" id="pz-explica-cerrar" aria-label="Cerrar la explicación">×</button>
+        <p class="pz-explica-momento" id="pz-explica-momento"></p>
+        <p class="pz-explica-decision" id="pz-explica-decision"></p>
+        <p class="pz-verdict" id="pz-verdict"></p>
+        <p class="pz-lesson"><span class="pz-lesson-label">En B2B</span> <span id="pz-lesson"></span></p>
+      </aside>
 
       <div class="pz-card pz-glass" id="pz-card" data-fase="intro">
         <div id="pz-intro">
@@ -118,11 +120,6 @@ const breadcrumbLd = {
           </div>
           <h2 class="pz-question" id="pz-question"></h2>
           <div class="pz-options" id="pz-options"></div>
-          <div class="pz-feedback" id="pz-feedback" hidden>
-            <p class="pz-verdict" id="pz-verdict"></p>
-            <p class="pz-lesson"><span class="pz-lesson-label">En B2B</span> <span id="pz-lesson"></span></p>
-            <button type="button" class="pz-btn" id="pz-next">Siguiente momento</button>
-          </div>
         </div>
 
         <div id="pz-siguiente" hidden>
@@ -137,6 +134,13 @@ const breadcrumbLd = {
           <p class="pz-intro">El cliente se dirige a la salida…</p>
         </div>
       </div>
+    </div>
+
+    <div class="pz-head">
+      <p class="pz-kicker">Juego · 4 minutos</p>
+      <h1>La pizzería B2B</h1>
+      <p class="pz-sub">El juego que te ayuda a ver en qué fase de tu proceso comercial flaqueas y qué claves no estás viendo.</p>
+      <a href="/recursos/minijuegos/" class="pz-back">← Minijuegos</a>
     </div>
 
     <div class="pz-end" id="pz-end" hidden>
@@ -391,10 +395,9 @@ const breadcrumbLd = {
       // En el imprevisto del horno apagado, el fuego no se enciende.
       escena.horno(variante().id !== 'servicio-horno');
     }
-    if (id === 'sobremesa') {
-      escena.mostrar('pizza', false);
-      escena.mostrar('aperitivo', false);
-    }
+    // La pizza se queda en la mesa: como la partida avanza sola, el
+    // cliente puede estar terminándosela al empezar la sobremesa.
+    if (id === 'sobremesa') escena.mostrar('aperitivo', false);
   };
 
   const servir = async (tarde: boolean, mal: boolean) => {
@@ -436,6 +439,7 @@ const breadcrumbLd = {
     Object.entries(fases).forEach(([k, el]) => (el.hidden = k !== name));
     card.dataset.fase = name;
     $('pz-hud').hidden = name === 'intro' || name === 'perfil' || name === 'siguiente';
+    if (name !== 'play' && name !== 'closing') $('pz-explica').hidden = true;
     card.scrollTop = 0;
   };
 
@@ -525,8 +529,46 @@ const breadcrumbLd = {
   };
 
   const leccion = (b2b: string) => {
-    ($('pz-feedback').querySelector('.pz-lesson-label') as HTMLElement).hidden = !nivel.explicacion;
+    ($('pz-explica').querySelector('.pz-lesson-label') as HTMLElement).hidden = !nivel.explicacion;
     $('pz-lesson').textContent = nivel.explicacion ? b2b : 'La explicación de cada decisión la tienes en el informe del final.';
+  };
+
+  // La explicación sale en su propia tarjeta y la partida sigue sola: no
+  // hace falta pulsar "siguiente". Se queda a la vista hasta la próxima
+  // respuesta (o hasta que se cierra).
+  const explicar = (m: Momento, decision: string) => {
+    const ex = $('pz-explica');
+    $('pz-explica-momento').textContent = `Momento ${momentos.indexOf(m) + 1} · ${m.nombre}`;
+    $('pz-explica-decision').textContent = decision;
+    ex.dataset.calidad = $('pz-verdict').dataset.calidad ?? '';
+    ex.hidden = false;
+    ex.classList.remove('is-nueva', 'is-abierta');
+    void ex.offsetWidth;
+    ex.classList.add('is-nueva');
+  };
+  $('pz-explica-cerrar').addEventListener('click', (e) => {
+    e.stopPropagation();
+    $('pz-explica').hidden = true;
+  });
+  // En móvil la explicación sale resumida y se despliega al tocarla.
+  $('pz-explica').addEventListener('click', () => $('pz-explica').classList.toggle('is-abierta'));
+
+  // Tiempo para ver la respuesta marcada y la reacción antes de pasar.
+  const AVANCE_MS = 1400;
+  const AVANCE_AUTO_MS = 2600;
+  const avanzar = async (ms: number) => {
+    const p = partida;
+    await wait(ms);
+    if (p === partida) siguiente();
+  };
+
+  // El bocadillo del cliente se borra solo al cabo de un rato, aunque ya
+  // se esté en la siguiente pregunta.
+  let turnoBocadillo = 0;
+  const hablar = (texto: string) => {
+    const turno = ++turnoBocadillo;
+    escena.decir(texto);
+    setTimeout(() => turno === turnoBocadillo && escena.decir(null), 3600);
   };
 
   const barajar = (n: number) => {
@@ -588,8 +630,6 @@ const breadcrumbLd = {
     evento.hidden = !v.evento;
     evento.textContent = v.evento ?? '';
     $('pz-question').textContent = v.pregunta;
-    $('pz-feedback').hidden = true;
-    escena.decir(null);
     card.scrollTop = 0;
 
     const options = $('pz-options');
@@ -604,15 +644,15 @@ const breadcrumbLd = {
       $('pz-question').textContent = m.automatico.texto;
       options.hidden = true;
       historial.push({ momento: m.id, texto: 'Pidió él solo', calidad: 'bien', b2b: m.automatico.b2b, delta: 0 });
-      escena.decir(m.automatico.reaccion);
+      hablar(m.automatico.reaccion);
       escena.pose('cliente', 'mano', 2600);
       escena.emocion('🙋');
       escena.mover('camarero', POS.mesaCamarero[0], POS.mesaCamarero[1], { ms: 1300 });
       $('pz-verdict').dataset.calidad = 'bien';
       $('pz-verdict').textContent = 'Pide él solo, ni has tenido que ir';
       leccion(m.automatico.b2b);
-      $('pz-next').textContent = 'Siguiente momento';
-      $('pz-feedback').hidden = false;
+      explicar(m, 'El cliente llamó al camarero por su cuenta');
+      avanzar(AVANCE_AUTO_MS);
       return;
     }
 
@@ -634,7 +674,6 @@ const breadcrumbLd = {
 
     $('pz-options').querySelectorAll('button').forEach((b) => ((b as HTMLButtonElement).disabled = true));
     btn.classList.add('is-selected');
-    // Las opciones descartadas se pliegan para que la explicación quepa.
     $('pz-options').classList.add('is-answered');
 
     const primero = actual === 0;
@@ -649,23 +688,15 @@ const breadcrumbLd = {
     renderMeter();
     escena.humor(hambre);
     reaccionar(m.id, o);
-    escena.decir(o.reaccion);
+    hablar(o.reaccion);
     // Lenguaje corporal según cómo le ha sentado la decisión.
     if (o.calidad === 'bien') { escena.gesto('si'); escena.emocion(primero ? '🍕' : '😋'); }
     else if (o.calidad === 'regular') escena.emocion('😐');
     else { escena.gesto('no'); escena.emocion('💢'); }
     verdict(o.calidad, hambre - antes, primero);
     leccion(o.b2b);
-    $('pz-next').textContent = hambre <= 0
-      ? 'Ver qué pasa'
-      : actual === momentos.length - 1 ? 'Cerrar la caja' : 'Siguiente momento';
-    const fb = $('pz-feedback');
-    fb.hidden = false;
-    // Si la explicación no cabe en la tarjeta, baja solo lo justo para verla.
-    requestAnimationFrame(() => {
-      const sobra = fb.offsetTop + fb.offsetHeight + 16 - (card.scrollTop + card.clientHeight);
-      if (sobra > 0) card.scrollBy({ top: sobra, behavior: reduceMotion ? 'auto' : 'smooth' });
-    });
+    explicar(m, o.texto);
+    avanzar(AVANCE_MS);
     track('pizzeria_momento', { momento: m.id, variante: variante().id, calidad: o.calidad, hambre, perfil: perfil.id, nivel: nivel.id });
   };
 
@@ -704,6 +735,7 @@ const breadcrumbLd = {
     fase('closing');
     const clave: Clave = seVa ? 'seVa' : hambre >= umbrales.recomienda ? 'recomienda' : hambre >= umbrales.vuelve ? 'vuelve' : 'noVuelve';
 
+    turnoBocadillo++;
     escena.decir(seVa ? 'Me voy a otro sitio' : null);
     if (seVa) escena.emocion('💨');
     escena.sentar(false);
@@ -1199,7 +1231,7 @@ const breadcrumbLd = {
     fase('perfil');
     escena.foco('calle');
     escena.mover('cliente', POS.calle[0], POS.calle[1], { ms: 1800 });
-    stage.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: movil.matches ? 'start' : 'center' });
+    stage.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
     track('pizzeria_inicio', { perfil: perfil.id, nivel: nivel.id, modo, cliente: resultados.length + 1 });
   };
 
@@ -1229,6 +1261,7 @@ const breadcrumbLd = {
     card.hidden = false;
     $('pz-end').hidden = true;
     fase('play');
+    $('pz-explica').hidden = true;
     renderMeter();
     escena.humor(hambre);
     if (rotulo) escena.rotulo(rotulo);
@@ -1243,7 +1276,7 @@ const breadcrumbLd = {
       escena.mover('camarero', POS.mesaCamarero[0], POS.mesaCamarero[1], { ms: 0 });
     }
     renderMomento();
-    stage.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: movil.matches ? 'start' : 'center' });
+    stage.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
     track('pizzeria_repetir', { desde: momentos[desde].id, perfil: perfil.id, nivel: nivel.id });
   };
 
@@ -1252,14 +1285,13 @@ const breadcrumbLd = {
   $('pz-sig-ok').addEventListener('click', () => nuevaPartida(true));
   $('pz-restart').addEventListener('click', () => nuevaPartida());
   $('pz-retry').addEventListener('click', (e) => repetir(Number((e.currentTarget as HTMLElement).dataset.idx)));
-  $('pz-next').addEventListener('click', siguiente);
 </script>
 
 <style is:global>
   .pz {
     max-width: 1240px;
     margin: 0 auto;
-    padding: 4rem 2rem 5rem;
+    padding: 1.25rem 2rem 5rem;
   }
 
   .pz-back {
@@ -1267,7 +1299,7 @@ const breadcrumbLd = {
     font-size: 0.78rem;
     color: rgba(0,0,0,0.5);
     text-decoration: none;
-    margin-bottom: 2rem;
+    margin-top: 0.5rem;
     transition: color var(--transition);
   }
   body.dark .pz-back { color: rgba(232,232,232,0.5); }
@@ -1292,7 +1324,7 @@ const breadcrumbLd = {
     margin-bottom: 1rem;
   }
   .pz h3 { font-family: 'Poppins', sans-serif; font-size: 1rem; font-weight: 500; margin-bottom: 1rem; }
-  .pz-head { margin-bottom: 1.5rem; }
+  .pz-head { margin-bottom: 3rem; }
   .pz-sub { font-size: 1.05rem; font-weight: 300; line-height: 1.6; max-width: 640px; color: rgba(0,0,0,0.7); }
   body.dark .pz-sub { color: rgba(232,232,232,0.7); }
 
@@ -1367,12 +1399,14 @@ const breadcrumbLd = {
   /* ESCENARIO 3D */
   .pz-stage {
     position: relative;
-    height: clamp(560px, 78vh, 820px);
+    /* Cabe entera en pantalla al abrir la página, bajo el menú. */
+    height: clamp(520px, calc(100svh - 130px), 820px);
+    scroll-margin-top: 92px;
     border-radius: 14px;
     overflow: hidden;
     background: #dfe9f7;
     border: 1px solid rgba(0,0,0,0.08);
-    margin-bottom: 3rem;
+    margin-bottom: 2.5rem;
   }
   body.dark .pz-stage { background: #0e1726; border-color: rgba(255,255,255,0.1); }
   .pz-stage canvas { position: absolute; inset: 0; width: 100% !important; height: 100% !important; display: block; }
@@ -1391,7 +1425,7 @@ const breadcrumbLd = {
     position: absolute;
     top: 1rem;
     left: 1rem;
-    width: min(360px, calc(100% - 460px));
+    width: min(360px, calc(100% - 540px));
     min-width: 260px;
     padding: 0.85rem 1rem;
     z-index: 2;
@@ -1413,13 +1447,15 @@ const breadcrumbLd = {
     top: 1rem;
     right: 1rem;
     max-height: calc(100% - 2rem);
-    width: min(410px, 42%);
-    padding: 1.5rem;
+    width: min(480px, 44%);
+    padding: 1.6rem 1.75rem;
     overflow-y: auto;
     overscroll-behavior: contain;
     z-index: 2;
   }
   .pz-card[hidden] { display: none; }
+  #pz-intro .pz-intro { font-size: 0.9rem; line-height: 1.6; margin-bottom: 0.75rem; }
+  #pz-intro .pz-niveles { margin-bottom: 0.9rem; }
 
   .pz-bocadillo {
     position: absolute;
@@ -1525,15 +1561,43 @@ const breadcrumbLd = {
   body.dark .pz-option.is-selected { border-color: var(--blue-light); }
   .pz-options.is-answered .pz-option:not(.is-selected) { display: none; }
 
-  .pz-feedback {
-    margin-top: 1.1rem;
-    padding: 1rem 1.1rem;
+  /* Tarjeta de la explicación, a la izquierda de la de preguntas. */
+  .pz-explica {
+    position: absolute;
+    right: calc(min(480px, 44%) + 2rem);
+    bottom: 1rem;
+    width: min(340px, calc(100% - min(480px, 44%) - 3rem));
+    max-height: 48%;
+    overflow-y: auto;
+    padding: 1rem 1.2rem 1.05rem;
     border-left: 3px solid var(--blue);
-    background: rgba(0,74,173,0.05);
-    border-radius: 0 8px 8px 0;
-    animation: pz-in 0.35s ease;
+    background: rgba(255,255,255,0.82);
+    z-index: 2;
   }
-  body.dark .pz-feedback { background: rgba(149,192,250,0.07); }
+  body.dark .pz-explica { background: rgba(18,18,18,0.8); border-left-color: var(--blue-light); }
+  .pz-explica[hidden] { display: none; }
+  .pz-explica[data-calidad='regular'] { border-left-color: #e8a33d; }
+  .pz-explica[data-calidad='mal'] { border-left-color: #c8452f; }
+  .pz-explica.is-nueva { animation: pz-in 0.35s ease; }
+  .pz-explica .pz-lesson { font-size: 0.85rem; line-height: 1.6; margin-bottom: 0; }
+  .pz-explica-momento { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; opacity: 0.55; margin-bottom: 0.3rem; padding-right: 1.5rem; }
+  .pz-explica-decision { font-size: 0.85rem; font-weight: 500; line-height: 1.45; margin-bottom: 0.5rem; }
+  .pz-explica-cerrar {
+    position: absolute;
+    top: 0.35rem;
+    right: 0.45rem;
+    width: 1.6rem;
+    height: 1.6rem;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    color: inherit;
+    font-size: 1.1rem;
+    line-height: 1;
+    opacity: 0.5;
+    cursor: pointer;
+  }
+  .pz-explica-cerrar:hover { opacity: 0.9; background: rgba(128,128,128,0.15); }
   .pz-verdict { font-size: 0.74rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 0.45rem; color: var(--blue); }
   body.dark .pz-verdict { color: var(--blue-light); }
   .pz-verdict[data-calidad='regular'] { color: #b7791f; }
@@ -1692,12 +1756,18 @@ const breadcrumbLd = {
   .pz-link:hover { text-decoration: underline; }
 
   @media (max-width: 900px) {
-    .pz-hud { width: calc(100% - 2rem - min(410px, 42%) - 1rem); min-width: 0; }
+    .pz-hud { width: calc(100% - 2rem - min(480px, 44%) - 1rem); min-width: 0; }
   }
 
   @media (max-width: 700px) {
-    .pz { padding: 2.5rem 1rem 4rem; }
-    .pz-head { margin-bottom: 1rem; }
+    .pz { padding: 0.75rem 1rem 4rem; }
+    .pz-head { margin-bottom: 2rem; }
+    /* En móvil la explicación va justo encima de la tarjeta de preguntas. */
+    .pz-explica { left: 0.6rem; right: 0.6rem; width: auto; bottom: calc(52% + 1.1rem); max-height: 34%; padding: 0.6rem 0.85rem; cursor: pointer; }
+    .pz-explica-decision, .pz-explica-momento { display: none; }
+    .pz-explica .pz-verdict { margin-bottom: 0.25rem; padding-right: 1.5rem; }
+    .pz-explica .pz-lesson { font-size: 0.8rem; line-height: 1.5; }
+    .pz-explica:not(.is-abierta) .pz-lesson { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
     .pz-stage {
       height: calc(100svh - 96px);
       min-height: 560px;
@@ -1731,6 +1801,6 @@ const breadcrumbLd = {
 
   @media (prefers-reduced-motion: reduce) {
     #pz-meter-fill { transition: none !important; }
-    .pz-ticket, .pz-feedback, .pz-bocadillo, .pz-impaciencia, .pz-emote { animation: none !important; }
+    .pz-ticket, .pz-explica, .pz-bocadillo, .pz-impaciencia, .pz-emote { animation: none !important; }
   }
 </style>
