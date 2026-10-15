@@ -1,8 +1,11 @@
 // Escena 3D de "La pizzería B2B". Todo se construye con primitivas de
-// Three.js (sin modelos externos) en estilo low-poly. La página del juego
-// solo habla con la API que devuelve `crearEscena`; si el navegador no
-// tiene WebGL devuelve una API vacía y el juego sigue funcionando sin escena.
+// Three.js (sin modelos externos). La pizzería es un local a pie de calle
+// abierto como una maqueta, rodeado de acera, calzada, edificios vecinos con
+// sus tiendas, farolas, árboles, peatones y coches. La página del juego solo
+// habla con la API que devuelve `crearEscena`; si el navegador no tiene WebGL
+// devuelve una API vacía y el juego sigue funcionando sin escena.
 import * as THREE from 'three';
+import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
 
 export type Actor = 'cliente' | 'camarero' | 'pizza';
 export type Objeto =
@@ -21,7 +24,7 @@ export interface Escena {
   horno(on: boolean): void;
   gente(n: number): void;
   decir(texto: string | null): void;
-  // Aspecto del cliente según su perfil (prisa, grupo o compara).
+  // Aspecto del cliente según su perfil (prisa, grupo, compara o esceptico).
   perfil(id: string): void;
   // El cliente se sienta en su silla (o se levanta).
   sentar(on: boolean): void;
@@ -72,16 +75,20 @@ const FOCOS: Record<string, [number, number]> = {
   salida: [9.6, 14],
 };
 
+// Con el tema oscuro la escena pasa a ser de noche: se encienden ventanas,
+// escaparates y farolas.
 const PALETAS = {
   claro: {
-    fondo: 0xdfe9f7, suelo: 0xeadfce, calle: 0xd9dee6, pared: 0xfffaf2, paredLado: 0xf3ebdf,
-    madera: 0xc98b55, ladrillo: 0xc4603f, ventana: 0xbfd6f5, fantasma: 0x8a9bb4, hoja: 0x5f9e4f,
-    luzSol: 1.6, luzCielo: 1.1, lampara: 0.6, calida: 0.5,
+    fondo: 0xdfe9f7, suelo: 0xeadfce, asfalto: 0x8d939b, acera: 0xe6e0d6, bordillo: 0xd2ccc2, pintura: 0xf4f4f0,
+    pared: 0xfffaf2, paredLado: 0xf3ebdf, madera: 0xc98b55, ladrillo: 0xc4603f, ventana: 0xbfd6f5, hoja: 0x5f9e4f,
+    fachada: 0xffffff, lejano: 0xc5d0de, bombilla: 0xdedede,
+    luzSol: 1.6, luzCielo: 1.1, lampara: 0.6, calida: 0.5, noche: false,
   },
   oscuro: {
-    fondo: 0x0e1726, suelo: 0x3b342c, calle: 0x1f252e, pared: 0x2b2926, paredLado: 0x24221f,
-    madera: 0x8f5f37, ladrillo: 0x8e3f28, ventana: 0x22324a, fantasma: 0x5d6b80, hoja: 0x3d6b33,
-    luzSol: 0.55, luzCielo: 0.55, lampara: 2.2, calida: 1.6,
+    fondo: 0x0e1726, suelo: 0x3b342c, asfalto: 0x1b1f27, acera: 0x3a3631, bordillo: 0x4a4640, pintura: 0x8d8d88,
+    pared: 0x2b2926, paredLado: 0x24221f, madera: 0x8f5f37, ladrillo: 0x8e3f28, ventana: 0x22324a, hoja: 0x3d6b33,
+    fachada: 0x4c5260, lejano: 0x18202e, bombilla: 0xffd27a,
+    luzSol: 0.55, luzCielo: 0.55, lampara: 2.2, calida: 1.6, noche: true,
   },
 };
 
@@ -91,6 +98,10 @@ const vacia: Escena = {
   pizzaMal() {}, horno() {}, gente() {}, decir() {}, perfil() {}, sentar() {},
   pose() {}, gesto() {}, emocion() {}, comer: noop, reset() {},
 };
+
+// Generador pseudoaleatorio con semilla, para que el barrio sea siempre igual.
+const aleatorio = (semilla: number) => () => (semilla = (semilla * 16807) % 2147483647) / 2147483647;
+const alAzar = <T,>(lista: T[]) => lista[Math.floor(Math.random() * lista.length)];
 
 export function crearEscena(
   contenedor: HTMLElement,
@@ -118,20 +129,28 @@ export function crearEscena(
   contenedor.append(emote);
 
   const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(32, 1, 0.1, 100);
+  scene.fog = new THREE.Fog(0xdfe9f7, 60, 160);
+  const camera = new THREE.PerspectiveCamera(32, 1, 0.1, 220);
 
-  // ── Texturas pintadas en canvas (se tiñen con el color del material) ─
-  const textura = (w: number, h: number, pintar: (ctx: CanvasRenderingContext2D) => void, rx: number, ry: number) => {
+  // ── Texturas pintadas en canvas ────────────────────────────────────
+  const lienzo = (w: number, h: number) => {
     const canvas = document.createElement('canvas');
     canvas.width = w;
     canvas.height = h;
-    pintar(canvas.getContext('2d')!);
+    return [canvas, canvas.getContext('2d')!] as const;
+  };
+  const aTextura = (canvas: HTMLCanvasElement, rx = 1, ry = 1) => {
     const tex = new THREE.CanvasTexture(canvas);
     tex.colorSpace = THREE.SRGBColorSpace;
     tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
     tex.repeat.set(rx, ry);
     tex.anisotropy = 4;
     return tex;
+  };
+  const textura = (w: number, h: number, pintar: (ctx: CanvasRenderingContext2D) => void, rx: number, ry: number) => {
+    const [canvas, ctx] = lienzo(w, h);
+    pintar(ctx);
+    return aTextura(canvas, rx, ry);
   };
   const baldosas = textura(128, 128, (ctx) => {
     ctx.fillStyle = '#ffffff';
@@ -153,21 +172,94 @@ export function crearEscena(
       for (let c = -1; c < 5; c++) ctx.fillRect(c * 64 + off + 2, fila * 16 + 2, 60, 12);
     }
   }, 5, 2);
+  // Acera de baldosa hidráulica de tacos, 1,2 m por repetición.
+  const baldosaAcera = textura(120, 120, (ctx) => {
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, 120, 120);
+    ctx.fillStyle = 'rgba(0,0,0,0.05)';
+    for (let x = 0; x < 3; x++) for (let y = 0; y < 3; y++) {
+      for (const [a, b] of [[10, 10], [30, 10], [10, 30], [30, 30], [20, 20]]) {
+        ctx.beginPath(); ctx.arc(x * 40 + a, y * 40 + b, 4, 0, Math.PI * 2); ctx.fill();
+      }
+    }
+    ctx.strokeStyle = 'rgba(0,0,0,0.16)';
+    ctx.lineWidth = 2;
+    for (let i = 0; i <= 3; i++) {
+      ctx.beginPath(); ctx.moveTo(i * 40, 0); ctx.lineTo(i * 40, 120); ctx.moveTo(0, i * 40); ctx.lineTo(120, i * 40); ctx.stroke();
+    }
+  }, 1, 1);
+  const asfalto = textura(128, 128, (ctx) => {
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, 128, 128);
+    const rnd = aleatorio(11);
+    for (let i = 0; i < 900; i++) {
+      ctx.fillStyle = `rgba(0,0,0,${0.03 + rnd() * 0.08})`;
+      ctx.fillRect(rnd() * 128, rnd() * 128, 1.5, 1.5);
+    }
+  }, 1, 1);
+  // Persiana metálica de un local cerrado.
+  const persianaMetalica = textura(64, 64, (ctx) => {
+    ctx.fillStyle = '#9aa0a6';
+    ctx.fillRect(0, 0, 64, 64);
+    ctx.fillStyle = 'rgba(0,0,0,0.18)';
+    for (let y = 0; y < 64; y += 8) ctx.fillRect(0, y, 64, 2);
+    ctx.fillStyle = 'rgba(255,255,255,0.18)';
+    for (let y = 3; y < 64; y += 8) ctx.fillRect(0, y, 64, 1);
+  }, 1, 6);
+  // Barandilla de balcón con transparencia.
+  const barandilla = textura(140, 100, (ctx) => {
+    ctx.clearRect(0, 0, 140, 100);
+    ctx.fillStyle = '#2c2d30';
+    ctx.fillRect(0, 0, 140, 6);
+    ctx.fillRect(0, 92, 140, 8);
+    for (let x = 4; x < 140; x += 11) ctx.fillRect(x, 0, 3, 100);
+  }, 1, 1);
+
+  // Escala las coordenadas de textura para que una textura con repetición
+  // mantenga su tamaño real en piezas de distinto tamaño.
+  const escalarUV = <G extends THREE.BufferGeometry>(geo: G, su: number, sv: number) => {
+    const uv = geo.getAttribute('uv') as THREE.BufferAttribute;
+    for (let i = 0; i < uv.count; i++) uv.setXY(i, uv.getX(i) * su, uv.getY(i) * sv);
+    return geo;
+  };
 
   // ── Materiales (se recolorean al cambiar de tema) ──────────────────
   const mat = (color: number, extra: THREE.MeshStandardMaterialParameters = {}) =>
     new THREE.MeshStandardMaterial({ color, roughness: 0.85, flatShading: true, ...extra });
+  const suave = (color: number, extra: THREE.MeshStandardMaterialParameters = {}) =>
+    new THREE.MeshStandardMaterial({ color, roughness: 0.75, ...extra });
   const M = {
-    suelo: mat(0, { map: baldosas, flatShading: false }), calle: mat(0), pared: mat(0, { map: ladrillos, flatShading: false }),
-    paredLado: mat(0), madera: mat(0), ladrillo: mat(0), ventana: mat(0), fantasma: mat(0), hoja: mat(0),
-    azul: mat(0x004aad), azulClaro: mat(0x95c0fa), cliente: mat(0x004aad), carton: mat(0xd8b27a),
+    suelo: mat(0, { map: baldosas, flatShading: false }), pared: mat(0, { map: ladrillos, flatShading: false }),
+    asfalto: mat(0, { map: asfalto, flatShading: false, roughness: 0.95 }),
+    acera: mat(0, { map: baldosaAcera, flatShading: false, roughness: 0.95 }),
+    bordillo: mat(0, { flatShading: false }), pintura: mat(0, { flatShading: false, roughness: 0.9 }),
+    paredLado: mat(0), madera: mat(0), ladrillo: mat(0), ventana: mat(0), hoja: mat(0),
+    lejano: mat(0, { flatShading: false }),
+    azul: mat(0x004aad), azulClaro: mat(0x95c0fa), carton: mat(0xd8b27a),
     blanco: mat(0xffffff), negro: mat(0x1a1a1a), oscuro: mat(0x2b2b2b), piel: mat(0xf2c7a0),
     papel: mat(0xffffff), boca: mat(0x3a1f14), queso: mat(0xffd166), tomate: mat(0xd9472b),
     verde: mat(0x6b8e23), masa: mat(0xe7b86a), botella: mat(0x2e6b3a), crema: mat(0xfff6e0),
     pizarra: mat(0x2b2b2b), maceta: mat(0xb8613f),
+    metal: suave(0x3a3d42, { roughness: 0.5, metalness: 0.4 }), tronco: mat(0x6b4a33), alcorque: mat(0x4a4037),
+    piedra: suave(0xe2ddd3), cierre: suave(0xffffff, { map: persianaMetalica }),
+    barandilla: suave(0xffffff, { map: barandilla, alphaTest: 0.5, side: THREE.DoubleSide }),
+    escaparate: suave(0x6d7f93, { roughness: 0.15, metalness: 0.35, emissive: 0xffc98a, emissiveIntensity: 0 }),
+    marcoTienda: suave(0x2f3237, { roughness: 0.5 }),
+    cristal: suave(0x2c3a4a, { roughness: 0.1, metalness: 0.5 }), rueda: suave(0x1c1c1e, { roughness: 0.9 }),
+    zapato: suave(0x1d1d1f, { roughness: 0.6 }), ojo: suave(0xfbfbf8, { roughness: 0.3 }), pupila: suave(0x2a1d16, { roughness: 0.2 }),
+    labio: suave(0x7a3b2e),
     fuego: new THREE.MeshBasicMaterial({ color: 0xff9d2e }),
     lampara: new THREE.MeshBasicMaterial({ color: 0xffd166 }),
+    bombilla: new THREE.MeshBasicMaterial({ color: 0xdedede }),
+    faro: new THREE.MeshBasicMaterial({ color: 0xfff6d8 }),
+    piloto: new THREE.MeshBasicMaterial({ color: 0xc8261b }),
+    cruz: new THREE.MeshBasicMaterial({ color: 0x1fbf5a }),
+    halo: new THREE.MeshBasicMaterial({ color: 0xffd9a0, transparent: true, opacity: 0.07, depthWrite: false, blending: THREE.AdditiveBlending, side: THREE.DoubleSide }),
   };
+  // Materiales del barrio que se oscurecen de noche (su color es un
+  // multiplicador sobre la textura pintada) y los que se encienden.
+  const fachadas: THREE.MeshStandardMaterial[] = [M.cierre];
+  const soloNoche: THREE.Object3D[] = [];
 
   const caja = (w: number, h: number, d: number, m: THREE.Material, x = 0, y = 0, z = 0) => {
     const mesh = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), m);
@@ -191,10 +283,8 @@ export function crearEscena(
   };
 
   // Texto pintado en un canvas y usado como textura (rótulos).
-  const etiqueta = (w: number, h: number, pintar: (ctx: CanvasRenderingContext2D, cw: number, ch: number) => void) => {
-    const canvas = document.createElement('canvas');
-    canvas.width = Math.round(w * 256);
-    canvas.height = Math.round(h * 256);
+  const etiqueta = (w: number, h: number, pintar: (ctx: CanvasRenderingContext2D, cw: number, ch: number) => void, res = 256) => {
+    const [canvas] = lienzo(Math.round(w * res), Math.round(h * res));
     const tex = new THREE.CanvasTexture(canvas);
     tex.colorSpace = THREE.SRGBColorSpace;
     tex.anisotropy = 4;
@@ -216,20 +306,14 @@ export function crearEscena(
     const alto = size * 1.25;
     lineas.forEach((l, i) => ctx.fillText(l, cw / 2, ch / 2 + (i - (lineas.length - 1) / 2) * alto));
   };
+  const rotulosTienda: (() => void)[] = [];
 
-  // ── Escenario ──────────────────────────────────────────────────────
+  // ── Pizzería ───────────────────────────────────────────────────────
   const mundo = new THREE.Group();
   scene.add(mundo);
 
   const suelo = caja(15.2, 0.2, 6.2, M.suelo, 2.5, -0.1, 0);
-  // Calle alrededor del local, amplia para que nunca se vea el vacío.
-  const calle = new THREE.Mesh(new THREE.PlaneGeometry(120, 80), M.calle);
-  calle.rotation.x = -Math.PI / 2;
-  calle.position.y = -0.2;
-  calle.receiveShadow = true;
-  mundo.add(suelo, calle);
-  // Bordillo de la acera, para separar la calle del paso de peatones.
-  mundo.add(caja(60, 0.08, 0.25, M.paredLado, 2.5, -0.16, 4.4));
+  mundo.add(suelo);
 
   // Pared del fondo de ladrillo, laterales con hueco de puerta y rótulo superior.
   mundo.add(caja(15.2, 3.2, 0.2, M.pared, 2.5, 1.6, -3.1));
@@ -262,6 +346,41 @@ export function crearEscena(
   neon.mesh.position.set(-4.0, 2.55, -2.98);
   mundo.add(neon.mesh);
 
+  // Toldo de rayas sobre la puerta y banderola con el nombre, por fuera.
+  const rayas = (colores: string[], n = 8) => textura(256, 64, (ctx) => {
+    for (let i = 0; i < n; i++) {
+      ctx.fillStyle = colores[i % colores.length];
+      ctx.fillRect((i * 256) / n, 0, 256 / n + 1, 64);
+    }
+  }, 1, 1);
+  const toldo = (ancho: number, fondo: number, tex: THREE.Texture, inclinacion = 0.42) => {
+    const m = suave(0xffffff, { map: tex, side: THREE.DoubleSide, roughness: 0.9 });
+    fachadas.push(m);
+    const g = new THREE.Group();
+    const lona = new THREE.Mesh(new THREE.PlaneGeometry(ancho, fondo), m);
+    lona.rotation.x = -Math.PI / 2;
+    lona.position.z = fondo / 2;
+    lona.castShadow = true;
+    lona.receiveShadow = true;
+    const faldon = new THREE.Mesh(new THREE.PlaneGeometry(ancho, 0.22), m);
+    faldon.position.set(0, -0.11, fondo);
+    g.add(lona, faldon);
+    g.rotation.x = inclinacion;
+    return g;
+  };
+  const toldoPizzeria = toldo(1.9, 0.9, rayas(['#004aad', '#f4f1ea'], 10));
+  toldoPizzeria.position.set(-5.22, 2.62, 0.88);
+  toldoPizzeria.rotation.set(0.42, -Math.PI / 2, 0, 'YXZ');
+  mundo.add(toldoPizzeria);
+  const banderola = new THREE.Group();
+  banderola.add(caja(0.9, 0.05, 0.05, M.metal, -0.45, 0.38, 0));
+  banderola.add(caja(0.86, 0.62, 0.06, M.azul, -0.5, 0, 0));
+  const banderolaTxt = etiqueta(0.8, 0.5, (ctx, cw, ch) => textoCentrado(ctx, ['Pizzería'], cw, ch, ch * 0.42, '#ffffff', 'Newsreader'));
+  banderolaTxt.mesh.position.set(-0.5, 0, 0.035);
+  banderola.add(banderolaTxt.mesh);
+  banderola.position.set(-5.2, 3.0, 1.9);
+  mundo.add(banderola);
+
   // Pizarra con la carta sobre la barra.
   mundo.add(caja(1.6, 0.9, 0.06, M.pizarra, 3, 2.25, -2.97));
   const cartaPared = etiqueta(1.5, 0.8, (ctx, cw, ch) => textoCentrado(ctx, ['Carta', 'Margarita · Diávola', 'Cuatro quesos'], cw, ch, ch * 0.13, '#f4f1ea'));
@@ -291,7 +410,14 @@ export function crearEscena(
   cartel.add(caja(1.5, 1.05, 0.08, M.madera, 0, 1.3, 0));
   cartel.add(caja(1.36, 0.92, 0.09, M.pizarra, 0, 1.3, 0.01));
   let textoCartel = ['Abrimos', 'hoy'];
-  const pizarra = etiqueta(1.3, 0.86, (ctx, cw, ch) => textoCentrado(ctx, textoCartel, cw, ch, ch * 0.2, '#ffffff'));
+  // El tamaño de letra se ajusta para que quepa la línea más larga.
+  const pizarra = etiqueta(1.3, 0.86, (ctx, cw, ch) => {
+    let size = ch * 0.2;
+    ctx.font = `600 ${size}px Poppins, sans-serif`;
+    const largo = Math.max(...textoCartel.map((l) => ctx.measureText(l).width));
+    if (largo > cw * 0.9) size *= (cw * 0.9) / largo;
+    textoCentrado(ctx, textoCartel, cw, ch, size, '#ffffff');
+  });
   pizarra.mesh.position.set(0, 1.3, 0.06);
   cartel.add(pizarra.mesh);
   cartel.rotation.y = 0.25;
@@ -395,13 +521,378 @@ export function crearEscena(
     return m;
   });
 
+  // ── Calle ──────────────────────────────────────────────────────────
+  // Acera ancha delante de los edificios (de z = -0,3 al bordillo), calzada
+  // de doble sentido con paso de cebra y la acera de enfrente.
+  const FACHADA_Z = -0.3;
+  const BORDILLO_Z = 4.6;
+  const ENFRENTE_Z = 13.6;
+  const CARRIL_Z = (BORDILLO_Z + ENFRENTE_Z) / 2;
+
+  const calzada = new THREE.Mesh(escalarUV(new THREE.PlaneGeometry(400, 300), 100, 75), M.asfalto);
+  calzada.rotation.x = -Math.PI / 2;
+  calzada.position.y = -0.16;
+  calzada.receiveShadow = true;
+  mundo.add(calzada);
+  const acera = (x0: number, x1: number, z0: number, z1: number) => {
+    const geo = escalarUV(new THREE.BoxGeometry(x1 - x0, 0.16, z1 - z0), (x1 - x0) / 1.2, (z1 - z0) / 1.2);
+    const m = new THREE.Mesh(geo, M.acera);
+    m.position.set((x0 + x1) / 2, -0.08, (z0 + z1) / 2);
+    m.receiveShadow = true;
+    mundo.add(m);
+  };
+  acera(-90, -5.1, -40, BORDILLO_Z);
+  acera(10.1, 90, -40, BORDILLO_Z);
+  acera(-5.1, 10.1, 3.1, BORDILLO_Z);
+  acera(-5.1, 10.1, -40, -3.1);
+  acera(-90, 90, ENFRENTE_Z, 60);
+  mundo.add(caja(180, 0.18, 0.22, M.bordillo, 0, -0.08, BORDILLO_Z));
+  mundo.add(caja(180, 0.18, 0.22, M.bordillo, 0, -0.08, ENFRENTE_Z));
+
+  // Repite una misma pieza muchas veces con una sola llamada de dibujo.
+  const repetir = (geo: THREE.BufferGeometry, m: THREE.Material, posiciones: [number, number, number][], sombra = false) => {
+    const im = new THREE.InstancedMesh(geo, m, posiciones.length);
+    const mx = new THREE.Matrix4();
+    posiciones.forEach(([x, y, z], i) => im.setMatrixAt(i, mx.makeTranslation(x, y, z)));
+    im.castShadow = sombra;
+    im.receiveShadow = true;
+    mundo.add(im);
+    return im;
+  };
+  // Línea discontinua central y paso de cebra.
+  repetir(new THREE.BoxGeometry(1.6, 0.01, 0.12), M.pintura, Array.from({ length: 56 }, (_, i) => [-90 + i * 3.2, -0.153, CARRIL_Z] as [number, number, number]));
+  repetir(new THREE.BoxGeometry(3, 0.01, 0.5), M.pintura, Array.from({ length: 9 }, (_, i) => [-16, -0.152, BORDILLO_Z + 0.55 + i * 1.0] as [number, number, number]));
+  // Bolardos delante del local.
+  repetir(new THREE.CylinderGeometry(0.06, 0.07, 0.8, 10), M.metal, Array.from({ length: 9 }, (_, i) => [-4.4 + i * 1.75, 0.4, 4.35] as [number, number, number]), true);
+
+  const geoCopa = new THREE.IcosahedronGeometry(1, 1);
+  const arbol = (x: number, s: number) => {
+    const g = new THREE.Group();
+    g.add(caja(1.0, 0.02, 1.0, M.alcorque, 0, 0.005, 0));
+    g.add(cilindro(0.09, 0.13, 2.5, M.tronco, 0, 1.25, 0, 8));
+    for (const [cx, cy, cz, r] of [[0, 3.0, 0, 1.0], [0.55, 2.6, 0.2, 0.72], [-0.5, 2.7, -0.15, 0.78], [0.1, 3.6, -0.1, 0.7]]) {
+      const copa = new THREE.Mesh(geoCopa, M.hoja);
+      copa.scale.setScalar(r);
+      copa.position.set(cx, cy, cz);
+      copa.castShadow = true;
+      g.add(copa);
+    }
+    g.position.set(x, 0, 4.3);
+    g.scale.setScalar(s);
+    mundo.add(g);
+  };
+  [[-35.5, 1.1], [-26.5, 1], [-18.5, 0.95], [16.5, 1], [25, 1.1], [34, 0.95]].forEach(([x, s]) => arbol(x, s));
+
+  const geoHalo = new THREE.ConeGeometry(1.7, 4.0, 20, 1, true);
+  const farola = (x: number) => {
+    const g = new THREE.Group();
+    g.add(cilindro(0.12, 0.15, 0.3, M.metal, 0, 0.15, 0, 10));
+    g.add(cilindro(0.05, 0.06, 4.2, M.metal, 0, 2.1, 0, 8));
+    g.add(caja(0.06, 0.06, 0.8, M.metal, 0, 4.15, 0.35));
+    g.add(caja(0.36, 0.14, 0.5, M.metal, 0, 4.1, 0.75));
+    const bombilla = caja(0.3, 0.03, 0.42, M.bombilla, 0, 4.02, 0.75);
+    bombilla.castShadow = false;
+    const halo = new THREE.Mesh(geoHalo, M.halo);
+    halo.position.set(0, 2.0, 0.75);
+    soloNoche.push(halo);
+    g.add(bombilla, halo);
+    g.position.set(x, 0, 4.4);
+    mundo.add(g);
+  };
+  [-31, -22.5, -12.8, 20.5, 29.5, 38.5].forEach(farola);
+
+  // Banco, papelera y cajas de fruta de la frutería de al lado.
+  const banco = new THREE.Group();
+  banco.add(caja(1.6, 0.06, 0.42, M.madera, 0, 0.45, 0), caja(1.6, 0.36, 0.05, M.madera, 0, 0.72, -0.2));
+  for (const x of [-0.65, 0.65]) banco.add(caja(0.06, 0.45, 0.4, M.metal, x, 0.225, 0));
+  banco.position.set(18.5, 0, 2.6);
+  mundo.add(banco);
+  mundo.add(cilindro(0.18, 0.16, 0.7, M.metal, -12.2, 0.35, 4.1, 12));
+  const FRUTAS = [0xf28c28, 0xd7322b, 0x7bb342, 0xf5d03b].map((c) => suave(c, { roughness: 0.5 }));
+  [[-11.7, 0.15, 0.25, 0], [-11.05, 0.15, 0.25, 1], [-11.4, 0.45, 0.2, 2], [-10.4, 0.15, 0.25, 3]].forEach(([x, y, z, f]) => {
+    mundo.add(caja(0.6, 0.3, 0.42, M.madera, x, y, z));
+    for (let i = 0; i < 6; i++) {
+      const fruta = new THREE.Mesh(new THREE.SphereGeometry(0.08, 10, 8), FRUTAS[f]);
+      fruta.position.set(x - 0.18 + (i % 3) * 0.18, y + 0.17, z - 0.09 + Math.floor(i / 3) * 0.18);
+      mundo.add(fruta);
+    }
+  });
+
+  // ── Edificios ──────────────────────────────────────────────────────
+  // Cada edificio es un bloque con la fachada pintada en un canvas
+  // (ventanas, persianas, impostas) y otro canvas con las ventanas que se
+  // encienden de noche. Los balcones y las tiendas de la planta baja son
+  // geometría para que tengan relieve y sombra.
+  interface Tienda { nombre: string; color: string; toldo?: string[]; cruz?: boolean }
+  interface Vecino { ancho: number; alto: number; fondo: string; tienda?: Tienda | 'cerrada'; balcones?: boolean; persiana?: string; semilla: number }
+  const PX = 36;
+  const balcones: [number, number, number][] = [];
+
+  const pintarFachada = (w: number, h: number, planta: number, v: Vecino) => {
+    const cw = Math.round(w * PX);
+    const ch = Math.round(h * PX);
+    const [base, c] = lienzo(cw, ch);
+    const [luz, l] = lienzo(cw, ch);
+    const rnd = aleatorio(v.semilla);
+    const Y = (m: number) => ch - m * PX;
+    c.fillStyle = v.fondo;
+    c.fillRect(0, 0, cw, ch);
+    // Textura de revoco con alguna mancha.
+    for (let i = 0; i < 260; i++) {
+      c.fillStyle = `rgba(0,0,0,${rnd() * 0.035})`;
+      c.fillRect(rnd() * cw, rnd() * ch, 2 + rnd() * 6, 2 + rnd() * 6);
+    }
+    l.fillStyle = '#000';
+    l.fillRect(0, 0, cw, ch);
+    c.fillStyle = 'rgba(0,0,0,0.13)';
+    c.fillRect(0, Y(planta), cw, planta * PX);
+    const piso = 3.0;
+    const pisos = Math.max(1, Math.floor((h - planta - 0.6) / piso));
+    // Posición (x, altura del suelo del piso) de cada balcón.
+    const huecos: [number, number][] = [];
+    const n = Math.max(1, Math.round(w / 2.6));
+    const paso = w / n;
+    for (let f = 0; f < pisos; f++) {
+      const y0 = planta + f * piso;
+      c.fillStyle = 'rgba(0,0,0,0.09)';
+      c.fillRect(0, Y(y0 + 0.14), cw, 0.14 * PX);
+      for (let i = 0; i < n; i++) {
+        const x = (i + 0.5) * paso;
+        const balcon = !!v.balcones;
+        const vw = 1.0;
+        const vh = balcon ? 2.2 : 1.5;
+        const vy = balcon ? y0 + 0.15 : y0 + 0.95;
+        c.fillStyle = '#f3efe6';
+        c.fillRect((x - vw / 2 - 0.09) * PX, Y(vy + vh + 0.09), (vw + 0.18) * PX, (vh + 0.18) * PX);
+        const g = c.createLinearGradient(0, Y(vy + vh), 0, Y(vy));
+        g.addColorStop(0, '#6a809c');
+        g.addColorStop(1, '#2d394a');
+        c.fillStyle = g;
+        c.fillRect((x - vw / 2) * PX, Y(vy + vh), vw * PX, vh * PX);
+        c.fillStyle = '#f3efe6';
+        c.fillRect((x - 0.03) * PX, Y(vy + vh), 0.06 * PX, vh * PX);
+        const ph = rnd() < 0.75 ? vh * rnd() * 0.7 : 0;
+        if (ph > 0) {
+          c.fillStyle = v.persiana ?? '#d8cbb0';
+          c.fillRect((x - vw / 2) * PX, Y(vy + vh), vw * PX, ph * PX);
+          c.fillStyle = 'rgba(0,0,0,0.14)';
+          for (let k = 0; k < ph * PX; k += 3) c.fillRect((x - vw / 2) * PX, Y(vy + vh) + k, vw * PX, 1);
+        }
+        if (rnd() < 0.42) {
+          l.fillStyle = rnd() < 0.8 ? '#ffcf8a' : '#cfe0ff';
+          l.fillRect((x - vw / 2) * PX, Y(vy + vh - ph), vw * PX, (vh - ph) * PX);
+        }
+        if (balcon) huecos.push([x, y0]);
+      }
+    }
+    c.fillStyle = 'rgba(0,0,0,0.14)';
+    c.fillRect(0, 0, cw, 0.4 * PX);
+    return { map: aTextura(base), luz: aTextura(luz), huecos };
+  };
+
+  const tienda = (xc: number, w: number, zf: number, t: Tienda | 'cerrada') => {
+    const ancho = w - 1.0;
+    if (t === 'cerrada') {
+      const p = new THREE.Mesh(new THREE.PlaneGeometry(ancho, 2.7), M.cierre);
+      p.position.set(xc, 1.35, zf + 0.02);
+      p.receiveShadow = true;
+      mundo.add(p);
+      mundo.add(caja(ancho + 0.2, 0.12, 0.1, M.marcoTienda, xc, 2.75, zf + 0.05));
+      return;
+    }
+    const vidrio = new THREE.Mesh(new THREE.PlaneGeometry(ancho - 1.3, 2.05), M.escaparate);
+    vidrio.position.set(xc - 0.6, 1.375, zf + 0.02);
+    const puerta = new THREE.Mesh(new THREE.PlaneGeometry(1.0, 2.35), M.escaparate);
+    puerta.position.set(xc + ancho / 2 - 0.6, 1.175, zf + 0.02);
+    mundo.add(vidrio, puerta);
+    mundo.add(caja(ancho + 0.1, 0.1, 0.08, M.marcoTienda, xc, 2.4, zf + 0.04));
+    mundo.add(caja(0.08, 2.4, 0.08, M.marcoTienda, xc + ancho / 2 - 1.15, 1.2, zf + 0.04));
+    mundo.add(caja(ancho - 1.2, 0.35, 0.08, M.marcoTienda, xc - 0.6, 0.175, zf + 0.04));
+    for (const x of [xc - ancho / 2, xc + ancho / 2]) mundo.add(caja(0.08, 2.45, 0.08, M.marcoTienda, x, 1.2, zf + 0.04));
+    const rotulo = etiqueta(ancho, 0.55, (ctx, cw, ch) => {
+      ctx.fillStyle = t.color;
+      ctx.fillRect(0, 0, cw, ch);
+      textoCentrado(ctx, [t.nombre], cw, ch, ch * 0.56, '#ffffff', 'Newsreader');
+    }, 96);
+    rotulo.mesh.position.set(xc, 2.85, zf + 0.04);
+    mundo.add(rotulo.mesh);
+    rotulosTienda.push(rotulo.repintar);
+    if (t.toldo) {
+      const tg = toldo(ancho - 0.2, 1.1, rayas(t.toldo, 12));
+      tg.position.set(xc, 2.62, zf + 0.03);
+      mundo.add(tg);
+    }
+    if (t.cruz) {
+      const cruz = new THREE.Group();
+      cruz.add(caja(0.5, 0.16, 0.08, M.cruz), caja(0.16, 0.5, 0.08, M.cruz));
+      cruz.add(caja(0.05, 0.05, 0.3, M.metal, 0, 0, -0.18));
+      cruz.position.set(xc + w / 2 - 0.4, 3.35, zf + 0.35);
+      mundo.add(cruz);
+    }
+  };
+
+  const edificio = (x0: number, v: Vecino, zf = FACHADA_Z, planta = 3.6, fondo = 12) => {
+    const w = v.ancho;
+    const h = v.alto;
+    const xc = x0 + w / 2;
+    const { map, luz, huecos } = pintarFachada(w, h, planta, v);
+    const frente = new THREE.MeshStandardMaterial({ map, emissiveMap: luz, emissive: 0xffffff, emissiveIntensity: 0, roughness: 0.95 });
+    const lado = new THREE.MeshStandardMaterial({ color: new THREE.Color(v.fondo).multiplyScalar(0.92), roughness: 0.95 });
+    const tejado = new THREE.MeshStandardMaterial({ color: 0x9a8f86, roughness: 1 });
+    lado.userData.claro = lado.color.getHex();
+    tejado.userData.claro = tejado.color.getHex();
+    fachadas.push(frente);
+    edificios.push(frente, lado, tejado);
+    const bloque = new THREE.Mesh(new THREE.BoxGeometry(w, h, fondo), [lado, lado, tejado, lado, frente, lado]);
+    bloque.position.set(xc, h / 2, zf - fondo / 2);
+    bloque.receiveShadow = true;
+    mundo.add(bloque);
+    mundo.add(caja(w + 0.12, 0.3, 0.42, lado, xc, h - 0.25, zf + 0.12));
+    huecos.forEach(([x, y]) => balcones.push([x0 + x, y, zf]));
+    if (v.tienda) tienda(xc, w, zf, v.tienda);
+  };
+  const edificios: THREE.MeshStandardMaterial[] = [];
+
+  const IZQUIERDA: Vecino[] = [
+    { ancho: 7.5, alto: 11, fondo: '#e9d8bf', balcones: true, semilla: 3, tienda: { nombre: 'Frutería', color: '#2e7d4f', toldo: ['#2e7d4f', '#f4f1ea'] } },
+    { ancho: 6.5, alto: 14, fondo: '#c98a6b', persiana: '#5f7a5a', semilla: 5, tienda: { nombre: 'Farmacia', color: '#1f8a4c', cruz: true } },
+    { ancho: 8, alto: 10, fondo: '#dcc8a8', balcones: true, semilla: 9, tienda: { nombre: 'Café Bar', color: '#7a2e2e', toldo: ['#7a2e2e', '#efe6d8'] } },
+    { ancho: 7, alto: 12.5, fondo: '#b9c4c9', semilla: 13, tienda: 'cerrada' },
+    { ancho: 9, alto: 11.5, fondo: '#e3c79a', balcones: true, semilla: 17, tienda: { nombre: 'Librería', color: '#1f3b63' } },
+    { ancho: 8, alto: 15, fondo: '#cfa58a', semilla: 19, tienda: { nombre: 'Panadería', color: '#a0522d', toldo: ['#a0522d', '#f3e9da'] } },
+    { ancho: 9, alto: 12, fondo: '#d9cdb8', balcones: true, semilla: 23, tienda: 'cerrada' },
+  ];
+  const DERECHA: Vecino[] = [
+    { ancho: 7, alto: 12, fondo: '#dccdb6', balcones: true, semilla: 29, tienda: { nombre: 'Floristería', color: '#3d6b3a', toldo: ['#3d6b3a', '#f2efe6'] } },
+    { ancho: 8, alto: 10.5, fondo: '#c7876a', persiana: '#4f6475', semilla: 31, tienda: { nombre: 'Óptica', color: '#22314f' } },
+    { ancho: 6.5, alto: 13.5, fondo: '#e8dcc8', balcones: true, semilla: 37, tienda: 'cerrada' },
+    { ancho: 9, alto: 11, fondo: '#b8a48c', semilla: 41, tienda: { nombre: 'Ferretería', color: '#8a3b1e', toldo: ['#8a3b1e', '#efe4d4'] } },
+    { ancho: 7.5, alto: 14.5, fondo: '#d4b48c', balcones: true, semilla: 43, tienda: { nombre: 'Peluquería', color: '#5a3f6b' } },
+    { ancho: 9, alto: 11.5, fondo: '#c9bfae', semilla: 47, tienda: 'cerrada' },
+  ];
+  let borde = -5.3;
+  IZQUIERDA.forEach((v) => { borde -= v.ancho; edificio(borde, v); });
+  borde = 10.3;
+  DERECHA.forEach((v) => { edificio(borde, v); borde += v.ancho; });
+  // Edificio de viviendas sobre la pizzería, retranqueado detrás del local.
+  edificio(-5.3, { ancho: 15.6, alto: 12.5, fondo: '#ead9c0', balcones: true, semilla: 53 }, -3.25, 3.9, 9);
+
+  // Balcones: losa y barandilla, todas en dos llamadas de dibujo.
+  repetir(new THREE.BoxGeometry(1.45, 0.1, 0.55), M.piedra, balcones.map(([x, y, z]) => [x, y + 0.05, z + 0.27] as [number, number, number]), true);
+  repetir(new THREE.PlaneGeometry(1.45, 1.0), M.barandilla, balcones.map(([x, y, z]) => [x, y + 0.6, z + 0.53] as [number, number, number]));
+
+  // Segunda fila de edificios al fondo, que la niebla difumina.
+  const ventanasLejos = textura(64, 64, (ctx) => {
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, 64, 64);
+    ctx.fillStyle = 'rgba(40,55,75,0.35)';
+    ctx.fillRect(18, 14, 28, 34);
+  }, 1, 1);
+  M.lejano.map = ventanasLejos;
+  [[-74, 14, 18], [-58, 12, 24], [-44, 16, 20], [-28, 14, 27], [-12, 18, 22], [6, 12, 25], [22, 16, 19], [38, 14, 23], [54, 12, 28], [70, 16, 21]].forEach(([x, w, h]) => {
+    const b = new THREE.Mesh(escalarUV(new THREE.BoxGeometry(w, h, 10), w / 3, h / 3), M.lejano);
+    b.position.set(x, h / 2, -24);
+    mundo.add(b);
+  });
+
+  // ── Coches ─────────────────────────────────────────────────────────
+  const G_COCHE = {
+    cuerpo: new RoundedBoxGeometry(4.0, 0.62, 1.75, 3, 0.18),
+    cabina: new RoundedBoxGeometry(2.2, 0.55, 1.58, 3, 0.16),
+    techo: new RoundedBoxGeometry(2.0, 0.08, 1.6, 2, 0.04),
+    rueda: new THREE.CylinderGeometry(0.33, 0.33, 0.24, 16).rotateX(Math.PI / 2),
+  };
+  const coche = (color: number) => {
+    const g = new THREE.Group();
+    const pintura = suave(color, { roughness: 0.35, metalness: 0.3 });
+    const cuerpo = new THREE.Mesh(G_COCHE.cuerpo, pintura);
+    cuerpo.position.y = 0.62;
+    const cabina = new THREE.Mesh(G_COCHE.cabina, M.cristal);
+    cabina.position.set(-0.25, 1.15, 0);
+    const techo = new THREE.Mesh(G_COCHE.techo, pintura);
+    techo.position.set(-0.25, 1.43, 0);
+    [cuerpo, cabina, techo].forEach((m) => (m.castShadow = true));
+    g.add(cuerpo, cabina, techo);
+    const ruedas = [[-1.3, -0.8], [-1.3, 0.8], [1.3, -0.8], [1.3, 0.8]].map(([x, z]) => {
+      const r = new THREE.Mesh(G_COCHE.rueda, M.rueda);
+      r.position.set(x, 0.33, z);
+      g.add(r);
+      return r;
+    });
+    for (const z of [-0.58, 0.58]) {
+      g.add(caja(0.06, 0.12, 0.34, M.faro, 2.0, 0.72, z), caja(0.06, 0.12, 0.3, M.piloto, -2.0, 0.74, z));
+    }
+    g.position.y = -0.16;
+    mundo.add(g);
+    return { g, ruedas };
+  };
+  const coches = [
+    { c: coche(0xb8322c), z: CARRIL_Z - 2.25, vel: 5.5, x0: -30 },
+    { c: coche(0xe9e9e6), z: CARRIL_Z - 2.25, vel: 5.5, x0: 40 },
+    { c: coche(0x2f4f7a), z: CARRIL_Z + 2.25, vel: -4.5, x0: 10 },
+    { c: coche(0x3d3f44), z: CARRIL_Z + 2.25, vel: -4.5, x0: -55 },
+  ];
+
   // ── Personajes ─────────────────────────────────────────────────────
+  // Proporciones de una persona de 1,79 m: cadera a 0,86, hombros a 1,42 y
+  // centro de la cabeza a 1,66. Piernas y brazos tienen rodilla y codo para
+  // andar, sentarse y gesticular con naturalidad.
+  const PIELES = [0xf1c6a5, 0xe3b08c, 0xc68863, 0x8d5a3b, 0xf6d8c2].map((c) => suave(c, { roughness: 0.6 }));
+  const PELOS = [0x2b1d14, 0x5a3a22, 0x141414, 0xa7743f, 0x9a9a9a, 0xd4b27a].map((c) => suave(c, { roughness: 0.85 }));
+  const ROPAS = [0x34495e, 0x8e3b46, 0x2e6b5a, 0xc9a227, 0x5b6b8a, 0x7a4e7e, 0xd77a4a, 0x3f3f46, 0xe6e1d6, 0x6c7a3a, 0xb04a5a, 0x4f86b5].map((c) => suave(c));
+  const PANTALONES = [0x2b2f3a, 0x3b5a85, 0x4a4a4a, 0x8c8f96, 0x5c4a3a, 0x1f2a44].map((c) => suave(c));
+  const MEDIAS = [0x222222, 0x3a2e2a].map((c) => suave(c, { roughness: 0.5 }));
+  type Peinado = 'corto' | 'largo' | 'mono' | 'calvo';
+  const PEINADOS: Peinado[] = ['corto', 'largo', 'mono', 'calvo'];
+
+  const G = {
+    muslo: new THREE.CapsuleGeometry(0.07, 0.3, 4, 10).translate(0, -0.21, 0),
+    espinilla: new THREE.CapsuleGeometry(0.056, 0.3, 4, 10).translate(0, -0.2, 0),
+    zapato: new RoundedBoxGeometry(0.11, 0.08, 0.25, 2, 0.03),
+    pelvis: new THREE.CylinderGeometry(0.16, 0.15, 0.22, 16),
+    falda: new THREE.CylinderGeometry(0.17, 0.26, 0.44, 18),
+    torso: new THREE.CapsuleGeometry(0.17, 0.32, 6, 16),
+    cuello: new THREE.CylinderGeometry(0.048, 0.054, 0.14, 10),
+    brazo: new THREE.CapsuleGeometry(0.052, 0.2, 4, 10).translate(0, -0.14, 0),
+    antebrazo: new THREE.CapsuleGeometry(0.045, 0.19, 4, 10).translate(0, -0.13, 0),
+    mano: new THREE.SphereGeometry(0.048, 10, 8),
+    hombro: new THREE.SphereGeometry(0.075, 12, 10),
+    cabeza: new THREE.SphereGeometry(0.13, 24, 18),
+    ojo: new THREE.SphereGeometry(0.024, 10, 8),
+    pupila: new THREE.SphereGeometry(0.013, 8, 6),
+    nariz: new THREE.SphereGeometry(0.022, 8, 6),
+    oreja: new THREE.SphereGeometry(0.032, 8, 6),
+    ceja: new THREE.BoxGeometry(0.056, 0.013, 0.012),
+    boca: new THREE.TorusGeometry(0.03, 0.008, 6, 12, Math.PI),
+    bocaRecta: new THREE.BoxGeometry(0.055, 0.012, 0.01),
+    gafa: new THREE.TorusGeometry(0.03, 0.005, 6, 16),
+    pelo: new THREE.SphereGeometry(0.138, 22, 12, 0, Math.PI * 2, 0, 1.3),
+    peloLargo: new THREE.SphereGeometry(0.138, 22, 12, 0, Math.PI * 2, 0, 1.5),
+    melena: new THREE.CapsuleGeometry(0.12, 0.22, 4, 12),
+    mono: new THREE.SphereGeometry(0.062, 12, 10),
+    coronilla: new THREE.SphereGeometry(0.136, 20, 6, Math.PI - 0.5, Math.PI + 1.0, 1.05, 0.65),
+  };
+
+  type Hueco = 'ropa' | 'mangas' | 'antebrazos' | 'pantalon' | 'piel' | 'pelo';
+  interface Look {
+    ropa: THREE.Material; mangas?: THREE.Material; antebrazos?: THREE.Material; pantalon?: THREE.Material;
+    piel?: THREE.Material; pelo?: THREE.Material; peinado?: Peinado; falda?: THREE.Material | null;
+    delantal?: boolean; gorro?: boolean; pajarita?: boolean; caras?: boolean; bajo?: boolean;
+  }
   interface Persona {
     grupo: THREE.Group;
     cuerpo: THREE.Group;
     cabeza: THREE.Group;
-    piernas: THREE.Mesh[];
-    brazos: THREE.Mesh[];
+    piernas: THREE.Object3D[];
+    rodillas: THREE.Object3D[];
+    brazos: THREE.Object3D[];
+    codos: THREE.Object3D[];
+    manos: THREE.Object3D[];
+    partes: Record<Hueco, THREE.Mesh[]>;
+    peinados: Record<Peinado, THREE.Object3D>;
+    falda: THREE.Mesh;
+    cejas: THREE.Mesh[];
+    ojos: THREE.Object3D[];
     bocas?: { feliz: THREE.Mesh; normal: THREE.Mesh; triste: THREE.Mesh };
     pose: Pose;
     poseHasta: number;
@@ -410,107 +901,272 @@ export function crearEscena(
     mirar: number;
     gesto?: { tipo: 'si' | 'no'; inicio: number };
     paso: number;
+    parpadeo: number;
   }
-  const persona = (ropa: THREE.Material, extras: { delantal?: boolean; gorro?: boolean; pajarita?: boolean; caras?: boolean } = {}): Persona => {
+
+  const vestir = (p: Persona, look: Partial<Record<Hueco, THREE.Material>>) => {
+    (Object.keys(look) as Hueco[]).forEach((h) => { const m = look[h]; if (m) p.partes[h].forEach((x) => (x.material = m)); });
+  };
+  const peinar = (p: Persona, estilo: Peinado) => PEINADOS.forEach((k) => (p.peinados[k].visible = k === estilo));
+  const ponerFalda = (p: Persona, m: THREE.Material | null) => {
+    p.falda.visible = !!m;
+    if (m) p.falda.material = m;
+  };
+
+  const persona = (look: Look): Persona => {
+    const partes: Record<Hueco, THREE.Mesh[]> = { ropa: [], mangas: [], antebrazos: [], pantalon: [], piel: [], pelo: [] };
+    const pieza = (geo: THREE.BufferGeometry, hueco: Hueco | null, m: THREE.Material, sombra = true) => {
+      const mesh = new THREE.Mesh(geo, m);
+      mesh.castShadow = sombra;
+      if (hueco) partes[hueco].push(mesh);
+      return mesh;
+    };
+    const piel = look.piel ?? PIELES[0];
+    const pantalon = look.pantalon ?? PANTALONES[0];
+    const mangas = look.mangas ?? look.ropa;
+    const pelo = look.pelo ?? PELOS[0];
     const grupo = new THREE.Group();
     const cuerpo = new THREE.Group();
     grupo.add(cuerpo);
-    const piernas = [-0.1, 0.1].map((x) => {
-      const pierna = cilindro(0.075, 0.07, 0.5, M.negro, x, 0, 0, 8);
-      pierna.geometry.translate(0, -0.25, 0);
-      pierna.position.y = 0.5;
-      cuerpo.add(pierna);
-      return pierna;
-    });
-    const torso = new THREE.Mesh(new THREE.CapsuleGeometry(0.27, 0.42, 4, 10), ropa);
-    torso.position.y = 0.88;
-    torso.castShadow = true;
-    cuerpo.add(torso);
-    // Brazos con el eje en el hombro para poder moverlos.
-    const brazos = [-0.33, 0.33].map((x) => {
-      const brazo = new THREE.Mesh(new THREE.CapsuleGeometry(0.06, 0.34, 3, 6), ropa);
-      brazo.geometry.translate(0, -0.2, 0);
-      brazo.position.set(x, 1.12, 0);
-      brazo.castShadow = true;
-      brazo.add(esfera(0.065, M.piel, 0, -0.44, 0, 6));
-      cuerpo.add(brazo);
-      return brazo;
-    });
+
+    const piernas: THREE.Object3D[] = [];
+    const rodillas: THREE.Object3D[] = [];
+    for (const x of [-0.09, 0.09]) {
+      const cadera = new THREE.Group();
+      cadera.position.set(x, 0.86, 0);
+      cadera.add(pieza(G.muslo, 'pantalon', pantalon));
+      const rodilla = new THREE.Group();
+      rodilla.position.y = -0.42;
+      rodilla.add(pieza(G.espinilla, 'pantalon', pantalon));
+      const zapato = pieza(G.zapato, null, M.zapato);
+      zapato.position.set(0, -0.39, 0.05);
+      rodilla.add(zapato);
+      cadera.add(rodilla);
+      cuerpo.add(cadera);
+      piernas.push(cadera);
+      rodillas.push(rodilla);
+    }
+    const pelvis = pieza(G.pelvis, 'pantalon', pantalon);
+    pelvis.position.y = 0.92;
+    pelvis.scale.z = 0.72;
+    const falda = pieza(G.falda, null, look.falda ?? ROPAS[0]);
+    falda.position.y = 0.74;
+    falda.scale.z = 0.8;
+    falda.visible = !!look.falda;
+    const torso = pieza(G.torso, 'ropa', look.ropa);
+    torso.position.y = 1.17;
+    torso.scale.set(1.18, 1, 0.68);
+    const cuello = pieza(G.cuello, 'piel', piel);
+    cuello.position.y = 1.52;
+    cuerpo.add(pelvis, falda, torso, cuello);
+
+    const brazos: THREE.Object3D[] = [];
+    const codos: THREE.Object3D[] = [];
+    const manos: THREE.Object3D[] = [];
+    for (const sx of [-1, 1]) {
+      const hombro = new THREE.Group();
+      hombro.position.set(sx * 0.205, 1.41, 0);
+      // Hombro redondeado para que el brazo nazca del torso y no parezca pegado.
+      const deltoides = pieza(G.hombro, 'mangas', mangas);
+      deltoides.position.set(-sx * 0.01, -0.01, 0);
+      deltoides.scale.set(1, 0.9, 0.85);
+      hombro.add(deltoides, pieza(G.brazo, 'mangas', mangas));
+      const codo = new THREE.Group();
+      codo.position.y = -0.29;
+      codo.add(pieza(G.antebrazo, 'antebrazos', look.antebrazos ?? mangas));
+      const mano = pieza(G.mano, 'piel', piel);
+      mano.position.y = -0.29;
+      mano.scale.set(0.85, 1.15, 0.65);
+      const agarre = new THREE.Group();
+      agarre.position.y = -0.3;
+      codo.add(mano, agarre);
+      hombro.add(codo);
+      cuerpo.add(hombro);
+      brazos.push(hombro);
+      codos.push(codo);
+      manos.push(agarre);
+    }
+
     const cabeza = new THREE.Group();
-    cabeza.position.y = 1.45;
+    cabeza.position.y = 1.66;
     cuerpo.add(cabeza);
-    cabeza.add(esfera(0.23, M.piel, 0, 0, 0, 14));
-    cabeza.add(esfera(0.03, M.negro, -0.08, 0.04, 0.2, 6), esfera(0.03, M.negro, 0.08, 0.04, 0.2, 6));
-    if (extras.delantal) cuerpo.add(caja(0.4, 0.42, 0.03, M.blanco, 0, 0.78, 0.26));
-    if (extras.pajarita) cuerpo.add(caja(0.16, 0.06, 0.04, M.tomate, 0, 1.17, 0.25));
-    if (extras.gorro) {
-      cabeza.add(cilindro(0.17, 0.17, 0.22, M.blanco, 0, 0.28, 0, 12));
-      cabeza.add(esfera(0.2, M.blanco, 0, 0.43, 0, 10));
+    const craneo = pieza(G.cabeza, 'piel', piel);
+    craneo.scale.set(0.9, 1.07, 0.97);
+    cabeza.add(craneo);
+    const cejas: THREE.Mesh[] = [];
+    const ojos: THREE.Object3D[] = [];
+    for (const sx of [-1, 1]) {
+      const ojo = new THREE.Group();
+      ojo.position.set(sx * 0.045, 0.015, 0);
+      if (!look.bajo) {
+        const blanco = pieza(G.ojo, null, M.ojo, false);
+        blanco.position.z = 0.104;
+        blanco.scale.z = 0.6;
+        ojo.add(blanco);
+        const ceja = pieza(G.ceja, 'pelo', pelo, false);
+        ceja.position.set(sx * 0.047, 0.062, 0.114);
+        cejas.push(ceja);
+        cabeza.add(ceja);
+        const oreja = pieza(G.oreja, 'piel', piel, false);
+        oreja.position.set(sx * 0.118, -0.005, -0.005);
+        oreja.scale.set(0.45, 1, 0.8);
+        cabeza.add(oreja);
+      }
+      const pupila = pieza(G.pupila, null, M.pupila, false);
+      pupila.position.z = look.bajo ? 0.112 : 0.119;
+      pupila.scale.z = 0.5;
+      ojo.add(pupila);
+      cabeza.add(ojo);
+      ojos.push(ojo);
+    }
+    if (!look.bajo) {
+      const nariz = pieza(G.nariz, 'piel', piel, false);
+      nariz.position.set(0, -0.02, 0.121);
+      nariz.scale.set(0.8, 1.1, 1.1);
+      cabeza.add(nariz);
+    }
+
+    // Peinados: se construyen todos y se enseña uno.
+    const capa = (geo: THREE.BufferGeometry, inclinacion: number) => {
+      const m = pieza(geo, 'pelo', pelo);
+      m.rotation.x = inclinacion;
+      m.scale.set(0.93, 1.07, 1.0);
+      m.position.y = 0.005;
+      return m;
+    };
+    const corto = new THREE.Group();
+    corto.add(capa(G.pelo, -0.3));
+    const largo = new THREE.Group();
+    const melena = pieza(G.melena, 'pelo', pelo);
+    melena.position.set(0, -0.12, -0.06);
+    melena.scale.set(1.05, 1, 0.55);
+    largo.add(capa(G.peloLargo, -0.25), melena);
+    const mono = new THREE.Group();
+    const mono2 = pieza(G.mono, 'pelo', pelo);
+    mono2.position.set(0, 0.1, -0.13);
+    mono.add(capa(G.pelo, -0.3), mono2);
+    const calvo = new THREE.Group();
+    const corona = pieza(G.coronilla, 'pelo', pelo);
+    corona.scale.set(0.93, 1.07, 1);
+    calvo.add(corona);
+    const peinados = { corto, largo, mono, calvo };
+    PEINADOS.forEach((k) => { peinados[k].visible = k === (look.peinado ?? 'corto'); cabeza.add(peinados[k]); });
+
+    if (look.delantal) {
+      const d = caja(0.34, 0.62, 0.02, M.blanco, 0, 0.98, 0.128);
+      d.castShadow = false;
+      cuerpo.add(d);
+    }
+    if (look.pajarita) cuerpo.add(caja(0.13, 0.05, 0.03, M.tomate, 0, 1.47, 0.075));
+    if (look.gorro) {
+      cabeza.add(cilindro(0.12, 0.12, 0.16, M.blanco, 0, 0.17, 0, 14));
+      cabeza.add(esfera(0.16, M.blanco, 0, 0.3, 0, 14));
     }
     let bocas: Persona['bocas'];
-    if (extras.caras !== false) {
-      const arco = new THREE.TorusGeometry(0.065, 0.016, 6, 12, Math.PI);
-      const feliz = new THREE.Mesh(arco, M.negro);
+    if (look.caras !== false && !look.bajo) {
+      const feliz = pieza(G.boca, null, M.labio, false);
       feliz.rotation.z = Math.PI;
-      feliz.position.set(0, -0.05, 0.215);
-      const triste = new THREE.Mesh(arco, M.negro);
-      triste.position.set(0, -0.1, 0.215);
-      const normal = caja(0.12, 0.022, 0.02, M.negro, 0, -0.08, 0.222);
-      normal.castShadow = false;
+      feliz.position.set(0, -0.045, 0.112);
+      const triste = pieza(G.boca, null, M.labio, false);
+      triste.position.set(0, -0.085, 0.11);
+      const normal = pieza(G.bocaRecta, null, M.labio, false);
+      normal.position.set(0, -0.065, 0.114);
       cabeza.add(feliz, triste, normal);
       bocas = { feliz, normal, triste };
       triste.visible = false;
       normal.visible = false;
     }
     mundo.add(grupo);
-    return { grupo, cuerpo, cabeza, piernas, brazos, bocas, pose: 'normal', poseHasta: 0, poseBase: 'normal', sentado: false, mirar: 0.15, paso: 0 };
+    return {
+      grupo, cuerpo, cabeza, piernas, rodillas, brazos, codos, manos, partes, peinados, falda, cejas, ojos, bocas,
+      pose: 'normal', poseHasta: 0, poseBase: 'normal', sentado: false, mirar: 0.15, paso: 0, parpadeo: 2 + Math.random() * 3,
+    };
   };
 
-  const cliente = persona(M.cliente);
-  // Complementos de cada perfil: el maletín y el móvil van en las manos.
-  const corbata = caja(0.07, 0.32, 0.03, M.tomate, 0, 1.0, 0.27);
-  cliente.cuerpo.add(corbata);
-  const maletin = caja(0.34, 0.26, 0.1, M.oscuro, 0, -0.55, 0.02);
-  cliente.brazos[1].add(maletin);
-  const movil = caja(0.1, 0.17, 0.025, M.negro, 0, -0.47, 0.09);
-  movil.rotation.x = 1.2;
-  cliente.brazos[0].add(movil);
+  // Ropa, piel y peinado al azar para la gente de la calle.
+  const vestirAlAzar = (p: Persona) => {
+    const conFalda = Math.random() < 0.3;
+    const ropa = alAzar(ROPAS);
+    const piel = alAzar(PIELES);
+    vestir(p, {
+      ropa, mangas: ropa, antebrazos: Math.random() < 0.4 ? piel : ropa, piel, pelo: alAzar(PELOS),
+      pantalon: conFalda ? alAzar(MEDIAS) : alAzar(PANTALONES),
+    });
+    ponerFalda(p, conFalda ? alAzar(ROPAS) : null);
+    peinar(p, conFalda ? alAzar<Peinado>(['largo', 'mono', 'largo']) : alAzar<Peinado>(['corto', 'corto', 'largo', 'calvo', 'mono']));
+  };
+
+  // El cliente cambia de ropa, peinado y complementos según su perfil.
+  const ropaCliente = suave(0x004aad);
+  const pantalonCliente = suave(0x8c8f96);
+  const peloCliente = suave(0x5a3a22, { roughness: 0.85 });
+  const cliente = persona({ ropa: ropaCliente, pantalon: pantalonCliente, pelo: peloCliente, piel: PIELES[0], peinado: 'mono' });
+  const camisa = caja(0.11, 0.15, 0.012, M.blanco, 0, 1.38, 0.108);
+  camisa.castShadow = false;
+  const corbata = caja(0.06, 0.28, 0.02, M.tomate, 0, 1.25, 0.122);
+  corbata.castShadow = false;
+  cliente.cuerpo.add(camisa, corbata);
+  const maletin = new THREE.Group();
+  maletin.add(caja(0.38, 0.28, 0.09, M.oscuro, 0, -0.15, 0), caja(0.12, 0.03, 0.03, M.oscuro, 0, 0.0, 0));
+  cliente.manos[1].add(maletin);
+  const maletinSuelo = caja(0.38, 0.28, 0.09, M.oscuro, ASIENTOS.cliente.x + 0.42, 0.14, ASIENTOS.cliente.z + 0.05);
+  maletinSuelo.rotation.y = 0.3;
+  mundo.add(maletinSuelo);
+  const movil = caja(0.075, 0.15, 0.012, M.negro, 0, -0.05, 0.03);
+  cliente.manos[0].add(movil);
+  const gafas = new THREE.Group();
+  for (const sx of [-1, 1]) {
+    const aro = new THREE.Mesh(G.gafa, M.negro);
+    aro.position.set(sx * 0.045, 0.015, 0.128);
+    gafas.add(aro);
+  }
+  gafas.add(caja(0.03, 0.006, 0.006, M.negro, 0, 0.02, 0.13));
+  cliente.cabeza.add(gafas);
+  const ESTILOS: Record<string, { ropa: number; pantalon: number; pelo: number; peinado: Peinado; piel: number }> = {
+    prisa: { ropa: 0x22314f, pantalon: 0x22314f, pelo: 0x2b1d14, peinado: 'corto', piel: 1 },
+    grupo: { ropa: 0x004aad, pantalon: 0x8c8f96, pelo: 0x5a3a22, peinado: 'mono', piel: 0 },
+    compara: { ropa: 0x2f8a5b, pantalon: 0x3b5a85, pelo: 0x141414, peinado: 'largo', piel: 2 },
+    esceptico: { ropa: 0x7a5a44, pantalon: 0x4a4a4a, pelo: 0x9a9a9a, peinado: 'calvo', piel: 4 },
+  };
+
   // Compañeros del perfil "grupo": siguen al cliente y se sientan a los lados.
   const acompanantes = [
-    { p: persona(mat(0x95c0fa)), off: new THREE.Vector3(-0.8, 0, -0.65), asiento: ASIENTOS.izquierda },
-    { p: persona(mat(0xd9a441)), off: new THREE.Vector3(0.15, 0, 0.95), asiento: ASIENTOS.derecha },
+    { p: persona({ ropa: suave(0x95c0fa), pantalon: PANTALONES[0], pelo: PELOS[2], piel: PIELES[3], peinado: 'corto' }), off: new THREE.Vector3(-0.8, 0, -0.65), asiento: ASIENTOS.izquierda },
+    { p: persona({ ropa: suave(0xd9a441), pantalon: MEDIAS[0], pelo: PELOS[3], piel: PIELES[1], peinado: 'largo', falda: PANTALONES[3] }), off: new THREE.Vector3(0.15, 0, 0.95), asiento: ASIENTOS.derecha },
   ];
   acompanantes.forEach((a) => (a.p.grupo.visible = false));
-  const anfitrion = persona(M.azulClaro, { delantal: true });
+  const anfitrion = persona({ ropa: M.azulClaro, pantalon: PANTALONES[0], pelo: PELOS[1], piel: PIELES[1], peinado: 'largo', delantal: true });
   anfitrion.grupo.position.set(-3.5, 0, -0.95);
-  const chef = persona(M.blanco, { delantal: true, gorro: true });
+  const chef = persona({ ropa: suave(0xf7f7f5), pantalon: PANTALONES[2], pelo: PELOS[0], piel: PIELES[2], delantal: true, gorro: true });
   chef.grupo.position.set(8.4, 0, -0.9);
   chef.poseBase = 'amasar';
   mundo.add(caja(0.9, 0.9, 0.6, M.madera, 8.4, 0.45, -0.3));
   mundo.add(cilindro(0.22, 0.22, 0.05, M.masa, 8.4, 0.93, -0.25, 12));
-  const camarero = persona(M.oscuro, { delantal: true, pajarita: true });
-  const libreta = caja(0.2, 0.26, 0.03, M.papel, 0, -0.5, 0.08);
-  libreta.rotation.x = 1.1;
-  camarero.brazos[0].add(libreta);
+  const camarero = persona({ ropa: suave(0x1f1f22), mangas: suave(0xf7f7f5), pantalon: suave(0x1f1f22), pelo: PELOS[2], piel: PIELES[0], peinado: 'corto', delantal: true, pajarita: true });
+  const libreta = caja(0.2, 0.26, 0.03, M.papel, 0, -0.02, 0.05);
+  camarero.manos[0].add(libreta);
 
+  // Gente que se para a mirar el cartel de la calle.
   const fantasmas = Array.from({ length: 6 }, (_, i) => {
-    const p = persona(M.fantasma, { caras: false });
-    p.grupo.position.set(-10.2 + (i % 3) * 0.75, 0, 2.7 + Math.floor(i / 3) * 0.75 + (i % 2) * 0.15);
+    const p = persona({ ropa: ROPAS[0], bajo: true });
+    p.grupo.position.set(-10.2 + (i % 3) * 0.8, 0, 2.4 + Math.floor(i / 3) * 0.7 + (i % 2) * 0.15);
+    p.grupo.rotation.y = Math.atan2(cartel.position.x - p.grupo.position.x, cartel.position.z - p.grupo.position.z) * 0.6 + 0.4;
     p.grupo.scale.setScalar(0.001);
     return p;
   });
   const amigos = [0, 1, 2].map((i) => {
-    const p = persona(M.azulClaro);
+    const p = persona({ ropa: ROPAS[0] });
     p.grupo.position.set(12.2 + i * 0.7, 0, 1.6 + (i % 2) * 0.5);
     p.grupo.visible = false;
     return p;
   });
   // Peatones que pasan por la acera, para dar vida a la calle.
   const peatones = [
-    { p: persona(mat(0x7d8597), { caras: false }), z: 5.3, vel: 1.1, x0: -16 },
-    { p: persona(mat(0x9b8f7a), { caras: false }), z: 6.0, vel: -0.9, x0: 18 },
-    { p: persona(mat(0x6f8f86), { caras: false }), z: 5.6, vel: 0.8, x0: 4 },
-  ];
+    { z: 3.85, vel: 1.25, x0: -40 }, { z: 3.3, vel: -1.1, x0: 30 }, { z: 3.85, vel: 1.05, x0: 6 },
+    { z: 3.3, vel: -1.3, x0: -12 }, { z: 3.85, vel: 1.15, x0: 45 }, { z: 3.3, vel: -0.95, x0: -50 },
+  ].map((w) => ({ ...w, p: persona({ ropa: ROPAS[0], bajo: true }) }));
+  const variarCalle = () => [...fantasmas, ...amigos, ...peatones.map((w) => w.p)].forEach(vestirAlAzar);
+  variarCalle();
 
   // Pizza en seis porciones para poder comérsela.
   const pizza = new THREE.Group();
@@ -536,8 +1192,8 @@ export function crearEscena(
   const sol = new THREE.DirectionalLight(0xffffff, 1.6);
   sol.position.set(4, 12, 9);
   sol.castShadow = true;
-  sol.shadow.mapSize.set(1024, 1024);
-  Object.assign(sol.shadow.camera, { left: -16, right: 16, top: 10, bottom: -10, near: 1, far: 40 });
+  sol.shadow.mapSize.set(2048, 2048);
+  Object.assign(sol.shadow.camera, { left: -22, right: 22, top: 12, bottom: -12, near: 1, far: 50 });
   sol.shadow.bias = -0.0005;
   sol.shadow.normalBias = 0.02;
   scene.add(sol);
@@ -546,19 +1202,33 @@ export function crearEscena(
   calida.position.set(2.5, 2.8, 0.2);
   mundo.add(calida);
 
-  // ── Tema claro/oscuro ──────────────────────────────────────────────
+  // ── Tema claro/oscuro (día y noche) ────────────────────────────────
   const aplicarTema = () => {
     const p = document.body.classList.contains('dark') ? PALETAS.oscuro : PALETAS.claro;
     scene.background = new THREE.Color(p.fondo);
+    (scene.fog as THREE.Fog).color.setHex(p.fondo);
     M.suelo.color.setHex(p.suelo);
-    M.calle.color.setHex(p.calle);
+    M.asfalto.color.setHex(p.asfalto);
+    M.acera.color.setHex(p.acera);
+    M.bordillo.color.setHex(p.bordillo);
+    M.pintura.color.setHex(p.pintura);
     M.pared.color.setHex(p.pared);
     M.paredLado.color.setHex(p.paredLado);
     M.madera.color.setHex(p.madera);
     M.ladrillo.color.setHex(p.ladrillo);
     M.ventana.color.setHex(p.ventana);
-    M.fantasma.color.setHex(p.fantasma);
     M.hoja.color.setHex(p.hoja);
+    M.lejano.color.setHex(p.lejano);
+    M.bombilla.color.setHex(p.bombilla);
+    fachadas.forEach((m) => {
+      m.color.setHex(p.fachada);
+      m.emissiveIntensity = p.noche ? 0.9 : 0;
+    });
+    edificios.forEach((m) => {
+      if (m.userData.claro != null) m.color.setHex(m.userData.claro).multiply(new THREE.Color(p.fachada));
+    });
+    M.escaparate.emissiveIntensity = p.noche ? 0.5 : 0;
+    soloNoche.forEach((o) => (o.visible = p.noche));
     sol.intensity = p.luzSol;
     cielo.intensity = p.luzCielo;
     luzLampara.intensity = p.lampara;
@@ -570,38 +1240,58 @@ export function crearEscena(
   // ── Animación de personajes ────────────────────────────────────────
   let t = 0;
   const acercar = (actual: number, meta: number, dt: number, vel = 10) => actual + (meta - actual) * Math.min(1, dt * vel);
-  // Ángulos objetivo de los brazos [izq x, izq z, der x, der z] por postura.
+  // Ángulos objetivo de los brazos por postura:
+  // [izq hombro x, izq hombro z, izq codo, der hombro x, der hombro z, der codo].
+  // Hombro x negativo lleva el brazo hacia delante; codo negativo lo dobla.
   const angulosPose = (p: Persona, pose: Pose, andando: boolean, s: number): number[] => {
     switch (pose) {
-      case 'mano': return [0, -0.12, 0, 2.75 + Math.sin(t * 9) * 0.15];
-      case 'cruzado': return [-1.25, 0.8, -1.25, -0.8];
-      case 'reloj': return [-1.65, 0.55, 0, 0.12];
-      case 'comer': return [0, -0.12, -1.3 - (Math.sin(t * 6) + 1) * 0.45, -0.35];
-      case 'amasar': return [-1.1 + Math.sin(t * 7) * 0.25, 0.25, -1.1 - Math.sin(t * 7) * 0.25, -0.25];
-      case 'escribir': return [-1.05, 0.35, -1.15 + Math.sin(t * 14) * 0.08, -0.35];
-      case 'movil': return [-1.45, 0.35, andando ? s * 0.5 : 0, 0.12];
-      default: return andando ? [-s * 0.5, -0.12, s * 0.5, 0.12] : p.sentado ? [-0.5, -0.1, -0.5, 0.1] : [0, -0.12, 0, 0.12];
+      case 'mano': return [0.03, -0.1, -0.15, 0, 2.7 + Math.sin(t * 9) * 0.12, -0.35];
+      case 'cruzado': return [-0.35, 0.32, -1.75, -0.35, -0.32, -1.75];
+      case 'reloj': return [-0.75, 0.35, -1.35, 0, 0.1, -0.15];
+      case 'comer': {
+        const o = (Math.sin(t * 6) + 1) / 2;
+        return p.sentado
+          ? [-0.4, -0.1, -1.2, -0.5 - o * 0.25, -0.3, -2.2 - o * 0.25]
+          : [0.03, -0.1, -0.12, -0.5 - o * 0.25, -0.3, -2.2 - o * 0.25];
+      }
+      case 'amasar': return [-0.7 + Math.sin(t * 7) * 0.2, 0.2, -0.7, -0.7 - Math.sin(t * 7) * 0.2, -0.2, -0.7];
+      case 'escribir': return [-0.45, 0.3, -1.25, -0.55, -0.3, -1.05 + Math.sin(t * 14) * 0.08];
+      case 'movil': return [-0.55, 0.3, -1.45, andando ? s * 0.4 : 0.03, 0.1, andando ? -0.35 : -0.12];
+      default:
+        if (andando) return [-s * 0.45, -0.1, -0.35, s * 0.45, 0.1, -0.35];
+        return p.sentado ? [-0.4, -0.1, -1.2, -0.4, 0.1, -1.2] : [0.03, -0.1, -0.12, 0.03, 0.1, -0.12];
     }
   };
   const animar = (p: Persona, dt: number, andando: boolean) => {
-    p.paso = andando ? p.paso + dt * 11 : p.paso * 0.8;
+    p.paso = andando ? p.paso + dt * 9 : p.paso * 0.8;
     const s = Math.sin(p.paso);
+    const c = Math.cos(p.paso);
     if (p.sentado && !andando) {
       p.piernas.forEach((l) => (l.rotation.x = acercar(l.rotation.x, -Math.PI / 2, dt)));
-      p.cuerpo.position.y = acercar(p.cuerpo.position.y, -0.05, dt);
+      p.rodillas.forEach((r) => (r.rotation.x = acercar(r.rotation.x, Math.PI / 2, dt)));
+      p.cuerpo.position.y = acercar(p.cuerpo.position.y, -0.315, dt);
+    } else if (andando) {
+      p.piernas[0].rotation.x = s * 0.5;
+      p.piernas[1].rotation.x = -s * 0.5;
+      // La rodilla se dobla cuando la pierna avanza en el aire.
+      p.rodillas[0].rotation.x = 0.1 + Math.max(0, -c) * 0.7;
+      p.rodillas[1].rotation.x = 0.1 + Math.max(0, c) * 0.7;
+      p.cuerpo.position.y = Math.abs(s) * 0.03;
     } else {
-      p.piernas[0].rotation.x = andando ? s * 0.55 : acercar(p.piernas[0].rotation.x, 0, dt);
-      p.piernas[1].rotation.x = andando ? -s * 0.55 : acercar(p.piernas[1].rotation.x, 0, dt);
-      p.cuerpo.position.y = andando ? Math.abs(s) * 0.05 : acercar(p.cuerpo.position.y, 0, dt);
+      p.piernas.forEach((l) => (l.rotation.x = acercar(l.rotation.x, 0, dt)));
+      p.rodillas.forEach((r) => (r.rotation.x = acercar(r.rotation.x, 0, dt)));
+      p.cuerpo.position.y = acercar(p.cuerpo.position.y, 0, dt);
     }
     if (p.pose !== p.poseBase && t > p.poseHasta) p.pose = p.poseBase;
-    const [lx, lz, rx, rz] = angulosPose(p, p.pose, andando, s);
+    const [lx, lz, lc, rx, rz, rc] = angulosPose(p, p.pose, andando, s);
     p.brazos[0].rotation.x = acercar(p.brazos[0].rotation.x, lx, dt);
     p.brazos[0].rotation.z = acercar(p.brazos[0].rotation.z, lz, dt);
+    p.codos[0].rotation.x = acercar(p.codos[0].rotation.x, lc, dt);
     p.brazos[1].rotation.x = acercar(p.brazos[1].rotation.x, rx, dt);
     p.brazos[1].rotation.z = acercar(p.brazos[1].rotation.z, rz, dt);
-    // Cabeza: gestos de sí y no, y mirar abajo al consultar el reloj.
-    let hx = p.pose === 'reloj' ? 0.35 : 0;
+    p.codos[1].rotation.x = acercar(p.codos[1].rotation.x, rc, dt);
+    // Cabeza: gestos de sí y no, y mirar abajo al consultar el reloj o el móvil.
+    let hx = p.pose === 'reloj' || (p.pose === 'movil' && !andando) ? 0.35 : 0;
     let hy = 0;
     if (p.gesto) {
       const e = t - p.gesto.inicio;
@@ -611,6 +1301,12 @@ export function crearEscena(
     }
     p.cabeza.rotation.x = p.gesto?.tipo === 'si' ? hx : acercar(p.cabeza.rotation.x, hx, dt);
     p.cabeza.rotation.y = p.gesto?.tipo === 'no' ? hy : acercar(p.cabeza.rotation.y, hy, dt);
+    // Parpadeo cada pocos segundos.
+    if (!quieto && t > p.parpadeo) {
+      const cerrado = t - p.parpadeo < 0.12;
+      p.ojos.forEach((o) => (o.scale.y = cerrado ? 0.1 : 1));
+      if (!cerrado) p.parpadeo = t + 2.5 + Math.random() * 3.5;
+    }
   };
   const girarHacia = (p: Persona, angulo: number, dt: number, vel = 8) => {
     // Gira por el camino más corto.
@@ -702,7 +1398,7 @@ export function crearEscena(
   let emoteHasta = 0;
   const colocarOverlays = () => {
     const c = cliente.grupo.position;
-    const altura = cliente.sentado ? 1.9 : 2.0;
+    const altura = cliente.sentado ? 1.72 : 2.05;
     if (hablando) {
       const [x, y] = aPantalla(c.x, altura, c.z);
       const w = bocadillo.offsetWidth;
@@ -725,9 +1421,11 @@ export function crearEscena(
   let visible = true;
   let cocinando = false;
   let gentePendiente = 0;
+  let perfilActual = '';
   new IntersectionObserver(([e]) => (visible = e.isIntersecting)).observe(contenedor);
 
   const tmp = new THREE.Vector3();
+  const vuelta = (x: number, desde: number, largo: number) => ((((x - desde) % largo) + largo) % largo) + desde;
   const frame = () => {
     requestAnimationFrame(frame);
     const ahora = performance.now();
@@ -745,7 +1443,10 @@ export function crearEscena(
         aligerado = true;
         renderer.setPixelRatio(1);
         renderer.shadowMap.enabled = false;
-        scene.traverse((o) => { if ((o as THREE.Mesh).material) ((o as THREE.Mesh).material as THREE.Material).needsUpdate = true; });
+        scene.traverse((o) => {
+          const m = (o as THREE.Mesh).material;
+          if (m) (Array.isArray(m) ? m : [m]).forEach((x) => (x.needsUpdate = true));
+        });
         encuadre();
       }
     }
@@ -765,6 +1466,9 @@ export function crearEscena(
       }
       if (m.persona) animar(m.persona, dt, andando);
     }
+    // El maletín va en la mano y, al sentarse, se deja junto a la silla.
+    maletin.visible = perfilActual === 'prisa' && !cliente.sentado;
+    maletinSuelo.visible = perfilActual === 'prisa' && cliente.sentado;
 
     // Los acompañantes siguen al cliente y, cuando se sienta, ocupan su silla.
     acompanantes.forEach((a) => {
@@ -786,21 +1490,25 @@ export function crearEscena(
     });
 
     // Respiración y tareas de los personajes de fondo.
-    [anfitrion, chef].forEach((p, i) => { animar(p, dt, false); p.cuerpo.position.y = Math.sin(t * 2 + i) * 0.012; });
+    [anfitrion, chef].forEach((p, i) => { animar(p, dt, false); p.cuerpo.position.y = Math.sin(t * 2 + i) * 0.008; });
 
     fantasmas.forEach((p, i) => {
       const meta = i < gentePendiente ? 1 : 0.001;
       const s = p.grupo.scale.x + (meta - p.grupo.scale.x) * Math.min(1, dt * 6);
       p.grupo.scale.setScalar(s);
-      p.grupo.position.y = meta === 1 ? Math.abs(Math.sin(t * 3 + i)) * 0.04 : 0;
+      if (meta === 1) animar(p, dt, false);
     });
     amigos.forEach((p, i) => { if (p.grupo.visible) { animar(p, dt, false); p.cuerpo.position.y = Math.abs(Math.sin(t * 4 + i)) * 0.04; } });
     peatones.forEach((w) => {
-      const tramo = 34;
-      const x = ((w.x0 + w.vel * t + tramo * 10 + 16) % tramo) - 16;
-      w.p.grupo.position.set(x, 0, w.z);
+      w.p.grupo.position.set(vuelta(w.x0 + w.vel * t, -60, 120), 0, w.z);
       w.p.grupo.rotation.y = w.vel > 0 ? Math.PI / 2 : -Math.PI / 2;
       animar(w.p, dt, true);
+    });
+    coches.forEach(({ c, z, vel, x0 }) => {
+      const x = quieto ? x0 : vuelta(x0 + vel * t, -75, 150);
+      c.g.position.set(x, -0.16, z);
+      c.g.rotation.y = vel > 0 ? 0 : Math.PI;
+      if (!quieto) c.ruedas.forEach((r) => (r.rotation.z = -Math.abs(vel) * t / 0.33));
     });
 
     // Humo de la chimenea: sube, crece y se desvanece.
@@ -834,9 +1542,11 @@ export function crearEscena(
     caja: [cajaPizza],
   };
   const mostrar: Escena['mostrar'] = (obj, on) => objetos[obj].forEach((o) => (o.visible = on));
-  let perfilActual = '';
   let hambreActual = 60;
-  const poseBaseCliente = () => (hambreActual < 30 ? 'cruzado' : perfilActual === 'compara' && !cliente.sentado ? 'movil' : 'normal');
+  const poseBaseCliente = (): Pose =>
+    hambreActual < 30 || (perfilActual === 'esceptico' && hambreActual < 45 && !cliente.sentado)
+      ? 'cruzado'
+      : perfilActual === 'compara' && !cliente.sentado ? 'movil' : 'normal';
 
   const escena: Escena = {
     ok: true,
@@ -858,6 +1568,12 @@ export function crearEscena(
     humor(hambre) {
       hambreActual = hambre;
       cliente.poseBase = poseBaseCliente();
+      // Cejas fruncidas cuando se enfría, relajadas cuando está a gusto.
+      cliente.cejas.forEach((c, i) => {
+        const sx = i === 0 ? -1 : 1;
+        c.rotation.z = hambre < 30 ? sx * 0.35 : hambre < 60 ? 0 : -sx * 0.12;
+        c.position.y = hambre >= 60 ? 0.068 : 0.062;
+      });
       if (!cliente.bocas) return;
       cliente.bocas.feliz.visible = hambre >= 60;
       cliente.bocas.normal.visible = hambre >= 30 && hambre < 60;
@@ -870,10 +1586,16 @@ export function crearEscena(
     gente(n) { gentePendiente = n; },
     perfil(id) {
       perfilActual = id;
-      corbata.visible = maletin.visible = id === 'prisa';
+      const e = ESTILOS[id] ?? ESTILOS.grupo;
+      ropaCliente.color.setHex(e.ropa);
+      pantalonCliente.color.setHex(e.pantalon);
+      peloCliente.color.setHex(e.pelo);
+      vestir(cliente, { piel: PIELES[e.piel] });
+      peinar(cliente, e.peinado);
+      corbata.visible = camisa.visible = id === 'prisa';
       movil.visible = id === 'compara';
+      gafas.visible = id === 'esceptico';
       cliente.poseBase = poseBaseCliente();
-      M.cliente.color.setHex(id === 'prisa' ? 0x22314f : id === 'compara' ? 0x2f8a5b : 0x004aad);
       acompanantes.forEach((a) => {
         a.p.grupo.visible = id === 'grupo';
         a.p.sentado = false;
@@ -932,6 +1654,8 @@ export function crearEscena(
       cliente.sentado = false;
       cliente.pose = 'normal';
       camarero.pose = camarero.poseBase = 'normal';
+      // Cada partida pasa gente distinta por la calle.
+      variarCalle();
       escena.humor(60);
       mover('cliente', POS.fuera[0], POS.fuera[1], { ms: 0 });
       mover('camarero', POS.barra[0], POS.barra[1], { ms: 0 });
@@ -943,7 +1667,10 @@ export function crearEscena(
   escena.perfil('');
   mover('cliente', POS.calle[0], POS.calle[1], { ms: 0 });
   // Con la fuente web ya cargada, los rótulos se repintan con sus fuentes.
-  document.fonts?.ready.then(() => { titulo.repintar(); pizarra.repintar(); salidaTxt.repintar(); neon.repintar(); cartaPared.repintar(); });
+  document.fonts?.ready.then(() => {
+    [titulo, pizarra, salidaTxt, neon, cartaPared, banderolaTxt].forEach((r) => r.repintar());
+    rotulosTienda.forEach((r) => r());
+  });
   frame();
   return escena;
 }

@@ -61,8 +61,8 @@ const breadcrumbLd = {
 };
 ---
 <BaseLayout
-  title="La pizzería B2B, un juego para entender el proceso comercial"
-  description="Abre una pizzería y acompaña a un cliente desde el anuncio hasta el postre. Cada decisión es una fase del proceso comercial B2B, de la atracción a la posventa."
+  title="La pizzería B2B, el juego que te enseña dónde flaquea tu proceso comercial"
+  description="Atiende a un cliente en tu pizzería, del cartel de la calle al postre. Cada momento es una fase del proceso comercial B2B y al final ves en cuál flaqueas y qué claves se te escapan."
 >
   <script type="application/ld+json" set:html={JSON.stringify(breadcrumbLd)} />
   <script type="application/json" id="pz-data" set:html={JSON.stringify(config)} />
@@ -72,6 +72,7 @@ const breadcrumbLd = {
     <div class="pz-head">
       <p class="pz-kicker">Juego · 4 minutos</p>
       <h1>La pizzería B2B</h1>
+      <p class="pz-sub">El juego que te ayuda a ver en qué fase de tu proceso comercial flaqueas y qué claves no estás viendo.</p>
     </div>
 
     <div class="pz-stage" id="pz-stage" role="region" aria-label="Escena de la pizzería en 3D">
@@ -89,8 +90,8 @@ const breadcrumbLd = {
 
       <div class="pz-card pz-glass" id="pz-card" data-fase="intro">
         <div id="pz-intro">
-          <p class="pz-intro">Abre tu pizzería y acompaña a un cliente desde que ve tu anuncio en la calle hasta que pide el postre. Cada momento de la pizzería es una fase del proceso comercial B2B.</p>
-          <p class="pz-intro">Cada partida entra un cliente distinto y la situación cambia. Vigila su hambre, porque si llega a cero se levanta y se va.</p>
+          <p class="pz-intro">Atiende a un cliente desde que ve tu cartel en la calle hasta que pide el postre. Cada momento es una fase de tu proceso comercial B2B y al final verás en cuál flaqueas y qué claves se te escapan.</p>
+          <p class="pz-intro">Decide como lo harías en tu empresa. Cada partida entra un cliente distinto y las situaciones cambian. Vigila su hambre, porque si llega a cero se levanta y se va.</p>
           <p class="pz-label">Elige el modo</p>
           <div class="pz-niveles pz-modos" id="pz-modos" role="radiogroup" aria-label="Modo de juego"></div>
           <p class="pz-label">Elige el nivel</p>
@@ -145,9 +146,10 @@ const breadcrumbLd = {
       <p class="pz-intro" id="pz-end-b2b"></p>
 
       <div class="pz-debil" id="pz-debil" hidden>
-        <p class="pz-kicker">Tu punto débil</p>
+        <p class="pz-kicker">La fase donde más flaqueas</p>
         <p class="pz-debil-titulo" id="pz-debil-titulo"></p>
         <p id="pz-debil-texto"></p>
+        <p class="pz-debil-clave"><strong>La clave que se te escapa.</strong> <span id="pz-debil-clave"></span></p>
       </div>
 
       <div class="pz-informe-bloque">
@@ -214,14 +216,14 @@ const breadcrumbLd = {
         </div>
 
         <div>
-          <h3 id="pz-route-titulo">Tu proceso comercial, momento a momento</h3>
+          <h3 id="pz-route-titulo">Tu proceso comercial, fase a fase</h3>
           <ol class="pz-route" id="pz-route"></ol>
         </div>
       </div>
 
       <div class="pz-cta">
-        <p class="pz-cta-title">¿En qué momento se enfrían los clientes de tu empresa?</p>
-        <p class="pz-intro">En la pizzería se ve a simple vista. En tu proceso comercial cuesta más. El autodiagnóstico te ayuda a encontrarlo en 3 minutos, y si prefieres, lo vemos juntos en una llamada de 15.</p>
+        <p class="pz-cta-title">¿En qué fase flaquea el proceso comercial de tu empresa?</p>
+        <p class="pz-intro">En la pizzería se ve a simple vista. En tu empresa cuesta más, porque las fases se reparten entre marketing, ventas y quien entrega. El autodiagnóstico te ayuda a encontrarlo en 3 minutos, y si prefieres, lo vemos juntos en una llamada de 15.</p>
         <div class="pz-actions">
           <a href="/recursos/minijuegos/diagnostico-marketing/" class="pz-btn">Hacer el autodiagnóstico</a>
           <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" class="pz-btn pz-btn--ghost">Agenda 15 minutos</a>
@@ -322,19 +324,32 @@ const breadcrumbLd = {
 
   const variante = (i = actual): Variante => momentos[i].variantes[plan[i]];
 
+  // Planteamientos que el jugador ha visto en sus últimas partidas. Al
+  // elegir se descartan mientras queden otros, para que cada partida traiga
+  // situaciones nuevas.
+  const VISTAS_MAX = 24;
+  let vistas = leer<string[]>('pz-vistas', []);
+
   // Elige un planteamiento por momento compatible con el perfil, con
   // como mucho un imprevisto por partida.
   const elegirPlan = () => {
-    const posibles = momentos.map((m) =>
+    const validas = momentos.map((m) =>
       m.variantes.map((v, i) => ({ v, i })).filter(({ v }) => !v.soloPerfiles || v.soloPerfiles.includes(perfil.id))
     );
-    const elegido = posibles.map((lista) => azar(lista).i);
+    const preferir = (lista: { v: Variante; i: number }[]) => {
+      const nuevas = lista.filter(({ v }) => !vistas.includes(v.id));
+      return azar(nuevas.length ? nuevas : lista).i;
+    };
+    const elegido = validas.map(preferir);
     const conEvento = elegido.map((vi, mi) => (momentos[mi].variantes[vi].evento ? mi : -1)).filter((mi) => mi >= 0);
     // Se queda uno al azar y el resto se cambia por un planteamiento normal.
     const quedarse = azar(conEvento);
     conEvento.filter((mi) => mi !== quedarse).forEach((mi) => {
-      elegido[mi] = azar(posibles[mi].filter(({ v }) => !v.evento)).i;
+      elegido[mi] = preferir(validas[mi].filter(({ v }) => !v.evento));
     });
+    const ids = elegido.map((vi, mi) => momentos[mi].variantes[vi].id);
+    vistas = [...ids, ...vistas.filter((id) => !ids.includes(id))].slice(0, VISTAS_MAX);
+    guardar('pz-vistas', vistas);
     return elegido;
   };
 
@@ -715,6 +730,45 @@ const breadcrumbLd = {
     card.scrollTop = 0;
   };
 
+  // Cómo ha ido cada fase sumando todos los clientes.
+  type Estado = 'fuerte' | 'medias' | 'flaqueas' | 'sin';
+  const ESTADOS: Record<Estado, string> = { fuerte: 'Fuerte', medias: 'A medias', flaqueas: 'Aquí flaqueas', sin: 'Sin llegar' };
+  const estadoFase = (id: string): Estado => {
+    const pasos = resultados.flatMap((r) => r.historial.filter((h) => h.momento === id));
+    if (!pasos.length) return 'sin';
+    if (pasos.some((h) => h.calidad === 'mal')) return 'flaqueas';
+    return pasos.every((h) => h.calidad === 'bien') ? 'fuerte' : 'medias';
+  };
+  // Cabecera de una fase en el recorrido final, con su estado.
+  const cabeceraFase = (m: Momento, puntos: (Calidad | 'vacio')[], titulos: string[]) => {
+    const head = document.createElement('p');
+    head.className = 'pz-route-head';
+    puntos.forEach((c, i) => {
+      const dot = document.createElement('span');
+      dot.className = 'pz-dot';
+      dot.dataset.calidad = c;
+      dot.title = titulos[i] ?? '';
+      head.append(dot);
+    });
+    const nombre = document.createElement('strong'); nombre.textContent = m.nombre;
+    const b2b = document.createElement('span'); b2b.className = 'pz-muted'; b2b.textContent = `· ${m.b2b}`;
+    const estado = estadoFase(m.id);
+    const etiqueta = document.createElement('span');
+    etiqueta.className = 'pz-estado';
+    etiqueta.dataset.estado = estado;
+    etiqueta.textContent = ESTADOS[estado];
+    head.append(nombre, b2b, etiqueta);
+    return { head, estado };
+  };
+  const claveFase = (m: Momento) => {
+    const p = document.createElement('p');
+    p.className = 'pz-route-clave';
+    const label = document.createElement('strong');
+    label.textContent = 'La clave.';
+    p.append(label, ` ${m.clave}`);
+    return p;
+  };
+
   // Momento donde más interés se ha perdido sumando todos los clientes.
   const puntoDebil = () => {
     const perdida = new Map<string, { suma: number; peor?: Paso }>();
@@ -789,59 +843,41 @@ const breadcrumbLd = {
     if (mDebil) {
       $('pz-debil-titulo').textContent = `${mDebil.nombre} · ${mDebil.b2b}`;
       $('pz-debil-texto').textContent = debil.paso?.b2b ?? '';
+      $('pz-debil-clave').textContent = mDebil.clave;
     }
 
     prepararInforme(mDebil ? mDebil.id : 'general');
 
     // Recorrido. En la jornada se agrupa por momento con un punto por cliente.
-    $('pz-route-titulo').textContent = enJornada ? 'Tu proceso comercial con cada cliente' : 'Tu proceso comercial, momento a momento';
-    if (enJornada) {
-      $('pz-route').replaceChildren(...momentos.map((m) => {
-        const pasos = resultados.map((r) => r.historial.find((h) => h.momento === m.id));
-        const li = document.createElement('li');
-        const head = document.createElement('p');
-        head.className = 'pz-route-head';
-        pasos.forEach((paso) => {
-          const dot = document.createElement('span');
-          dot.className = 'pz-dot';
-          dot.dataset.calidad = paso?.calidad ?? 'vacio';
-          dot.title = paso ? paso.texto : 'Este cliente ya se había ido';
-          head.append(dot);
-        });
-        const nombre = document.createElement('strong'); nombre.textContent = m.nombre;
-        const b2b = document.createElement('span'); b2b.className = 'pz-muted'; b2b.textContent = `· ${m.b2b}`;
-        head.append(nombre, b2b);
-        li.append(head);
-        const lecciones = [...new Set(pasos.filter((x) => x && (x.calidad !== 'bien' || !nivel.explicacion)).map((x) => x!.b2b))];
-        const txt = document.createElement('p');
-        txt.className = lecciones.length ? 'pz-route-b2b' : 'pz-route-text';
-        txt.textContent = lecciones.length ? lecciones.join(' ') : 'Bien con todos los clientes.';
-        li.append(txt);
-        return li;
-      }));
-    } else {
-      $('pz-route').replaceChildren(...ultimo.historial.map((paso) => {
-        const m = momentos.find((x) => x.id === paso.momento)!;
-        const li = document.createElement('li');
-        const head = document.createElement('p');
-        head.className = 'pz-route-head';
-        head.innerHTML = '<span class="pz-dot"></span><strong></strong> <span class="pz-muted"></span>';
-        (head.querySelector('.pz-dot') as HTMLElement).dataset.calidad = paso.calidad;
-        head.querySelector('strong')!.textContent = m.nombre;
-        head.querySelector('.pz-muted')!.textContent = `· ${m.b2b}`;
-        const txt = document.createElement('p');
-        txt.className = 'pz-route-text';
-        txt.textContent = paso.texto;
-        li.append(head, txt);
-        if (paso.calidad !== 'bien' || !nivel.explicacion) {
-          const b = document.createElement('p');
-          b.className = 'pz-route-b2b';
-          b.textContent = paso.b2b;
-          li.append(b);
-        }
-        return li;
-      }));
-    }
+    // Recorrido por todas las fases, con su estado y, donde flaqueas o te
+    // quedas a medias, la clave que se te escapa.
+    $('pz-route-titulo').textContent = enJornada ? 'Tu proceso comercial con cada cliente, fase a fase' : 'Tu proceso comercial, fase a fase';
+    $('pz-route').replaceChildren(...momentos.map((m) => {
+      const pasos = resultados.map((r) => r.historial.find((h) => h.momento === m.id));
+      const li = document.createElement('li');
+      const { head, estado } = cabeceraFase(
+        m,
+        pasos.map((x) => x?.calidad ?? 'vacio'),
+        pasos.map((x) => (x ? x.texto : 'Este cliente ya se había ido'))
+      );
+      li.append(head);
+      const hechos = pasos.filter((x): x is Paso => !!x);
+      const txt = document.createElement('p');
+      txt.className = 'pz-route-text';
+      if (!hechos.length) txt.textContent = 'El cliente se fue antes de llegar a esta fase.';
+      else if (enJornada) txt.textContent = estado === 'fuerte' ? 'Bien con todos los clientes.' : '';
+      else txt.textContent = hechos[0].texto;
+      if (txt.textContent) li.append(txt);
+      const lecciones = [...new Set(hechos.filter((x) => x.calidad !== 'bien' || !nivel.explicacion).map((x) => x.b2b))];
+      if (lecciones.length) {
+        const b = document.createElement('p');
+        b.className = 'pz-route-b2b';
+        b.textContent = lecciones.join(' ');
+        li.append(b);
+      }
+      if (estado === 'flaqueas' || estado === 'medias') li.append(claveFase(m));
+      return li;
+    }));
 
     const retry = $('pz-retry') as HTMLButtonElement;
     const ultimoPaso = ultimo.historial[ultimo.historial.length - 1];
@@ -855,7 +891,7 @@ const breadcrumbLd = {
       titulo: balance.titulo, estrellas: suma, max, lineas, total, nota, cabecera,
       debil: mDebil ? `${mDebil.nombre} (${mDebil.b2b.toLowerCase()})` : null,
     };
-    const textoCompartir = `He jugado a La pizzería B2B y he sacado ${suma} de ${max} estrellas. ¿En qué momento se te enfrían los clientes?`;
+    const textoCompartir = `He jugado a La pizzería B2B para ver en qué fase de mi proceso comercial flaqueo. ${suma} de ${max} estrellas. ¿Y tú, en qué fase flaqueas?`;
     ($('pz-linkedin') as HTMLAnchorElement).href = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`;
     $('pz-compartir').hidden = !(navigator.canShare && navigator.canShare({ files: [new File([''], 'x.png', { type: 'image/png' })] }));
     $('pz-compartir').dataset.texto = textoCompartir;
@@ -1055,12 +1091,12 @@ const breadcrumbLd = {
     y += 70;
     centro(f.nota, y, `400 28px ${mono}`, '#444');
     if (f.debil) {
-      centro('Mi punto débil', y + 80, `400 26px ${mono}`, '#888');
+      centro('Donde más flaqueo', y + 80, `400 26px ${mono}`, '#888');
       centro(f.debil, y + 125, `600 30px Poppins, sans-serif`, '#c8452f');
     }
     centro('Gracias por tu visita', y1 - 40, `400 26px ${mono}`, '#888');
 
-    centro('¿En qué momento se te enfrían los clientes?', 1210, `400 40px Newsreader, serif`, '#ffffff');
+    centro('¿En qué fase de tu proceso comercial flaqueas?', 1210, `400 40px Newsreader, serif`, '#ffffff');
     centro(url.replace('https://', '').replace(/\/$/, ''), 1270, `400 26px Poppins, sans-serif`, 'rgba(255,255,255,0.8)');
     return new Promise((res) => c.toBlob((b) => res(b), 'image/png'));
   };
@@ -1211,6 +1247,8 @@ const breadcrumbLd = {
   }
   .pz h3 { font-family: 'Poppins', sans-serif; font-size: 1rem; font-weight: 500; margin-bottom: 1rem; }
   .pz-head { margin-bottom: 1.5rem; }
+  .pz-sub { font-size: 1.05rem; font-weight: 300; line-height: 1.6; max-width: 640px; color: rgba(0,0,0,0.7); }
+  body.dark .pz-sub { color: rgba(232,232,232,0.7); }
 
   .pz-intro {
     font-size: 0.95rem;
@@ -1510,6 +1548,12 @@ const breadcrumbLd = {
   .pz-dot[data-calidad='regular'] { background: #e8a33d; }
   .pz-dot[data-calidad='mal'] { background: #c8452f; }
   .pz-dot[data-calidad='vacio'] { background: transparent; box-shadow: inset 0 0 0 1.5px rgba(128,128,128,0.5); }
+  .pz-route-head { flex-wrap: wrap; }
+  .pz-estado { margin-left: auto; font-size: 0.75rem; font-weight: 500; opacity: 0.7; white-space: nowrap; }
+  .pz-estado[data-estado='flaqueas'] { color: #c8452f; opacity: 1; }
+  .pz-estado[data-estado='medias'] { color: #b7791f; opacity: 1; }
+  .pz-route-clave { font-size: 0.88rem; line-height: 1.65; padding-left: 1.1rem; margin-top: 0.35rem; opacity: 0.8; }
+  .pz-route-clave strong { font-weight: 600; }
 
   .pz-debil {
     max-width: 720px;
@@ -1522,7 +1566,8 @@ const breadcrumbLd = {
   .pz-debil[hidden] { display: none; }
   .pz-debil .pz-kicker { color: #c8452f; margin-bottom: 0.4rem; }
   .pz-debil-titulo { font-family: 'Newsreader', serif; font-size: 1.35rem; line-height: 1.3; margin-bottom: 0.4rem; }
-  .pz-debil p:last-child { font-size: 0.92rem; line-height: 1.65; }
+  #pz-debil-texto, .pz-debil-clave { font-size: 0.92rem; line-height: 1.65; }
+  .pz-debil-clave { margin-top: 0.6rem; }
 
   .pz-informe-bloque {
     max-width: 720px;
