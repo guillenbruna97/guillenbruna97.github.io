@@ -248,18 +248,24 @@ const breadcrumbLd = {
     if (id === 'puerta') await escena.mover('cliente', POS.puerta[0], POS.puerta[1], { ms: 1300 });
     if (id === 'espera') {
       escena.mostrar('formulario', false);
-      await escena.mover('cliente', POS.mesa[0], POS.mesa[1], { ms: 1600 });
+      await escena.mover('cliente', POS.rodeo[0], POS.rodeo[1], { ms: 1100 });
+      if (p !== partida) return;
+      await escena.mover('cliente', POS.mesa[0], POS.mesa[1], { ms: 700 });
+      if (p === partida) escena.sentar(true);
     }
     if (id === 'pedido') {
       await escena.mover('camarero', POS.mesaCamarero[0], POS.mesaCamarero[1], { ms: 1300 });
-      if (p === partida) escena.mostrar('libreta', true);
+      if (p !== partida) return;
+      escena.mostrar('libreta', true);
+      escena.pose('camarero', 'escribir', 8000);
     }
     if (id === 'servicio') {
       escena.mostrar('libreta', false);
       escena.mostrar('cartaCorta', false);
       escena.mostrar('cartaLarga', false);
       escena.mover('camarero', POS.barra[0], POS.barra[1], { ms: 1300 });
-      escena.horno(true);
+      // En el imprevisto del horno apagado, el fuego no se enciende.
+      escena.horno(variante().id !== 'servicio-horno');
     }
     if (id === 'sobremesa') {
       escena.mostrar('pizza', false);
@@ -278,6 +284,7 @@ const breadcrumbLd = {
     await escena.mover('pizza', POS.barraPizza[0], POS.barraPizza[1], { ms: 900, y: ALTURAS.barra });
     if (p !== partida) return;
     await escena.mover('pizza', POS.mesaPizza[0], POS.mesaPizza[1], { ms: 1100, y: ALTURAS.mesa });
+    if (p === partida) escena.comer();
   };
 
   const reaccionar = async (id: string, o: Opcion) => {
@@ -399,7 +406,11 @@ const breadcrumbLd = {
       $('pz-impaciencia').hidden = false;
       const debe = Math.floor((s - pac.margen) / pac.cada) + 1;
       if (debe <= perdido) return;
-      if (perdido === 0) escena.decir('¿Falta mucho?');
+      if (perdido === 0) {
+        escena.decir('¿Falta mucho?');
+        escena.emocion('⏰');
+      }
+      if (perdido % 4 === 0) escena.pose('cliente', 'reloj', 2000);
       hambre = Math.max(0, hambre - (debe - perdido));
       perdido = debe;
       renderMeter();
@@ -440,6 +451,8 @@ const breadcrumbLd = {
       options.hidden = true;
       historial.push({ momento: m.id, texto: 'Pidió él solo', calidad: 'bien', b2b: m.automatico.b2b, delta: 0 });
       escena.decir(m.automatico.reaccion);
+      escena.pose('cliente', 'mano', 2600);
+      escena.emocion('🙋');
       escena.mover('camarero', POS.mesaCamarero[0], POS.mesaCamarero[1], { ms: 1300 });
       $('pz-verdict').dataset.calidad = 'bien';
       $('pz-verdict').textContent = 'Pide él solo, ni has tenido que ir';
@@ -483,6 +496,10 @@ const breadcrumbLd = {
     escena.humor(hambre);
     reaccionar(m.id, o);
     escena.decir(o.reaccion);
+    // Lenguaje corporal según cómo le ha sentado la decisión.
+    if (o.calidad === 'bien') { escena.gesto('si'); escena.emocion(primero ? '🍕' : '😋'); }
+    else if (o.calidad === 'regular') escena.emocion('😐');
+    else { escena.gesto('no'); escena.emocion('💢'); }
     verdict(o.calidad, hambre - antes, primero);
     leccion(o.b2b);
     $('pz-next').textContent = hambre <= 0
@@ -514,11 +531,13 @@ const breadcrumbLd = {
     const clave: Clave = seVa ? 'seVa' : hambre >= umbrales.recomienda ? 'recomienda' : hambre >= umbrales.vuelve ? 'vuelve' : 'noVuelve';
 
     escena.decir(seVa ? 'Me voy a otro sitio' : null);
+    if (seVa) escena.emocion('💨');
+    escena.sentar(false);
     escena.foco('salida');
     await escena.mover('cliente', POS.salida[0], POS.salida[1], { ms: seVa ? 2000 : 2800 });
     if (p !== partida) return;
     escena.decir(null);
-    if (clave === 'recomienda') escena.mostrar('amigos', true);
+    if (clave === 'recomienda') { escena.mostrar('amigos', true); escena.emocion('❤️'); }
 
     const desenlace = desenlaces[clave];
     $('pz-end-title').textContent = desenlace.titulo;
@@ -660,6 +679,7 @@ const breadcrumbLd = {
     if (rotulo) escena.rotulo(rotulo);
     const sitio = desde >= 2 ? POS.mesa : POS.calle;
     escena.mover('cliente', sitio[0], sitio[1], { ms: 0 });
+    if (desde >= 2) escena.sentar(true);
     const hecho = (id: string) => historial.find((h) => h.momento === id);
     if (hecho('espera')?.escena?.includes('aperitivo')) escena.mostrar('aperitivo', true);
     const llamada = hecho('llamada');
@@ -861,6 +881,20 @@ const breadcrumbLd = {
     animation: pz-pop 0.3s ease;
   }
   .pz-bocadillo[hidden] { display: none; }
+  .pz-emote {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    font-size: 1.7rem;
+    line-height: 1;
+    pointer-events: none;
+    will-change: transform;
+    filter: drop-shadow(0 2px 3px rgba(0,0,0,0.25));
+  }
+  .pz-emote[hidden] { display: none; }
+  .pz-emote.is-pop { animation: pz-emote 0.5s ease; }
+  @keyframes pz-emote { 0% { scale: 0.3; opacity: 0; } 60% { scale: 1.25; opacity: 1; } 100% { scale: 1; } }
   .pz-bocadillo::after {
     content: '';
     position: absolute;
@@ -1047,6 +1081,6 @@ const breadcrumbLd = {
 
   @media (prefers-reduced-motion: reduce) {
     #pz-meter-fill { transition: none !important; }
-    .pz-ticket, .pz-feedback, .pz-bocadillo, .pz-impaciencia { animation: none !important; }
+    .pz-ticket, .pz-feedback, .pz-bocadillo, .pz-impaciencia, .pz-emote { animation: none !important; }
   }
 </style>
