@@ -11,6 +11,8 @@ import {
   HAMBRE_RECOMIENDA,
   HAMBRE_POSTRE,
   PRECIO_PIZZA,
+  CLIENTES_JORNADA,
+  JORNADA,
 } from '../../../../data/pizzeria';
 
 const config = {
@@ -21,6 +23,9 @@ const config = {
   impaciencia: IMPACIENCIA,
   umbrales: { vuelve: HAMBRE_VUELVE, recomienda: HAMBRE_RECOMIENDA, postre: HAMBRE_POSTRE },
   precioPizza: PRECIO_PIZZA,
+  clientesJornada: CLIENTES_JORNADA,
+  jornada: JORNADA,
+  url: 'https://guillenbruna97.github.io/recursos/minijuegos/pizzeria-b2b/',
 };
 
 const pageUrl = 'https://guillenbruna97.github.io/recursos/minijuegos/pizzeria-b2b/';
@@ -62,10 +67,12 @@ const breadcrumbLd = {
         <p class="pz-impaciencia" id="pz-impaciencia" hidden>Se está impacientando</p>
       </div>
 
-      <div class="pz-card pz-glass" id="pz-card">
+      <div class="pz-card pz-glass" id="pz-card" data-fase="intro">
         <div id="pz-intro">
           <p class="pz-intro">Abre tu pizzería y acompaña a un cliente desde que ve tu anuncio en la calle hasta que pide el postre. Cada momento de la pizzería es una fase del proceso comercial B2B.</p>
           <p class="pz-intro">Cada partida entra un cliente distinto y la situación cambia. Vigila su hambre, porque si llega a cero se levanta y se va.</p>
+          <p class="pz-label">Elige el modo</p>
+          <div class="pz-niveles pz-modos" id="pz-modos" role="radiogroup" aria-label="Modo de juego"></div>
           <p class="pz-label">Elige el nivel</p>
           <div class="pz-niveles" id="pz-niveles" role="radiogroup" aria-label="Nivel de dificultad"></div>
           <button type="button" class="pz-btn" id="pz-start">Abrir la pizzería</button>
@@ -97,6 +104,14 @@ const breadcrumbLd = {
           </div>
         </div>
 
+        <div id="pz-siguiente" hidden>
+          <p class="pz-kicker" id="pz-sig-kicker"></p>
+          <h2 class="pz-question" id="pz-sig-titulo"></h2>
+          <p class="pz-sig-estrellas" id="pz-sig-estrellas"></p>
+          <p class="pz-intro" id="pz-sig-caja"></p>
+          <button type="button" class="pz-btn" id="pz-sig-ok">Que pase el siguiente cliente</button>
+        </div>
+
         <div id="pz-closing" hidden>
           <p class="pz-intro">El cliente se dirige a la salida…</p>
         </div>
@@ -109,17 +124,30 @@ const breadcrumbLd = {
       <p class="pz-estrellas" id="pz-estrellas" aria-live="polite"></p>
       <p class="pz-intro" id="pz-end-b2b"></p>
 
+      <div class="pz-debil" id="pz-debil" hidden>
+        <p class="pz-kicker">Tu punto débil</p>
+        <p class="pz-debil-titulo" id="pz-debil-titulo"></p>
+        <p id="pz-debil-texto"></p>
+      </div>
+
       <div class="pz-end-grid">
-        <div class="pz-ticket" aria-label="Ticket de la mesa">
-          <p class="pz-ticket-head">La Pizzería<small id="pz-ticket-mesa"></small></p>
-          <div class="pz-ticket-lines" id="pz-ticket-lines"></div>
-          <div class="pz-ticket-total"><span>Total</span><span id="pz-total"></span></div>
-          <p class="pz-ticket-note" id="pz-ticket-note"></p>
-          <p class="pz-ticket-thanks">Gracias por tu visita</p>
+        <div class="pz-ticket-col">
+          <div class="pz-ticket" aria-label="Ticket de la mesa">
+            <p class="pz-ticket-head">La Pizzería<small id="pz-ticket-mesa"></small></p>
+            <div class="pz-ticket-lines" id="pz-ticket-lines"></div>
+            <div class="pz-ticket-total"><span>Total</span><span id="pz-total"></span></div>
+            <p class="pz-ticket-note" id="pz-ticket-note"></p>
+            <p class="pz-ticket-thanks">Gracias por tu visita</p>
+          </div>
+          <div class="pz-share">
+            <button type="button" class="pz-btn" id="pz-descargar">Descargar mi ticket</button>
+            <button type="button" class="pz-btn pz-btn--ghost" id="pz-compartir" hidden>Compartir</button>
+            <a class="pz-link" id="pz-linkedin" target="_blank" rel="noopener noreferrer">Compartir en LinkedIn →</a>
+          </div>
         </div>
 
         <div>
-          <h3>Tu proceso comercial, momento a momento</h3>
+          <h3 id="pz-route-titulo">Tu proceso comercial, momento a momento</h3>
           <ol class="pz-route" id="pz-route"></ol>
         </div>
       </div>
@@ -156,8 +184,11 @@ const breadcrumbLd = {
     impaciencia: { texto: string; b2b: string };
     umbrales: { vuelve: number; recomienda: number; postre: number };
     precioPizza: number;
+    clientesJornada: number;
+    jornada: { minimo: number; titulo: string; b2b: string }[];
+    url: string;
   };
-  const { momentos, perfiles, niveles, desenlaces, impaciencia, umbrales, precioPizza } = config;
+  const { momentos, perfiles, niveles, desenlaces, impaciencia, umbrales, precioPizza, clientesJornada, jornada, url } = config;
 
   const $ = (id: string) => document.getElementById(id)!;
   const track = (name: string, params: Record<string, unknown> = {}) => {
@@ -197,6 +228,12 @@ const breadcrumbLd = {
   }
   interface Foto { hambre: number; marcas: string[]; historial: Paso[]; interes: string; rotulo: string }
   let nivel: Nivel = niveles.find((n) => n.id === leer<NivelId>('pz-nivel', 'facil')) ?? niveles[0];
+  type Modo = 'rapida' | 'jornada';
+  let modo: Modo = leer<Modo>('pz-modo', 'rapida') === 'jornada' ? 'jornada' : 'rapida';
+  // Resultado de cada cliente atendido en la partida o jornada actual.
+  interface Resultado { perfil: Perfil; clave: Clave; estrellas: number; lineas: [string, number][]; total: number; historial: Paso[]; nota: string }
+  let resultados: Resultado[] = [];
+  let colaPerfiles: Perfil[] = [];
   let perfil: Perfil = perfiles[0];
   // Índice del planteamiento elegido en cada momento para esta partida.
   let plan: number[] = [];
@@ -307,14 +344,42 @@ const breadcrumbLd = {
   };
 
   // ── Interfaz ────────────────────────────────────────────────────────
-  const fases = { intro: $('pz-intro'), perfil: $('pz-perfil'), play: $('pz-play'), closing: $('pz-closing') };
+  const fases = { intro: $('pz-intro'), perfil: $('pz-perfil'), play: $('pz-play'), siguiente: $('pz-siguiente'), closing: $('pz-closing') };
   const fase = (name: keyof typeof fases) => {
     Object.entries(fases).forEach(([k, el]) => (el.hidden = k !== name));
-    $('pz-hud').hidden = name === 'intro' || name === 'perfil';
+    card.dataset.fase = name;
+    $('pz-hud').hidden = name === 'intro' || name === 'perfil' || name === 'siguiente';
     card.scrollTop = 0;
   };
 
-  const records = () => leer<Partial<Record<NivelId, number>>>('pz-record', {});
+  const MODOS: { id: Modo; nombre: string; descripcion: string }[] = [
+    { id: 'rapida', nombre: 'Partida rápida', descripcion: 'Un cliente, unos 4 minutos.' },
+    { id: 'jornada', nombre: 'Jornada completa', descripcion: `${clientesJornada} clientes distintos seguidos y la caja del día. Unos 12 minutos.` },
+  ];
+  const pintarModos = () => {
+    $('pz-modos').replaceChildren(...MODOS.map((m) => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'pz-nivel' + (m.id === modo ? ' is-on' : '');
+      btn.setAttribute('role', 'radio');
+      btn.setAttribute('aria-checked', String(m.id === modo));
+      btn.innerHTML = '<strong></strong><span></span><small></small>';
+      btn.querySelector('strong')!.textContent = m.nombre;
+      btn.querySelector('span')!.textContent = m.descripcion;
+      btn.addEventListener('click', () => {
+        modo = m.id;
+        guardar('pz-modo', m.id);
+        pintarModos();
+        pintarNiveles();
+      });
+      return btn;
+    }));
+  };
+
+  // El récord se guarda por modo y nivel (estrellas sobre 3 o sobre 9).
+  const claveRecord = () => (modo === 'jornada' ? 'pz-record-jornada' : 'pz-record');
+  const maxEstrellas = () => (modo === 'jornada' ? clientesJornada * 3 : 3);
+  const records = () => leer<Partial<Record<NivelId, number>>>(claveRecord(), {});
   const pintarNiveles = () => {
     const rec = records();
     $('pz-niveles').replaceChildren(...niveles.map((n) => {
@@ -327,7 +392,7 @@ const breadcrumbLd = {
       btn.innerHTML = '<strong></strong><span></span><small></small>';
       btn.querySelector('strong')!.textContent = n.nombre;
       btn.querySelector('span')!.textContent = n.descripcion;
-      btn.querySelector('small')!.textContent = r != null ? `Récord ${'★'.repeat(r)}${'☆'.repeat(3 - r)}` : '';
+      btn.querySelector('small')!.textContent = r != null ? `Récord ${r} de ${maxEstrellas()} ★` : '';
       btn.addEventListener('click', () => {
         nivel = n;
         guardar('pz-nivel', n.id);
@@ -337,6 +402,7 @@ const breadcrumbLd = {
     }));
   };
   pintarNiveles();
+  pintarModos();
 
   const renderMeter = () => {
     $('pz-meter-value').textContent = nivel.numero ? String(hambre) : '';
@@ -345,7 +411,8 @@ const breadcrumbLd = {
     fill.dataset.level = hambre >= 60 ? 'alto' : hambre >= 30 ? 'medio' : 'bajo';
     const el = $('pz-interest');
     el.hidden = !interes;
-    el.textContent = interes ? `${perfil.nombre}. Viene buscando ${interes}.` : '';
+    const cliente = modo === 'jornada' ? `Cliente ${resultados.length + 1} de ${clientesJornada} · ` : '';
+    el.textContent = interes ? `${cliente}${perfil.nombre}. Viene buscando ${interes}.` : '';
   };
 
   const VEREDICTO: Record<Calidad, string> = {
@@ -524,6 +591,26 @@ const breadcrumbLd = {
 
   const euros = (n: number) => `${n.toFixed(2).replace('.', ',')} €`;
 
+  const estrellasTexto = (n: number, max: number) => '★'.repeat(n) + '☆'.repeat(max - n);
+
+  const calcular = (seVa: boolean, clave: Clave): Resultado => {
+    // Las ventas adicionales solo se cobran si el cliente sale contento.
+    const lineas: [string, number][] = [];
+    if (!seVa) {
+      lineas.push(['Pizza de la casa', precioPizza]);
+      if (hambre >= umbrales.postre) historial.forEach((h) => h.venta && lineas.push([h.venta.concepto, h.venta.precio]));
+    }
+    const ultimo = historial[historial.length - 1];
+    const momentoPerdido = momentos.find((m) => m.id === ultimo?.momento);
+    const nota = seVa
+      ? `Se fue en ${momentoPerdido?.nombre.toLowerCase()}`
+      : clave === 'recomienda' ? 'Reserva para cuatro la semana que viene' : clave === 'vuelve' ? 'Cliente que repite' : 'Primera y última visita';
+    return {
+      perfil, clave, estrellas: desenlaces[clave].estrellas, lineas,
+      total: lineas.reduce((a, [, v]) => a + v, 0), historial: [...historial], nota,
+    };
+  };
+
   const terminar = async (seVa: boolean) => {
     const p = partida;
     pararReloj();
@@ -539,95 +626,285 @@ const breadcrumbLd = {
     escena.decir(null);
     if (clave === 'recomienda') { escena.mostrar('amigos', true); escena.emocion('❤️'); }
 
-    const desenlace = desenlaces[clave];
-    $('pz-end-title').textContent = desenlace.titulo;
-    $('pz-end-b2b').textContent = desenlace.b2b;
+    const r = calcular(seVa, clave);
+    resultados.push(r);
+    track('pizzeria_final', { resultado: clave, estrellas: r.estrellas, hambre, perfil: perfil.id, nivel: nivel.id, modo });
+    if (modo === 'jornada' && resultados.length < clientesJornada) return entreClientes(r);
+    pintarFinal(seVa);
+  };
 
-    // Estrellas y récord por nivel.
+  // Pausa entre clientes de la jornada con el resultado de la mesa.
+  const entreClientes = (r: Resultado) => {
+    $('pz-sig-kicker').textContent = `Cliente ${resultados.length} de ${clientesJornada} atendido`;
+    $('pz-sig-titulo').textContent = desenlaces[r.clave].titulo;
+    $('pz-sig-estrellas').textContent = estrellasTexto(r.estrellas, 3);
+    $('pz-sig-caja').textContent = `${r.perfil.nombre}. Caja de esta mesa, ${euros(r.total)}. ${r.nota}.`;
+    fase('siguiente');
+    card.scrollTop = 0;
+  };
+
+  // Momento donde más interés se ha perdido sumando todos los clientes.
+  const puntoDebil = () => {
+    const perdida = new Map<string, { suma: number; peor?: Paso }>();
+    resultados.forEach((r) => r.historial.forEach((h) => {
+      if (h.delta >= 0 && h.calidad === 'bien') return;
+      const e = perdida.get(h.momento) ?? { suma: 0 };
+      e.suma += Math.min(0, h.delta) - (h.calidad === 'mal' ? 10 : h.calidad === 'regular' ? 3 : 0);
+      if (!e.peor || h.delta < e.peor.delta) e.peor = h;
+      perdida.set(h.momento, e);
+    }));
+    const lista = [...perdida.entries()].sort((x, y) => x[1].suma - y[1].suma);
+    if (!lista.length) return null;
+    const [id, v] = lista[0];
+    return { id, suma: v.suma, paso: v.peor };
+  };
+
+  // Datos del final, también para la imagen del ticket.
+  let finalActual: {
+    titulo: string; estrellas: number; max: number; lineas: [string, number][];
+    total: number; nota: string; cabecera: string; debil: string | null;
+  } | null = null;
+
+  const pintarFinal = (seVa: boolean) => {
+    const enJornada = modo === 'jornada';
+    const ultimo = resultados[resultados.length - 1];
+    const suma = resultados.reduce((a, r) => a + r.estrellas, 0);
+    const max = maxEstrellas();
+    const balance = enJornada ? jornada.find((j) => suma >= j.minimo)! : desenlaces[ultimo.clave];
+    $('pz-end-title').textContent = balance.titulo;
+    $('pz-end-b2b').textContent = balance.b2b;
+
+    // Estrellas y récord por modo y nivel.
     const rec = records();
     const antes = rec[nivel.id];
-    const nuevo = antes == null || desenlace.estrellas > antes;
-    if (nuevo) guardar('pz-record', { ...rec, [nivel.id]: desenlace.estrellas });
+    const nuevo = antes == null || suma > antes;
+    if (nuevo) guardar(claveRecord(), { ...rec, [nivel.id]: suma });
     const estrellas = $('pz-estrellas');
     estrellas.replaceChildren();
     const icono = document.createElement('span');
     icono.className = 'pz-estrellas-iconos';
-    icono.textContent = '★'.repeat(desenlace.estrellas) + '☆'.repeat(3 - desenlace.estrellas);
-    icono.setAttribute('aria-label', `${desenlace.estrellas} de 3 estrellas`);
+    icono.textContent = estrellasTexto(suma, max);
+    icono.setAttribute('aria-label', `${suma} de ${max} estrellas`);
     const texto = document.createElement('span');
-    texto.textContent = `Nivel ${nivel.nombre.toLowerCase()} · ${perfil.nombre}${nuevo && antes != null ? ' · ¡Nuevo récord!' : ''}`;
+    const quien = enJornada ? `Jornada de ${clientesJornada} clientes` : ultimo.perfil.nombre;
+    texto.textContent = `Nivel ${nivel.nombre.toLowerCase()} · ${quien}${nuevo && antes != null ? ' · ¡Nuevo récord!' : ''}`;
     estrellas.append(icono, texto);
 
-    // Ticket. Las ventas adicionales solo se cobran si el cliente sale contento.
-    const lineas: [string, string][] = [];
-    let total = 0;
-    if (seVa) lineas.push(['Sin consumición', euros(0)]);
-    else {
-      lineas.push(['Pizza de la casa', euros(precioPizza)]);
-      total += precioPizza;
-      if (hambre >= umbrales.postre) {
-        historial.forEach((h) => {
-          if (h.venta) { lineas.push([h.venta.concepto, euros(h.venta.precio)]); total += h.venta.precio; }
-        });
-      }
-    }
+    // Ticket: en la jornada, una línea por mesa.
+    const lineas: [string, number][] = enJornada
+      ? resultados.map((r, i) => [`Mesa ${i + 1} · ${r.perfil.nombre}`, r.total])
+      : ultimo.lineas.length ? ultimo.lineas : [['Sin consumición', 0]];
+    const total = lineas.reduce((a, [, v]) => a + v, 0);
+    const vuelven = resultados.filter((r) => r.clave === 'recomienda' || r.clave === 'vuelve').length;
+    const nota = enJornada ? `${vuelven} de ${clientesJornada} clientes volverán` : ultimo.nota;
+    const cabecera = enJornada ? `Jornada · nivel ${nivel.nombre.toLowerCase()}` : `Mesa 1 · ${ultimo.perfil.nombre}`;
     $('pz-ticket-lines').replaceChildren(...lineas.map(([k, v]) => {
       const row = document.createElement('div');
       row.className = 'pz-ticket-line';
       const a = document.createElement('span'); a.textContent = k;
-      const b = document.createElement('span'); b.textContent = v;
+      const b = document.createElement('span'); b.textContent = euros(v);
       row.append(a, b);
       return row;
     }));
     $('pz-total').textContent = euros(total);
-    $('pz-ticket-mesa').textContent = `Mesa 1 · ${perfil.nombre}`;
-    const ultimo = historial[historial.length - 1];
-    const momentoPerdido = momentos.find((m) => m.id === ultimo?.momento);
-    $('pz-ticket-note').textContent = seVa
-      ? `Se fue en ${momentoPerdido?.nombre.toLowerCase()}`
-      : clave === 'recomienda' ? 'Reserva para cuatro la semana que viene' : clave === 'vuelve' ? 'Cliente que repite' : 'Primera y última visita';
+    $('pz-ticket-mesa').textContent = cabecera;
+    $('pz-ticket-note').textContent = nota;
 
-    // Recorrido. En difícil se ven todas las explicaciones aquí.
-    $('pz-route').replaceChildren(...historial.map((paso) => {
-      const m = momentos.find((x) => x.id === paso.momento)!;
-      const li = document.createElement('li');
-      li.dataset.calidad = paso.calidad;
-      const head = document.createElement('p');
-      head.className = 'pz-route-head';
-      head.innerHTML = '<span class="pz-dot"></span><strong></strong> <span class="pz-muted"></span>';
-      head.querySelector('strong')!.textContent = m.nombre;
-      head.querySelector('.pz-muted')!.textContent = `· ${m.b2b}`;
-      const txt = document.createElement('p');
-      txt.className = 'pz-route-text';
-      txt.textContent = paso.texto;
-      li.append(head, txt);
-      if (paso.calidad !== 'bien' || !nivel.explicacion) {
-        const b = document.createElement('p');
-        b.className = 'pz-route-b2b';
-        b.textContent = paso.b2b;
-        li.append(b);
-      }
-      return li;
-    }));
+    // Punto débil.
+    const debil = puntoDebil();
+    const mDebil = debil && momentos.find((m) => m.id === debil.id);
+    $('pz-debil').hidden = !mDebil;
+    if (mDebil) {
+      $('pz-debil-titulo').textContent = `${mDebil.nombre} · ${mDebil.b2b}`;
+      $('pz-debil-texto').textContent = debil.paso?.b2b ?? '';
+    }
+
+    // Recorrido. En la jornada se agrupa por momento con un punto por cliente.
+    $('pz-route-titulo').textContent = enJornada ? 'Tu proceso comercial con cada cliente' : 'Tu proceso comercial, momento a momento';
+    if (enJornada) {
+      $('pz-route').replaceChildren(...momentos.map((m) => {
+        const pasos = resultados.map((r) => r.historial.find((h) => h.momento === m.id));
+        const li = document.createElement('li');
+        const head = document.createElement('p');
+        head.className = 'pz-route-head';
+        pasos.forEach((paso) => {
+          const dot = document.createElement('span');
+          dot.className = 'pz-dot';
+          dot.dataset.calidad = paso?.calidad ?? 'vacio';
+          dot.title = paso ? paso.texto : 'Este cliente ya se había ido';
+          head.append(dot);
+        });
+        const nombre = document.createElement('strong'); nombre.textContent = m.nombre;
+        const b2b = document.createElement('span'); b2b.className = 'pz-muted'; b2b.textContent = `· ${m.b2b}`;
+        head.append(nombre, b2b);
+        li.append(head);
+        const lecciones = [...new Set(pasos.filter((x) => x && (x.calidad !== 'bien' || !nivel.explicacion)).map((x) => x!.b2b))];
+        const txt = document.createElement('p');
+        txt.className = lecciones.length ? 'pz-route-b2b' : 'pz-route-text';
+        txt.textContent = lecciones.length ? lecciones.join(' ') : 'Bien con todos los clientes.';
+        li.append(txt);
+        return li;
+      }));
+    } else {
+      $('pz-route').replaceChildren(...ultimo.historial.map((paso) => {
+        const m = momentos.find((x) => x.id === paso.momento)!;
+        const li = document.createElement('li');
+        const head = document.createElement('p');
+        head.className = 'pz-route-head';
+        head.innerHTML = '<span class="pz-dot"></span><strong></strong> <span class="pz-muted"></span>';
+        (head.querySelector('.pz-dot') as HTMLElement).dataset.calidad = paso.calidad;
+        head.querySelector('strong')!.textContent = m.nombre;
+        head.querySelector('.pz-muted')!.textContent = `· ${m.b2b}`;
+        const txt = document.createElement('p');
+        txt.className = 'pz-route-text';
+        txt.textContent = paso.texto;
+        li.append(head, txt);
+        if (paso.calidad !== 'bien' || !nivel.explicacion) {
+          const b = document.createElement('p');
+          b.className = 'pz-route-b2b';
+          b.textContent = paso.b2b;
+          li.append(b);
+        }
+        return li;
+      }));
+    }
 
     const retry = $('pz-retry') as HTMLButtonElement;
-    const idxPerdido = momentos.findIndex((m) => m.id === ultimo?.momento);
-    retry.hidden = !seVa || idxPerdido < 1;
-    retry.textContent = momentoPerdido ? `Repetir desde ${momentoPerdido.nombre.toLowerCase()}` : '';
+    const ultimoPaso = ultimo.historial[ultimo.historial.length - 1];
+    const idxPerdido = momentos.findIndex((m) => m.id === ultimoPaso?.momento);
+    retry.hidden = enJornada || !seVa || idxPerdido < 1;
+    retry.textContent = idxPerdido >= 0 ? `Repetir desde ${momentos[idxPerdido].nombre.toLowerCase()}` : '';
     retry.dataset.idx = String(idxPerdido);
+    $('pz-restart').textContent = enJornada ? 'Empezar otra jornada' : 'Jugar con otro cliente';
+
+    finalActual = {
+      titulo: balance.titulo, estrellas: suma, max, lineas, total, nota, cabecera,
+      debil: mDebil ? `${mDebil.nombre} (${mDebil.b2b.toLowerCase()})` : null,
+    };
+    const textoCompartir = `He jugado a La pizzería B2B y he sacado ${suma} de ${max} estrellas. ¿En qué momento se te enfrían los clientes?`;
+    ($('pz-linkedin') as HTMLAnchorElement).href = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`;
+    $('pz-compartir').hidden = !(navigator.canShare && navigator.canShare({ files: [new File([''], 'x.png', { type: 'image/png' })] }));
+    $('pz-compartir').dataset.texto = textoCompartir;
 
     card.hidden = true;
     $('pz-end').hidden = false;
     $('pz-end').scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
-    track('pizzeria_final', { resultado: clave, estrellas: desenlace.estrellas, hambre, perfil: perfil.id, nivel: nivel.id });
+    if (enJornada) track('pizzeria_jornada_final', { estrellas: suma, total, nivel: nivel.id });
   };
 
-  // Partida nueva: cliente al azar y presentación antes del primer momento.
-  const nuevaPartida = () => {
+  // ── Ticket para compartir (imagen 1080x1350, formato vertical de LinkedIn) ─
+  const crearImagen = async (): Promise<Blob | null> => {
+    if (!finalActual) return null;
+    await document.fonts?.ready;
+    const f = finalActual;
+    const W = 1080;
+    const H = 1350;
+    const c = document.createElement('canvas');
+    c.width = W;
+    c.height = H;
+    const ctx = c.getContext('2d')!;
+    ctx.fillStyle = '#004aad';
+    ctx.fillRect(0, 0, W, H);
+
+    // Papel del ticket con borde dentado abajo.
+    const x0 = 150;
+    const x1 = W - 150;
+    const y0 = 120;
+    const y1 = 1120;
+    ctx.fillStyle = '#fffdf8';
+    ctx.beginPath();
+    ctx.moveTo(x0, y0);
+    ctx.lineTo(x1, y0);
+    ctx.lineTo(x1, y1);
+    for (let x = x1; x > x0; x -= 30) { ctx.lineTo(x - 15, y1 + 18); ctx.lineTo(x - 30, y1); }
+    ctx.closePath();
+    ctx.shadowColor = 'rgba(0,0,0,0.25)';
+    ctx.shadowBlur = 30;
+    ctx.fill();
+    ctx.shadowBlur = 0;
+
+    const mono = 'ui-monospace, Menlo, Consolas, monospace';
+    const centro = (txt: string, y: number, font: string, color = '#1a1a1a') => {
+      ctx.font = font;
+      ctx.fillStyle = color;
+      ctx.textAlign = 'center';
+      ctx.fillText(txt, W / 2, y);
+    };
+    const linea = (y: number) => {
+      ctx.strokeStyle = '#999';
+      ctx.setLineDash([10, 8]);
+      ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.moveTo(x0 + 50, y); ctx.lineTo(x1 - 50, y); ctx.stroke();
+      ctx.setLineDash([]);
+    };
+    centro('LA PIZZERÍA B2B', 210, `700 52px ${mono}`);
+    centro(f.cabecera, 260, `400 28px ${mono}`, '#666');
+    linea(300);
+    centro('★'.repeat(f.estrellas) + '☆'.repeat(f.max - f.estrellas), 380, `400 ${f.max > 3 ? 56 : 80}px sans-serif`, '#e8a33d');
+    centro(f.titulo, 450, `600 34px Poppins, sans-serif`);
+    linea(500);
+    let y = 560;
+    ctx.font = `400 30px ${mono}`;
+    f.lineas.forEach(([k, v]) => {
+      ctx.fillStyle = '#1a1a1a';
+      ctx.textAlign = 'left';
+      ctx.fillText(k.length > 30 ? k.slice(0, 29) + '…' : k, x0 + 60, y);
+      ctx.textAlign = 'right';
+      ctx.fillText(euros(v), x1 - 60, y);
+      y += 50;
+    });
+    linea(y);
+    y += 60;
+    ctx.font = `700 38px ${mono}`;
+    ctx.textAlign = 'left';
+    ctx.fillText('TOTAL', x0 + 60, y);
+    ctx.textAlign = 'right';
+    ctx.fillText(euros(f.total), x1 - 60, y);
+    y += 70;
+    centro(f.nota, y, `400 28px ${mono}`, '#444');
+    if (f.debil) {
+      centro('Mi punto débil', y + 80, `400 26px ${mono}`, '#888');
+      centro(f.debil, y + 125, `600 30px Poppins, sans-serif`, '#c8452f');
+    }
+    centro('Gracias por tu visita', y1 - 40, `400 26px ${mono}`, '#888');
+
+    centro('¿En qué momento se te enfrían los clientes?', 1210, `400 40px Newsreader, serif`, '#ffffff');
+    centro(url.replace('https://', '').replace(/\/$/, ''), 1270, `400 26px Poppins, sans-serif`, 'rgba(255,255,255,0.8)');
+    return new Promise((res) => c.toBlob((b) => res(b), 'image/png'));
+  };
+
+  $('pz-descargar').addEventListener('click', async () => {
+    const blob = await crearImagen();
+    if (!blob) return;
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'ticket-pizzeria-b2b.png';
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+    track('pizzeria_ticket_descarga', { modo });
+  });
+  $('pz-compartir').addEventListener('click', async (e) => {
+    const blob = await crearImagen();
+    if (!blob) return;
+    const file = new File([blob], 'ticket-pizzeria-b2b.png', { type: 'image/png' });
+    try {
+      await navigator.share({ files: [file], text: (e.currentTarget as HTMLElement).dataset.texto, url });
+      track('pizzeria_ticket_compartir', { modo });
+    } catch { /* el usuario cancela */ }
+  });
+  $('pz-linkedin').addEventListener('click', () => track('pizzeria_ticket_linkedin', { modo }));
+
+  // Partida nueva. En la jornada los clientes salen en orden barajado y
+  // sin repetir perfil; `seguir` mantiene la jornada en curso.
+  const nuevaPartida = (seguir = false) => {
     partida++;
     pararReloj();
     escena.reset();
-    perfil = azar(perfiles);
+    if (!seguir) {
+      resultados = [];
+      colaPerfiles = barajar(perfiles.length).map((i) => perfiles[i]);
+    }
+    perfil = modo === 'jornada' ? colaPerfiles[resultados.length % colaPerfiles.length] : azar(perfiles);
     escena.perfil(perfil.id);
     plan = elegirPlan();
     hambre = 0;
@@ -639,6 +916,8 @@ const breadcrumbLd = {
     fotos = [];
     card.hidden = false;
     $('pz-end').hidden = true;
+    const kicker = modo === 'jornada' ? `Cliente ${resultados.length + 1} de ${clientesJornada} · Entra` : 'Hoy entra';
+    ($('pz-perfil').querySelector('.pz-kicker') as HTMLElement).textContent = kicker;
     $('pz-perfil-nombre').textContent = perfil.nombre;
     $('pz-perfil-pizza').textContent = perfil.pizza;
     $('pz-perfil-b2b').textContent = perfil.b2b;
@@ -647,7 +926,7 @@ const breadcrumbLd = {
     escena.foco('calle');
     escena.mover('cliente', POS.calle[0], POS.calle[1], { ms: 1800 });
     stage.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: movil.matches ? 'start' : 'center' });
-    track('pizzeria_inicio', { perfil: perfil.id, nivel: nivel.id });
+    track('pizzeria_inicio', { perfil: perfil.id, nivel: nivel.id, modo, cliente: resultados.length + 1 });
   };
 
   const jugar = () => {
@@ -657,7 +936,8 @@ const breadcrumbLd = {
     renderMomento();
   };
 
-  // Repetir desde un momento con el mismo cliente y los mismos planteamientos.
+  // Repetir desde un momento con el mismo cliente y los mismos planteamientos
+  // (solo en la partida rápida).
   const repetir = (desde: number) => {
     const foto = fotos[desde];
     if (!foto) return nuevaPartida();
@@ -665,6 +945,7 @@ const breadcrumbLd = {
     pararReloj();
     escena.reset();
     escena.perfil(perfil.id);
+    resultados = [];
     hambre = foto.hambre;
     marcas = new Set(foto.marcas);
     historial = [...foto.historial];
@@ -692,9 +973,10 @@ const breadcrumbLd = {
     track('pizzeria_repetir', { desde: momentos[desde].id, perfil: perfil.id, nivel: nivel.id });
   };
 
-  $('pz-start').addEventListener('click', nuevaPartida);
+  $('pz-start').addEventListener('click', () => nuevaPartida());
   $('pz-perfil-ok').addEventListener('click', jugar);
-  $('pz-restart').addEventListener('click', nuevaPartida);
+  $('pz-sig-ok').addEventListener('click', () => nuevaPartida(true));
+  $('pz-restart').addEventListener('click', () => nuevaPartida());
   $('pz-retry').addEventListener('click', (e) => repetir(Number((e.currentTarget as HTMLElement).dataset.idx)));
   $('pz-next').addEventListener('click', siguiente);
 </script>
@@ -1022,6 +1304,7 @@ const breadcrumbLd = {
   .pz-ticket-head { text-align: center; font-size: 1rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding-bottom: 0.9rem; border-bottom: 1px dashed #999; margin-bottom: 0.9rem; }
   .pz-ticket-head small { display: block; font-size: 0.7rem; font-weight: 400; letter-spacing: 0.04em; text-transform: none; opacity: 0.6; margin-top: 0.3rem; }
   .pz-ticket-line, .pz-ticket-total { display: flex; justify-content: space-between; gap: 1rem; margin-bottom: 0.4rem; }
+  .pz-ticket-line span:last-child, .pz-ticket-total span:last-child { white-space: nowrap; }
   .pz-ticket-total { font-weight: 700; font-size: 0.95rem; border-top: 1px dashed #999; padding-top: 0.8rem; margin-top: 0.8rem; }
   .pz-ticket-note { margin-top: 1rem; padding: 0.5rem; border: 1px dashed #999; text-align: center; }
   .pz-ticket-thanks { text-align: center; margin-top: 1rem; opacity: 0.6; }
@@ -1032,8 +1315,35 @@ const breadcrumbLd = {
   .pz-route-text { font-size: 0.88rem; font-weight: 300; line-height: 1.65; padding-left: 1.1rem; opacity: 0.8; }
   .pz-route-b2b { font-size: 0.88rem; line-height: 1.65; padding-left: 1.1rem; margin-top: 0.2rem; }
   .pz-dot { width: 0.6rem; height: 0.6rem; border-radius: 50%; background: var(--blue); flex-shrink: 0; }
-  .pz-route li[data-calidad='regular'] .pz-dot { background: #e8a33d; }
-  .pz-route li[data-calidad='mal'] .pz-dot { background: #c8452f; }
+  .pz-dot[data-calidad='regular'] { background: #e8a33d; }
+  .pz-dot[data-calidad='mal'] { background: #c8452f; }
+  .pz-dot[data-calidad='vacio'] { background: transparent; box-shadow: inset 0 0 0 1.5px rgba(128,128,128,0.5); }
+
+  .pz-debil {
+    max-width: 720px;
+    padding: 1.1rem 1.3rem;
+    border-left: 3px solid #c8452f;
+    background: rgba(200,69,47,0.07);
+    border-radius: 0 8px 8px 0;
+    margin: 0.5rem 0 1rem;
+  }
+  .pz-debil[hidden] { display: none; }
+  .pz-debil .pz-kicker { color: #c8452f; margin-bottom: 0.4rem; }
+  .pz-debil-titulo { font-family: 'Newsreader', serif; font-size: 1.35rem; line-height: 1.3; margin-bottom: 0.4rem; }
+  .pz-debil p:last-child { font-size: 0.92rem; line-height: 1.65; }
+
+  .pz-share {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.6rem 1rem;
+    margin-top: 1.4rem;
+    font-family: 'Poppins', sans-serif;
+  }
+  .pz-share .pz-btn { font-size: 0.78rem; padding: 0.65rem 1rem; }
+  .pz-share .pz-link { color: var(--blue); }
+  .pz-sig-estrellas { font-size: 2rem; letter-spacing: 0.15em; color: #e8a33d; line-height: 1; margin-bottom: 0.8rem; }
 
   .pz-cta {
     padding: 2rem;
@@ -1072,6 +1382,11 @@ const breadcrumbLd = {
       max-height: 52%;
       padding: 1.1rem;
     }
+    /* En el inicio y entre clientes la escena importa menos: más sitio al texto. */
+    .pz-card:is([data-fase='intro'], [data-fase='perfil'], [data-fase='siguiente']) { max-height: 80%; }
+    #pz-intro .pz-intro + .pz-intro { display: none; }
+    .pz-nivel { grid-template-columns: 1fr; padding: 0.6rem 0.8rem; }
+    .pz-nivel span, .pz-nivel small { grid-column: 1; grid-row: auto; }
     .pz-question { font-size: 1.2rem; margin-bottom: 0.9rem; }
     .pz-option { padding: 0.7rem 0.85rem; font-size: 0.85rem; }
     .pz-end-grid { grid-template-columns: 1fr; gap: 2rem; }

@@ -876,3 +876,25 @@ export const DESENLACES = {
     estrellas: 0,
   },
 };
+
+// Modo jornada: varios clientes seguidos y una caja final del día.
+export const CLIENTES_JORNADA = 3;
+
+// Balance de la jornada según las estrellas sumadas (máximo 9).
+export const JORNADA = [
+  {
+    minimo: 8,
+    titulo: 'Jornada redonda',
+    b2b: 'Has adaptado tu proceso comercial a cada tipo de cliente. Es justo lo que separa a una empresa que vende de vez en cuando de una que vende siempre.',
+  },
+  {
+    minimo: 5,
+    titulo: 'Buena jornada, con margen de mejora',
+    b2b: 'Tu proceso funciona con algunos clientes y se resiente con otros. Fíjate en qué momento se te enfrían más, porque ahí está tu siguiente mejora.',
+  },
+  {
+    minimo: 0,
+    titulo: 'Jornada floja',
+    b2b: 'Los clientes se enfrían en varios puntos del camino. El problema no es que falten clientes, es un proceso que no los acompaña hasta el final.',
+  },
+];
