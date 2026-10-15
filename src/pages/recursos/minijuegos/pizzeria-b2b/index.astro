@@ -1,0 +1,793 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import { BOOKING_URL } from '../../../../consts';
+import {
+  MOMENTOS,
+  DESENLACES,
+  HAMBRE_VUELVE,
+  HAMBRE_RECOMIENDA,
+  HAMBRE_POSTRE,
+  PRECIO_PIZZA,
+  PRECIO_POSTRE,
+} from '../../../../data/pizzeria';
+
+const config = {
+  momentos: MOMENTOS,
+  desenlaces: DESENLACES,
+  umbrales: { vuelve: HAMBRE_VUELVE, recomienda: HAMBRE_RECOMIENDA, postre: HAMBRE_POSTRE },
+  precios: { pizza: PRECIO_PIZZA, postre: PRECIO_POSTRE },
+};
+
+const pageUrl = 'https://guillenbruna97.github.io/recursos/minijuegos/pizzeria-b2b/';
+const breadcrumbLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Inicio', item: 'https://guillenbruna97.github.io/' },
+    { '@type': 'ListItem', position: 2, name: 'Recursos', item: 'https://guillenbruna97.github.io/recursos/' },
+    { '@type': 'ListItem', position: 3, name: 'Minijuegos', item: 'https://guillenbruna97.github.io/recursos/minijuegos/' },
+    { '@type': 'ListItem', position: 4, name: 'La pizzería B2B', item: pageUrl },
+  ],
+};
+---
+<BaseLayout
+  title="La pizzería B2B, un juego para entender el proceso comercial"
+  description="Abre una pizzería y acompaña a un cliente desde el anuncio hasta el postre. Cada decisión es una fase del proceso comercial B2B, de la atracción a la posventa."
+>
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbLd)} />
+  <script type="application/json" id="pz-data" set:html={JSON.stringify(config)} />
+
+  <section class="pz">
+    <a href="/recursos/minijuegos/" class="pz-back">← Minijuegos</a>
+    <div class="pz-head">
+      <p class="pz-kicker">Juego · 4 minutos</p>
+      <h1>La pizzería B2B</h1>
+    </div>
+
+    <div class="pz-stage" id="pz-stage" role="region" aria-label="Escena de la pizzería en 3D">
+      <div class="pz-bocadillo" id="pz-bocadillo" hidden aria-live="polite"></div>
+
+      <div class="pz-hud pz-glass" id="pz-hud" hidden>
+        <div class="pz-meter-head">
+          <span>Hambre del cliente <span class="pz-muted">· su interés como lead</span></span>
+          <span id="pz-meter-value">0</span>
+        </div>
+        <div class="pz-meter-bar"><span id="pz-meter-fill"></span></div>
+        <p class="pz-interest" id="pz-interest" hidden></p>
+      </div>
+
+      <div class="pz-card pz-glass" id="pz-card">
+        <div id="pz-intro">
+          <p class="pz-intro">Abre tu pizzería y acompaña a un cliente desde que ve tu anuncio en la calle hasta que pide el postre. Cada momento de la pizzería es una fase del proceso comercial B2B.</p>
+          <p class="pz-intro">Vigila su hambre, porque si llega a cero se levanta y se va. ¿Conseguirás que vuelva y traiga a sus amigos?</p>
+          <button type="button" class="pz-btn" id="pz-start">Abrir la pizzería</button>
+        </div>
+
+        <div id="pz-play" hidden>
+          <div class="pz-progress">
+            <span id="pz-step"></span>
+            <span class="pz-chip" id="pz-chip"></span>
+          </div>
+          <h2 class="pz-question" id="pz-question"></h2>
+          <div class="pz-options" id="pz-options"></div>
+          <div class="pz-feedback" id="pz-feedback" hidden>
+            <p class="pz-verdict" id="pz-verdict"></p>
+            <p class="pz-lesson"><span class="pz-lesson-label">En B2B</span> <span id="pz-lesson"></span></p>
+            <button type="button" class="pz-btn" id="pz-next">Siguiente momento</button>
+          </div>
+        </div>
+
+        <div id="pz-closing" hidden>
+          <p class="pz-intro">El cliente se dirige a la salida…</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="pz-end" id="pz-end" hidden>
+      <p class="pz-kicker">Cierre de caja</p>
+      <h2 id="pz-end-title"></h2>
+      <p class="pz-intro" id="pz-end-b2b"></p>
+
+      <div class="pz-end-grid">
+        <div class="pz-ticket" aria-label="Ticket de la mesa">
+          <p class="pz-ticket-head">La Pizzería<small>Mesa 1 · Ticket 0001</small></p>
+          <div class="pz-ticket-lines" id="pz-ticket-lines"></div>
+          <div class="pz-ticket-total"><span>Total</span><span id="pz-total"></span></div>
+          <p class="pz-ticket-note" id="pz-ticket-note"></p>
+          <p class="pz-ticket-thanks">Gracias por tu visita</p>
+        </div>
+
+        <div>
+          <h3>Tu proceso comercial, momento a momento</h3>
+          <ol class="pz-route" id="pz-route"></ol>
+        </div>
+      </div>
+
+      <div class="pz-cta">
+        <p class="pz-cta-title">¿En qué momento se enfrían los clientes de tu empresa?</p>
+        <p class="pz-intro">En la pizzería se ve a simple vista. En tu proceso comercial cuesta más. El autodiagnóstico te ayuda a encontrarlo en 3 minutos, y si prefieres, lo vemos juntos en una llamada de 15.</p>
+        <div class="pz-actions">
+          <a href="/recursos/minijuegos/diagnostico-marketing/" class="pz-btn">Hacer el autodiagnóstico</a>
+          <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" class="pz-btn pz-btn--ghost">Agenda 15 minutos</a>
+        </div>
+        <a href="/servicios/pipeline/" class="pz-link">Ver el diagnóstico de pipeline y proceso comercial →</a>
+      </div>
+
+      <div class="pz-actions">
+        <button type="button" class="pz-btn pz-btn--ghost" id="pz-retry" hidden></button>
+        <button type="button" class="pz-btn pz-btn--ghost" id="pz-restart">Jugar otra vez</button>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  import type { Momento, Opcion, Calidad } from '../../../../data/pizzeria';
+  import { crearEscena, POS, ALTURAS } from '../../../../scripts/pizzeria3d';
+
+  type Desenlace = { titulo: string; b2b: string };
+  const config = JSON.parse(document.getElementById('pz-data')!.textContent!) as {
+    momentos: Momento[];
+    desenlaces: Record<'recomienda' | 'vuelve' | 'noVuelve' | 'seVa', Desenlace>;
+    umbrales: { vuelve: number; recomienda: number; postre: number };
+    precios: { pizza: number; postre: number };
+  };
+  const { momentos, desenlaces, umbrales, precios } = config;
+
+  const $ = (id: string) => document.getElementById(id)!;
+  const track = (name: string, params: Record<string, unknown> = {}) => {
+    const gtag = (window as any).gtag;
+    if (typeof gtag === 'function') gtag('event', name, params);
+  };
+  const wait = (ms: number) => new Promise((r) => setTimeout(r, ms));
+  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const movil = matchMedia('(max-width: 700px)');
+
+  // ── Escena 3D ───────────────────────────────────────────────────────
+  const stage = $('pz-stage');
+  const card = $('pz-card');
+  const escena = crearEscena(stage, $('pz-bocadillo'), {
+    reducirMovimiento: reduceMotion,
+    // Hueco que ocupa la tarjeta, para encuadrar la acción en la zona libre.
+    tarjeta: () => movil.matches
+      ? { ancho: 0, alto: stage.clientHeight * 0.5, abajo: true }
+      : { ancho: card.offsetWidth + 24, alto: 0, abajo: false },
+  });
+  escena.foco('intro');
+
+  // ── Estado ──────────────────────────────────────────────────────────
+  interface Paso { momento: string; idx: number; texto: string; calidad: Calidad; b2b: string; delta: number }
+  interface Foto { hambre: number; marcas: string[]; historial: Paso[]; interes: string; rotulo: string }
+  let hambre = 0;
+  let marcas = new Set<string>();
+  let historial: Paso[] = [];
+  let actual = 0;
+  let interes = '';
+  let rotulo = '';
+  // Estado al empezar cada momento, para poder repetir desde ahí.
+  let fotos: Foto[] = [];
+  // Cada partida invalida las animaciones pendientes de la anterior.
+  let partida = 0;
+
+  // Lo que ocurre en la escena al llegar a cada momento.
+  const entrar = async (id: string) => {
+    const p = partida;
+    escena.foco(id);
+    if (id === 'calle') await escena.mover('cliente', POS.calle[0], POS.calle[1], { ms: 1800 });
+    if (id === 'puerta') await escena.mover('cliente', POS.puerta[0], POS.puerta[1], { ms: 1300 });
+    if (id === 'espera') {
+      escena.mostrar('formulario', false);
+      await escena.mover('cliente', POS.mesa[0], POS.mesa[1], { ms: 1600 });
+    }
+    if (id === 'pedido') {
+      await escena.mover('camarero', POS.mesaCamarero[0], POS.mesaCamarero[1], { ms: 1300 });
+      if (p === partida) escena.mostrar('libreta', true);
+    }
+    if (id === 'servicio') {
+      escena.mostrar('libreta', false);
+      escena.mostrar('cartaCorta', false);
+      escena.mostrar('cartaLarga', false);
+      escena.mover('camarero', POS.barra[0], POS.barra[1], { ms: 1300 });
+      escena.horno(true);
+    }
+    if (id === 'sobremesa') {
+      escena.mostrar('pizza', false);
+      escena.mostrar('aperitivo', false);
+    }
+  };
+
+  // Lo que ocurre en la escena al elegir una opción (idx es el orden
+  // original de la opción en los datos, no el orden barajado en pantalla).
+  const reaccionar = async (id: string, idx: number, opcion: Opcion) => {
+    const p = partida;
+    if (id === 'calle') {
+      escena.rotulo(opcion.rotulo ?? '');
+      escena.gente(opcion.gente ?? 0);
+      await wait(2600);
+      if (p === partida) escena.gente(0);
+    }
+    if (id === 'puerta' && idx === 2) escena.mostrar('formulario', true);
+    if (id === 'espera' && idx !== 2) escena.mostrar('aperitivo', true);
+    if (id === 'llamada' && idx !== 1) escena.mover('camarero', POS.mesaCamarero[0], POS.mesaCamarero[1], { ms: 1300 });
+    if (id === 'carta') escena.mostrar(idx === 1 ? 'cartaLarga' : 'cartaCorta', true);
+    if (id === 'servicio') {
+      escena.pizzaMal(idx === 2);
+      await escena.mover('pizza', POS.hornoPizza[0], POS.hornoPizza[1], { ms: 0, y: ALTURAS.horno });
+      escena.mostrar('pizza', true);
+      if (idx === 1) await wait(1800);
+      if (p !== partida) return;
+      escena.horno(false);
+      await escena.mover('pizza', POS.barraPizza[0], POS.barraPizza[1], { ms: 900, y: ALTURAS.barra });
+      if (p !== partida) return;
+      await escena.mover('pizza', POS.mesaPizza[0], POS.mesaPizza[1], { ms: 1100, y: ALTURAS.mesa });
+    }
+    if (id === 'sobremesa') {
+      if (idx === 0) escena.mostrar('postre', true);
+      if (idx === 1) escena.mostrar('cuenta', true);
+      if (idx === 2) { escena.mostrar('postre', true); escena.mostrar('extras', true); }
+    }
+  };
+
+  // ── Interfaz ────────────────────────────────────────────────────────
+  const fases = { intro: $('pz-intro'), play: $('pz-play'), closing: $('pz-closing') };
+  const fase = (name: keyof typeof fases) => {
+    Object.entries(fases).forEach(([k, el]) => (el.hidden = k !== name));
+    $('pz-hud').hidden = name === 'intro';
+  };
+
+  const renderMeter = () => {
+    $('pz-meter-value').textContent = String(hambre);
+    const fill = $('pz-meter-fill');
+    fill.style.width = `${hambre}%`;
+    fill.dataset.level = hambre >= 60 ? 'alto' : hambre >= 30 ? 'medio' : 'bajo';
+    const el = $('pz-interest');
+    el.hidden = !interes;
+    el.textContent = interes ? `Viene buscando ${interes}.` : '';
+  };
+
+  const VEREDICTO: Record<Calidad, string> = {
+    bien: 'Le ha gustado',
+    regular: 'Se queda a medias',
+    mal: 'Se enfría',
+  };
+
+  const verdict = (calidad: Calidad, delta: number, primero: boolean) => {
+    const el = $('pz-verdict');
+    el.dataset.calidad = calidad;
+    el.textContent = primero
+      ? `Entra con hambre ${hambre} de 100`
+      : delta === 0 && hambre === 100
+        ? `${VEREDICTO[calidad]} · hambre al máximo`
+        : `${VEREDICTO[calidad]} · hambre ${delta >= 0 ? '+' : ''}${delta}`;
+  };
+
+  const barajar = (n: number) => {
+    const orden = Array.from({ length: n }, (_, i) => i);
+    for (let i = n - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [orden[i], orden[j]] = [orden[j], orden[i]];
+    }
+    return orden;
+  };
+
+  const renderMomento = () => {
+    const m = momentos[actual];
+    fotos[actual] = { hambre, marcas: [...marcas], historial: [...historial], interes, rotulo };
+    $('pz-step').textContent = `Momento ${actual + 1} de ${momentos.length} · ${m.nombre}`;
+    $('pz-chip').textContent = `En B2B, ${m.b2b.toLowerCase()}`;
+    $('pz-question').textContent = m.pregunta;
+    $('pz-feedback').hidden = true;
+    escena.decir(null);
+    card.scrollTop = 0;
+
+    const options = $('pz-options');
+    options.replaceChildren();
+    options.hidden = false;
+    options.classList.remove('is-answered');
+    entrar(m.id);
+
+    if (m.automatico && hambre >= m.automatico.umbral) {
+      // El cliente está tan interesado que pide él solo: no hay decisión.
+      $('pz-question').textContent = m.automatico.texto;
+      options.hidden = true;
+      historial.push({ momento: m.id, idx: -1, texto: 'Pidió él solo', calidad: 'bien', b2b: m.automatico.b2b, delta: 0 });
+      escena.decir(m.automatico.reaccion);
+      escena.mover('camarero', POS.mesaCamarero[0], POS.mesaCamarero[1], { ms: 1300 });
+      verdict('bien', 0, false);
+      $('pz-verdict').textContent = 'Pide él solo, ni has tenido que ir';
+      $('pz-lesson').textContent = m.automatico.b2b;
+      $('pz-next').textContent = 'Siguiente momento';
+      $('pz-feedback').hidden = false;
+      return;
+    }
+
+    barajar(m.opciones.length).forEach((idx) => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'pz-option';
+      btn.textContent = m.opciones[idx].texto;
+      btn.addEventListener('click', () => elegir(idx, btn));
+      options.appendChild(btn);
+    });
+  };
+
+  const elegir = (idx: number, btn: HTMLButtonElement) => {
+    const m = momentos[actual];
+    const base = m.opciones[idx];
+    const variante = base.siMarca && marcas.has(base.siMarca.marca) ? base.siMarca : null;
+    const opcion: Opcion = variante ? { ...base, ...variante } : base;
+
+    $('pz-options').querySelectorAll('button').forEach((b) => ((b as HTMLButtonElement).disabled = true));
+    btn.classList.add('is-selected');
+    // Las opciones descartadas se pliegan para que la explicación quepa.
+    $('pz-options').classList.add('is-answered');
+
+    const primero = actual === 0;
+    const antes = hambre;
+    hambre = Math.max(0, Math.min(100, primero ? opcion.delta : hambre + opcion.delta));
+    if (opcion.marca) marcas.add(opcion.marca);
+    if (opcion.interes) interes = opcion.interes;
+    if (opcion.rotulo) rotulo = opcion.rotulo;
+    historial.push({ momento: m.id, idx, texto: opcion.texto, calidad: opcion.calidad, b2b: opcion.b2b, delta: hambre - antes });
+
+    renderMeter();
+    escena.humor(hambre);
+    reaccionar(m.id, idx, opcion);
+    escena.decir(opcion.reaccion);
+    verdict(opcion.calidad, hambre - antes, primero);
+    $('pz-lesson').textContent = opcion.b2b;
+    $('pz-next').textContent = hambre <= 0
+      ? 'Ver qué pasa'
+      : actual === momentos.length - 1 ? 'Cerrar la caja' : 'Siguiente momento';
+    const fb = $('pz-feedback');
+    fb.hidden = false;
+    // Si la explicación no cabe en la tarjeta, baja solo lo justo para verla.
+    requestAnimationFrame(() => {
+      const sobra = fb.offsetTop + fb.offsetHeight + 16 - (card.scrollTop + card.clientHeight);
+      if (sobra > 0) card.scrollBy({ top: sobra, behavior: reduceMotion ? 'auto' : 'smooth' });
+    });
+    track('pizzeria_momento', { momento: m.id, opcion: idx, hambre });
+  };
+
+  const siguiente = () => {
+    if (hambre <= 0) return terminar(true);
+    actual++;
+    if (actual < momentos.length) renderMomento();
+    else terminar(false);
+  };
+
+  const euros = (n: number) => `${n.toFixed(2).replace('.', ',')} €`;
+
+  const terminar = async (seVa: boolean) => {
+    const p = partida;
+    fase('closing');
+    const postre = !seVa && marcas.has('postre') && hambre >= umbrales.postre;
+    const clave = seVa ? 'seVa' : hambre >= umbrales.recomienda ? 'recomienda' : hambre >= umbrales.vuelve ? 'vuelve' : 'noVuelve';
+
+    escena.decir(seVa ? 'Me voy a otro sitio' : null);
+    escena.foco('salida');
+    await escena.mover('cliente', POS.salida[0], POS.salida[1], { ms: seVa ? 2000 : 2800 });
+    if (p !== partida) return;
+    escena.decir(null);
+    if (clave === 'recomienda') escena.mostrar('amigos', true);
+
+    const desenlace = desenlaces[clave];
+    $('pz-end-title').textContent = desenlace.titulo;
+    $('pz-end-b2b').textContent = desenlace.b2b;
+
+    // Ticket
+    const lineas: [string, string][] = [];
+    if (seVa) lineas.push(['Sin consumición', euros(0)]);
+    else {
+      lineas.push(['Pizza de la casa', euros(precios.pizza)]);
+      if (postre) lineas.push(['Postre', euros(precios.postre)]);
+    }
+    $('pz-ticket-lines').replaceChildren(...lineas.map(([k, v]) => {
+      const row = document.createElement('div');
+      row.className = 'pz-ticket-line';
+      const a = document.createElement('span'); a.textContent = k;
+      const b = document.createElement('span'); b.textContent = v;
+      row.append(a, b);
+      return row;
+    }));
+    $('pz-total').textContent = euros(seVa ? 0 : precios.pizza + (postre ? precios.postre : 0));
+    const ultimo = historial[historial.length - 1];
+    const momentoPerdido = momentos.find((m) => m.id === ultimo?.momento);
+    $('pz-ticket-note').textContent = seVa
+      ? `Se fue en ${momentoPerdido?.nombre.toLowerCase()}`
+      : clave === 'recomienda' ? 'Reserva para cuatro la semana que viene' : clave === 'vuelve' ? 'Cliente que repite' : 'Primera y última visita';
+
+    // Recorrido
+    $('pz-route').replaceChildren(...historial.map((paso) => {
+      const m = momentos.find((x) => x.id === paso.momento)!;
+      const li = document.createElement('li');
+      li.dataset.calidad = paso.calidad;
+      const head = document.createElement('p');
+      head.className = 'pz-route-head';
+      head.innerHTML = '<span class="pz-dot"></span><strong></strong> <span class="pz-muted"></span>';
+      head.querySelector('strong')!.textContent = m.nombre;
+      head.querySelector('.pz-muted')!.textContent = `· ${m.b2b}`;
+      const txt = document.createElement('p');
+      txt.className = 'pz-route-text';
+      txt.textContent = paso.calidad === 'bien' ? paso.texto : paso.b2b;
+      li.append(head, txt);
+      return li;
+    }));
+
+    const retry = $('pz-retry') as HTMLButtonElement;
+    const idxPerdido = momentos.findIndex((m) => m.id === ultimo?.momento);
+    retry.hidden = !seVa || idxPerdido < 0;
+    retry.textContent = momentoPerdido ? `Repetir desde ${momentoPerdido.nombre.toLowerCase()}` : '';
+    retry.dataset.idx = String(idxPerdido);
+
+    card.hidden = true;
+    $('pz-end').hidden = false;
+    $('pz-end').scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+    track('pizzeria_final', { resultado: clave, hambre, postre });
+  };
+
+  const empezar = (desde = 0) => {
+    partida++;
+    escena.reset();
+    const foto = desde > 0 ? fotos[desde] : null;
+    hambre = foto?.hambre ?? 0;
+    marcas = new Set(foto?.marcas ?? []);
+    historial = [...(foto?.historial ?? [])];
+    interes = foto?.interes ?? '';
+    rotulo = foto?.rotulo ?? '';
+    actual = desde;
+    if (!foto) fotos = [];
+    card.hidden = false;
+    $('pz-end').hidden = true;
+    fase('play');
+    renderMeter();
+    escena.humor(foto ? hambre : 60);
+
+    if (foto) {
+      // Recoloca la escena tal y como estaba al empezar ese momento.
+      if (rotulo) escena.rotulo(rotulo);
+      const hecho = (id: string) => historial.find((h) => h.momento === id);
+      const sitio = desde >= 2 ? POS.mesa : POS.calle;
+      escena.mover('cliente', sitio[0], sitio[1], { ms: 0 });
+      const espera = hecho('espera');
+      if (espera && espera.idx !== 2) escena.mostrar('aperitivo', true);
+      if (hecho('llamada') && desde < momentos.findIndex((m) => m.id === 'servicio')) {
+        escena.mover('camarero', POS.mesaCamarero[0], POS.mesaCamarero[1], { ms: 0 });
+      }
+    }
+    renderMomento();
+    stage.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: movil.matches ? 'start' : 'center' });
+    track('pizzeria_inicio', { desde: momentos[desde].id });
+  };
+
+  $('pz-start').addEventListener('click', () => empezar());
+  $('pz-restart').addEventListener('click', () => empezar());
+  $('pz-retry').addEventListener('click', (e) => empezar(Number((e.currentTarget as HTMLElement).dataset.idx)));
+  $('pz-next').addEventListener('click', siguiente);
+</script>
+
+<style is:global>
+  .pz {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 4rem 2rem 5rem;
+  }
+
+  .pz-back {
+    display: inline-block;
+    font-size: 0.78rem;
+    color: rgba(0,0,0,0.5);
+    text-decoration: none;
+    margin-bottom: 2rem;
+    transition: color var(--transition);
+  }
+  body.dark .pz-back { color: rgba(232,232,232,0.5); }
+  .pz-back:hover { color: var(--blue); }
+
+  .pz-kicker {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 1rem;
+  }
+  body.dark .pz-kicker { color: var(--blue-light); }
+
+  .pz h1,
+  .pz-end h2 {
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 400;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    margin-bottom: 1rem;
+  }
+  .pz h3 { font-family: 'Poppins', sans-serif; font-size: 1rem; font-weight: 500; margin-bottom: 1rem; }
+  .pz-head { margin-bottom: 1.5rem; }
+
+  .pz-intro {
+    font-size: 0.95rem;
+    font-weight: 300;
+    color: rgba(0,0,0,0.65);
+    line-height: 1.75;
+    max-width: 640px;
+    margin-bottom: 1rem;
+  }
+  body.dark .pz-intro { color: rgba(232,232,232,0.65); }
+  .pz-muted { opacity: 0.55; font-weight: 300; }
+
+  /* BOTONES */
+  .pz-btn {
+    display: inline-block;
+    padding: 0.85rem 1.5rem;
+    border: 1px solid var(--blue);
+    border-radius: 8px;
+    background: var(--blue);
+    color: #fff;
+    font: inherit;
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .pz-btn:hover { opacity: 0.9; }
+  .pz-btn[hidden] { display: none; }
+  .pz-btn--ghost { background: transparent; color: var(--blue); }
+  body.dark .pz-btn--ghost { color: var(--blue-light); border-color: var(--blue-light); }
+  .pz-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+
+  /* ESCENARIO 3D */
+  .pz-stage {
+    position: relative;
+    height: clamp(560px, 78vh, 820px);
+    border-radius: 14px;
+    overflow: hidden;
+    background: #dfe9f7;
+    border: 1px solid rgba(0,0,0,0.08);
+    margin-bottom: 3rem;
+  }
+  body.dark .pz-stage { background: #0e1726; border-color: rgba(255,255,255,0.1); }
+  .pz-stage canvas { position: absolute; inset: 0; width: 100% !important; height: 100% !important; display: block; }
+
+  .pz-glass {
+    background: rgba(255,255,255,0.9);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(0,0,0,0.08);
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,30,80,0.12);
+  }
+  body.dark .pz-glass { background: rgba(18,18,18,0.88); border-color: rgba(255,255,255,0.1); box-shadow: 0 10px 30px rgba(0,0,0,0.4); }
+
+  .pz-hud {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    width: min(360px, calc(100% - 460px));
+    min-width: 260px;
+    padding: 0.85rem 1rem;
+    z-index: 2;
+  }
+  .pz-hud[hidden] { display: none; }
+  .pz-meter-head { display: flex; justify-content: space-between; gap: 1rem; font-size: 0.78rem; font-weight: 500; margin-bottom: 0.4rem; }
+  .pz-meter-bar { height: 10px; border-radius: 5px; background: rgba(0,0,0,0.08); overflow: hidden; }
+  body.dark .pz-meter-bar { background: rgba(255,255,255,0.12); }
+  #pz-meter-fill { display: block; height: 100%; width: 0; border-radius: 5px; background: var(--blue); transition: width 0.6s ease, background 0.6s ease; }
+  #pz-meter-fill[data-level='medio'] { background: #e8a33d; }
+  #pz-meter-fill[data-level='bajo'] { background: #c8452f; }
+  .pz-interest { font-size: 0.78rem; font-weight: 300; opacity: 0.75; margin-top: 0.45rem; }
+
+  .pz-card {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    max-height: calc(100% - 2rem);
+    width: min(410px, 42%);
+    padding: 1.5rem;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    z-index: 2;
+  }
+  .pz-card[hidden] { display: none; }
+
+  .pz-bocadillo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    padding: 0.5rem 0.85rem;
+    margin-top: -14px;
+    background: #fff;
+    color: #1a1a1a;
+    border: 1.5px solid #1a1a1a;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    white-space: nowrap;
+    pointer-events: none;
+    will-change: transform;
+    animation: pz-pop 0.3s ease;
+  }
+  .pz-bocadillo[hidden] { display: none; }
+  .pz-bocadillo::after {
+    content: '';
+    position: absolute;
+    left: var(--cola, 50%);
+    bottom: -9px;
+    width: 14px;
+    height: 14px;
+    background: #fff;
+    border-right: 1.5px solid #1a1a1a;
+    border-bottom: 1.5px solid #1a1a1a;
+    transform: translateX(-50%) rotate(45deg);
+  }
+  @keyframes pz-pop { from { opacity: 0; } to { opacity: 1; } }
+
+  /* TARJETA DE JUEGO */
+  .pz-progress {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: rgba(0,0,0,0.55);
+    margin-bottom: 0.9rem;
+  }
+  body.dark .pz-progress { color: rgba(232,232,232,0.55); }
+  .pz-chip {
+    padding: 0.28rem 0.65rem;
+    border-radius: 999px;
+    background: rgba(0,74,173,0.08);
+    color: var(--blue);
+    letter-spacing: 0.04em;
+  }
+  body.dark .pz-chip { background: rgba(149,192,250,0.12); color: var(--blue-light); }
+
+  .pz-question {
+    font-family: 'Newsreader', serif;
+    font-size: clamp(1.3rem, 2vw, 1.6rem);
+    font-weight: 400;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    margin-bottom: 1.2rem;
+  }
+
+  .pz-options { display: flex; flex-direction: column; gap: 0.6rem; }
+  .pz-options[hidden] { display: none; }
+  .pz-option {
+    padding: 0.85rem 1rem;
+    border: 1px solid rgba(0,0,0,0.14);
+    border-radius: 8px;
+    background: var(--white);
+    color: var(--black);
+    font: inherit;
+    font-size: 0.88rem;
+    line-height: 1.45;
+    text-align: left;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s, transform 0.15s, opacity 0.2s;
+  }
+  body.dark .pz-option { background: var(--dark-bg); border-color: rgba(255,255,255,0.14); color: #e8e8e8; }
+  .pz-option:hover:not(:disabled) { border-color: var(--blue); transform: translateX(3px); }
+  .pz-option:disabled { cursor: default; opacity: 0.45; }
+  .pz-option.is-selected { opacity: 1; border-color: var(--blue); background: rgba(0,74,173,0.08); }
+  .pz-options.is-answered .pz-option:not(.is-selected) { display: none; }
+  body.dark .pz-option.is-selected { border-color: var(--blue-light); }
+
+  .pz-feedback {
+    margin-top: 1.1rem;
+    padding: 1rem 1.1rem;
+    border-left: 3px solid var(--blue);
+    background: rgba(0,74,173,0.05);
+    border-radius: 0 8px 8px 0;
+    animation: pz-in 0.35s ease;
+  }
+  body.dark .pz-feedback { background: rgba(149,192,250,0.07); }
+  .pz-verdict { font-size: 0.74rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 0.45rem; color: var(--blue); }
+  body.dark .pz-verdict { color: var(--blue-light); }
+  .pz-verdict[data-calidad='regular'] { color: #b7791f; }
+  .pz-verdict[data-calidad='mal'] { color: #c8452f; }
+  .pz-lesson { font-size: 0.9rem; line-height: 1.65; margin-bottom: 0.9rem; }
+  .pz-lesson-label { font-weight: 600; color: var(--blue); }
+  body.dark .pz-lesson-label { color: var(--blue-light); }
+  @keyframes pz-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+  /* FINAL */
+  .pz-end { max-width: 1100px; }
+  .pz-end[hidden] { display: none; }
+  .pz-end-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 300px) minmax(0, 1fr);
+    gap: 3rem;
+    align-items: start;
+    margin: 1rem 0 3rem;
+  }
+
+  .pz-ticket {
+    position: relative;
+    padding: 1.6rem 1.4rem 2rem;
+    background: #fffdf8;
+    color: #1a1a1a;
+    font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+    font-size: 0.82rem;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.08);
+    transform: rotate(-1.2deg);
+    animation: pz-print 0.9s ease;
+  }
+  .pz-ticket::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -10px;
+    height: 10px;
+    background: radial-gradient(circle at 8px 10px, transparent 7px, #fffdf8 7.5px) 0 0 / 16px 10px repeat-x;
+  }
+  .pz-ticket-head { text-align: center; font-size: 1rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding-bottom: 0.9rem; border-bottom: 1px dashed #999; margin-bottom: 0.9rem; }
+  .pz-ticket-head small { display: block; font-size: 0.7rem; font-weight: 400; letter-spacing: 0.04em; text-transform: none; opacity: 0.6; margin-top: 0.3rem; }
+  .pz-ticket-line, .pz-ticket-total { display: flex; justify-content: space-between; gap: 1rem; margin-bottom: 0.4rem; }
+  .pz-ticket-total { font-weight: 700; font-size: 0.95rem; border-top: 1px dashed #999; padding-top: 0.8rem; margin-top: 0.8rem; }
+  .pz-ticket-note { margin-top: 1rem; padding: 0.5rem; border: 1px dashed #999; text-align: center; }
+  .pz-ticket-thanks { text-align: center; margin-top: 1rem; opacity: 0.6; }
+  @keyframes pz-print { from { clip-path: inset(0 0 100% 0); } to { clip-path: inset(0 0 -20px 0); } }
+
+  .pz-route { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 0.9rem; }
+  .pz-route-head { font-size: 0.9rem; display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.2rem; }
+  .pz-route-text { font-size: 0.88rem; font-weight: 300; line-height: 1.65; padding-left: 1.1rem; opacity: 0.8; }
+  .pz-dot { width: 0.6rem; height: 0.6rem; border-radius: 50%; background: var(--blue); flex-shrink: 0; }
+  .pz-route li[data-calidad='regular'] .pz-dot { background: #e8a33d; }
+  .pz-route li[data-calidad='mal'] .pz-dot { background: #c8452f; }
+
+  .pz-cta {
+    padding: 2rem;
+    border-radius: 12px;
+    background: var(--off-white);
+    margin-bottom: 2rem;
+  }
+  body.dark .pz-cta { background: var(--dark-surface); }
+  .pz-cta-title { font-family: 'Newsreader', serif; font-size: clamp(1.4rem, 2.6vw, 1.9rem); line-height: 1.25; margin-bottom: 0.8rem; }
+  .pz-cta .pz-actions { margin: 0.5rem 0 1.2rem; }
+  .pz-link { font-size: 0.82rem; font-weight: 500; color: var(--blue); text-decoration: none; }
+  body.dark .pz-link { color: var(--blue-light); }
+  .pz-link:hover { text-decoration: underline; }
+
+  @media (max-width: 900px) {
+    .pz-hud { width: calc(100% - 2rem - min(410px, 42%) - 1rem); min-width: 0; }
+  }
+
+  @media (max-width: 700px) {
+    .pz { padding: 2.5rem 1rem 4rem; }
+    .pz-head { margin-bottom: 1rem; }
+    .pz-stage {
+      height: calc(100svh - 96px);
+      min-height: 560px;
+      margin-left: -0.5rem;
+      margin-right: -0.5rem;
+      scroll-margin-top: 88px;
+    }
+    .pz-hud { top: 0.6rem; left: 0.6rem; right: 0.6rem; width: auto; padding: 0.7rem 0.85rem; }
+    .pz-card {
+      top: auto;
+      left: 0.6rem;
+      right: 0.6rem;
+      bottom: 0.6rem;
+      width: auto;
+      max-height: 52%;
+      padding: 1.1rem;
+    }
+    .pz-question { font-size: 1.2rem; margin-bottom: 0.9rem; }
+    .pz-option { padding: 0.7rem 0.85rem; font-size: 0.85rem; }
+    .pz-end-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .pz-ticket { max-width: 320px; }
+    .pz-cta { padding: 1.5rem 1.25rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #pz-meter-fill { transition: none !important; }
+    .pz-ticket, .pz-feedback, .pz-bocadillo { animation: none !important; }
+  }
+</style>
