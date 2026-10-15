@@ -3,19 +3,24 @@ import BaseLayout from '../../../../layouts/BaseLayout.astro';
 import { BOOKING_URL } from '../../../../consts';
 import {
   MOMENTOS,
+  PERFILES,
+  NIVELES,
   DESENLACES,
+  IMPACIENCIA,
   HAMBRE_VUELVE,
   HAMBRE_RECOMIENDA,
   HAMBRE_POSTRE,
   PRECIO_PIZZA,
-  PRECIO_POSTRE,
 } from '../../../../data/pizzeria';
 
 const config = {
   momentos: MOMENTOS,
+  perfiles: PERFILES,
+  niveles: NIVELES,
   desenlaces: DESENLACES,
+  impaciencia: IMPACIENCIA,
   umbrales: { vuelve: HAMBRE_VUELVE, recomienda: HAMBRE_RECOMIENDA, postre: HAMBRE_POSTRE },
-  precios: { pizza: PRECIO_PIZZA, postre: PRECIO_POSTRE },
+  precioPizza: PRECIO_PIZZA,
 };
 
 const pageUrl = 'https://guillenbruna97.github.io/recursos/minijuegos/pizzeria-b2b/';
@@ -50,23 +55,38 @@ const breadcrumbLd = {
       <div class="pz-hud pz-glass" id="pz-hud" hidden>
         <div class="pz-meter-head">
           <span>Hambre del cliente <span class="pz-muted">· su interés como lead</span></span>
-          <span id="pz-meter-value">0</span>
+          <span id="pz-meter-value"></span>
         </div>
         <div class="pz-meter-bar"><span id="pz-meter-fill"></span></div>
         <p class="pz-interest" id="pz-interest" hidden></p>
+        <p class="pz-impaciencia" id="pz-impaciencia" hidden>Se está impacientando</p>
       </div>
 
       <div class="pz-card pz-glass" id="pz-card">
         <div id="pz-intro">
           <p class="pz-intro">Abre tu pizzería y acompaña a un cliente desde que ve tu anuncio en la calle hasta que pide el postre. Cada momento de la pizzería es una fase del proceso comercial B2B.</p>
-          <p class="pz-intro">Vigila su hambre, porque si llega a cero se levanta y se va. ¿Conseguirás que vuelva y traiga a sus amigos?</p>
+          <p class="pz-intro">Cada partida entra un cliente distinto y la situación cambia. Vigila su hambre, porque si llega a cero se levanta y se va.</p>
+          <p class="pz-label">Elige el nivel</p>
+          <div class="pz-niveles" id="pz-niveles" role="radiogroup" aria-label="Nivel de dificultad"></div>
           <button type="button" class="pz-btn" id="pz-start">Abrir la pizzería</button>
+        </div>
+
+        <div id="pz-perfil" hidden>
+          <p class="pz-kicker">Hoy entra</p>
+          <h2 class="pz-question" id="pz-perfil-nombre"></h2>
+          <p class="pz-intro" id="pz-perfil-pizza"></p>
+          <p class="pz-lesson"><span class="pz-lesson-label">En B2B</span> <span id="pz-perfil-b2b"></span></p>
+          <p class="pz-pista" id="pz-perfil-pista"></p>
+          <button type="button" class="pz-btn" id="pz-perfil-ok">Que pase</button>
         </div>
 
         <div id="pz-play" hidden>
           <div class="pz-progress">
             <span id="pz-step"></span>
-            <span class="pz-chip" id="pz-chip"></span>
+            <span class="pz-chips">
+              <span class="pz-chip pz-chip--evento" id="pz-evento" hidden></span>
+              <span class="pz-chip" id="pz-chip"></span>
+            </span>
           </div>
           <h2 class="pz-question" id="pz-question"></h2>
           <div class="pz-options" id="pz-options"></div>
@@ -86,11 +106,12 @@ const breadcrumbLd = {
     <div class="pz-end" id="pz-end" hidden>
       <p class="pz-kicker">Cierre de caja</p>
       <h2 id="pz-end-title"></h2>
+      <p class="pz-estrellas" id="pz-estrellas" aria-live="polite"></p>
       <p class="pz-intro" id="pz-end-b2b"></p>
 
       <div class="pz-end-grid">
         <div class="pz-ticket" aria-label="Ticket de la mesa">
-          <p class="pz-ticket-head">La Pizzería<small>Mesa 1 · Ticket 0001</small></p>
+          <p class="pz-ticket-head">La Pizzería<small id="pz-ticket-mesa"></small></p>
           <div class="pz-ticket-lines" id="pz-ticket-lines"></div>
           <div class="pz-ticket-total"><span>Total</span><span id="pz-total"></span></div>
           <p class="pz-ticket-note" id="pz-ticket-note"></p>
@@ -115,24 +136,28 @@ const breadcrumbLd = {
 
       <div class="pz-actions">
         <button type="button" class="pz-btn pz-btn--ghost" id="pz-retry" hidden></button>
-        <button type="button" class="pz-btn pz-btn--ghost" id="pz-restart">Jugar otra vez</button>
+        <button type="button" class="pz-btn pz-btn--ghost" id="pz-restart">Jugar con otro cliente</button>
       </div>
     </div>
   </section>
 </BaseLayout>
 
 <script>
-  import type { Momento, Opcion, Calidad } from '../../../../data/pizzeria';
+  import type { Momento, Opcion, Calidad, Perfil, Nivel, NivelId, Variante } from '../../../../data/pizzeria';
   import { crearEscena, POS, ALTURAS } from '../../../../scripts/pizzeria3d';
 
-  type Desenlace = { titulo: string; b2b: string };
+  type Clave = 'recomienda' | 'vuelve' | 'noVuelve' | 'seVa';
+  type Desenlace = { titulo: string; b2b: string; estrellas: number };
   const config = JSON.parse(document.getElementById('pz-data')!.textContent!) as {
     momentos: Momento[];
-    desenlaces: Record<'recomienda' | 'vuelve' | 'noVuelve' | 'seVa', Desenlace>;
+    perfiles: Perfil[];
+    niveles: Nivel[];
+    desenlaces: Record<Clave, Desenlace>;
+    impaciencia: { texto: string; b2b: string };
     umbrales: { vuelve: number; recomienda: number; postre: number };
-    precios: { pizza: number; postre: number };
+    precioPizza: number;
   };
-  const { momentos, desenlaces, umbrales, precios } = config;
+  const { momentos, perfiles, niveles, desenlaces, impaciencia, umbrales, precioPizza } = config;
 
   const $ = (id: string) => document.getElementById(id)!;
   const track = (name: string, params: Record<string, unknown> = {}) => {
@@ -140,8 +165,18 @@ const breadcrumbLd = {
     if (typeof gtag === 'function') gtag('event', name, params);
   };
   const wait = (ms: number) => new Promise((r) => setTimeout(r, ms));
+  const azar = <T,>(lista: T[]) => lista[Math.floor(Math.random() * lista.length)];
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const movil = matchMedia('(max-width: 700px)');
+
+  // Preferencias del jugador en este navegador (si el almacenamiento falla,
+  // el juego funciona igual sin recordar nada).
+  const leer = <T,>(clave: string, defecto: T): T => {
+    try { const v = localStorage.getItem(clave); return v ? (JSON.parse(v) as T) : defecto; } catch { return defecto; }
+  };
+  const guardar = (clave: string, valor: unknown) => {
+    try { localStorage.setItem(clave, JSON.stringify(valor)); } catch { /* sin almacenamiento */ }
+  };
 
   // ── Escena 3D ───────────────────────────────────────────────────────
   const stage = $('pz-stage');
@@ -156,8 +191,15 @@ const breadcrumbLd = {
   escena.foco('intro');
 
   // ── Estado ──────────────────────────────────────────────────────────
-  interface Paso { momento: string; idx: number; texto: string; calidad: Calidad; b2b: string; delta: number }
+  interface Paso {
+    momento: string; texto: string; calidad: Calidad; b2b: string; delta: number;
+    escena?: Opcion['escena']; venta?: Opcion['venta'];
+  }
   interface Foto { hambre: number; marcas: string[]; historial: Paso[]; interes: string; rotulo: string }
+  let nivel: Nivel = niveles.find((n) => n.id === leer<NivelId>('pz-nivel', 'facil')) ?? niveles[0];
+  let perfil: Perfil = perfiles[0];
+  // Índice del planteamiento elegido en cada momento para esta partida.
+  let plan: number[] = [];
   let hambre = 0;
   let marcas = new Set<string>();
   let historial: Paso[] = [];
@@ -169,26 +211,61 @@ const breadcrumbLd = {
   // Cada partida invalida las animaciones pendientes de la anterior.
   let partida = 0;
 
-  // Lo que ocurre en la escena al llegar a cada momento.
+  const variante = (i = actual): Variante => momentos[i].variantes[plan[i]];
+
+  // Elige un planteamiento por momento compatible con el perfil, con
+  // como mucho un imprevisto por partida.
+  const elegirPlan = () => {
+    const posibles = momentos.map((m) =>
+      m.variantes.map((v, i) => ({ v, i })).filter(({ v }) => !v.soloPerfiles || v.soloPerfiles.includes(perfil.id))
+    );
+    const elegido = posibles.map((lista) => azar(lista).i);
+    const conEvento = elegido.map((vi, mi) => (momentos[mi].variantes[vi].evento ? mi : -1)).filter((mi) => mi >= 0);
+    // Se queda uno al azar y el resto se cambia por un planteamiento normal.
+    const quedarse = azar(conEvento);
+    conEvento.filter((mi) => mi !== quedarse).forEach((mi) => {
+      elegido[mi] = azar(posibles[mi].filter(({ v }) => !v.evento)).i;
+    });
+    return elegido;
+  };
+
+  // Combina la opción con lo que cambia según decisiones previas y perfil.
+  const efectiva = (base: Opcion): Opcion => {
+    let o: Opcion = { ...base };
+    if (base.siMarca && marcas.has(base.siMarca.marca)) {
+      const { marca: _m, ...ajuste } = base.siMarca;
+      o = { ...o, ...ajuste };
+    }
+    const ajustePerfil = base.porPerfil?.[perfil.id];
+    if (ajustePerfil) o = { ...o, ...ajustePerfil };
+    return o;
+  };
+
+  // ── Escena: qué pasa al llegar a cada momento y al elegir ───────────
   const entrar = async (id: string) => {
     const p = partida;
     escena.foco(id);
-    if (id === 'calle') await escena.mover('cliente', POS.calle[0], POS.calle[1], { ms: 1800 });
     if (id === 'puerta') await escena.mover('cliente', POS.puerta[0], POS.puerta[1], { ms: 1300 });
     if (id === 'espera') {
       escena.mostrar('formulario', false);
-      await escena.mover('cliente', POS.mesa[0], POS.mesa[1], { ms: 1600 });
+      await escena.mover('cliente', POS.rodeo[0], POS.rodeo[1], { ms: 1100 });
+      if (p !== partida) return;
+      await escena.mover('cliente', POS.mesa[0], POS.mesa[1], { ms: 700 });
+      if (p === partida) escena.sentar(true);
     }
     if (id === 'pedido') {
       await escena.mover('camarero', POS.mesaCamarero[0], POS.mesaCamarero[1], { ms: 1300 });
-      if (p === partida) escena.mostrar('libreta', true);
+      if (p !== partida) return;
+      escena.mostrar('libreta', true);
+      escena.pose('camarero', 'escribir', 8000);
     }
     if (id === 'servicio') {
       escena.mostrar('libreta', false);
       escena.mostrar('cartaCorta', false);
       escena.mostrar('cartaLarga', false);
       escena.mover('camarero', POS.barra[0], POS.barra[1], { ms: 1300 });
-      escena.horno(true);
+      // En el imprevisto del horno apagado, el fuego no se enciende.
+      escena.horno(variante().id !== 'servicio-horno');
     }
     if (id === 'sobremesa') {
       escena.mostrar('pizza', false);
@@ -196,53 +273,79 @@ const breadcrumbLd = {
     }
   };
 
-  // Lo que ocurre en la escena al elegir una opción (idx es el orden
-  // original de la opción en los datos, no el orden barajado en pantalla).
-  const reaccionar = async (id: string, idx: number, opcion: Opcion) => {
+  const servir = async (tarde: boolean, mal: boolean) => {
     const p = partida;
+    escena.pizzaMal(mal);
+    await escena.mover('pizza', POS.hornoPizza[0], POS.hornoPizza[1], { ms: 0, y: ALTURAS.horno });
+    escena.mostrar('pizza', true);
+    if (tarde) await wait(1800);
+    if (p !== partida) return;
+    escena.horno(false);
+    await escena.mover('pizza', POS.barraPizza[0], POS.barraPizza[1], { ms: 900, y: ALTURAS.barra });
+    if (p !== partida) return;
+    await escena.mover('pizza', POS.mesaPizza[0], POS.mesaPizza[1], { ms: 1100, y: ALTURAS.mesa });
+    if (p === partida) escena.comer();
+  };
+
+  const reaccionar = async (id: string, o: Opcion) => {
+    const p = partida;
+    const e = new Set(o.escena ?? []);
     if (id === 'calle') {
-      escena.rotulo(opcion.rotulo ?? '');
-      escena.gente(opcion.gente ?? 0);
+      escena.rotulo(o.rotulo ?? '');
+      escena.gente(o.gente ?? 0);
       await wait(2600);
       if (p === partida) escena.gente(0);
+      return;
     }
-    if (id === 'puerta' && idx === 2) escena.mostrar('formulario', true);
-    if (id === 'espera' && idx !== 2) escena.mostrar('aperitivo', true);
-    if (id === 'llamada' && idx !== 1) escena.mover('camarero', POS.mesaCamarero[0], POS.mesaCamarero[1], { ms: 1300 });
-    if (id === 'carta') escena.mostrar(idx === 1 ? 'cartaLarga' : 'cartaCorta', true);
-    if (id === 'servicio') {
-      escena.pizzaMal(idx === 2);
-      await escena.mover('pizza', POS.hornoPizza[0], POS.hornoPizza[1], { ms: 0, y: ALTURAS.horno });
-      escena.mostrar('pizza', true);
-      if (idx === 1) await wait(1800);
-      if (p !== partida) return;
-      escena.horno(false);
-      await escena.mover('pizza', POS.barraPizza[0], POS.barraPizza[1], { ms: 900, y: ALTURAS.barra });
-      if (p !== partida) return;
-      await escena.mover('pizza', POS.mesaPizza[0], POS.mesaPizza[1], { ms: 1100, y: ALTURAS.mesa });
-    }
-    if (id === 'sobremesa') {
-      if (idx === 0) escena.mostrar('postre', true);
-      if (idx === 1) escena.mostrar('cuenta', true);
-      if (idx === 2) { escena.mostrar('postre', true); escena.mostrar('extras', true); }
-    }
+    if (e.has('formulario')) escena.mostrar('formulario', true);
+    if (e.has('aperitivo')) escena.mostrar('aperitivo', true);
+    if (e.has('camarero')) escena.mover('camarero', POS.mesaCamarero[0], POS.mesaCamarero[1], { ms: 1300 });
+    if (e.has('cartaCorta')) escena.mostrar('cartaCorta', true);
+    if (e.has('cartaLarga')) escena.mostrar('cartaLarga', true);
+    if (e.has('pizza') || e.has('pizzaTarde') || e.has('pizzaMal')) servir(e.has('pizzaTarde'), e.has('pizzaMal'));
+    (['postre', 'cuenta', 'extras', 'caja'] as const).forEach((k) => e.has(k) && escena.mostrar(k, true));
   };
 
   // ── Interfaz ────────────────────────────────────────────────────────
-  const fases = { intro: $('pz-intro'), play: $('pz-play'), closing: $('pz-closing') };
+  const fases = { intro: $('pz-intro'), perfil: $('pz-perfil'), play: $('pz-play'), closing: $('pz-closing') };
   const fase = (name: keyof typeof fases) => {
     Object.entries(fases).forEach(([k, el]) => (el.hidden = k !== name));
-    $('pz-hud').hidden = name === 'intro';
+    $('pz-hud').hidden = name === 'intro' || name === 'perfil';
+    card.scrollTop = 0;
   };
 
+  const records = () => leer<Partial<Record<NivelId, number>>>('pz-record', {});
+  const pintarNiveles = () => {
+    const rec = records();
+    $('pz-niveles').replaceChildren(...niveles.map((n) => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'pz-nivel' + (n.id === nivel.id ? ' is-on' : '');
+      btn.setAttribute('role', 'radio');
+      btn.setAttribute('aria-checked', String(n.id === nivel.id));
+      const r = rec[n.id];
+      btn.innerHTML = '<strong></strong><span></span><small></small>';
+      btn.querySelector('strong')!.textContent = n.nombre;
+      btn.querySelector('span')!.textContent = n.descripcion;
+      btn.querySelector('small')!.textContent = r != null ? `Récord ${'★'.repeat(r)}${'☆'.repeat(3 - r)}` : '';
+      btn.addEventListener('click', () => {
+        nivel = n;
+        guardar('pz-nivel', n.id);
+        pintarNiveles();
+      });
+      return btn;
+    }));
+  };
+  pintarNiveles();
+
   const renderMeter = () => {
-    $('pz-meter-value').textContent = String(hambre);
+    $('pz-meter-value').textContent = nivel.numero ? String(hambre) : '';
     const fill = $('pz-meter-fill');
     fill.style.width = `${hambre}%`;
     fill.dataset.level = hambre >= 60 ? 'alto' : hambre >= 30 ? 'medio' : 'bajo';
     const el = $('pz-interest');
     el.hidden = !interes;
-    el.textContent = interes ? `Viene buscando ${interes}.` : '';
+    el.textContent = interes ? `${perfil.nombre}. Viene buscando ${interes}.` : '';
   };
 
   const VEREDICTO: Record<Calidad, string> = {
@@ -253,12 +356,23 @@ const breadcrumbLd = {
 
   const verdict = (calidad: Calidad, delta: number, primero: boolean) => {
     const el = $('pz-verdict');
+    if (!nivel.explicacion) {
+      el.dataset.calidad = 'neutral';
+      el.textContent = primero ? 'Entra en la pizzería' : 'Decisión tomada';
+      return;
+    }
     el.dataset.calidad = calidad;
+    const cifra = nivel.numero ? ` · hambre ${delta >= 0 ? '+' : ''}${delta}` : '';
     el.textContent = primero
-      ? `Entra con hambre ${hambre} de 100`
-      : delta === 0 && hambre === 100
+      ? nivel.numero ? `Entra con hambre ${hambre} de 100` : 'Entra en la pizzería'
+      : delta === 0 && hambre === 100 && nivel.numero
         ? `${VEREDICTO[calidad]} · hambre al máximo`
-        : `${VEREDICTO[calidad]} · hambre ${delta >= 0 ? '+' : ''}${delta}`;
+        : `${VEREDICTO[calidad]}${cifra}`;
+  };
+
+  const leccion = (b2b: string) => {
+    ($('pz-feedback').querySelector('.pz-lesson-label') as HTMLElement).hidden = !nivel.explicacion;
+    $('pz-lesson').textContent = nivel.explicacion ? b2b : 'La explicación de cada decisión la verás al final de la partida.';
   };
 
   const barajar = (n: number) => {
@@ -270,12 +384,56 @@ const breadcrumbLd = {
     return orden;
   };
 
+  // ── Paciencia del cliente ───────────────────────────────────────────
+  let reloj = 0;
+  const pararReloj = () => {
+    clearInterval(reloj);
+    reloj = 0;
+    $('pz-impaciencia').hidden = true;
+  };
+  const arrancarReloj = () => {
+    pararReloj();
+    const pac = nivel.paciencia;
+    if (!pac || actual === 0) return;
+    const m = momentos[actual];
+    let inicio = performance.now();
+    let perdido = 0;
+    reloj = window.setInterval(() => {
+      // Con la pestaña en segundo plano el cliente no se impacienta.
+      if (document.hidden) { inicio += 250; return; }
+      const s = (performance.now() - inicio) / 1000;
+      if (s < pac.margen) return;
+      $('pz-impaciencia').hidden = false;
+      const debe = Math.floor((s - pac.margen) / pac.cada) + 1;
+      if (debe <= perdido) return;
+      if (perdido === 0) {
+        escena.decir('¿Falta mucho?');
+        escena.emocion('⏰');
+      }
+      if (perdido % 4 === 0) escena.pose('cliente', 'reloj', 2000);
+      hambre = Math.max(0, hambre - (debe - perdido));
+      perdido = debe;
+      renderMeter();
+      escena.humor(hambre);
+      if (hambre <= 0) {
+        pararReloj();
+        historial.push({ momento: m.id, texto: impaciencia.texto, calidad: 'mal', b2b: impaciencia.b2b, delta: 0 });
+        terminar(true);
+      }
+    }, 250);
+  };
+
+  // ── Flujo de la partida ─────────────────────────────────────────────
   const renderMomento = () => {
     const m = momentos[actual];
+    const v = variante();
     fotos[actual] = { hambre, marcas: [...marcas], historial: [...historial], interes, rotulo };
     $('pz-step').textContent = `Momento ${actual + 1} de ${momentos.length} · ${m.nombre}`;
     $('pz-chip').textContent = `En B2B, ${m.b2b.toLowerCase()}`;
-    $('pz-question').textContent = m.pregunta;
+    const evento = $('pz-evento');
+    evento.hidden = !v.evento;
+    evento.textContent = v.evento ?? '';
+    $('pz-question').textContent = v.pregunta;
     $('pz-feedback').hidden = true;
     escena.decir(null);
     card.scrollTop = 0;
@@ -286,36 +444,39 @@ const breadcrumbLd = {
     options.classList.remove('is-answered');
     entrar(m.id);
 
-    if (m.automatico && hambre >= m.automatico.umbral) {
+    if (m.automatico && hambre >= nivel.umbralAuto) {
       // El cliente está tan interesado que pide él solo: no hay decisión.
+      evento.hidden = true;
       $('pz-question').textContent = m.automatico.texto;
       options.hidden = true;
-      historial.push({ momento: m.id, idx: -1, texto: 'Pidió él solo', calidad: 'bien', b2b: m.automatico.b2b, delta: 0 });
+      historial.push({ momento: m.id, texto: 'Pidió él solo', calidad: 'bien', b2b: m.automatico.b2b, delta: 0 });
       escena.decir(m.automatico.reaccion);
+      escena.pose('cliente', 'mano', 2600);
+      escena.emocion('🙋');
       escena.mover('camarero', POS.mesaCamarero[0], POS.mesaCamarero[1], { ms: 1300 });
-      verdict('bien', 0, false);
+      $('pz-verdict').dataset.calidad = 'bien';
       $('pz-verdict').textContent = 'Pide él solo, ni has tenido que ir';
-      $('pz-lesson').textContent = m.automatico.b2b;
+      leccion(m.automatico.b2b);
       $('pz-next').textContent = 'Siguiente momento';
       $('pz-feedback').hidden = false;
       return;
     }
 
-    barajar(m.opciones.length).forEach((idx) => {
+    barajar(v.opciones.length).forEach((idx) => {
       const btn = document.createElement('button');
       btn.type = 'button';
       btn.className = 'pz-option';
-      btn.textContent = m.opciones[idx].texto;
+      btn.textContent = v.opciones[idx].texto;
       btn.addEventListener('click', () => elegir(idx, btn));
       options.appendChild(btn);
     });
+    arrancarReloj();
   };
 
   const elegir = (idx: number, btn: HTMLButtonElement) => {
+    pararReloj();
     const m = momentos[actual];
-    const base = m.opciones[idx];
-    const variante = base.siMarca && marcas.has(base.siMarca.marca) ? base.siMarca : null;
-    const opcion: Opcion = variante ? { ...base, ...variante } : base;
+    const o = efectiva(variante().opciones[idx]);
 
     $('pz-options').querySelectorAll('button').forEach((b) => ((b as HTMLButtonElement).disabled = true));
     btn.classList.add('is-selected');
@@ -324,18 +485,23 @@ const breadcrumbLd = {
 
     const primero = actual === 0;
     const antes = hambre;
-    hambre = Math.max(0, Math.min(100, primero ? opcion.delta : hambre + opcion.delta));
-    if (opcion.marca) marcas.add(opcion.marca);
-    if (opcion.interes) interes = opcion.interes;
-    if (opcion.rotulo) rotulo = opcion.rotulo;
-    historial.push({ momento: m.id, idx, texto: opcion.texto, calidad: opcion.calidad, b2b: opcion.b2b, delta: hambre - antes });
+    const d = o.delta >= 0 ? Math.round(o.delta * nivel.multSuma) : Math.round(o.delta * nivel.multResta);
+    hambre = Math.max(0, Math.min(100, primero ? d : hambre + d));
+    if (o.marca) marcas.add(o.marca);
+    if (o.interes) interes = o.interes;
+    if (o.rotulo) rotulo = o.rotulo;
+    historial.push({ momento: m.id, texto: o.texto, calidad: o.calidad, b2b: o.b2b, delta: hambre - antes, escena: o.escena, venta: o.venta });
 
     renderMeter();
     escena.humor(hambre);
-    reaccionar(m.id, idx, opcion);
-    escena.decir(opcion.reaccion);
-    verdict(opcion.calidad, hambre - antes, primero);
-    $('pz-lesson').textContent = opcion.b2b;
+    reaccionar(m.id, o);
+    escena.decir(o.reaccion);
+    // Lenguaje corporal según cómo le ha sentado la decisión.
+    if (o.calidad === 'bien') { escena.gesto('si'); escena.emocion(primero ? '🍕' : '😋'); }
+    else if (o.calidad === 'regular') escena.emocion('😐');
+    else { escena.gesto('no'); escena.emocion('💢'); }
+    verdict(o.calidad, hambre - antes, primero);
+    leccion(o.b2b);
     $('pz-next').textContent = hambre <= 0
       ? 'Ver qué pasa'
       : actual === momentos.length - 1 ? 'Cerrar la caja' : 'Siguiente momento';
@@ -346,7 +512,7 @@ const breadcrumbLd = {
       const sobra = fb.offsetTop + fb.offsetHeight + 16 - (card.scrollTop + card.clientHeight);
       if (sobra > 0) card.scrollBy({ top: sobra, behavior: reduceMotion ? 'auto' : 'smooth' });
     });
-    track('pizzeria_momento', { momento: m.id, opcion: idx, hambre });
+    track('pizzeria_momento', { momento: m.id, variante: variante().id, calidad: o.calidad, hambre, perfil: perfil.id, nivel: nivel.id });
   };
 
   const siguiente = () => {
@@ -360,27 +526,50 @@ const breadcrumbLd = {
 
   const terminar = async (seVa: boolean) => {
     const p = partida;
+    pararReloj();
     fase('closing');
-    const postre = !seVa && marcas.has('postre') && hambre >= umbrales.postre;
-    const clave = seVa ? 'seVa' : hambre >= umbrales.recomienda ? 'recomienda' : hambre >= umbrales.vuelve ? 'vuelve' : 'noVuelve';
+    const clave: Clave = seVa ? 'seVa' : hambre >= umbrales.recomienda ? 'recomienda' : hambre >= umbrales.vuelve ? 'vuelve' : 'noVuelve';
 
     escena.decir(seVa ? 'Me voy a otro sitio' : null);
+    if (seVa) escena.emocion('💨');
+    escena.sentar(false);
     escena.foco('salida');
     await escena.mover('cliente', POS.salida[0], POS.salida[1], { ms: seVa ? 2000 : 2800 });
     if (p !== partida) return;
     escena.decir(null);
-    if (clave === 'recomienda') escena.mostrar('amigos', true);
+    if (clave === 'recomienda') { escena.mostrar('amigos', true); escena.emocion('❤️'); }
 
     const desenlace = desenlaces[clave];
     $('pz-end-title').textContent = desenlace.titulo;
     $('pz-end-b2b').textContent = desenlace.b2b;
 
-    // Ticket
+    // Estrellas y récord por nivel.
+    const rec = records();
+    const antes = rec[nivel.id];
+    const nuevo = antes == null || desenlace.estrellas > antes;
+    if (nuevo) guardar('pz-record', { ...rec, [nivel.id]: desenlace.estrellas });
+    const estrellas = $('pz-estrellas');
+    estrellas.replaceChildren();
+    const icono = document.createElement('span');
+    icono.className = 'pz-estrellas-iconos';
+    icono.textContent = '★'.repeat(desenlace.estrellas) + '☆'.repeat(3 - desenlace.estrellas);
+    icono.setAttribute('aria-label', `${desenlace.estrellas} de 3 estrellas`);
+    const texto = document.createElement('span');
+    texto.textContent = `Nivel ${nivel.nombre.toLowerCase()} · ${perfil.nombre}${nuevo && antes != null ? ' · ¡Nuevo récord!' : ''}`;
+    estrellas.append(icono, texto);
+
+    // Ticket. Las ventas adicionales solo se cobran si el cliente sale contento.
     const lineas: [string, string][] = [];
+    let total = 0;
     if (seVa) lineas.push(['Sin consumición', euros(0)]);
     else {
-      lineas.push(['Pizza de la casa', euros(precios.pizza)]);
-      if (postre) lineas.push(['Postre', euros(precios.postre)]);
+      lineas.push(['Pizza de la casa', euros(precioPizza)]);
+      total += precioPizza;
+      if (hambre >= umbrales.postre) {
+        historial.forEach((h) => {
+          if (h.venta) { lineas.push([h.venta.concepto, euros(h.venta.precio)]); total += h.venta.precio; }
+        });
+      }
     }
     $('pz-ticket-lines').replaceChildren(...lineas.map(([k, v]) => {
       const row = document.createElement('div');
@@ -390,14 +579,15 @@ const breadcrumbLd = {
       row.append(a, b);
       return row;
     }));
-    $('pz-total').textContent = euros(seVa ? 0 : precios.pizza + (postre ? precios.postre : 0));
+    $('pz-total').textContent = euros(total);
+    $('pz-ticket-mesa').textContent = `Mesa 1 · ${perfil.nombre}`;
     const ultimo = historial[historial.length - 1];
     const momentoPerdido = momentos.find((m) => m.id === ultimo?.momento);
     $('pz-ticket-note').textContent = seVa
       ? `Se fue en ${momentoPerdido?.nombre.toLowerCase()}`
       : clave === 'recomienda' ? 'Reserva para cuatro la semana que viene' : clave === 'vuelve' ? 'Cliente que repite' : 'Primera y última visita';
 
-    // Recorrido
+    // Recorrido. En difícil se ven todas las explicaciones aquí.
     $('pz-route').replaceChildren(...historial.map((paso) => {
       const m = momentos.find((x) => x.id === paso.momento)!;
       const li = document.createElement('li');
@@ -409,60 +599,103 @@ const breadcrumbLd = {
       head.querySelector('.pz-muted')!.textContent = `· ${m.b2b}`;
       const txt = document.createElement('p');
       txt.className = 'pz-route-text';
-      txt.textContent = paso.calidad === 'bien' ? paso.texto : paso.b2b;
+      txt.textContent = paso.texto;
       li.append(head, txt);
+      if (paso.calidad !== 'bien' || !nivel.explicacion) {
+        const b = document.createElement('p');
+        b.className = 'pz-route-b2b';
+        b.textContent = paso.b2b;
+        li.append(b);
+      }
       return li;
     }));
 
     const retry = $('pz-retry') as HTMLButtonElement;
     const idxPerdido = momentos.findIndex((m) => m.id === ultimo?.momento);
-    retry.hidden = !seVa || idxPerdido < 0;
+    retry.hidden = !seVa || idxPerdido < 1;
     retry.textContent = momentoPerdido ? `Repetir desde ${momentoPerdido.nombre.toLowerCase()}` : '';
     retry.dataset.idx = String(idxPerdido);
 
     card.hidden = true;
     $('pz-end').hidden = false;
     $('pz-end').scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
-    track('pizzeria_final', { resultado: clave, hambre, postre });
+    track('pizzeria_final', { resultado: clave, estrellas: desenlace.estrellas, hambre, perfil: perfil.id, nivel: nivel.id });
   };
 
-  const empezar = (desde = 0) => {
+  // Partida nueva: cliente al azar y presentación antes del primer momento.
+  const nuevaPartida = () => {
     partida++;
+    pararReloj();
     escena.reset();
-    const foto = desde > 0 ? fotos[desde] : null;
-    hambre = foto?.hambre ?? 0;
-    marcas = new Set(foto?.marcas ?? []);
-    historial = [...(foto?.historial ?? [])];
-    interes = foto?.interes ?? '';
-    rotulo = foto?.rotulo ?? '';
+    perfil = azar(perfiles);
+    escena.perfil(perfil.id);
+    plan = elegirPlan();
+    hambre = 0;
+    marcas = new Set();
+    historial = [];
+    interes = '';
+    rotulo = '';
+    actual = 0;
+    fotos = [];
+    card.hidden = false;
+    $('pz-end').hidden = true;
+    $('pz-perfil-nombre').textContent = perfil.nombre;
+    $('pz-perfil-pizza').textContent = perfil.pizza;
+    $('pz-perfil-b2b').textContent = perfil.b2b;
+    $('pz-perfil-pista').textContent = perfil.pista;
+    fase('perfil');
+    escena.foco('calle');
+    escena.mover('cliente', POS.calle[0], POS.calle[1], { ms: 1800 });
+    stage.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: movil.matches ? 'start' : 'center' });
+    track('pizzeria_inicio', { perfil: perfil.id, nivel: nivel.id });
+  };
+
+  const jugar = () => {
+    fase('play');
+    renderMeter();
+    escena.humor(60);
+    renderMomento();
+  };
+
+  // Repetir desde un momento con el mismo cliente y los mismos planteamientos.
+  const repetir = (desde: number) => {
+    const foto = fotos[desde];
+    if (!foto) return nuevaPartida();
+    partida++;
+    pararReloj();
+    escena.reset();
+    escena.perfil(perfil.id);
+    hambre = foto.hambre;
+    marcas = new Set(foto.marcas);
+    historial = [...foto.historial];
+    interes = foto.interes;
+    rotulo = foto.rotulo;
     actual = desde;
-    if (!foto) fotos = [];
     card.hidden = false;
     $('pz-end').hidden = true;
     fase('play');
     renderMeter();
-    escena.humor(foto ? hambre : 60);
-
-    if (foto) {
-      // Recoloca la escena tal y como estaba al empezar ese momento.
-      if (rotulo) escena.rotulo(rotulo);
-      const hecho = (id: string) => historial.find((h) => h.momento === id);
-      const sitio = desde >= 2 ? POS.mesa : POS.calle;
-      escena.mover('cliente', sitio[0], sitio[1], { ms: 0 });
-      const espera = hecho('espera');
-      if (espera && espera.idx !== 2) escena.mostrar('aperitivo', true);
-      if (hecho('llamada') && desde < momentos.findIndex((m) => m.id === 'servicio')) {
-        escena.mover('camarero', POS.mesaCamarero[0], POS.mesaCamarero[1], { ms: 0 });
-      }
+    escena.humor(hambre);
+    if (rotulo) escena.rotulo(rotulo);
+    const sitio = desde >= 2 ? POS.mesa : POS.calle;
+    escena.mover('cliente', sitio[0], sitio[1], { ms: 0 });
+    if (desde >= 2) escena.sentar(true);
+    const hecho = (id: string) => historial.find((h) => h.momento === id);
+    if (hecho('espera')?.escena?.includes('aperitivo')) escena.mostrar('aperitivo', true);
+    const llamada = hecho('llamada');
+    const iServicio = momentos.findIndex((m) => m.id === 'servicio');
+    if (llamada && (llamada.escena?.includes('camarero') || llamada.texto === 'Pidió él solo') && desde < iServicio) {
+      escena.mover('camarero', POS.mesaCamarero[0], POS.mesaCamarero[1], { ms: 0 });
     }
     renderMomento();
     stage.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: movil.matches ? 'start' : 'center' });
-    track('pizzeria_inicio', { desde: momentos[desde].id });
+    track('pizzeria_repetir', { desde: momentos[desde].id, perfil: perfil.id, nivel: nivel.id });
   };
 
-  $('pz-start').addEventListener('click', () => empezar());
-  $('pz-restart').addEventListener('click', () => empezar());
-  $('pz-retry').addEventListener('click', (e) => empezar(Number((e.currentTarget as HTMLElement).dataset.idx)));
+  $('pz-start').addEventListener('click', nuevaPartida);
+  $('pz-perfil-ok').addEventListener('click', jugar);
+  $('pz-restart').addEventListener('click', nuevaPartida);
+  $('pz-retry').addEventListener('click', (e) => repetir(Number((e.currentTarget as HTMLElement).dataset.idx)));
   $('pz-next').addEventListener('click', siguiente);
 </script>
 
@@ -515,6 +748,7 @@ const breadcrumbLd = {
   }
   body.dark .pz-intro { color: rgba(232,232,232,0.65); }
   .pz-muted { opacity: 0.55; font-weight: 300; }
+  .pz-label { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; margin: 0.5rem 0 0.6rem; opacity: 0.7; }
 
   /* BOTONES */
   .pz-btn {
@@ -536,6 +770,41 @@ const breadcrumbLd = {
   .pz-btn--ghost { background: transparent; color: var(--blue); }
   body.dark .pz-btn--ghost { color: var(--blue-light); border-color: var(--blue-light); }
   .pz-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+
+  /* NIVELES */
+  .pz-niveles { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1.25rem; }
+  .pz-nivel {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.1rem 0.75rem;
+    align-items: baseline;
+    padding: 0.7rem 0.9rem;
+    border: 1px solid rgba(0,0,0,0.14);
+    border-radius: 8px;
+    background: var(--white);
+    color: var(--black);
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  body.dark .pz-nivel { background: var(--dark-bg); border-color: rgba(255,255,255,0.14); color: #e8e8e8; }
+  .pz-nivel strong { font-size: 0.88rem; font-weight: 600; }
+  .pz-nivel span { font-size: 0.78rem; font-weight: 300; line-height: 1.45; opacity: 0.75; grid-column: 2; grid-row: 1 / span 2; }
+  .pz-nivel small { font-size: 0.7rem; color: #b7791f; grid-column: 1; }
+  .pz-nivel:hover { border-color: var(--blue); }
+  .pz-nivel.is-on { border-color: var(--blue); background: rgba(0,74,173,0.08); box-shadow: inset 0 0 0 1px var(--blue); }
+  body.dark .pz-nivel.is-on { border-color: var(--blue-light); box-shadow: inset 0 0 0 1px var(--blue-light); }
+
+  .pz-pista {
+    font-size: 0.88rem;
+    line-height: 1.6;
+    padding: 0.75rem 0.9rem;
+    border-radius: 8px;
+    background: rgba(232,163,61,0.14);
+    margin-bottom: 1.2rem;
+  }
+  .pz-pista::before { content: 'Pista · '; font-weight: 600; color: #b7791f; }
 
   /* ESCENARIO 3D */
   .pz-stage {
@@ -577,6 +846,9 @@ const breadcrumbLd = {
   #pz-meter-fill[data-level='medio'] { background: #e8a33d; }
   #pz-meter-fill[data-level='bajo'] { background: #c8452f; }
   .pz-interest { font-size: 0.78rem; font-weight: 300; opacity: 0.75; margin-top: 0.45rem; }
+  .pz-impaciencia { font-size: 0.75rem; font-weight: 600; color: #c8452f; margin-top: 0.35rem; animation: pz-latido 1s ease-in-out infinite; }
+  .pz-impaciencia[hidden] { display: none; }
+  @keyframes pz-latido { 50% { opacity: 0.45; } }
 
   .pz-card {
     position: absolute;
@@ -609,6 +881,20 @@ const breadcrumbLd = {
     animation: pz-pop 0.3s ease;
   }
   .pz-bocadillo[hidden] { display: none; }
+  .pz-emote {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    font-size: 1.7rem;
+    line-height: 1;
+    pointer-events: none;
+    will-change: transform;
+    filter: drop-shadow(0 2px 3px rgba(0,0,0,0.25));
+  }
+  .pz-emote[hidden] { display: none; }
+  .pz-emote.is-pop { animation: pz-emote 0.5s ease; }
+  @keyframes pz-emote { 0% { scale: 0.3; opacity: 0; } 60% { scale: 1.25; opacity: 1; } 100% { scale: 1; } }
   .pz-bocadillo::after {
     content: '';
     position: absolute;
@@ -638,6 +924,7 @@ const breadcrumbLd = {
     margin-bottom: 0.9rem;
   }
   body.dark .pz-progress { color: rgba(232,232,232,0.55); }
+  .pz-chips { display: flex; flex-wrap: wrap; gap: 0.35rem; }
   .pz-chip {
     padding: 0.28rem 0.65rem;
     border-radius: 999px;
@@ -645,7 +932,9 @@ const breadcrumbLd = {
     color: var(--blue);
     letter-spacing: 0.04em;
   }
+  .pz-chip[hidden] { display: none; }
   body.dark .pz-chip { background: rgba(149,192,250,0.12); color: var(--blue-light); }
+  .pz-chip--evento, body.dark .pz-chip--evento { background: rgba(200,69,47,0.12); color: #c8452f; }
 
   .pz-question {
     font-family: 'Newsreader', serif;
@@ -675,8 +964,8 @@ const breadcrumbLd = {
   .pz-option:hover:not(:disabled) { border-color: var(--blue); transform: translateX(3px); }
   .pz-option:disabled { cursor: default; opacity: 0.45; }
   .pz-option.is-selected { opacity: 1; border-color: var(--blue); background: rgba(0,74,173,0.08); }
-  .pz-options.is-answered .pz-option:not(.is-selected) { display: none; }
   body.dark .pz-option.is-selected { border-color: var(--blue-light); }
+  .pz-options.is-answered .pz-option:not(.is-selected) { display: none; }
 
   .pz-feedback {
     margin-top: 1.1rem;
@@ -691,6 +980,7 @@ const breadcrumbLd = {
   body.dark .pz-verdict { color: var(--blue-light); }
   .pz-verdict[data-calidad='regular'] { color: #b7791f; }
   .pz-verdict[data-calidad='mal'] { color: #c8452f; }
+  .pz-verdict[data-calidad='neutral'] { color: inherit; opacity: 0.7; }
   .pz-lesson { font-size: 0.9rem; line-height: 1.65; margin-bottom: 0.9rem; }
   .pz-lesson-label { font-weight: 600; color: var(--blue); }
   body.dark .pz-lesson-label { color: var(--blue-light); }
@@ -699,6 +989,8 @@ const breadcrumbLd = {
   /* FINAL */
   .pz-end { max-width: 1100px; }
   .pz-end[hidden] { display: none; }
+  .pz-estrellas { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem 1rem; margin-bottom: 1rem; font-size: 0.85rem; opacity: 0.85; }
+  .pz-estrellas-iconos { font-size: 1.8rem; letter-spacing: 0.15em; color: #e8a33d; line-height: 1; }
   .pz-end-grid {
     display: grid;
     grid-template-columns: minmax(0, 300px) minmax(0, 1fr);
@@ -738,6 +1030,7 @@ const breadcrumbLd = {
   .pz-route { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 0.9rem; }
   .pz-route-head { font-size: 0.9rem; display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.2rem; }
   .pz-route-text { font-size: 0.88rem; font-weight: 300; line-height: 1.65; padding-left: 1.1rem; opacity: 0.8; }
+  .pz-route-b2b { font-size: 0.88rem; line-height: 1.65; padding-left: 1.1rem; margin-top: 0.2rem; }
   .pz-dot { width: 0.6rem; height: 0.6rem; border-radius: 50%; background: var(--blue); flex-shrink: 0; }
   .pz-route li[data-calidad='regular'] .pz-dot { background: #e8a33d; }
   .pz-route li[data-calidad='mal'] .pz-dot { background: #c8452f; }
@@ -788,6 +1081,6 @@ const breadcrumbLd = {
 
   @media (prefers-reduced-motion: reduce) {
     #pz-meter-fill { transition: none !important; }
-    .pz-ticket, .pz-feedback, .pz-bocadillo { animation: none !important; }
+    .pz-ticket, .pz-feedback, .pz-bocadillo, .pz-impaciencia, .pz-emote { animation: none !important; }
   }
 </style>
