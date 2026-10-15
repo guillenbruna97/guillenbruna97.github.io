@@ -92,6 +92,15 @@ export const GAMES: GameInfo[] = [
     meta: '12 preguntas · 3 minutos',
     cta: 'Empezar diagnóstico',
   },
+  {
+    slug: 'pizzeria-b2b',
+    name: 'La pizzería B2B',
+    tag: 'Proceso comercial',
+    excerpt: 'Acompaña a un cliente desde que ve tu anuncio en la calle hasta que pide el postre. Cada momento de la pizzería es una fase del proceso comercial B2B.',
+    hook: '¿En qué momento se te enfría el cliente?',
+    meta: '8 decisiones · 4 minutos',
+    cta: 'Abrir la pizzería',
+  },
 ];
 
 // Envío de los leads del autodiagnóstico al CRM (HubSpot gratuito) por
