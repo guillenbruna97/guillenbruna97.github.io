@@ -149,14 +149,13 @@ const breadcrumbLd = {
         <p class="pz-kicker">La fase donde más flaqueas</p>
         <p class="pz-debil-titulo" id="pz-debil-titulo"></p>
         <p id="pz-debil-texto"></p>
-        <p class="pz-debil-clave"><strong>La clave que se te escapa.</strong> <span id="pz-debil-clave"></span></p>
       </div>
 
       <div class="pz-informe-bloque">
         <div id="pz-lead">
           <p class="pz-kicker">Informe gratuito</p>
-          <h3 class="pz-informe-titulo">Consigue tu informe con el punto débil y cómo mejorarlo</h3>
-          <p class="pz-intro">Qué significa tu punto débil en una empresa B2B y tres acciones concretas para empezar esta semana. Lo ves al momento en esta misma página.</p>
+          <h3 class="pz-informe-titulo">Consigue tu informe completo, fase a fase</h3>
+          <p class="pz-intro">Arriba ves dónde flaqueas. El informe te explica por qué y qué hacer. Para cada fase débil, ordenadas por lo que más te cuesta, qué significa en una empresa B2B, la clave que se te escapa, por qué falló cada una de tus decisiones y tres acciones para empezar esta semana. Lo ves al momento en esta misma página.</p>
           <form id="pz-lead-form" class="pz-form" novalidate>
             <div class="pz-field">
               <label for="pz-f-nombre">Nombre</label>
@@ -191,9 +190,9 @@ const breadcrumbLd = {
         <div id="pz-informe" hidden>
           <p class="pz-kicker">Tu informe</p>
           <h3 class="pz-informe-titulo" id="pz-inf-titulo"></h3>
-          <p class="pz-inf-diag" id="pz-inf-diag"></p>
-          <p class="pz-label">Tres acciones para esta semana</p>
-          <ol class="pz-inf-pasos" id="pz-inf-pasos"></ol>
+          <p class="pz-inf-diag" id="pz-inf-resumen"></p>
+          <div id="pz-inf-fases"></div>
+          <p class="pz-inf-fuertes" id="pz-inf-fuertes" hidden></p>
           <p class="pz-inf-servicio" id="pz-inf-servicio"></p>
           <a class="pz-link" id="pz-inf-link" href="/servicios/pipeline/">Ver el servicio →</a>
         </div>
@@ -218,6 +217,7 @@ const breadcrumbLd = {
         <div>
           <h3 id="pz-route-titulo">Tu proceso comercial, fase a fase</h3>
           <ol class="pz-route" id="pz-route"></ol>
+          <p class="pz-route-nota" id="pz-route-nota">Por qué falló cada decisión y la clave de cada fase están en tu informe.</p>
         </div>
       </div>
 
@@ -327,7 +327,7 @@ const breadcrumbLd = {
   // Planteamientos que el jugador ha visto en sus últimas partidas. Al
   // elegir se descartan mientras queden otros, para que cada partida traiga
   // situaciones nuevas.
-  const VISTAS_MAX = 24;
+  const VISTAS_MAX = 40;
   let vistas = leer<string[]>('pz-vistas', []);
 
   // Elige un planteamiento por momento compatible con el perfil, con
@@ -526,7 +526,7 @@ const breadcrumbLd = {
 
   const leccion = (b2b: string) => {
     ($('pz-feedback').querySelector('.pz-lesson-label') as HTMLElement).hidden = !nivel.explicacion;
-    $('pz-lesson').textContent = nivel.explicacion ? b2b : 'La explicación de cada decisión la verás al final de la partida.';
+    $('pz-lesson').textContent = nivel.explicacion ? b2b : 'La explicación de cada decisión la tienes en el informe del final.';
   };
 
   const barajar = (n: number) => {
@@ -760,17 +760,10 @@ const breadcrumbLd = {
     head.append(nombre, b2b, etiqueta);
     return { head, estado };
   };
-  const claveFase = (m: Momento) => {
-    const p = document.createElement('p');
-    p.className = 'pz-route-clave';
-    const label = document.createElement('strong');
-    label.textContent = 'La clave.';
-    p.append(label, ` ${m.clave}`);
-    return p;
-  };
 
-  // Momento donde más interés se ha perdido sumando todos los clientes.
-  const puntoDebil = () => {
+  // Fases donde flaqueas o te quedas a medias, de la que más interés ha
+  // costado a la que menos, sumando todos los clientes.
+  const fasesDebiles = () => {
     const perdida = new Map<string, { suma: number; peor?: Paso }>();
     resultados.forEach((r) => r.historial.forEach((h) => {
       if (h.delta >= 0 && h.calidad === 'bien') return;
@@ -779,11 +772,12 @@ const breadcrumbLd = {
       if (!e.peor || h.delta < e.peor.delta) e.peor = h;
       perdida.set(h.momento, e);
     }));
-    const lista = [...perdida.entries()].sort((x, y) => x[1].suma - y[1].suma);
-    if (!lista.length) return null;
-    const [id, v] = lista[0];
-    return { id, suma: v.suma, paso: v.peor };
+    return [...perdida.entries()]
+      .filter(([id]) => ['flaqueas', 'medias'].includes(estadoFase(id)))
+      .sort((x, y) => x[1].suma - y[1].suma)
+      .map(([id, v]) => ({ id, suma: v.suma, paso: v.peor }));
   };
+  const puntoDebil = () => fasesDebiles()[0] ?? null;
 
   // Datos del final, también para la imagen del ticket.
   let finalActual: {
@@ -842,15 +836,13 @@ const breadcrumbLd = {
     $('pz-debil').hidden = !mDebil;
     if (mDebil) {
       $('pz-debil-titulo').textContent = `${mDebil.nombre} · ${mDebil.b2b}`;
-      $('pz-debil-texto').textContent = debil.paso?.b2b ?? '';
-      $('pz-debil-clave').textContent = mDebil.clave;
+      $('pz-debil-texto').textContent = (informes[mDebil.id] ?? informes.general).titulo + '.';
     }
 
     prepararInforme(mDebil ? mDebil.id : 'general');
 
-    // Recorrido. En la jornada se agrupa por momento con un punto por cliente.
-    // Recorrido por todas las fases, con su estado y, donde flaqueas o te
-    // quedas a medias, la clave que se te escapa.
+    // Recorrido por todas las fases con su estado. En la jornada lleva un
+    // punto por cliente. El porqué de cada fallo y las claves van en el informe.
     $('pz-route-titulo').textContent = enJornada ? 'Tu proceso comercial con cada cliente, fase a fase' : 'Tu proceso comercial, fase a fase';
     $('pz-route').replaceChildren(...momentos.map((m) => {
       const pasos = resultados.map((r) => r.historial.find((h) => h.momento === m.id));
@@ -868,14 +860,6 @@ const breadcrumbLd = {
       else if (enJornada) txt.textContent = estado === 'fuerte' ? 'Bien con todos los clientes.' : '';
       else txt.textContent = hechos[0].texto;
       if (txt.textContent) li.append(txt);
-      const lecciones = [...new Set(hechos.filter((x) => x.calidad !== 'bien' || !nivel.explicacion).map((x) => x.b2b))];
-      if (lecciones.length) {
-        const b = document.createElement('p');
-        b.className = 'pz-route-b2b';
-        b.textContent = lecciones.join(' ');
-        li.append(b);
-      }
-      if (estado === 'flaqueas' || estado === 'medias') li.append(claveFase(m));
       return li;
     }));
 
@@ -907,20 +891,80 @@ const breadcrumbLd = {
   let leadEnviado = leer<boolean>('pz-lead', false);
   let informeClave = 'general';
 
+  const el = <K extends keyof HTMLElementTagNameMap>(tag: K, clase: string, texto = '') => {
+    const e = document.createElement(tag);
+    if (clase) e.className = clase;
+    if (texto) e.textContent = texto;
+    return e;
+  };
+  const lista = (nombres: string[]) =>
+    nombres.length > 1 ? `${nombres.slice(0, -1).join(', ')} y ${nombres[nombres.length - 1]}` : nombres[0] ?? '';
+  const acciones = (pasos: string[]) => {
+    const ol = el('ol', 'pz-inf-pasos');
+    ol.append(...pasos.map((p) => el('li', '', p)));
+    return ol;
+  };
+
+  // El informe completo. Para cada fase débil, en orden de prioridad, qué
+  // significa en B2B, la clave, por qué falló cada decisión y tres acciones.
   const mostrarInforme = () => {
-    const inf = informes[informeClave] ?? informes.general;
-    $('pz-inf-titulo').textContent = inf.titulo;
-    $('pz-inf-diag').textContent = inf.diagnostico;
-    $('pz-inf-pasos').replaceChildren(...inf.pasos.map((paso) => {
-      const li = document.createElement('li');
-      li.textContent = paso;
-      return li;
-    }));
+    const debiles = fasesDebiles();
+    const fases = $('pz-inf-fases');
+    fases.replaceChildren();
+    if (!debiles.length) {
+      const inf = informes.general;
+      $('pz-inf-titulo').textContent = inf.titulo;
+      $('pz-inf-resumen').textContent = inf.diagnostico;
+      fases.append(el('p', 'pz-label', 'Tres acciones para esta semana'), acciones(inf.pasos));
+    } else {
+      const nF = debiles.filter((d) => estadoFase(d.id) === 'flaqueas').length;
+      const nM = debiles.length - nF;
+      const cuantas = (n: number) => (n === 1 ? 'una fase' : `${n} fases`);
+      const partes = [nF && `flaqueas en ${cuantas(nF)}`, nM && `te quedas a medias en ${cuantas(nM)}`].filter(Boolean).join(' y ');
+      $('pz-inf-titulo').textContent = debiles.length === 1
+        ? 'Tu plan para la fase donde pierdes clientes'
+        : `Tu plan para las ${debiles.length} fases donde pierdes clientes`;
+      $('pz-inf-resumen').textContent = `De las ${momentos.length} fases de tu proceso comercial, ${partes}. `
+        + (debiles.length > 1 ? 'Están ordenadas por lo que más interés te ha costado, así que empieza por la primera.' : 'Es la que más interés te ha costado.');
+      debiles.forEach((d, i) => {
+        const m = momentos.find((x) => x.id === d.id)!;
+        const inf = informes[m.id] ?? informes.general;
+        const estado = estadoFase(m.id);
+        const art = el('article', 'pz-inf-fase');
+        const head = el('h4', 'pz-inf-fase-head', `${i + 1}. ${m.nombre} · ${m.b2b}`);
+        const tag = el('span', 'pz-estado', ESTADOS[estado]);
+        tag.dataset.estado = estado;
+        head.append(tag);
+        const clave = el('p', 'pz-inf-clave');
+        clave.append(el('strong', '', 'La clave.'), ` ${m.clave}`);
+        art.append(head, el('p', 'pz-inf-sub', inf.titulo), el('p', 'pz-inf-diag', inf.diagnostico), clave);
+        // Las decisiones que fallaron en esta fase y por qué.
+        const fallos = resultados.flatMap((r) => r.historial.filter((h) => h.momento === m.id && (h.calidad !== 'bien' || h.delta < 0)));
+        const vistos = new Set<string>();
+        const ul = el('ul', 'pz-inf-fallos');
+        fallos.forEach((h) => {
+          if (vistos.has(h.texto)) return;
+          vistos.add(h.texto);
+          const li = el('li', '');
+          li.append(el('strong', '', `${h.texto}.`), ` ${h.b2b}`);
+          ul.append(li);
+        });
+        if (ul.children.length) art.append(el('p', 'pz-label', 'Lo que pasó en la pizzería'), ul);
+        art.append(el('p', 'pz-label', 'Tres acciones para esta semana'), acciones(inf.pasos));
+        fases.append(art);
+      });
+    }
+    const fuertes = momentos.filter((m) => estadoFase(m.id) === 'fuerte').map((m) => m.nombre.toLowerCase());
+    const fuertesEl = $('pz-inf-fuertes');
+    fuertesEl.hidden = !fuertes.length || !debiles.length;
+    fuertesEl.textContent = `Lo que ya haces bien. ${lista(fuertes).replace(/^./, (c) => c.toUpperCase())}. Mantenlo mientras trabajas el resto.`;
+    const inf = informes[debiles[0]?.id ?? 'general'] ?? informes.general;
     const nombre = servicios[inf.servicio] ?? 'Diagnóstico de Pipeline B2B';
     $('pz-inf-servicio').textContent = `Si quieres trabajarlo con ayuda, el servicio que encaja es ${nombre}.`;
     ($('pz-inf-link') as HTMLAnchorElement).href = `/servicios/${inf.servicio}/`;
     $('pz-lead').hidden = true;
     $('pz-informe').hidden = false;
+    $('pz-route-nota').hidden = true;
   };
 
   const prepararInforme = (clave: string) => {
@@ -928,6 +972,7 @@ const breadcrumbLd = {
     if (leadEnviado) return mostrarInforme();
     $('pz-lead').hidden = false;
     $('pz-informe').hidden = true;
+    $('pz-route-nota').hidden = false;
   };
 
   const enviarLead = async (datos: { nombre: string; empresa: string; email: string }, comercial: boolean) => {
@@ -941,6 +986,7 @@ const breadcrumbLd = {
     const detalle = [
       `Origen: La pizzería B2B (${modo === 'jornada' ? 'jornada completa' : 'partida rápida'}, nivel ${nivel.nombre.toLowerCase()})`,
       `Punto débil: ${mDebil ? `${mDebil.nombre} (${mDebil.b2b})` : 'ninguno'}`,
+      `Fases débiles por prioridad: ${fasesDebiles().map((d) => `${momentos.find((m) => m.id === d.id)?.nombre} (${ESTADOS[estadoFase(d.id)].toLowerCase()})`).join(', ') || 'ninguna'}`,
       `Estrellas: ${suma} de ${maxEstrellas()}`,
       `Consentimiento comercial: ${comercial ? 'sí' : 'no'}`,
       '',
@@ -1552,8 +1598,8 @@ const breadcrumbLd = {
   .pz-estado { margin-left: auto; font-size: 0.75rem; font-weight: 500; opacity: 0.7; white-space: nowrap; }
   .pz-estado[data-estado='flaqueas'] { color: #c8452f; opacity: 1; }
   .pz-estado[data-estado='medias'] { color: #b7791f; opacity: 1; }
-  .pz-route-clave { font-size: 0.88rem; line-height: 1.65; padding-left: 1.1rem; margin-top: 0.35rem; opacity: 0.8; }
-  .pz-route-clave strong { font-weight: 600; }
+  .pz-route-nota { font-size: 0.85rem; line-height: 1.6; margin-top: 1.2rem; opacity: 0.65; }
+  .pz-route-nota[hidden] { display: none; }
 
   .pz-debil {
     max-width: 720px;
@@ -1566,8 +1612,7 @@ const breadcrumbLd = {
   .pz-debil[hidden] { display: none; }
   .pz-debil .pz-kicker { color: #c8452f; margin-bottom: 0.4rem; }
   .pz-debil-titulo { font-family: 'Newsreader', serif; font-size: 1.35rem; line-height: 1.3; margin-bottom: 0.4rem; }
-  #pz-debil-texto, .pz-debil-clave { font-size: 0.92rem; line-height: 1.65; }
-  .pz-debil-clave { margin-top: 0.6rem; }
+  #pz-debil-texto { font-size: 0.92rem; line-height: 1.65; }
 
   .pz-informe-bloque {
     max-width: 720px;
@@ -1583,6 +1628,15 @@ const breadcrumbLd = {
   .pz-inf-pasos { padding-left: 1.2rem; margin-bottom: 1.2rem; }
   .pz-inf-pasos li { font-size: 0.93rem; line-height: 1.7; margin-bottom: 0.5rem; }
   .pz-inf-servicio { font-size: 0.92rem; line-height: 1.6; margin-bottom: 0.4rem; }
+  .pz-inf-fase { padding-top: 1.3rem; margin-top: 1.3rem; border-top: 1px solid rgba(128,128,128,0.25); }
+  .pz-inf-fase-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.5rem; font-size: 1rem; font-weight: 600; margin-bottom: 0.3rem; }
+  .pz-inf-sub { font-family: 'Newsreader', serif; font-size: 1.2rem; line-height: 1.35; margin-bottom: 0.5rem; }
+  .pz-inf-clave { font-size: 0.93rem; line-height: 1.65; margin-bottom: 1rem; }
+  .pz-inf-fallos { padding-left: 1.2rem; margin-bottom: 1rem; }
+  .pz-inf-fallos li { font-size: 0.9rem; line-height: 1.65; margin-bottom: 0.4rem; }
+  .pz-inf-fallos strong { font-weight: 600; }
+  .pz-inf-fuertes { font-size: 0.92rem; line-height: 1.65; margin: 1.3rem 0 1rem; padding-top: 1.3rem; border-top: 1px solid rgba(128,128,128,0.25); }
+  .pz-inf-fuertes[hidden] { display: none; }
 
   .pz-form { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem 1.1rem; margin-top: 1rem; }
   .pz-field { display: flex; flex-direction: column; gap: 0.35rem; }
