@@ -1594,6 +1594,35 @@ const breadcrumbLd = {
   body.dark .pz-option.is-selected { border-color: var(--blue-light); }
   .pz-options.is-answered .pz-option:not(.is-selected) { display: none; }
 
+  /* Durante la partida, preguntas y explicación son un cristal casi
+     transparente para que se vea el juego detrás. El desenfoque y un halo
+     suave en el texto mantienen la lectura. */
+  .pz-card[data-fase='play'], .pz-explica {
+    background: rgba(255,255,255,0.42);
+    -webkit-backdrop-filter: blur(5px) saturate(1.2);
+    backdrop-filter: blur(5px) saturate(1.2);
+    border-color: rgba(255,255,255,0.6);
+    box-shadow: 0 8px 24px rgba(0,30,80,0.1);
+  }
+  body.dark .pz-card[data-fase='play'], body.dark .pz-explica {
+    background: rgba(12,14,20,0.42);
+    border-color: rgba(255,255,255,0.14);
+  }
+  .pz-card[data-fase='play'] :is(.pz-question, .pz-progress), .pz-explica .pz-lesson {
+    text-shadow: 0 0 8px rgba(255,255,255,0.9), 0 0 2px rgba(255,255,255,0.9);
+  }
+  body.dark .pz-card[data-fase='play'] :is(.pz-question, .pz-progress), body.dark .pz-explica .pz-lesson {
+    text-shadow: 0 0 8px rgba(0,0,0,0.9), 0 0 2px rgba(0,0,0,0.9);
+  }
+  .pz-card[data-fase='play'] .pz-progress { color: rgba(0,0,0,0.7); }
+  body.dark .pz-card[data-fase='play'] .pz-progress { color: rgba(255,255,255,0.75); }
+  .pz-card[data-fase='play'] .pz-option { background: rgba(255,255,255,0.68); border-color: rgba(255,255,255,0.8); }
+  body.dark .pz-card[data-fase='play'] .pz-option { background: rgba(20,22,28,0.66); border-color: rgba(255,255,255,0.18); }
+  .pz-card[data-fase='play'] .pz-option:hover:not(:disabled) { background: rgba(255,255,255,0.88); border-color: var(--blue); }
+  body.dark .pz-card[data-fase='play'] .pz-option:hover:not(:disabled) { background: rgba(20,22,28,0.85); border-color: var(--blue-light); }
+  .pz-card[data-fase='play'] .pz-option.is-selected { background: rgba(255,255,255,0.88); border-color: var(--blue); }
+  body.dark .pz-card[data-fase='play'] .pz-option.is-selected { background: rgba(20,22,28,0.85); }
+
   /* Tarjeta de la explicación, a la izquierda de la de preguntas. */
   .pz-explica {
     position: absolute;
