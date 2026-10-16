@@ -100,7 +100,7 @@ const breadcrumbLd = {
         <div id="pz-dificultad" hidden>
           <p class="pz-paso">Paso 2 de 2</p>
           <h2 class="pz-question">¿Qué nivel quieres?</h2>
-          <p class="pz-intro">Vigila el hambre del cliente, que es su interés como lead. Si llega a cero, se levanta y se va.</p>
+          <p class="pz-intro">El hambre del cliente es su interés en comprarte. Si llega a cero, se levanta y se va.</p>
           <div class="pz-niveles" id="pz-niveles" aria-label="Nivel de dificultad"></div>
           <button type="button" class="pz-volver" id="pz-volver-modo">← Cambiar de modo</button>
         </div>
@@ -140,17 +140,14 @@ const breadcrumbLd = {
       </div>
     </div>
 
-    <div class="pz-head">
+    <div class="pz-head" id="pz-head">
       <p class="pz-kicker">Juego · 4 minutos</p>
       <h1>La pizzería B2B</h1>
       <p class="pz-sub">El juego que te ayuda a ver en qué fase de tu proceso comercial flaqueas y qué claves no estás viendo.</p>
     </div>
 
     <div class="pz-end" id="pz-end" hidden>
-      <p class="pz-kicker">Cierre de caja</p>
-      <h2 id="pz-end-title"></h2>
       <p class="pz-estrellas" id="pz-estrellas" aria-live="polite"></p>
-      <p class="pz-intro" id="pz-end-b2b"></p>
 
       <div class="pz-debil" id="pz-debil" hidden>
         <p class="pz-kicker">La fase donde más flaqueas</p>
@@ -161,8 +158,8 @@ const breadcrumbLd = {
       <div class="pz-informe-bloque">
         <div id="pz-lead">
           <p class="pz-kicker">Informe gratuito</p>
-          <h3 class="pz-informe-titulo">Consigue tu informe completo, fase a fase</h3>
-          <p class="pz-intro">Arriba ves dónde flaqueas. El informe te explica por qué y qué hacer. Para cada fase débil, ordenadas por lo que más te cuesta, qué significa en una empresa B2B, la clave que se te escapa, por qué falló cada una de tus decisiones y tres acciones para empezar esta semana. Lo ves al momento en esta misma página.</p>
+          <h3 class="pz-informe-titulo">Tus puntos fuertes y débiles, y qué hacer con ellos</h3>
+          <p class="pz-intro">Ya sabes dónde más flaqueas. El informe te explica por qué, fase a fase y por orden de prioridad, qué haces bien y tres acciones para empezar esta semana. Lo ves al momento en esta misma página.</p>
           <form id="pz-lead-form" class="pz-form" novalidate>
             <div class="pz-field">
               <label for="pz-f-nombre">Nombre</label>
@@ -221,16 +218,17 @@ const breadcrumbLd = {
           </div>
         </div>
 
-        <div>
-          <h3 id="pz-route-titulo">Tu proceso comercial, fase a fase</h3>
+        <!-- Plegado en móvil para no alargar la pantalla; abierto en escritorio. -->
+        <details class="pz-fases" id="pz-fases">
+          <summary id="pz-route-titulo">Tu proceso comercial, fase a fase</summary>
           <ol class="pz-route" id="pz-route"></ol>
           <p class="pz-route-nota" id="pz-route-nota">Por qué falló cada decisión y la clave de cada fase están en tu informe.</p>
-        </div>
+        </details>
       </div>
 
       <div class="pz-cta">
-        <p class="pz-cta-title">¿En qué fase flaquea el proceso comercial de tu empresa?</p>
-        <p class="pz-intro">En la pizzería se ve a simple vista. En tu empresa cuesta más, porque las fases se reparten entre marketing, ventas y quien entrega. El autodiagnóstico te ayuda a encontrarlo en 3 minutos, y si prefieres, lo vemos juntos en una llamada de 15.</p>
+        <p class="pz-cta-title">¿Y qué hay detrás de lo que notas en tus ventas?</p>
+        <p class="pz-intro">La pizzería te enseña dónde se enfrían los clientes. El autodiagnóstico mira tu empresa real, lo que notas en las ventas y qué lo provoca, y te da tus tres primeros pasos en 3 minutos. Si lo prefieres, lo vemos juntos en una llamada de 15.</p>
         <div class="pz-actions">
           <a href="/recursos/minijuegos/diagnostico-marketing/" class="pz-btn">Hacer el autodiagnóstico</a>
           <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" class="pz-btn pz-btn--ghost">Agenda 15 minutos</a>
@@ -447,8 +445,8 @@ const breadcrumbLd = {
   };
 
   const MODOS: { id: Modo; nombre: string; descripcion: string }[] = [
-    { id: 'rapida', nombre: 'Partida rápida', descripcion: 'Un cliente al azar. Unos 4 minutos.' },
-    { id: 'jornada', nombre: 'Jornada completa', descripcion: `${clientesJornada} clientes distintos seguidos y la caja del día. Unos 12 minutos.` },
+    { id: 'rapida', nombre: 'Un cliente', descripcion: 'Unos 4 minutos. Te toca un cliente al azar.' },
+    { id: 'jornada', nombre: 'Tres clientes seguidos', descripcion: 'Unos 12 minutos. Tres clientes distintos y la cuenta del día.' },
   ];
   const pintarModos = () => {
     $('pz-modos').replaceChildren(...MODOS.map((m) => {
@@ -469,9 +467,12 @@ const breadcrumbLd = {
     }));
   };
 
-  // El récord se guarda por modo y nivel (estrellas sobre 3 o sobre 9).
-  const claveRecord = () => (modo === 'jornada' ? 'pz-record-jornada' : 'pz-record');
-  const maxEstrellas = () => (modo === 'jornada' ? clientesJornada * 3 : 3);
+  // Estrellas de 0 a 5 según cuántas de las fases se resolvieron bien. Con
+  // varios clientes, la media. El récord se guarda por modo y nivel.
+  const ESTRELLAS = 5;
+  const estrellasDe = (h: Paso[]) => Math.round((h.filter((x) => x.calidad === 'bien').length / momentos.length) * ESTRELLAS);
+  const claveRecord = () => (modo === 'jornada' ? 'pz-record5-tres' : 'pz-record5');
+  const maxEstrellas = () => ESTRELLAS;
   const records = () => leer<Partial<Record<NivelId, number>>>(claveRecord(), {});
   const pintarNiveles = () => {
     const rec = records();
@@ -752,7 +753,7 @@ const breadcrumbLd = {
       ? `Se fue en ${momentoPerdido?.nombre.toLowerCase()}`
       : clave === 'recomienda' ? 'Reserva para cuatro la semana que viene' : clave === 'vuelve' ? 'Cliente que repite' : 'Primera y última visita';
     return {
-      perfil, clave, estrellas: desenlaces[clave].estrellas, lineas,
+      perfil, clave, estrellas: estrellasDe(historial), lineas,
       total: lineas.reduce((a, [, v]) => a + v, 0), historial: [...historial], nota,
     };
   };
@@ -784,7 +785,7 @@ const breadcrumbLd = {
   const entreClientes = (r: Resultado) => {
     $('pz-sig-kicker').textContent = `Cliente ${resultados.length} de ${clientesJornada} atendido`;
     $('pz-sig-titulo').textContent = desenlaces[r.clave].titulo;
-    $('pz-sig-estrellas').textContent = estrellasTexto(r.estrellas, 3);
+    $('pz-sig-estrellas').textContent = estrellasTexto(r.estrellas, ESTRELLAS);
     $('pz-sig-caja').textContent = `${r.perfil.nombre}. Caja de esta mesa, ${euros(r.total)}. ${r.nota}.`;
     fase('siguiente');
     card.scrollTop = 0;
@@ -848,11 +849,10 @@ const breadcrumbLd = {
   const pintarFinal = (seVa: boolean) => {
     const enJornada = modo === 'jornada';
     const ultimo = resultados[resultados.length - 1];
-    const suma = resultados.reduce((a, r) => a + r.estrellas, 0);
+    const suma = Math.round(resultados.reduce((a, r) => a + r.estrellas, 0) / resultados.length);
     const max = maxEstrellas();
-    const balance = enJornada ? jornada.find((j) => suma >= j.minimo)! : desenlaces[ultimo.clave];
-    $('pz-end-title').textContent = balance.titulo;
-    $('pz-end-b2b').textContent = balance.b2b;
+    // El titular del desenlace ya no sale en pantalla, solo en el ticket.
+    const balance = enJornada ? jornada.find((j) => suma * 9 / ESTRELLAS >= j.minimo)! : desenlaces[ultimo.clave];
 
     // Estrellas y récord por modo y nivel.
     const rec = records();
@@ -865,10 +865,13 @@ const breadcrumbLd = {
     icono.className = 'pz-estrellas-iconos';
     icono.textContent = estrellasTexto(suma, max);
     icono.setAttribute('aria-label', `${suma} de ${max} estrellas`);
+    const cifra = document.createElement('strong');
+    cifra.className = 'pz-estrellas-cifra';
+    cifra.textContent = `${suma} de ${max}`;
     const texto = document.createElement('span');
-    const quien = enJornada ? `Jornada de ${clientesJornada} clientes` : ultimo.perfil.nombre;
+    const quien = enJornada ? `${clientesJornada} clientes` : ultimo.perfil.nombre;
     texto.textContent = `Nivel ${nivel.nombre.toLowerCase()} · ${quien}${nuevo && antes != null ? ' · ¡Nuevo récord!' : ''}`;
-    estrellas.append(icono, texto);
+    estrellas.append(icono, cifra, texto);
 
     // Ticket: en la jornada, una línea por mesa.
     const lineas: [string, number][] = enJornada
@@ -877,7 +880,7 @@ const breadcrumbLd = {
     const total = lineas.reduce((a, [, v]) => a + v, 0);
     const vuelven = resultados.filter((r) => r.clave === 'recomienda' || r.clave === 'vuelve').length;
     const nota = enJornada ? `${vuelven} de ${clientesJornada} clientes volverán` : ultimo.nota;
-    const cabecera = enJornada ? `Jornada · nivel ${nivel.nombre.toLowerCase()}` : `Mesa 1 · ${ultimo.perfil.nombre}`;
+    const cabecera = enJornada ? `${clientesJornada} mesas · nivel ${nivel.nombre.toLowerCase()}` : `Mesa 1 · ${ultimo.perfil.nombre}`;
     $('pz-ticket-lines').replaceChildren(...lineas.map(([k, v]) => {
       const row = document.createElement('div');
       row.className = 'pz-ticket-line';
@@ -929,7 +932,7 @@ const breadcrumbLd = {
     retry.hidden = enJornada || !seVa || idxPerdido < 1;
     retry.textContent = idxPerdido >= 0 ? `Repetir desde ${momentos[idxPerdido].nombre.toLowerCase()}` : '';
     retry.dataset.idx = String(idxPerdido);
-    $('pz-restart').textContent = enJornada ? 'Empezar otra jornada' : 'Jugar con otro cliente';
+    $('pz-restart').textContent = enJornada ? 'Jugar con otros tres clientes' : 'Jugar con otro cliente';
 
     finalActual = {
       titulo: balance.titulo, estrellas: suma, max, lineas, total, nota, cabecera,
@@ -941,6 +944,9 @@ const breadcrumbLd = {
     $('pz-compartir').dataset.texto = textoCompartir;
 
     card.hidden = true;
+    // Al terminar no se repite la presentación del juego.
+    $('pz-head').hidden = true;
+    ($('pz-fases') as HTMLDetailsElement).open = !movil.matches;
     $('pz-end').hidden = false;
     $('pz-end').scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
     if (enJornada) track('pizzeria_jornada_final', { estrellas: suma, total, nivel: nivel.id });
@@ -1041,10 +1047,10 @@ const breadcrumbLd = {
       return;
     }
     const mDebil = momentos.find((m) => m.id === informeClave);
-    const suma = resultados.reduce((a, r) => a + r.estrellas, 0);
+    const suma = Math.round(resultados.reduce((a, r) => a + r.estrellas, 0) / Math.max(1, resultados.length));
     // Resumen legible en la ficha del contacto, lo más útil arriba.
     const detalle = [
-      `Origen: La pizzería B2B (${modo === 'jornada' ? 'jornada completa' : 'partida rápida'}, nivel ${nivel.nombre.toLowerCase()})`,
+      `Origen: La pizzería B2B (${modo === 'jornada' ? 'tres clientes' : 'un cliente'}, nivel ${nivel.nombre.toLowerCase()})`,
       `Punto débil: ${mDebil ? `${mDebil.nombre} (${mDebil.b2b})` : 'ninguno'}`,
       `Fases débiles por prioridad: ${fasesDebiles().map((d) => `${momentos.find((m) => m.id === d.id)?.nombre} (${ESTADOS[estadoFase(d.id)].toLowerCase()})`).join(', ') || 'ninguna'}`,
       `Estrellas: ${suma} de ${maxEstrellas()}`,
@@ -1249,6 +1255,7 @@ const breadcrumbLd = {
     actual = 0;
     fotos = [];
     card.hidden = false;
+    $('pz-head').hidden = false;
     $('pz-end').hidden = true;
     const kicker = modo === 'jornada' ? `Cliente ${resultados.length + 1} de ${clientesJornada} · Entra` : 'Hoy entra';
     ($('pz-perfil').querySelector('.pz-kicker') as HTMLElement).textContent = kicker;
@@ -1287,6 +1294,7 @@ const breadcrumbLd = {
     rotulo = foto.rotulo;
     actual = desde;
     card.hidden = false;
+    $('pz-head').hidden = false;
     $('pz-end').hidden = true;
     fase('play');
     $('pz-explica').hidden = true;
@@ -1594,34 +1602,24 @@ const breadcrumbLd = {
   body.dark .pz-option.is-selected { border-color: var(--blue-light); }
   .pz-options.is-answered .pz-option:not(.is-selected) { display: none; }
 
-  /* Durante la partida, preguntas y explicación son un cristal casi
-     transparente para que se vea el juego detrás. El desenfoque y un halo
-     suave en el texto mantienen la lectura. */
-  .pz-card[data-fase='play'], .pz-explica {
-    background: rgba(255,255,255,0.42);
-    -webkit-backdrop-filter: blur(5px) saturate(1.2);
-    backdrop-filter: blur(5px) saturate(1.2);
-    border-color: rgba(255,255,255,0.6);
-    box-shadow: 0 8px 24px rgba(0,30,80,0.1);
+  /* La explicación que sale al responder es translúcida para dejar ver el
+     juego. Las preguntas siguen opacas porque son lo principal. La
+     legibilidad la dan un fondo al 72 %, un desenfoque fuerte que borra el
+     detalle de detrás y texto de color sólido. */
+  .pz-explica {
+    background: rgba(255,255,255,0.72);
+    -webkit-backdrop-filter: blur(14px) saturate(1.3);
+    backdrop-filter: blur(14px) saturate(1.3);
+    border-color: rgba(255,255,255,0.7);
+    box-shadow: 0 8px 24px rgba(0,30,80,0.12);
+    color: #1a1a1a;
   }
-  body.dark .pz-card[data-fase='play'], body.dark .pz-explica {
-    background: rgba(12,14,20,0.42);
+  body.dark .pz-explica {
+    background: rgba(14,16,22,0.72);
     border-color: rgba(255,255,255,0.14);
+    color: #f0f0f0;
   }
-  .pz-card[data-fase='play'] :is(.pz-question, .pz-progress), .pz-explica .pz-lesson {
-    text-shadow: 0 0 8px rgba(255,255,255,0.9), 0 0 2px rgba(255,255,255,0.9);
-  }
-  body.dark .pz-card[data-fase='play'] :is(.pz-question, .pz-progress), body.dark .pz-explica .pz-lesson {
-    text-shadow: 0 0 8px rgba(0,0,0,0.9), 0 0 2px rgba(0,0,0,0.9);
-  }
-  .pz-card[data-fase='play'] .pz-progress { color: rgba(0,0,0,0.7); }
-  body.dark .pz-card[data-fase='play'] .pz-progress { color: rgba(255,255,255,0.75); }
-  .pz-card[data-fase='play'] .pz-option { background: rgba(255,255,255,0.68); border-color: rgba(255,255,255,0.8); }
-  body.dark .pz-card[data-fase='play'] .pz-option { background: rgba(20,22,28,0.66); border-color: rgba(255,255,255,0.18); }
-  .pz-card[data-fase='play'] .pz-option:hover:not(:disabled) { background: rgba(255,255,255,0.88); border-color: var(--blue); }
-  body.dark .pz-card[data-fase='play'] .pz-option:hover:not(:disabled) { background: rgba(20,22,28,0.85); border-color: var(--blue-light); }
-  .pz-card[data-fase='play'] .pz-option.is-selected { background: rgba(255,255,255,0.88); border-color: var(--blue); }
-  body.dark .pz-card[data-fase='play'] .pz-option.is-selected { background: rgba(20,22,28,0.85); }
+  .pz-explica .pz-lesson { font-weight: 500; }
 
   /* Tarjeta de la explicación, a la izquierda de la de preguntas. */
   .pz-explica {
@@ -1691,7 +1689,15 @@ const breadcrumbLd = {
   .pz-end { max-width: 1100px; }
   .pz-end[hidden] { display: none; }
   .pz-estrellas { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem 1rem; margin-bottom: 1rem; font-size: 0.85rem; opacity: 0.85; }
-  .pz-estrellas-iconos { font-size: 1.8rem; letter-spacing: 0.15em; color: #e8a33d; line-height: 1; }
+  .pz-estrellas-iconos { font-size: 2.2rem; letter-spacing: 0.12em; color: #e8a33d; line-height: 1; }
+  .pz-estrellas-cifra { font-size: 1.05rem; font-weight: 600; }
+  .pz-end { padding-top: 0.5rem; }
+  /* Recorrido por fases plegable. */
+  .pz-fases summary { font-size: 1rem; font-weight: 500; cursor: pointer; list-style: none; display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; }
+  .pz-fases summary::-webkit-details-marker { display: none; }
+  .pz-fases summary::after { content: '▾'; font-size: 0.85rem; opacity: 0.6; transition: transform 0.2s; }
+  .pz-fases:not([open]) summary::after { transform: rotate(-90deg); }
+  .pz-fases:not([open]) summary { padding: 0.85rem 1rem; border: 1px solid rgba(128,128,128,0.3); border-radius: 8px; margin-bottom: 0; }
   .pz-end-grid {
     display: grid;
     grid-template-columns: minmax(0, 300px) minmax(0, 1fr);
