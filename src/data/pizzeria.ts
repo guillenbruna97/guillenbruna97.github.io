@@ -110,7 +110,7 @@ export const NIVELES: Nivel[] = [
   {
     id: 'facil',
     nombre: 'Fácil',
-    descripcion: 'Ves el hambre exacta y la explicación de cada decisión.',
+    descripcion: 'Con ayudas. Ves cuánto interés tiene el cliente y por qué acierta o falla cada respuesta.',
     numero: true,
     explicacion: true,
     paciencia: null,
@@ -121,7 +121,7 @@ export const NIVELES: Nivel[] = [
   {
     id: 'normal',
     nombre: 'Normal',
-    descripcion: 'El cliente se impacienta si tardas en decidir y ya no ves el número exacto.',
+    descripcion: 'El cliente se impacienta si tardas en responder.',
     numero: false,
     explicacion: true,
     paciencia: { margen: 14, cada: 1.5 },
@@ -132,7 +132,7 @@ export const NIVELES: Nivel[] = [
   {
     id: 'dificil',
     nombre: 'Difícil',
-    descripcion: 'Se impacienta antes, los errores pesan más y las explicaciones las tienes en el informe final.',
+    descripcion: 'Sin ayudas y con menos paciencia. Sabrás cómo te ha ido al final.',
     numero: false,
     explicacion: false,
     paciencia: { margen: 8, cada: 1 },
