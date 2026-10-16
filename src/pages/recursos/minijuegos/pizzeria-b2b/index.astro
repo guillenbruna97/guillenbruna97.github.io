@@ -222,7 +222,7 @@ const breadcrumbLd = {
         <details class="pz-fases" id="pz-fases">
           <summary id="pz-route-titulo">Tu proceso comercial, fase a fase</summary>
           <ol class="pz-route" id="pz-route"></ol>
-          <p class="pz-route-nota" id="pz-route-nota">Por qué falló cada decisión y la clave de cada fase están en tu informe.</p>
+          <p class="pz-route-nota" id="pz-route-nota"><strong>Por qué falló cada decisión y la clave de cada fase están en tu informe.</strong> <a href="#pz-lead" class="pz-link">Conseguir mi informe ↑</a></p>
         </details>
       </div>
 
@@ -1602,11 +1602,11 @@ const breadcrumbLd = {
   body.dark .pz-option.is-selected { border-color: var(--blue-light); }
   .pz-options.is-answered .pz-option:not(.is-selected) { display: none; }
 
-  /* La explicación que sale al responder es translúcida para dejar ver el
-     juego. Las preguntas siguen opacas porque son lo principal. La
-     legibilidad la dan un fondo al 72 %, un desenfoque fuerte que borra el
-     detalle de detrás y texto de color sólido. */
-  .pz-explica {
+  /* Todas las tarjetas del juego son un cristal translúcido para ver la
+     escena detrás. La legibilidad la dan un fondo al 72 %, un desenfoque
+     fuerte que borra el detalle de detrás, texto de color sólido y botones
+     algo más opacos. */
+  .pz-card, .pz-explica {
     background: rgba(255,255,255,0.72);
     -webkit-backdrop-filter: blur(14px) saturate(1.3);
     backdrop-filter: blur(14px) saturate(1.3);
@@ -1614,12 +1614,23 @@ const breadcrumbLd = {
     box-shadow: 0 8px 24px rgba(0,30,80,0.12);
     color: #1a1a1a;
   }
-  body.dark .pz-explica {
+  body.dark .pz-card, body.dark .pz-explica {
     background: rgba(14,16,22,0.72);
     border-color: rgba(255,255,255,0.14);
     color: #f0f0f0;
   }
   .pz-explica .pz-lesson { font-weight: 500; }
+  .pz-card .pz-intro { color: #2a2a2a; }
+  body.dark .pz-card .pz-intro { color: #e4e4e4; }
+  .pz-card .pz-progress, .pz-card .pz-paso { color: #444; opacity: 1; }
+  body.dark .pz-card .pz-progress, body.dark .pz-card .pz-paso { color: #c8c8c8; }
+  .pz-card :is(.pz-option, .pz-nivel) { background: rgba(255,255,255,0.8); border-color: rgba(0,0,0,0.12); }
+  body.dark .pz-card :is(.pz-option, .pz-nivel) { background: rgba(24,26,32,0.8); border-color: rgba(255,255,255,0.16); }
+  .pz-card :is(.pz-option, .pz-nivel):hover:not(:disabled) { background: rgba(255,255,255,0.96); }
+  body.dark .pz-card :is(.pz-option, .pz-nivel):hover:not(:disabled) { background: rgba(24,26,32,0.96); }
+  .pz-card .pz-nivel span { opacity: 0.85; }
+  .pz-card .pz-option.is-selected { background: rgba(232,240,252,0.96); border-color: var(--blue); }
+  body.dark .pz-card .pz-option.is-selected { background: rgba(22,40,70,0.92); border-color: var(--blue-light); }
 
   /* Tarjeta de la explicación, a la izquierda de la de preguntas. */
   .pz-explica {
@@ -1747,7 +1758,12 @@ const breadcrumbLd = {
   .pz-estado { margin-left: auto; font-size: 0.75rem; font-weight: 500; opacity: 0.7; white-space: nowrap; }
   .pz-estado[data-estado='flaqueas'] { color: #c8452f; opacity: 1; }
   .pz-estado[data-estado='medias'] { color: #b7791f; opacity: 1; }
-  .pz-route-nota { font-size: 0.85rem; line-height: 1.6; margin-top: 1.2rem; opacity: 0.65; }
+  /* Nota gris que lleva al informe. */
+  .pz-route-nota { font-size: 0.95rem; line-height: 1.6; margin-top: 1.4rem; padding: 0.95rem 1.1rem; border-radius: 8px; background: var(--off-white); }
+  body.dark .pz-route-nota { background: var(--dark-surface); }
+  .pz-route-nota strong { font-weight: 600; }
+  .pz-route-nota .pz-link { display: inline-block; margin-top: 0.35rem; font-size: 0.9rem; }
+  #pz-lead { scroll-margin-top: 100px; }
   .pz-route-nota[hidden] { display: none; }
 
   .pz-debil {
