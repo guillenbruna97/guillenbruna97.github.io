@@ -36,6 +36,10 @@ export interface Escena {
   emocion(icono: string): void;
   // El cliente se come la pizza porción a porción.
   comer(): Promise<void>;
+  // Texto que sube y se desvanece sobre la cabeza del cliente (+20, -15…).
+  flotar(texto: string, tipo: 'bien' | 'regular' | 'mal'): void;
+  // La cámara se acerca un momento al cliente para que se vea su reacción.
+  primerPlano(ms?: number): void;
   reset(): void;
 }
 
@@ -96,7 +100,7 @@ const noop = async () => {};
 const vacia: Escena = {
   ok: false, mover: noop, foco() {}, mostrar() {}, rotulo() {}, humor() {},
   pizzaMal() {}, horno() {}, gente() {}, decir() {}, perfil() {}, sentar() {},
-  pose() {}, gesto() {}, emocion() {}, comer: noop, reset() {},
+  pose() {}, gesto() {}, emocion() {}, comer: noop, flotar() {}, primerPlano() {}, reset() {},
 };
 
 // Generador pseudoaleatorio con semilla, para que el barrio sea siempre igual.
@@ -1344,7 +1348,12 @@ export function crearEscena(
   const direccion = new THREE.Vector3(0.12, 0.62, 1).normalize();
   const objetivo = { x: FOCOS.intro[0], d: FOCOS.intro[1] };
   const actual = { ...objetivo };
+  let focoId = 'intro';
+  // Cada cambio de foco invalida la vuelta pendiente de un primer plano.
+  let turnoFoco = 0;
   const foco: Escena['foco'] = (id) => {
+    focoId = id;
+    turnoFoco++;
     const f = FOCOS[id] ?? FOCOS.intro;
     objetivo.x = f[0];
     objetivo.d = f[1];
@@ -1396,9 +1405,19 @@ export function crearEscena(
   };
   let hablando = false;
   let emoteHasta = 0;
+  // Textos flotantes: suben 60 px y se desvanecen en 1,6 s.
+  const flotantes: { el: HTMLElement; inicio: number }[] = [];
   const colocarOverlays = () => {
     const c = cliente.grupo.position;
     const altura = cliente.sentado ? 1.72 : 2.05;
+    for (let i = flotantes.length - 1; i >= 0; i--) {
+      const f = flotantes[i];
+      const e = (t - f.inicio) / 1.6;
+      if (e >= 1) { f.el.remove(); flotantes.splice(i, 1); continue; }
+      const [x, y] = aPantalla(c.x + 0.35, altura + 0.1, c.z);
+      f.el.style.transform = `translate(${x}px, ${y - e * 60}px) translate(-50%, -100%) scale(${0.8 + Math.min(e * 4, 1) * 0.3})`;
+      f.el.style.opacity = String(e < 0.7 ? 1 : 1 - (e - 0.7) / 0.3);
+    }
     if (hablando) {
       const [x, y] = aPantalla(c.x, altura, c.z);
       const w = bocadillo.offsetWidth;
@@ -1633,6 +1652,28 @@ export function crearEscena(
         p.g.visible = false;
       }
     },
+    flotar(texto, tipo) {
+      const el = document.createElement('div');
+      el.className = 'pz-flota';
+      el.dataset.tipo = tipo;
+      el.textContent = texto;
+      el.setAttribute('aria-hidden', 'true');
+      contenedor.append(el);
+      flotantes.push({ el, inicio: t });
+      colocarOverlays();
+    },
+    primerPlano(ms = 1300) {
+      if (quieto) return;
+      const turno = ++turnoFoco;
+      objetivo.x = cliente.grupo.position.x;
+      objetivo.d = (FOCOS[focoId] ?? FOCOS.intro)[1] * 0.75;
+      setTimeout(() => {
+        if (turno !== turnoFoco) return;
+        const f = FOCOS[focoId] ?? FOCOS.intro;
+        objetivo.x = f[0];
+        objetivo.d = f[1];
+      }, ms);
+    },
     decir(texto) {
       hablando = !!texto;
       bocadillo.hidden = !texto;
@@ -1649,6 +1690,7 @@ export function crearEscena(
       gentePendiente = 0;
       escena.decir(null);
       emote.hidden = true;
+      flotantes.splice(0).forEach((f) => f.el.remove());
       textoCartel = ['Abrimos', 'hoy'];
       pizarra.repintar();
       cliente.sentado = false;
