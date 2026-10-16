@@ -91,14 +91,21 @@ const breadcrumbLd = {
       </aside>
 
       <div class="pz-card pz-glass" id="pz-card" data-fase="intro">
+        <!-- Inicio en dos pantallas: modo y luego dificultad. Al elegir la
+             dificultad empieza la partida. -->
         <div id="pz-intro">
-          <p class="pz-intro">Atiende a un cliente desde que ve tu cartel en la calle hasta que pide el postre. Cada momento es una fase de tu proceso comercial B2B y al final verás en cuál flaqueas y qué claves se te escapan.</p>
-          <p class="pz-intro">Decide como lo harías en tu empresa. Cada partida entra un cliente distinto y las situaciones cambian. Vigila su hambre, porque si llega a cero se levanta y se va.</p>
-          <p class="pz-label">Elige el modo</p>
-          <div class="pz-niveles pz-modos" id="pz-modos" role="radiogroup" aria-label="Modo de juego"></div>
-          <p class="pz-label">Elige el nivel</p>
-          <div class="pz-niveles" id="pz-niveles" role="radiogroup" aria-label="Nivel de dificultad"></div>
-          <button type="button" class="pz-btn" id="pz-start">Abrir la pizzería</button>
+          <p class="pz-paso">Paso 1 de 2</p>
+          <h2 class="pz-question">¿Cuánto tiempo tienes?</h2>
+          <p class="pz-intro">Atiende a un cliente desde el cartel de la calle hasta el postre. Cada momento es una fase de tu proceso comercial B2B y al final verás en cuál flaqueas.</p>
+          <div class="pz-niveles pz-modos" id="pz-modos" aria-label="Modo de juego"></div>
+        </div>
+
+        <div id="pz-dificultad" hidden>
+          <p class="pz-paso">Paso 2 de 2</p>
+          <h2 class="pz-question">¿Qué nivel quieres?</h2>
+          <p class="pz-intro">Vigila el hambre del cliente, que es su interés como lead. Si llega a cero, se levanta y se va.</p>
+          <div class="pz-niveles" id="pz-niveles" aria-label="Nivel de dificultad"></div>
+          <button type="button" class="pz-volver" id="pz-volver-modo">← Cambiar de modo</button>
         </div>
 
         <div id="pz-perfil" hidden>
@@ -433,34 +440,33 @@ const breadcrumbLd = {
   };
 
   // ── Interfaz ────────────────────────────────────────────────────────
-  const fases = { intro: $('pz-intro'), perfil: $('pz-perfil'), play: $('pz-play'), siguiente: $('pz-siguiente'), closing: $('pz-closing') };
+  const fases = { intro: $('pz-intro'), dificultad: $('pz-dificultad'), perfil: $('pz-perfil'), play: $('pz-play'), siguiente: $('pz-siguiente'), closing: $('pz-closing') };
   const fase = (name: keyof typeof fases) => {
     Object.entries(fases).forEach(([k, el]) => (el.hidden = k !== name));
     card.dataset.fase = name;
-    $('pz-hud').hidden = name === 'intro' || name === 'perfil' || name === 'siguiente';
+    $('pz-hud').hidden = name === 'intro' || name === 'dificultad' || name === 'perfil' || name === 'siguiente';
     if (name !== 'play' && name !== 'closing') $('pz-explica').hidden = true;
     card.scrollTop = 0;
   };
 
   const MODOS: { id: Modo; nombre: string; descripcion: string }[] = [
-    { id: 'rapida', nombre: 'Partida rápida', descripcion: 'Un cliente, unos 4 minutos.' },
+    { id: 'rapida', nombre: 'Partida rápida', descripcion: 'Un cliente al azar. Unos 4 minutos.' },
     { id: 'jornada', nombre: 'Jornada completa', descripcion: `${clientesJornada} clientes distintos seguidos y la caja del día. Unos 12 minutos.` },
   ];
   const pintarModos = () => {
     $('pz-modos').replaceChildren(...MODOS.map((m) => {
       const btn = document.createElement('button');
       btn.type = 'button';
-      btn.className = 'pz-nivel' + (m.id === modo ? ' is-on' : '');
-      btn.setAttribute('role', 'radio');
-      btn.setAttribute('aria-checked', String(m.id === modo));
+      btn.className = 'pz-nivel pz-eleccion';
       btn.innerHTML = '<strong></strong><span></span><small></small>';
       btn.querySelector('strong')!.textContent = m.nombre;
       btn.querySelector('span')!.textContent = m.descripcion;
       btn.addEventListener('click', () => {
         modo = m.id;
         guardar('pz-modo', m.id);
-        pintarModos();
         pintarNiveles();
+        fase('dificultad');
+        track('pizzeria_modo', { modo });
       });
       return btn;
     }));
@@ -475,9 +481,7 @@ const breadcrumbLd = {
     $('pz-niveles').replaceChildren(...niveles.map((n) => {
       const btn = document.createElement('button');
       btn.type = 'button';
-      btn.className = 'pz-nivel' + (n.id === nivel.id ? ' is-on' : '');
-      btn.setAttribute('role', 'radio');
-      btn.setAttribute('aria-checked', String(n.id === nivel.id));
+      btn.className = 'pz-nivel pz-eleccion';
       const r = rec[n.id];
       btn.innerHTML = '<strong></strong><span></span><small></small>';
       btn.querySelector('strong')!.textContent = n.nombre;
@@ -486,7 +490,7 @@ const breadcrumbLd = {
       btn.addEventListener('click', () => {
         nivel = n;
         guardar('pz-nivel', n.id);
-        pintarNiveles();
+        nuevaPartida();
       });
       return btn;
     }));
@@ -1279,7 +1283,7 @@ const breadcrumbLd = {
     track('pizzeria_repetir', { desde: momentos[desde].id, perfil: perfil.id, nivel: nivel.id });
   };
 
-  $('pz-start').addEventListener('click', () => nuevaPartida());
+  $('pz-volver-modo').addEventListener('click', () => fase('intro'));
   $('pz-perfil-ok').addEventListener('click', jugar);
   $('pz-sig-ok').addEventListener('click', () => nuevaPartida(true));
   $('pz-restart').addEventListener('click', () => nuevaPartida());
@@ -1443,8 +1447,16 @@ const breadcrumbLd = {
     z-index: 2;
   }
   .pz-card[hidden] { display: none; }
-  #pz-intro .pz-intro { font-size: 0.9rem; line-height: 1.6; margin-bottom: 0.75rem; }
-  #pz-intro .pz-niveles { margin-bottom: 0.9rem; }
+  :is(#pz-intro, #pz-dificultad) .pz-intro { font-size: 0.9rem; line-height: 1.6; margin-bottom: 1.1rem; }
+  :is(#pz-intro, #pz-dificultad) .pz-niveles { margin-bottom: 0; gap: 0.6rem; }
+  .pz-paso { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; opacity: 0.55; margin-bottom: 0.5rem; }
+  /* Cada opción del inicio es un botón que avanza: flecha a la derecha. */
+  .pz-eleccion { grid-template-columns: auto 1fr auto; padding: 0.9rem 1rem; }
+  .pz-eleccion::after { content: '→'; grid-column: 3; grid-row: 1 / span 2; align-self: center; color: var(--blue); transition: transform 0.15s; }
+  body.dark .pz-eleccion::after { color: var(--blue-light); }
+  .pz-eleccion:hover::after { transform: translateX(3px); }
+  .pz-volver { margin-top: 1rem; padding: 0.3rem 0; border: 0; background: none; color: inherit; font: inherit; font-size: 0.8rem; opacity: 0.6; cursor: pointer; }
+  .pz-volver:hover { opacity: 1; color: var(--blue); }
 
   .pz-bocadillo {
     position: absolute;
@@ -1775,10 +1787,12 @@ const breadcrumbLd = {
       padding: 1.1rem;
     }
     /* En el inicio y entre clientes la escena importa menos: más sitio al texto. */
-    .pz-card:is([data-fase='intro'], [data-fase='perfil'], [data-fase='siguiente']) { max-height: 80%; }
-    #pz-intro .pz-intro + .pz-intro { display: none; }
+    .pz-card:is([data-fase='intro'], [data-fase='dificultad'], [data-fase='perfil'], [data-fase='siguiente']) { max-height: 80%; }
     .pz-nivel { grid-template-columns: 1fr; padding: 0.6rem 0.8rem; }
     .pz-nivel span, .pz-nivel small { grid-column: 1; grid-row: auto; }
+    .pz-eleccion { grid-template-columns: 1fr auto; padding: 0.8rem 0.9rem; }
+    #pz-dificultad .pz-intro { display: none; }
+    .pz-eleccion::after { grid-column: 2; grid-row: 1 / span 3; }
     .pz-question { font-size: 1.2rem; margin-bottom: 0.9rem; }
     .pz-option { padding: 0.7rem 0.85rem; font-size: 0.85rem; }
     .pz-end-grid { grid-template-columns: 1fr; gap: 2rem; }
