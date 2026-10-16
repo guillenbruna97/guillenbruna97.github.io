@@ -52,8 +52,6 @@ const breadcrumbLd = {
   <script type="application/json" id="diag-data" set:html={JSON.stringify(config)} />
 
   <section class="diag" aria-live="polite">
-    <a href="/recursos/minijuegos/" class="diag-back">← Minijuegos</a>
-
     <div class="diag-screen" id="screen-start">
       <p class="diag-kicker">Autodiagnóstico · 3 minutos</p>
       <h1>Diagnóstico de marketing para directivos</h1>
@@ -425,17 +423,6 @@ const breadcrumbLd = {
     min-height: 70vh;
   }
 
-  .diag-back {
-    display: inline-block;
-    font-size: 0.78rem;
-    color: rgba(0,0,0,0.5);
-    text-decoration: none;
-    margin-bottom: 2.5rem;
-    transition: color var(--transition);
-  }
-  body.dark .diag-back { color: rgba(232,232,232,0.5); }
-  .diag-back:hover { color: var(--blue); }
-  body.dark .diag-back:hover { color: var(--blue-light); }
 
   .diag-kicker {
     font-size: 0.7rem;
