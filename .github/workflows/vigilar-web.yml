@@ -1,0 +1,45 @@
+name: Vigilar la web
+
+# Cada día revisa la web publicada (scripts/vigilar-web.mjs). Si algo falla,
+# abre un aviso en Issues (o comenta en el que ya esté abierto) para que
+# Guillén apruebe el arreglo; no cambia nada de la web por su cuenta.
+on:
+  schedule:
+    - cron: "0 7 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  vigilar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Revisar la web
+        id: revision
+        run: |
+          set +e
+          node scripts/vigilar-web.mjs > informe.txt
+          echo "fallo=$?" >> "$GITHUB_OUTPUT"
+          cat informe.txt
+      - name: Avisar si hay problemas
+        if: steps.revision.outputs.fallo != '0'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh label create vigilancia-web --color d93f0b --description "Avisos de vigilar-web" 2>/dev/null || true
+          abierto=$(gh issue list --label vigilancia-web --state open --json number --jq '.[0].number')
+          if [ -n "$abierto" ]; then
+            # Solo comenta si el informe ha cambiado desde el último aviso.
+            ultimo=$(gh issue view "$abierto" --json body,comments --jq '(.comments | last | .body) // .body')
+            if [ "$(echo "$ultimo" | tr -d '[:space:]')" != "$(tr -d '[:space:]' < informe.txt)" ]; then
+              gh issue comment "$abierto" --body-file informe.txt
+            fi
+          else
+            gh issue create --label vigilancia-web --title "La vigilancia de la web ha encontrado problemas" --body-file informe.txt
+          fi

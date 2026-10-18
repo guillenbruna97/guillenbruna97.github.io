@@ -61,7 +61,12 @@ export default defineConfig({
   },
   integrations: [
     sitemap({
-      filter: (page) => !(new URL(page).pathname in categoryRedirects),
+      // Fuera también las páginas 2, 3… de los listados: llevan noindex y
+      // Search Console marca como error las URLs del sitemap con noindex.
+      filter: (page) => {
+        const { pathname } = new URL(page);
+        return !(pathname in categoryRedirects) && !/\/\d+\/$/.test(pathname);
+      },
       serialize(item) {
         const lastmod = articleLastmod.get(new URL(item.url).pathname);
         if (lastmod) item.lastmod = new Date(lastmod).toISOString();
