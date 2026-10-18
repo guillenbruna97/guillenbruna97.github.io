@@ -42,3 +42,32 @@ jobs:
     steps:
       - uses: actions/deploy-pages@v4
         id: deployment
+
+  # Tras publicar, avisa a Bing por IndexNow de las páginas cambiadas y reenvía
+  # el sitemap a Google (marca-personal/seo-geo/scripts/avisar-buscadores.mjs).
+  # Si falla, la web ya está publicada: solo se pierde el aviso.
+  avisar-buscadores:
+    needs: deploy
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: portfolio
+          fetch-depth: 0
+      - uses: actions/checkout@v4
+        with:
+          repository: guillenbruna97/marca-personal
+          path: marca-personal
+          token: ${{ secrets.REPOS_TOKEN }}
+          sparse-checkout: seo-geo/scripts
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Avisar a Bing (IndexNow) y a Google (sitemap)
+        env:
+          GSC_SERVICE_ACCOUNT_JSON: ${{ secrets.GSC_SERVICE_ACCOUNT_JSON }}
+          PORTFOLIO_DIR: ${{ github.workspace }}/portfolio
+        run: |
+          cambios=$(git -C portfolio diff --name-only "${{ github.event.before }}" "${{ github.sha }}" || true)
+          node marca-personal/seo-geo/scripts/avisar-buscadores.mjs $cambios
