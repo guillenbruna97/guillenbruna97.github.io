@@ -26,7 +26,7 @@ Existe una distinción fundamental entre el marketing de activación y el market
 
 Sin embargo, el marketing de marca opera en una dimensión temporal diferente. Su propósito es construir reconocimiento, preferencia y confianza a lo largo del tiempo. No busca la venta puntual, sino la lealtad recurrente; no la atención efímera, sino la conexión emocional y la reputación sólida. Se invierte en la narrativa de la marca, en sus valores, en su posicionamiento en la mente del consumidor como una opción superior y fiable. ¿Cuántas marcas exitosas se han cimentado exclusivamente en descuentos y promociones fugaces? La respuesta es reveladora.
 
-Muchas empresas, bajo la exigencia de resultados trimestrales o la ansiedad de la competencia, caen en la tentación de priorizar casi exclusivamente las estrategias de activación. Esto las condena a un ciclo de gasto constante, donde cada nuevo pico de ventas requiere una nueva inyección de inversión promocional. La marca, en lugar de acumular valor, se convierte en un mero vehículo para ofertas, diluyendo su identidad y su capacidad de diferenciación.
+Muchas empresas, bajo la exigencia de resultados trimestrales o la ansiedad de la competencia, caen en la tentación de priorizar casi exclusivamente las estrategias de activación. Esto las condena a un ciclo de gasto constante, donde cada nuevo pico de ventas requiere una nueva inyección de inversión promocional. La marca, en lugar de acumular valor, se convierte en un mero vehículo para ofertas, diluyendo su identidad y su [capacidad de diferenciación](/articulos/diferenciar-marca-pyme-b2b/).
 
 ## El ciclo de gasto infinito sin activo duradero
 
