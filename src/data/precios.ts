@@ -147,7 +147,8 @@ export interface PrecioWeb {
 }
 
 export const PRECIOS_WEBS_NEGOCIOS: PrecioWeb[] = [
-  { slug: 'web', nombre: 'Web', precio: 1600, unidad: 'pago único', seOfrece: true,
+  { slug: 'web', nombre: 'Web', precio: 1200, unidad: 'pago único', seOfrece: true,
+    nota: 'Precio de partida para las tres primeras clínicas (2026-10-19): en la llamada se pregunta antes cuánto pensaban invertir y se ajusta con esas respuestas',
     incluye: 'Web con la identidad del negocio, textos SEO y GEO, sección de blog, sesión de fotos y vídeo en la entrega, ficha de Google puesta a punto y enlazada, 30 días de ajustes y guía para dejar dominio y alojamiento a su nombre' },
   { slug: 'blog-2', nombre: 'Blog 2', precio: 320, unidad: 'al mes', seOfrece: true,
     incluye: '2 artículos al mes sobre búsquedas reales (900-1.200 palabras, FAQ con schema, enlaces internos, imagen y publicación) + informe mensual. Mantenimiento incluido' },
