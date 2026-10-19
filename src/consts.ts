@@ -76,8 +76,11 @@ export interface GameInfo {
   name: string;
   tag: string;
   excerpt: string;
-  // Frase grande de la cabecera de la tarjeta (hace de "portada").
-  hook: string;
+  // Portada: la tarjeta de /recursos/minijuegos/ la pinta optimizada desde
+  // src/assets/minijuegos/ y la página del juego la usa como imagen OG
+  // (URL pública en public/images/minijuegos/).
+  image: string;
+  imageAlt: string;
   meta: string;
   cta: string;
 }
@@ -88,7 +91,8 @@ export const GAMES: GameInfo[] = [
     name: 'Diagnóstico de marketing para directivos',
     tag: 'Autodiagnóstico',
     excerpt: 'Doce preguntas sobre cómo vende hoy tu empresa. Descubre qué hay detrás de lo que notas en las ventas y cuáles son tus tres primeros pasos.',
-    hook: '¿Cuál de estas frases has dicho o pensado este año?',
+    image: '/images/minijuegos/diagnostico-marketing.jpg',
+    imageAlt: 'Ilustración de un directivo que ausculta con un estetoscopio un bocadillo de diálogo, como metáfora del diagnóstico de marketing',
     meta: '12 preguntas · 3 minutos',
     cta: 'Empezar diagnóstico',
   },
@@ -97,7 +101,8 @@ export const GAMES: GameInfo[] = [
     name: 'La pizzería B2B',
     tag: 'Proceso comercial',
     excerpt: 'El juego que te ayuda a ver en qué fase de tu proceso comercial flaqueas. Atiende a un cliente del cartel de la calle al postre y descubre qué claves se te escapan.',
-    hook: '¿En qué fase de tu proceso comercial flaqueas?',
+    image: '/images/minijuegos/pizzeria-b2b.jpg',
+    imageAlt: 'Ilustración de un pizzero que ve caer una porción de la pizza, como metáfora de la fase del proceso comercial que se escapa',
     meta: '3 niveles · 4 minutos',
     cta: 'Abrir la pizzería',
   },
