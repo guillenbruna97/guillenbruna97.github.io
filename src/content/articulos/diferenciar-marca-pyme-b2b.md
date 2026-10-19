@@ -6,6 +6,8 @@ excerpt: "Estrategias prácticas para que tu pyme B2B escape de la guerra de pre
 description: "Aprende a diferenciar la marca de una pyme B2B saliendo de la guerra de precios y conectando con las prioridades reales del comité."
 date: 2026-10-19
 readingTime: "4 min de lectura"
+image: "/images/articulos/diferenciar-marca-pyme-b2b.jpg"
+imageAlt: "Ilustración de portada sobre cómo diferenciar la marca de una pyme B2B: la pieza clave que distingue al conjunto"
 service: "posicionamiento"
 faqs:
   - question: "¿Por qué una pyme B2B termina compitiendo siempre por precio?"
