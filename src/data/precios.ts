@@ -127,3 +127,60 @@ export const diagnosticoVigente = () =>
 export const precioDe = (slug: string) => vigente(getPrecio(slug)!);
 
 export const euros = (n: number) => `${n.toLocaleString('es-ES', { useGrouping: 'always' } as Intl.NumberFormatOptions)} €`;
+
+// Línea «GBT Guillén Bruna»: webs para negocios locales (fisios primero).
+// Decidida por Dirección el 2026-10-19. Uso interno y para propuestas: ninguna
+// página de esta web la importa. Euros sin IVA. Sin precio de lanzamiento.
+// Dominio y alojamiento los gestiona el cliente (se le recomienda dominio .es en
+// DonDominio y alojamiento gratis en Cloudflare); si lo gestiona Guillén, es el
+// mantenimiento. Lo que se empuja: web, blog y redes. El resto del
+// posicionamiento se hace bajo pedido.
+export interface PrecioWeb {
+  slug: string;
+  nombre: string;
+  precio: number;
+  unidad: 'pago único' | 'al mes' | 'por unidad';
+  incluye: string;
+  /** false = no se ofrece de entrada, solo si el cliente lo pide. */
+  seOfrece: boolean;
+  nota?: string;
+}
+
+export const PRECIOS_WEBS_NEGOCIOS: PrecioWeb[] = [
+  { slug: 'web', nombre: 'Web', precio: 1600, unidad: 'pago único', seOfrece: true,
+    incluye: 'Web con la identidad del negocio, textos SEO y GEO, sección de blog, sesión de fotos y vídeo en la entrega, ficha de Google puesta a punto y enlazada, 30 días de ajustes y guía para dejar dominio y alojamiento a su nombre' },
+  { slug: 'blog-2', nombre: 'Blog 2', precio: 320, unidad: 'al mes', seOfrece: true,
+    incluye: '2 artículos al mes sobre búsquedas reales (900-1.200 palabras, FAQ con schema, enlaces internos, imagen y publicación) + informe mensual. Mantenimiento incluido' },
+  { slug: 'blog-4', nombre: 'Blog 4', precio: 580, unidad: 'al mes', seOfrece: true,
+    incluye: '4 artículos al mes + informe mensual. Mantenimiento incluido', nota: 'Para centros con varios servicios que posicionar' },
+  { slug: 'redes', nombre: 'Redes sociales', precio: 490, unidad: 'al mes', seOfrece: true,
+    incluye: '1 vídeo, 1 carrusel y 1 historia a la semana, con un rodaje de 3-4 horas en el centro cada 2 meses (8 vídeos por rodaje). Mantenimiento incluido' },
+  { slug: 'articulo', nombre: 'Artículo suelto', precio: 140, unidad: 'por unidad', seOfrece: true,
+    incluye: 'Un artículo de blog publicado, sin informe' },
+  { slug: 'informe', nombre: 'Informe mensual', precio: 60, unidad: 'al mes', seOfrece: true,
+    incluye: 'Posiciones, visitas, llamadas y reservas desde la web, y qué hacer el mes siguiente', nota: 'Solo junto al blog' },
+  { slug: 'rodaje-extra', nombre: 'Rodaje extra', precio: 150, unidad: 'por unidad', seOfrece: true,
+    incluye: 'Una visita de grabación fuera del calendario de cada 2 meses' },
+  { slug: 'mantenimiento', nombre: 'Mantenimiento web', precio: 120, unidad: 'al mes', seOfrece: true,
+    incluye: 'Dominio, alojamiento, avisos de renovación y hasta un cambio pequeño al mes', nota: 'Solo si no hay ningún plan mensual; con plan va incluido' },
+  { slug: 'blog-alta', nombre: 'Alta del blog', precio: 250, unidad: 'pago único', seOfrece: false,
+    incluye: 'Sección de blog en una web que no ha hecho Guillén' },
+  { slug: 'ficha-google-alta', nombre: 'Puesta a punto de la ficha de Google', precio: 250, unidad: 'pago único', seOfrece: false,
+    incluye: 'Categorías, servicios, atributos, fotos y descripción', nota: 'Incluida en la web' },
+  { slug: 'ficha-google-publicaciones', nombre: 'Publicaciones en la ficha de Google', precio: 120, unidad: 'al mes', seOfrece: false,
+    incluye: '4 publicaciones al mes' },
+  { slug: 'resenas', nombre: 'Gestión de reseñas', precio: 100, unidad: 'al mes', seOfrece: false,
+    incluye: 'Sistema para pedirlas a los pacientes y respuesta a todas' },
+  { slug: 'directorios', nombre: 'Alta y limpieza en directorios', precio: 300, unidad: 'pago único', seOfrece: false,
+    incluye: 'Doctoralia, Top Doctors, Páginas Amarillas y similares, con nombre, dirección y teléfono iguales en todos' },
+  { slug: 'auditoria-seo', nombre: 'Auditoría SEO y plan', precio: 400, unidad: 'pago único', seOfrece: false,
+    incluye: 'Revisión técnica y de contenido de una web existente con plan priorizado' },
+  { slug: 'pagina-optimizada', nombre: 'Optimización de una página existente', precio: 90, unidad: 'por unidad', seOfrece: false,
+    incluye: 'Título, descripción, encabezados, texto y schema de una página' },
+  { slug: 'enlaces-locales', nombre: 'Enlace local conseguido', precio: 150, unidad: 'por unidad', seOfrece: false,
+    incluye: 'Mención con enlace en un medio, asociación o negocio local', nota: 'Se cobra solo si se consigue' },
+  { slug: 'visibilidad-ia', nombre: 'Informe de visibilidad en IA', precio: 150, unidad: 'por unidad', seOfrece: false,
+    incluye: 'Qué responden ChatGPT, Gemini y Perplexity cuando se pregunta por el servicio en la zona, y qué cambiar', nota: 'Trimestral' },
+  { slug: 'posicionamiento-completo', nombre: 'Posicionamiento completo', precio: 540, unidad: 'al mes', seOfrece: false,
+    incluye: 'Blog 2 + publicaciones en la ficha de Google + gestión de reseñas + informe. Mantenimiento incluido' },
+];
