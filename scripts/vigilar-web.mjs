@@ -2,7 +2,7 @@
 // noindex por error, y sus enlaces internos e imágenes cargan. Sin dependencias.
 // Lo lanza a diario .github/workflows/vigilar-web.yml y la rutina semanal del puesto SEO.
 // Uso: node scripts/vigilar-web.mjs [https://otra-web/]   Sale con código 1 si hay algún problema.
-const SITE = (process.argv[2] || 'https://guillenbruna97.github.io/').replace(/\/?$/, '/');
+const SITE = (process.argv[2] || 'https://gbtconsultoria.com/').replace(/\/?$/, '/');
 const problemas = [];
 
 async function pedir(url) {
