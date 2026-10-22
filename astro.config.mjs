@@ -50,7 +50,7 @@ const categoryRedirects = {
 };
 
 export default defineConfig({
-  site: 'https://guillenbruna97.github.io',
+  site: 'https://gbtconsultoria.com',
   output: 'static',
   build: {
     format: 'directory',
