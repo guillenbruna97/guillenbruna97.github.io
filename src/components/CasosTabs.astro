@@ -1,0 +1,116 @@
+---
+// Casos reales en pestañas, uno a la vez, con contador y flechas. Estructura
+// inspirada en el bloque de casos de la home de elogia.net: el titular es el
+// reto del cliente (campo `reto` de data/casos.ts). Todo el texto está en el
+// HTML (los paneles ocultos también), así que Google lo lee entero.
+import { Picture } from 'astro:assets';
+import { casos } from '../data/casos';
+
+const total = String(casos.length).padStart(2, '0');
+---
+<section class="ct" data-casos>
+  <div class="ct-cabecera">
+    <h2 class="ct-titulo">Casos reales, resultados reales</h2>
+    <a href="/trabajo/" class="ct-todos">Ver todos los casos ↗</a>
+  </div>
+
+  <div class="ct-barra">
+    <div class="ct-pestanas" role="tablist" aria-label="Casos reales">
+      {casos.map((caso, i) => (
+        <button type="button" role="tab" id={`ct-tab-${caso.slug}`} aria-controls={`ct-panel-${caso.slug}`} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1}>{caso.company}</button>
+      ))}
+    </div>
+    <div class="ct-nav">
+      <button type="button" class="ct-flecha" data-dir="-1" aria-label="Caso anterior">←</button>
+      <span class="ct-contador" aria-live="polite"><span data-actual>01</span> / {total}</span>
+      <button type="button" class="ct-flecha" data-dir="1" aria-label="Caso siguiente">→</button>
+    </div>
+  </div>
+
+  {casos.map((caso, i) => (
+    <div class="ct-panel" role="tabpanel" id={`ct-panel-${caso.slug}`} aria-labelledby={`ct-tab-${caso.slug}`} hidden={i !== 0}>
+      <div class="ct-texto">
+        <p class="ct-sector">{caso.company} · {caso.sector}</p>
+        <h3 class="ct-reto">{caso.reto}</h3>
+        <p class="ct-resultado">{caso.cardHighlight}</p>
+        <p class="ct-capacidades">{caso.capacidades}</p>
+        <a href={`/trabajo/${caso.slug}/`} class="ct-ver">Ver el caso ↗</a>
+      </div>
+      <a href={`/trabajo/${caso.slug}/`} class="ct-imagen" tabindex="-1" aria-hidden="true">
+        <Picture src={caso.image} alt="" width={900} formats={['avif', 'webp']} quality={65} loading="lazy" />
+      </a>
+    </div>
+  ))}
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-casos]').forEach((root) => {
+    const tabs = [...root.querySelectorAll<HTMLButtonElement>('[role="tab"]')];
+    const panels = [...root.querySelectorAll<HTMLElement>('[role="tabpanel"]')];
+    const actual = root.querySelector('[data-actual]');
+    let i = 0;
+    const show = (n: number, focus = false) => {
+      i = (n + tabs.length) % tabs.length;
+      tabs.forEach((t, k) => { t.setAttribute('aria-selected', String(k === i)); t.tabIndex = k === i ? 0 : -1; });
+      panels.forEach((p, k) => { p.hidden = k !== i; });
+      if (actual) actual.textContent = String(i + 1).padStart(2, '0');
+      tabs[i].scrollIntoView({ block: 'nearest', inline: 'nearest' });
+      if (focus) tabs[i].focus();
+    };
+    tabs.forEach((t, k) => {
+      t.addEventListener('click', () => show(k));
+      t.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight') { e.preventDefault(); show(i + 1, true); }
+        if (e.key === 'ArrowLeft') { e.preventDefault(); show(i - 1, true); }
+      });
+    });
+    root.querySelectorAll<HTMLButtonElement>('.ct-flecha').forEach((b) => b.addEventListener('click', () => show(i + Number(b.dataset.dir))));
+  });
+</script>
+
+<style is:global>
+  .ct { max-width: 1240px; margin: 0 auto; padding: 4.5rem 4vw 2rem; }
+  .ct-cabecera { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 1rem 2rem; margin-bottom: 2.4rem; }
+  .ct-titulo { font-family: 'Poppins', sans-serif; font-size: clamp(1.8rem, 3.6vw, 2.9rem); font-weight: 500; letter-spacing: -0.035em; line-height: 1.1; margin: 0; }
+  .ct-todos, .ct-ver { font-size: 0.85rem; font-weight: 500; color: var(--blue); text-decoration: none; }
+  .ct-todos:hover, .ct-ver:hover { text-decoration: underline; }
+  body.dark .ct-todos, body.dark .ct-ver { color: var(--blue-light); }
+
+  .ct-barra { display: flex; align-items: flex-end; justify-content: space-between; gap: 2rem; border-bottom: 1px solid rgba(0,0,0,0.12); }
+  body.dark .ct-barra { border-bottom-color: rgba(255,255,255,0.12); }
+  .ct-pestanas { display: flex; gap: 2.2rem; overflow-x: auto; scrollbar-width: none; }
+  .ct-pestanas::-webkit-scrollbar { display: none; }
+  .ct-pestanas button { appearance: none; background: none; border: 0; border-bottom: 2px solid transparent; margin-bottom: -1px; padding: 0 0 0.9rem; font: 400 0.88rem 'Poppins', sans-serif; color: rgba(0,0,0,0.55); cursor: pointer; white-space: nowrap; transition: color var(--transition), border-color var(--transition); }
+  .ct-pestanas button:hover { color: var(--black); }
+  .ct-pestanas button[aria-selected="true"] { color: var(--black); font-weight: 500; border-bottom-color: var(--blue); }
+  body.dark .ct-pestanas button { color: rgba(232,232,232,0.55); }
+  body.dark .ct-pestanas button:hover, body.dark .ct-pestanas button[aria-selected="true"] { color: #e8e8e8; }
+  body.dark .ct-pestanas button[aria-selected="true"] { border-bottom-color: var(--blue-light); }
+  .ct-nav { display: flex; align-items: center; gap: 0.8rem; padding-bottom: 0.6rem; flex-shrink: 0; }
+  .ct-contador { font-size: 0.8rem; font-variant-numeric: tabular-nums; color: rgba(0,0,0,0.55); }
+  body.dark .ct-contador { color: rgba(232,232,232,0.55); }
+  .ct-flecha { appearance: none; width: 34px; height: 34px; border-radius: 50%; border: 1px solid rgba(0,0,0,0.18); background: none; color: inherit; cursor: pointer; font-size: 0.9rem; transition: border-color var(--transition), color var(--transition); }
+  .ct-flecha:hover { border-color: var(--blue); color: var(--blue); }
+  body.dark .ct-flecha { border-color: rgba(232,232,232,0.22); }
+  body.dark .ct-flecha:hover { border-color: var(--blue-light); color: var(--blue-light); }
+
+  .ct-panel { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 2.5rem 4rem; align-items: start; padding-top: 2.6rem; }
+  .ct-panel[hidden] { display: none; }
+  .ct-sector { font-size: 0.8rem; color: rgba(0,0,0,0.5); margin: 0 0 1.2rem; }
+  body.dark .ct-sector { color: rgba(232,232,232,0.5); }
+  .ct-reto { font-family: 'Poppins', sans-serif; font-size: clamp(1.5rem, 2.6vw, 2.1rem); font-weight: 500; letter-spacing: -0.03em; line-height: 1.15; margin: 0 0 1.4rem; max-width: 520px; }
+  .ct-resultado { font-size: 0.98rem; font-weight: 300; line-height: 1.7; color: rgba(0,0,0,0.7); margin: 0 0 1rem; max-width: 480px; }
+  body.dark .ct-resultado { color: rgba(232,232,232,0.7); }
+  .ct-capacidades { font-size: 0.8rem; color: rgba(0,0,0,0.5); margin: 0 0 1.6rem; }
+  body.dark .ct-capacidades { color: rgba(232,232,232,0.5); }
+  .ct-imagen { display: block; border-radius: 16px; overflow: hidden; border: 1px solid rgba(0,0,0,0.08); aspect-ratio: 4 / 3; }
+  body.dark .ct-imagen { border-color: rgba(255,255,255,0.08); }
+  .ct-imagen img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.6s ease; }
+  .ct-imagen:hover img { transform: scale(1.03); }
+  @media (max-width: 860px) {
+    .ct-panel { grid-template-columns: 1fr; }
+    .ct-imagen { order: -1; }
+    .ct-barra { flex-direction: column; align-items: stretch; gap: 0.8rem; }
+    .ct-nav { justify-content: flex-end; order: -1; padding-bottom: 0; }
+  }
+</style>
