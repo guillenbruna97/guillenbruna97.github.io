@@ -1,0 +1,234 @@
+/* Fichas de servicio (ServiceLayout) y de área (/servicios/<área>/). */
+  .back-link {
+    display: block;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 2rem 0;
+    font-size: 0.78rem;
+    font-weight: 400;
+    color: rgba(0,0,0,0.6);
+    text-decoration: none;
+    transition: color var(--transition), transform 0.15s ease;
+  }
+  body.dark .back-link { color: rgba(232,232,232,0.6); }
+  .back-link:hover { color: var(--blue); transform: translateX(-3px); }
+  body.dark .back-link:hover { color: var(--blue-light); }
+
+  .case-main { padding: 2rem 2rem 3rem; max-width: 900px; margin: 0 auto; }
+
+  .case-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.2rem; }
+
+  .case-main h1 {
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    font-weight: 400;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    margin-bottom: 0.5rem;
+  }
+
+  .case-meta {
+    font-size: 0.95rem;
+    font-weight: 300;
+    color: rgba(0,0,0,0.6);
+    line-height: 1.6;
+    max-width: 640px;
+    margin-bottom: 2.5rem;
+    transition: color var(--transition);
+  }
+  body.dark .case-meta { color: rgba(232,232,232,0.6); }
+
+  .service-hero {
+    margin-bottom: 2.5rem;
+    border-radius: 14px;
+    overflow: hidden;
+    aspect-ratio: 16 / 9;
+    background: rgba(0,0,0,0.03);
+  }
+  body.dark .service-hero { background: rgba(255,255,255,0.05); }
+  .service-hero img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  .case-blocks {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5rem;
+    margin-bottom: 2.5rem;
+  }
+
+  /* Son h2/h3 reales (estructura para Google y motores de IA) con aspecto de
+     etiqueta: se fija Poppins porque global.css pone serif a h1-h3. */
+  .block-label {
+    font-family: 'Poppins', sans-serif;
+    line-height: 1.6;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 0.7rem;
+    transition: color var(--transition);
+  }
+  body.dark .block-label { color: var(--blue-light); }
+
+  .block-text {
+    font-size: 0.92rem;
+    font-weight: 300;
+    color: rgba(0,0,0,0.6);
+    line-height: 1.85;
+    transition: color var(--transition);
+  }
+  body.dark .block-text { color: rgba(232,232,232,0.6); }
+
+  .case-block-full { margin: 0 0 2.5rem; }
+
+  @media (max-width: 640px) {
+    .case-blocks { grid-template-columns: 1fr; gap: 1.5rem; }
+  }
+
+  .deliverable-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    max-width: 640px;
+  }
+  .deliverable-list li {
+    position: relative;
+    padding-left: 1.6rem;
+    font-size: 0.92rem;
+    font-weight: 300;
+    color: rgba(0,0,0,0.7);
+    line-height: 1.7;
+    transition: color var(--transition);
+  }
+  body.dark .deliverable-list li { color: rgba(232,232,232,0.7); }
+  .deliverable-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.5em;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--blue);
+  }
+  body.dark .deliverable-list li::before { background: var(--blue-light); }
+
+  .process-steps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  .process-steps li { display: flex; gap: 1.2rem; align-items: flex-start; }
+  .process-number {
+    flex-shrink: 0;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--blue);
+    font-family: 'Poppins', sans-serif;
+    transition: color var(--transition);
+  }
+  body.dark .process-number { color: var(--blue-light); }
+  .process-title {
+    font-family: 'Poppins', sans-serif;
+    line-height: 1.6;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--black);
+    margin-bottom: 0.3rem;
+    transition: color var(--transition);
+  }
+  body.dark .process-title { color: #e8e8e8; }
+  .process-text {
+    font-size: 0.88rem;
+    font-weight: 300;
+    color: rgba(0,0,0,0.6);
+    line-height: 1.7;
+    max-width: 560px;
+    transition: color var(--transition);
+  }
+  body.dark .process-text { color: rgba(232,232,232,0.6); }
+
+  .precio-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.2rem 2.5rem;
+    margin: 0;
+    max-width: 720px;
+  }
+  .precio-grid dt {
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: rgba(0,0,0,0.5);
+    margin-bottom: 0.25rem;
+  }
+  body.dark .precio-grid dt { color: rgba(232,232,232,0.5); }
+  .precio-grid dd {
+    margin: 0;
+    font-size: 0.9rem;
+    font-weight: 300;
+    color: rgba(0,0,0,0.75);
+    line-height: 1.6;
+  }
+  body.dark .precio-grid dd { color: rgba(232,232,232,0.75); }
+  .precio-grid dd strong { font-weight: 600; color: var(--black); font-size: 1.05rem; }
+  body.dark .precio-grid dd strong { color: #e8e8e8; }
+  .precio-nota { display: block; font-size: 0.8rem; color: rgba(0,0,0,0.55); margin-top: 0.2rem; }
+  body.dark .precio-nota { color: rgba(232,232,232,0.55); }
+  .precio-link { font-size: 0.85rem; font-weight: 300; color: rgba(0,0,0,0.6); margin-top: 1.2rem; }
+  body.dark .precio-link { color: rgba(232,232,232,0.6); }
+  .precio-link a { color: var(--blue); }
+  body.dark .precio-link a { color: var(--blue-light); }
+  @media (max-width: 640px) {
+    .precio-grid { grid-template-columns: 1fr; }
+  }
+
+  .service-casos { list-style: none; padding: 0; margin: 0; }
+  .service-casos a {
+    display: block;
+    padding: 1rem 1.2rem;
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 4px;
+    text-decoration: none;
+    color: var(--black);
+    transition: border-color var(--transition), color var(--transition);
+  }
+  body.dark .service-casos a { border-color: rgba(255,255,255,0.12); color: #e8e8e8; }
+  .service-casos a:hover { border-color: var(--blue); }
+  .service-caso-title { display: block; font-family: 'Newsreader', Georgia, serif; font-size: 1.15rem; }
+  .service-caso-company { display: block; font-size: 0.78rem; color: var(--blue); margin-top: 0.2rem; }
+  body.dark .service-caso-company { color: var(--blue-light); }
+
+  .service-cierre {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(0,0,0,0.06);
+    font-size: 0.95rem;
+    font-weight: 300;
+    color: rgba(0,0,0,0.65);
+    line-height: 1.85;
+    max-width: 640px;
+    transition: color var(--transition), border-color var(--transition);
+  }
+  body.dark .service-cierre { color: rgba(232,232,232,0.65); border-top-color: rgba(255,255,255,0.08); }
+
+  .faq-block { margin-top: 3rem; }
+
+  /* Servicios de un área: lista plana, sin tarjetas */
+  .area-servicios { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 1.6rem; max-width: 720px; }
+  .area-servicios li { padding-bottom: 1.6rem; border-bottom: 1px solid rgba(0,0,0,0.08); }
+  body.dark .area-servicios li { border-bottom-color: rgba(255,255,255,0.08); }
+  .area-servicios li:last-child { border-bottom: 0; padding-bottom: 0; }
+  .area-servicios .process-title a { color: inherit; text-decoration: none; }
+  .area-servicios .process-title a:hover { color: var(--blue); }
+  body.dark .area-servicios .process-title a:hover { color: var(--blue-light); }
+  .area-servicio-link { display: inline-block; margin-top: 0.4rem; font-size: 0.8rem; font-weight: 500; color: var(--blue); text-decoration: none; }
+  body.dark .area-servicio-link { color: var(--blue-light); }
+  .area-servicio-link:hover { text-decoration: underline; }
+  .service-casos { display: flex; flex-direction: column; gap: 0.7rem; }

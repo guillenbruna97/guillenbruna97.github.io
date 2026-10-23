@@ -180,7 +180,7 @@ export const RESULTADOS: Record<Area | 'solido', Resultado> = {
       'Revisa tus tres últimas ventas perdidas y anota en qué etapa se cayeron.',
       'Define tres preguntas que toda oportunidad debe responder antes de preparar una propuesta.',
     ],
-    servicio: 'Te ayudo a construir un proceso comercial con etapas claras y datos fiables, para que las ventas no dependan de una sola persona.',
+    servicio: 'Te ayudamos a construir un proceso comercial con etapas claras y datos fiables, para que las ventas no dependan de una sola persona.',
     servicioSlug: 'pipeline',
   },
   gtm: {
@@ -192,7 +192,7 @@ export const RESULTADOS: Record<Area | 'solido', Resultado> = {
       'Pregunta a dos de ellos cómo te encontraron y qué les hizo decidir.',
       'Señala qué canal no te ha traído ningún cliente en seis meses.',
     ],
-    servicio: 'Construyo contigo tu estrategia Go-to-Market, con cliente ideal, canales y mensajes, para que cada euro de marketing vaya donde retorna.',
+    servicio: 'Construimos contigo tu estrategia go to market, con cliente ideal, canales y mensajes, para que cada euro de marketing vaya donde retorna.',
     servicioSlug: 'gtm-icp',
   },
   posicionamiento: {
@@ -204,7 +204,7 @@ export const RESULTADOS: Record<Area | 'solido', Resultado> = {
       'Pon tu web al lado de la de tres competidores y tacha lo que diríais todos.',
       'Escribe en una frase lo que solo tú puedes decir.',
     ],
-    servicio: 'Construyo contigo un posicionamiento y un mensaje que muestren tu valor, para que el precio deje de ser la conversación principal.',
+    servicio: 'Construimos contigo un posicionamiento y un mensaje que muestren tu valor, para que el precio deje de ser la conversación principal.',
     servicioSlug: 'posicionamiento',
   },
   solido: {
@@ -216,6 +216,6 @@ export const RESULTADOS: Record<Area | 'solido', Resultado> = {
       'Revisa cada seis meses si tu cliente ideal sigue siendo el mismo.',
       'Antes de abrir un mercado nuevo, comprueba que tu mensaje sigue siendo distinto allí.',
     ],
-    servicio: 'Si preparas una nueva etapa de crecimiento, puedo ayudarte a revisar estrategia y mensaje antes de invertir más.',
+    servicio: 'Si preparas una nueva etapa de crecimiento, podemos ayudarte a revisar la estrategia y mensaje antes de invertir más.',
   },
 };

@@ -13,12 +13,15 @@ import grupoReyCaseImage from '../assets/casos/grupo-rey.jpeg';
 // los servicios actuales. `services` usa los slugs de SERVICES (consts.ts):
 // enlaza el caso con su ficha de servicio y la ficha con el caso. Vacío a
 // propósito cuando el caso es trayectoria y no prueba de un servicio.
+// `areas` usa los slugs de AREAS (data/areas.ts) y enlaza el caso desde la
+// página de cada área que prueba.
 export const casos = [
   {
     slug: 'zebra-ventures',
     company: 'Zebra AI Transformation Company',
     role: 'Head of Brand & Marketing',
     services: ['gtm-icp', 'posicionamiento'],
+    areas: ['estrategia-y-marca', 'diseno-web', 'eventos'],
     ariaLabel: 'Ver caso de Zebra AI Transformation Company',
     image: zebraCaseImage,
     imageAlt: 'Equipo de Zebra AI Transformation Company en el Spain Innovation Summit, evento organizado por Guillén Bruna Tricas',
@@ -37,6 +40,7 @@ export const casos = [
     company: 'Integra Consultoría Gerencial',
     role: 'Consultor',
     services: [] as string[],
+    areas: ['estrategia-y-marca', 'redes-sociales'],
     ariaLabel: 'Ver caso de Integra Consultoría Gerencial',
     image: integraCaseImage,
     imageAlt: 'Congreso y proyecto de comunicación de Integra Consultoría Gerencial con Guillén Bruna Tricas',
@@ -62,6 +66,7 @@ export const casos = [
     company: 'Broco',
     role: 'Fundador',
     services: [] as string[],
+    areas: ['estrategia-y-marca', 'diseno-web', 'publicidad-online'],
     ariaLabel: 'Ver caso de Broco',
     image: brocoCaseImage,
     imageAlt: 'Colección de prendas de Broco, marca de moda sostenible creada por Guillén Bruna Tricas',
@@ -91,6 +96,7 @@ export const casos = [
     company: 'Muebles Rey & Muebles Tuco',
     role: 'Head of Social Media',
     services: [] as string[],
+    areas: ['publicidad-online', 'redes-sociales', 'eventos'],
     ariaLabel: 'Ver caso de Grupo Rey Corporación',
     image: grupoReyCaseImage,
     imageAlt: 'Equipo y campañas omnicanal de Grupo Rey Corporación con Guillén Bruna Tricas',
@@ -118,3 +124,4 @@ export const casos = [
 
 export const getCaso = (slug: string) => casos.find((c) => c.slug === slug);
 export const casosForService = (serviceSlug: string) => casos.filter((c) => c.services.includes(serviceSlug));
+export const casosForArea = (areaSlug: string) => casos.filter((c) => c.areas.includes(areaSlug));
