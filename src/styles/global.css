@@ -105,9 +105,26 @@ body.dark {
   color: #e8e8e8;
 }
 
+/* Sistema tipográfico (decidido 2026-10-23, ver marca-personal/cerebro/identidad-visual.md):
+   todos los títulos en Poppins 500 con el espaciado apretado; Newsreader cursiva
+   solo como acento (.accent), una palabra con significado y como mucho una por página. */
 h1, h2, h3 {
-  font-family: 'Newsreader', Georgia, serif;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
 }
+h1 { letter-spacing: -0.04em; line-height: 1.05; }
+h2 { letter-spacing: -0.03em; line-height: 1.12; }
+h3 { letter-spacing: -0.015em; line-height: 1.25; }
+
+.accent {
+  font-family: 'Newsreader', Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  color: var(--blue);
+  transition: color var(--transition);
+}
+body.dark .accent { color: var(--blue-light); }
 
 .ghost-mark {
   position: absolute;
@@ -125,7 +142,7 @@ body.dark .ghost-mark { color: rgba(255,255,255,0.07); }
 
 .case-section-h2 {
   font-size: clamp(1.2rem, 2.5vw, 1.6rem);
-  font-weight: 400;
+  font-weight: 500;
   letter-spacing: -0.02em;
   margin-bottom: 2rem;
   transition: color var(--transition);
