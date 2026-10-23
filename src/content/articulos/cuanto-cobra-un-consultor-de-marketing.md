@@ -57,7 +57,7 @@ La alternativa a un consultor no suele ser no hacer nada, sino contratar. Un dir
 
 Trabajamos por proyecto cerrado, o mes a mes y sin permanencia en los servicios continuos, como redes, SEO o publicidad. No publicamos una tarifa por servicio porque el alcance cambia demasiado de un caso a otro. No cuesta lo mismo ordenar el mensaje de una empresa con un solo segmento de cliente que lanzar una marca nueva con web, campañas y evento.
 
-Lo que sí es fijo es la forma. Tras una llamada de 15 minutos, en 5 días laborables recibes una propuesta con el entregable, el plazo, el precio cerrado y lo que queda fuera. Los proyectos se pagan al 50 % al empezar y al 50 % en la entrega, y recibes una sola factura aunque en tu proyecto intervengan varios especialistas de nuestra red. Lo tienes todo en [cómo trabajamos](/como-trabajo/).
+Lo que sí es fijo es la forma. Tras una llamada de 15 minutos, en 5 días laborables recibes una propuesta con el entregable, el plazo, el precio cerrado y lo que queda fuera. Los proyectos se pagan al 50 % al empezar y al 50 % en la entrega, y recibes una sola factura aunque en tu proyecto intervengan varios especialistas de nuestra red. Lo tienes todo en [cómo trabajamos](/quienes-somos/#como-trabajamos).
 
 ## Cómo saber si un precio es justo
 
