@@ -49,13 +49,21 @@ const categoryRedirects = {
   '/articulos/categoria/seo/': '/articulos/categoria/ia-en-marketing/',
 };
 
+// /sobre-mi/ y /como-trabajo/ se unieron en /quienes-somos/ (reenfoque a GBT
+// Consultoría, 2026-10-23).
+const pageRedirects = {
+  '/sobre-mi/': '/quienes-somos/',
+  '/como-trabajo/': '/quienes-somos/#como-trabajamos',
+};
+const allRedirects = { ...categoryRedirects, ...pageRedirects };
+
 export default defineConfig({
   site: 'https://gbtconsultoria.com',
   output: 'static',
   build: {
     format: 'directory',
   },
-  redirects: categoryRedirects,
+  redirects: allRedirects,
   markdown: {
     remarkPlugins: [remarkStripRawHtml],
   },
@@ -65,7 +73,7 @@ export default defineConfig({
       // Search Console marca como error las URLs del sitemap con noindex.
       filter: (page) => {
         const { pathname } = new URL(page);
-        return !(pathname in categoryRedirects) && !/\/\d+\/$/.test(pathname);
+        return !(pathname in allRedirects) && !/\/\d+\/$/.test(pathname);
       },
       serialize(item) {
         const lastmod = articleLastmod.get(new URL(item.url).pathname);
