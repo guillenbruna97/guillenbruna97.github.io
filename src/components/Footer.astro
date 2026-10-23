@@ -1,26 +1,189 @@
 ---
-import { LINKEDIN_URL } from '../consts';
+import { SERVICES, RESOURCES, GAMES, LINKEDIN_URL, BOOKING_URL, MAILTO_URL, CONTACT_EMAIL } from '../consts';
+import { casos } from '../data/casos';
+
+// Las columnas salen de las mismas fuentes que el nav y los listados
+// (consts.ts y data/casos.ts): un servicio, caso o minijuego nuevo aparece
+// aquí sin tocar este archivo.
+const year = new Date().getFullYear();
 ---
-<footer>
-  <p class="footer-copy">© 2026 Guillén Bruna Tricas</p>
-  <ul class="footer-links">
-    <li><a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
-    <li><a href="/privacidad/">Privacidad</a></li>
-  </ul>
+<footer class="site-footer">
+  <div class="footer-panel">
+    <a href="/" class="footer-logo" aria-label="GBT Consultoría, ir a la página de inicio">
+      <img src="/isotipo.svg" alt="" width="72" height="72" />
+    </a>
+
+    <div class="footer-grid">
+      <div class="footer-col" aria-labelledby="footer-servicios">
+        <h2 id="footer-servicios" class="footer-heading"><a href="/servicios/">Servicios</a></h2>
+        <ul>
+          {SERVICES.map((s) => <li><a href={`/servicios/${s.slug}/`}>{s.name}</a></li>)}
+        </ul>
+      </div>
+
+      <div class="footer-col" aria-labelledby="footer-casos">
+        <h2 id="footer-casos" class="footer-heading"><a href="/trabajo/">Casos reales</a></h2>
+        <ul>
+          {casos.map((c) => <li><a href={`/trabajo/${c.slug}/`}>{c.company}</a></li>)}
+        </ul>
+      </div>
+
+      <div class="footer-col" aria-labelledby="footer-recursos">
+        <h2 id="footer-recursos" class="footer-heading"><a href="/recursos/">Recursos</a></h2>
+        <ul>
+          {RESOURCES.map((r) => <li><a href={r.href}>{r.name}</a></li>)}
+          {GAMES.map((g) => <li><a href={`/recursos/minijuegos/${g.slug}/`}>{g.name}</a></li>)}
+        </ul>
+      </div>
+
+      <div class="footer-col" aria-labelledby="footer-contacto">
+        <h2 id="footer-contacto" class="footer-heading">Hablemos</h2>
+        <ul>
+          <li><a href="/sobre-mi/">Sobre mí</a></li>
+          <li><a href="/contacto/">Contacto</a></li>
+          <li><a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">Reservar llamada de 15 min</a></li>
+          <li><a href={MAILTO_URL}>{CONTACT_EMAIL}</a></li>
+          <li><a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-cta">
+        <p class="footer-heading">¿Qué hay detrás de tus ventas?</p>
+        <p class="footer-cta-text">Haz el autodiagnóstico en 3 minutos y llévate tus tres primeros pasos.</p>
+        <a href="/recursos/minijuegos/diagnostico-marketing/" class="footer-cta-btn">
+          Empezar diagnóstico <span aria-hidden="true">→</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p class="footer-copy">© {year} GBT Consultoría · Zaragoza, España</p>
+      <ul class="footer-legal">
+        <li><a href="/privacidad/">Privacidad</a></li>
+        <li><button type="button" data-cookie-settings>Preferencias de cookies</button></li>
+      </ul>
+    </div>
+  </div>
   {/* Decorativo a propósito: sigue al cursor, no aporta información. No cambiar aunque Search Console lo marque como alt vacío. */}
   <img src="/isotipo.svg" alt="" aria-hidden="true" class="footer-cursor-icon" />
 </footer>
 
 <style is:global>
-  footer {
+  .site-footer {
     position: relative;
-    padding: 2rem;
-    max-width: 900px;
+    padding: 4rem 1rem 1rem;
+  }
+  .footer-panel {
+    max-width: 1200px;
     margin: 0 auto;
+    padding: 3rem 2.5rem 1.75rem;
+    background: var(--off-white);
+    border-radius: 20px;
+    transition: background var(--transition);
+  }
+  body.dark .footer-panel { background: var(--dark-surface); }
+
+  .footer-logo {
+    display: inline-block;
+    margin-bottom: 3rem;
+    transition: transform var(--transition);
+  }
+  .footer-logo img { display: block; width: 72px; height: 72px; }
+  .footer-logo:hover { transform: rotate(-8deg); }
+  body.dark .footer-logo img {
+    filter: brightness(0) saturate(100%) invert(47%) sepia(98%) saturate(400%) hue-rotate(180deg) brightness(120%);
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) minmax(0, 1.3fr);
+    gap: 2.5rem 2rem;
+  }
+
+  .footer-heading {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--black);
+    margin-bottom: 1rem;
+    transition: color var(--transition);
+  }
+  body.dark .footer-heading { color: #e8e8e8; }
+  .footer-col .footer-heading a,
+  body.dark .footer-col .footer-heading a { font: inherit; color: inherit; text-decoration: none; }
+
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+  .footer-col a,
+  .footer-legal a,
+  .footer-legal button,
+  .footer-copy {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 300;
+    line-height: 1.4;
+    color: rgba(0,0,0,0.6);
+    text-decoration: none;
+    overflow-wrap: anywhere;
+    transition: color var(--transition);
+  }
+  body.dark .footer-col a,
+  body.dark .footer-legal a,
+  body.dark .footer-legal button,
+  body.dark .footer-copy { color: rgba(232,232,232,0.6); }
+  .footer-col a:hover,
+  .footer-heading a:hover,
+  .footer-legal a:hover,
+  .footer-legal button:hover { color: var(--blue); }
+  body.dark .footer-col a:hover,
+  body.dark .footer-heading a:hover,
+  body.dark .footer-legal a:hover,
+  body.dark .footer-legal button:hover { color: var(--blue-light); }
+
+  .footer-cta-text {
+    font-size: 0.85rem;
+    font-weight: 300;
+    line-height: 1.55;
+    color: rgba(0,0,0,0.7);
+    margin-bottom: 1.25rem;
+    transition: color var(--transition);
+  }
+  body.dark .footer-cta-text { color: rgba(232,232,232,0.75); }
+  .footer-cta-btn {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    background: var(--white);
+    border-radius: 12px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--black);
+    text-decoration: none;
+    transition: background var(--transition), color var(--transition);
   }
+  body.dark .footer-cta-btn { background: var(--dark-surface2); color: #e8e8e8; }
+  .footer-cta-btn:hover { background: var(--blue); color: var(--white); }
+  body.dark .footer-cta-btn:hover { background: var(--blue-light); color: var(--dark-bg); }
+
+  .footer-bottom {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 3.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(0,0,0,0.08);
+    transition: border-color var(--transition);
+  }
+  body.dark .footer-bottom { border-top-color: rgba(255,255,255,0.08); }
+  .footer-copy { font-size: 0.75rem; }
+  .footer-legal { display: flex; gap: 1.5rem; list-style: none; }
+  .footer-legal a,
+  .footer-legal button { font-size: 0.75rem; }
+  .footer-legal button { background: none; border: 0; padding: 0; cursor: pointer; }
+
   .footer-cursor-icon {
     position: absolute;
     top: 0;
@@ -39,30 +202,24 @@ import { LINKEDIN_URL } from '../consts';
   @media (hover: none) {
     .footer-cursor-icon { display: none; }
   }
-  .footer-copy {
-    font-size: 0.72rem;
-    font-weight: 300;
-    color: rgba(0,0,0,0.6);
-    transition: color var(--transition);
-  }
-  body.dark .footer-copy { color: rgba(232,232,232,0.6); }
 
-  .footer-links { display: flex; gap: 1.5rem; list-style: none; }
-  .footer-links a {
-    font-size: 0.72rem;
-    font-weight: 300;
-    color: rgba(0,0,0,0.6);
-    text-decoration: none;
-    transition: color var(--transition);
+  @media (max-width: 960px) {
+    .footer-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .footer-cta { grid-column: 1 / -1; max-width: 480px; }
   }
-  body.dark .footer-links a { color: rgba(232,232,232,0.6); }
-  .footer-links a:hover { color: var(--blue); }
-  body.dark .footer-links a:hover { color: var(--blue-light); }
+  @media (max-width: 480px) {
+    .site-footer { padding: 3rem 0.6rem 0.6rem; }
+    .footer-panel { padding: 2.25rem 1.25rem 1.5rem; border-radius: 16px; }
+    .footer-logo { margin-bottom: 2.25rem; }
+    .footer-logo img { width: 56px; height: 56px; }
+    .footer-grid { grid-template-columns: minmax(0, 1fr); gap: 2rem; }
+    .footer-bottom { flex-direction: column; align-items: flex-start; }
+  }
 </style>
 
 <script>
   if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
-    const footer = document.querySelector<HTMLElement>('footer');
+    const footer = document.querySelector<HTMLElement>('.site-footer');
     const icon = document.querySelector<HTMLElement>('.footer-cursor-icon');
     if (footer && icon) {
       let targetX = -999, targetY = -999;

@@ -153,13 +153,6 @@ import { BOOKING_URL, MAILTO_URL, CONTACT_EMAIL, LINKEDIN_URL, LINKEDIN_HANDLE }
   }
   body.dark .info-item-value { color: rgba(232,232,232,0.65); }
 
-  /* Contacto page footer override */
-  .contact-main ~ footer {
-    border-top: 1px solid rgba(0,0,0,0.06);
-    transition: border-color var(--transition);
-  }
-  body.dark .contact-main ~ footer { border-top-color: rgba(255,255,255,0.08); }
-
   @media (max-width: 640px) {
     /* minmax(0, 1fr): con 1fr la columna no baja del email más largo y a 320px desbordaba */
     .contact-main { grid-template-columns: minmax(0, 1fr); gap: 3rem; padding: 4rem 1.5rem; }
