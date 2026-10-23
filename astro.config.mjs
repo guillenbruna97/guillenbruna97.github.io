@@ -57,6 +57,12 @@ const pageRedirects = {
 };
 const allRedirects = { ...categoryRedirects, ...pageRedirects };
 
+// PREPRO=1: copia de preproducción en Cloudflare (npm run deploy:prepro). Misma
+// web, pero noindex en todo, aviso arriba y sin Analytics ni envíos a HubSpot.
+// El canonical sigue apuntando a gbtconsultoria.com. Ver
+// marca-personal/montaje-web/metodologia-preproduccion.md.
+const prepro = process.env.PREPRO === '1';
+
 export default defineConfig({
   site: 'https://gbtconsultoria.com',
   output: 'static',
@@ -64,6 +70,7 @@ export default defineConfig({
     format: 'directory',
   },
   redirects: allRedirects,
+  vite: { define: { __PREPRO__: JSON.stringify(prepro) } },
   markdown: {
     remarkPlugins: [remarkStripRawHtml],
   },

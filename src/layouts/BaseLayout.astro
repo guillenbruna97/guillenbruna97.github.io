@@ -63,13 +63,14 @@ const { title, description, image, ogType, noindex } = Astro.props;
       });
     </script>
     <a href="#main-content" class="skip-link">Saltar al contenido</a>
+    {__PREPRO__ && <div class="prepro-aviso" role="note">Preproducción · copia de pruebas, no es la web oficial · <a href="https://gbtconsultoria.com/">gbtconsultoria.com</a></div>}
     <LoadingScreen />
     <Nav />
     <main id="main-content">
       <slot />
     </main>
     <Footer />
-    <CookieConsent />
+    {!__PREPRO__ && <CookieConsent />}
     <script>
       const revealTargets = document.querySelectorAll('[data-reveal]');
       if ('IntersectionObserver' in window && revealTargets.length) {
@@ -113,3 +114,8 @@ const { title, description, image, ogType, noindex } = Astro.props;
     </script>
   </body>
 </html>
+
+<style is:global>
+  .prepro-aviso { position: sticky; top: 0; z-index: 1000; background: #f2b55a; color: #1a1a1a; font: 500 0.75rem/1.4 'Poppins', sans-serif; text-align: center; padding: 0.35rem 1rem; }
+  .prepro-aviso a { color: inherit; }
+</style>
