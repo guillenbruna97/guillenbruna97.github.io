@@ -6,15 +6,15 @@ Guillén Bruna Tricas dirige cada proyecto, elige a los especialistas que necesi
 
 ## Qué hacemos
 
-- Estrategia y marca: director de marketing externo, consultoría estratégica de marca, plan de marketing y go to market, diagnóstico comercial, media training para directivos, identidad visual y rebranding.
-- Diseño y desarrollo web: webs corporativas con diseño UX/UI, landing pages, tiendas online y mantenimiento técnico bajo petición.
-- Posicionamiento SEO y GEO: auditoría, SEO mensual, posicionamiento en ChatGPT y otros buscadores de IA, y SEO local con la ficha de Google.
-- Publicidad online: Google Ads, Meta Ads (Instagram y Facebook), LinkedIn Ads y auditoría de cuentas publicitarias.
-- Redes sociales y contenido: gestión de redes, producción de vídeo y contenido, y LinkedIn para directivos y empresas.
-- Eventos: lanzamientos, activaciones de marca y eventos corporativos.
+- [Estrategia y marca](https://gbtconsultoria.com/servicios/estrategia-y-marca/): director de marketing externo, consultoría estratégica de marca, plan de marketing y go to market, diagnóstico comercial, media training para directivos, identidad visual y rebranding.
+- [Diseño y desarrollo web](https://gbtconsultoria.com/servicios/diseno-web/): webs corporativas con diseño UX/UI, landing pages, tiendas online y mantenimiento técnico bajo petición.
+- [Posicionamiento SEO y GEO](https://gbtconsultoria.com/servicios/seo-geo/): auditoría, SEO mensual, posicionamiento en ChatGPT y otros buscadores de IA, y SEO local con la ficha de Google.
+- [Publicidad online](https://gbtconsultoria.com/servicios/publicidad-online/): Google Ads, Meta Ads (Instagram y Facebook), LinkedIn Ads y auditoría de cuentas publicitarias.
+- [Redes sociales y contenido](https://gbtconsultoria.com/servicios/redes-sociales/): gestión de redes, producción de vídeo y contenido, y LinkedIn para directivos y empresas.
+- [Eventos](https://gbtconsultoria.com/servicios/eventos/): lanzamientos, activaciones de marca y eventos corporativos.
 - Transversal: analítica y medición, email marketing y automatización.
 
-## Servicios con página propia
+## Servicios de consultoría con página propia
 
 - [Diagnóstico comercial y de pipeline B2B](https://gbtconsultoria.com/servicios/pipeline/): auditoría del proceso comercial con datos del CRM del cliente para localizar en qué etapa se pierden las oportunidades.
 - [Estrategia go to market y cliente ideal B2B](https://gbtconsultoria.com/servicios/gtm-icp/): cliente ideal definido, mapa de canales, mensajes por segmento y calendario a doce meses.

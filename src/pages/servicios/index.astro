@@ -1,61 +1,38 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ContactBlock from '../../components/ContactBlock.astro';
-import ServiceIcon from '../../components/ServiceIcon.astro';
-import { SERVICES, SITE_NAME } from '../../consts';
+import { SITE_NAME } from '../../consts';
+import { AREAS } from '../../data/areas';
 
-// Los 4 servicios responden a dos públicos distintos: los 3 primeros son para
-// fundadores/equipos de SaaS B2B (pipeline, GTM/ICP, posicionamiento), el
-// último es para comités de dirección en general (mentoría de comunicación).
-// Se agrupan visualmente para que no compitan por el mismo hueco mental.
-const saasB2B = SERVICES.slice(0, 3);
-const altaDireccion = SERVICES.slice(3);
+// Las 6 áreas del catálogo (data/areas.ts). Los 4 servicios de consultoría
+// se listan dentro de «Estrategia y marca».
 ---
 <BaseLayout
-  title={`Servicios de estrategia y comunicación | ${SITE_NAME}`}
-  description="Diagnóstico de pipeline comercial, estrategia GTM, posicionamiento de producto y mentoría de comunicación ejecutiva para CEO, COO, CFO y CEO de holding."
+  title={`Servicios de marketing en Zaragoza | ${SITE_NAME}`}
+  description="Estrategia y marca, diseño web, SEO y GEO, Google Ads y Meta Ads, redes sociales y eventos en Zaragoza. Una red de especialistas senior y un solo interlocutor."
 >
   <div class="page-header">
-    <h1>Estrategia, marketing<br />y comunicación ejecutiva</h1>
-    <p class="page-desc">¿Cómo asegurar que cada inversión en marketing o cada mensaje de tu equipo directivo impulse el crecimiento real? Las empresas más ambiciosas saben que la coherencia estratégica es clave. Acompaño a líderes en la construcción de una narrativa sólida, un posicionamiento claro y procesos comerciales eficientes, transformando la visión en acción y decisiones estratégicas.</p>
+    <h1>Todo tu marketing,<br />de principio a fin</h1>
+    <p class="page-desc">Estrategia, marca, web, posicionamiento, publicidad, redes y eventos. Cada proyecto lo ejecutan los especialistas de nuestra red que mejor encajan con él, y tú hablas con una sola persona, que responde de todo.</p>
   </div>
 
   <div class="services-group">
-    <p class="services-kicker">Para fundadores y equipos de SaaS B2B</p>
     <div class="services-grid services-grid--3">
-      {saasB2B.map((service, i) => (
-        <a href={`/servicios/${service.slug}/`} class="service-card" data-reveal>
+      {AREAS.map((area, i) => (
+        <a href={`/servicios/${area.slug}/`} class="service-card" data-reveal>
           <div class="service-card-top">
-            <ServiceIcon slug={service.slug} />
             <span class="service-number">{String(i + 1).padStart(2, '0')}</span>
           </div>
-          <h2>{service.name}</h2>
-          <p>{service.tagline}</p>
-          <span class="service-link">Ver servicio →</span>
+          <h2>{area.name}</h2>
+          <p>{area.tagline}</p>
+          <span class="service-link">Ver área →</span>
         </a>
       ))}
     </div>
   </div>
 
   <div class="services-group">
-    <p class="services-kicker">Para comités de dirección</p>
-    <div class="services-grid services-grid--1">
-      {altaDireccion.map((service, i) => (
-        <a href={`/servicios/${service.slug}/`} class="service-card" data-reveal>
-          <div class="service-card-top">
-            <ServiceIcon slug={service.slug} />
-            <span class="service-number">{String(saasB2B.length + i + 1).padStart(2, '0')}</span>
-          </div>
-          <h2>{service.name}</h2>
-          <p>{service.tagline}</p>
-          <span class="service-link">Ver servicio →</span>
-        </a>
-      ))}
-    </div>
-  </div>
-
-  <div class="services-group">
-    <p class="services-precios">Trabajo desde Zaragoza, en persona en los momentos clave y en remoto el resto. Si estás comparando opciones en tu zona, <a href="/articulos/consultor-de-marketing-en-zaragoza/">tres preguntas para elegir consultor de marketing en Zaragoza</a>.</p>
+    <p class="services-precios">Trabajamos desde Zaragoza, en persona en los momentos clave y en remoto el resto. Si estás comparando opciones en tu zona, <a href="/articulos/consultor-de-marketing-en-zaragoza/">tres preguntas para elegir consultor de marketing en Zaragoza</a>.</p>
     <p class="services-precios">Precio cerrado en cada propuesta, sin permanencia y con un solo interlocutor. <a href="/quienes-somos/#como-trabajamos">Cómo trabajamos</a></p>
   </div>
 
