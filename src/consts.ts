@@ -116,8 +116,9 @@ export const GAMES: GameInfo[] = [
 // secretos: viajan igualmente en cualquier formulario incrustado.
 // Mientras HUBSPOT_PORTAL_ID o HUBSPOT_FORM_ID estén vacíos el diagnóstico
 // funciona igual pero NO guarda el lead (avisa por consola).
-export const HUBSPOT_PORTAL_ID = '149544949';
-export const HUBSPOT_FORM_ID = 'd6b840dc-a0b8-44e3-8074-c60ba91de19b';
+// En preproducción van vacíos: los leads de prueba no llegan al CRM.
+export const HUBSPOT_PORTAL_ID = __PREPRO__ ? '' : '149544949';
+export const HUBSPOT_FORM_ID = __PREPRO__ ? '' : 'd6b840dc-a0b8-44e3-8074-c60ba91de19b';
 // ID del tipo de suscripción de marketing (Configuración > Marketing >
 // Email > Tipos de suscripción). Con él HubSpot registra el consentimiento
 // comercial en la ficha del contacto.

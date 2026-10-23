@@ -1,0 +1,8 @@
+// Preproducción de gbtconsultoria.com en Cloudflare Workers (static assets).
+// Solo la usa `npm run deploy:prepro` desde la rama `preproduccion`.
+// Producción sigue en GitHub Pages (deploy.yml, rama main).
+{
+  "name": "gbt-preproduccion",
+  "compatibility_date": "2026-10-01",
+  "assets": { "directory": "./dist", "not_found_handling": "404-page" }
+}
