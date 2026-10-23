@@ -1,7 +1,8 @@
-// Fuente única de precio y formato de cada servicio. La usan el bloque
-// "Precio y formato" de ServiceLayout, la tabla de /como-trabajo/ y el schema
-// Offer. Importes en euros y siempre sin IVA. Cerrados el 2026-09-28 (ver
-// agents-library/agents/seo-ai-system/your-site/condiciones-servicio.md).
+// Formato de cada servicio de consultoría (duración, dedicación, garantía) y
+// sus precios de referencia para las propuestas. Desde el 2026-10-22 la web NO
+// publica importes: todo va por propuesta. ServiceLayout solo pinta el
+// formato. Los importes (en euros, sin IVA, cerrados el 2026-09-28) se quedan
+// aquí como referencia interna; la tarifa inicial se aplica en la propuesta.
 
 export interface Precio {
   slug: string;
@@ -56,7 +57,7 @@ export const PRECIOS: Precio[] = [
     duracion: '6 semanas',
     dedicacion: 'Unas 8 horas del equipo entre entrevistas y dos talleres de validación',
     pago: '50 % al empezar y 50 % en la entrega',
-    noIncluye: ['Ejecutar campañas', 'Gestionar redes o anuncios', 'Implantar CRM'],
+    noIncluye: ['Ejecutar campañas, redes o anuncios, que nuestra red hace como servicio aparte', 'Implantar el CRM'],
   },
   {
     slug: 'posicionamiento',
@@ -68,7 +69,7 @@ export const PRECIOS: Precio[] = [
     dedicacion: 'Unas 5 horas tuyas entre entrevista inicial, validación y revisión final',
     pago: '50 % al empezar y 50 % en la entrega',
     garantia: 'Dos rondas de revisión incluidas',
-    noIncluye: ['Diseño gráfico o logotipo', 'Maquetación de la web', 'Gestión de campañas'],
+    noIncluye: ['Diseño gráfico, logotipo y web, que nuestra red hace como servicio aparte', 'Gestión de campañas'],
   },
   {
     slug: 'mentoria-comunicacion',

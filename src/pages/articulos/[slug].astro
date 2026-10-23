@@ -17,7 +17,7 @@ const allArticulos = await getCollection('articulos');
 const related = getRelatedArticles(allArticulos, entry);
 ---
 <ArticleLayout
-  title={`${entry.data.seoTitle ?? entry.data.title} | Guillén Bruna Tricas`}
+  title={`${entry.data.seoTitle ?? entry.data.title} | GBT Consultoría`}
   description={entry.data.description}
   tag={displayTag(entry.data.tag)}
   heading={entry.data.title}

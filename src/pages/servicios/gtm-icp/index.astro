@@ -1,15 +1,11 @@
 ---
 import ServiceLayout from '../../../layouts/ServiceLayout.astro';
-import { getService } from '../../../consts';
-import { precioDe, diagnosticoVigente, enLanzamiento, euros } from '../../../data/precios';
-
-const p = precioDe('gtm-icp');
-const lanz = enLanzamiento() ? ' Es tarifa inicial para el primer proyecto con tu empresa, contratando hasta el 31 de marzo de 2027. Desde el segundo proyecto se aplica la tarifa normal.' : '';
+import { getService, SITE_NAME } from '../../../consts';
 
 const service = getService('gtm-icp')!;
 ---
 <ServiceLayout
-  title={`${service.seoTitle} | Guillén Bruna Tricas`}
+  title={`${service.seoTitle} | ${SITE_NAME}`}
   description="Estrategia go to market para empresas B2B y SaaS. Cliente ideal definido, mapa de canales y mensajes por segmento para entrar en el mercado sin dispersión."
   heading={service.seoTitle}
   subtitle="Define tu cliente ideal y la estrategia de entrada al mercado precisa para un crecimiento rentable, acabando con la dispersión en mensajes y canales."
@@ -35,7 +31,7 @@ const service = getService('gtm-icp')!;
     },
     {
       question: '¿Cuánto cuesta la estrategia go-to-market e ICP?',
-      answer: `La estrategia go-to-market e ICP cuesta ${euros(p.desde)} más IVA. Puede llegar a ${euros(p.hasta!)} más IVA si hay más de un mercado o línea de producto. El precio es cerrado antes de empezar. Se abona el 50 % al inicio y el 50 % restante en la entrega.${lanz}`,
+      answer: 'Depende de cuántos mercados o líneas de producto entren en el trabajo. Tras una llamada de 15 minutos, en 5 días laborables recibes una propuesta con el precio cerrado, el plazo y qué incluye. Se abona el 50 % al inicio y el 50 % restante en la entrega.',
     },
     {
       question: '¿Cuánto dura y cuánto tiempo necesitas de mi equipo?',
@@ -55,11 +51,11 @@ const service = getService('gtm-icp')!;
     },
     {
       question: '¿Sirve para entrar en un mercado nuevo?',
-      answer: `Sí, este servicio sirve para entrar en un mercado nuevo. El mismo método se aplica a un nuevo país, sector o segmento. Se valida quién compra allí, qué alternativa usa hoy y por qué canales llegar. Si hay más de un mercado a la vez, el precio puede llegar a ${euros(p.hasta!)} más IVA.`,
+      answer: `Sí, este servicio sirve para entrar en un mercado nuevo. El mismo método se aplica a un nuevo país, sector o segmento. Se valida quién compra allí, qué alternativa usa hoy y por qué canales llegar. Si hay más de un mercado a la vez, la propuesta lo recoge en el alcance y en el precio.`,
     },
     {
       question: '¿Quién ejecuta el plan? ¿Me ayudas a montar el equipo?',
-      answer: 'El plan lo ejecuta tu equipo o tus proveedores. El documento indica qué perfiles hacen falta para ejecutarlo y en qué orden incorporarlos. El acompañamiento posterior es opcional, desde 1.500 € más IVA al mes y sin permanencia.',
+      answer: 'El plan puede ejecutarlo tu equipo, tus proveedores o nuestra red de especialistas. El documento indica qué perfiles hacen falta y en qué orden incorporarlos. El acompañamiento posterior es opcional y sin permanencia.',
     },
     {
       question: '¿Qué habrá cambiado a los 90 días?',

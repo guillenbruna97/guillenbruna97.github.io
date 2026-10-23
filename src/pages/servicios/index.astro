@@ -2,10 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ContactBlock from '../../components/ContactBlock.astro';
 import ServiceIcon from '../../components/ServiceIcon.astro';
-import { SERVICES } from '../../consts';
-import { PRECIOS, vigente, euros, enLanzamiento } from '../../data/precios';
-
-const minimo = Math.min(...PRECIOS.map((p) => vigente(p).desde));
+import { SERVICES, SITE_NAME } from '../../consts';
 
 // Los 4 servicios responden a dos públicos distintos: los 3 primeros son para
 // fundadores/equipos de SaaS B2B (pipeline, GTM/ICP, posicionamiento), el
@@ -15,7 +12,7 @@ const saasB2B = SERVICES.slice(0, 3);
 const altaDireccion = SERVICES.slice(3);
 ---
 <BaseLayout
-  title="Servicios de estrategia y comunicación | Guillén Bruna Tricas"
+  title={`Servicios de estrategia y comunicación | ${SITE_NAME}`}
   description="Diagnóstico de pipeline comercial, estrategia GTM, posicionamiento de producto y mentoría de comunicación ejecutiva para CEO, COO, CFO y CEO de holding."
 >
   <div class="page-header">
@@ -59,7 +56,7 @@ const altaDireccion = SERVICES.slice(3);
 
   <div class="services-group">
     <p class="services-precios">Trabajo desde Zaragoza, en persona en los momentos clave y en remoto el resto. Si estás comparando opciones en tu zona, <a href="/articulos/consultor-de-marketing-en-zaragoza/">tres preguntas para elegir consultor de marketing en Zaragoza</a>.</p>
-    <p class="services-precios">Precio cerrado desde {euros(minimo)}{enLanzamiento() && ' de tarifa inicial en el primer proyecto'}, sin permanencia y trabajando directamente conmigo. <a href="/como-trabajo/">Precios, formato y condiciones</a></p>
+    <p class="services-precios">Precio cerrado en cada propuesta, sin permanencia y con un solo interlocutor. <a href="/como-trabajo/">Cómo trabajamos</a></p>
   </div>
 
   <ContactBlock title="¿Hablamos<br>de tu caso?" />

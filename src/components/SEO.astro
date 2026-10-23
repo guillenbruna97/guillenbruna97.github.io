@@ -1,5 +1,5 @@
 ---
-import { LINKEDIN_URL } from '../consts';
+import { LINKEDIN_URL, SITE_NAME, CONTACT_EMAIL } from '../consts';
 
 interface Props {
   title: string;
@@ -24,13 +24,29 @@ const {
 } = Astro.props;
 const imageUrl = image.startsWith('http') ? image : `https://gbtconsultoria.com${image}`;
 
-const personLd = {
+// La firma (GBT Consultoría) es la entidad principal y Guillén Bruna Tricas su
+// fundador, con el cargo literal que usa en todas partes (decidido 2026-10-22).
+const orgLd = {
   '@context': 'https://schema.org',
   '@type': 'ProfessionalService',
-  name: 'Guillén Bruna Tricas — Consultor de estrategia de marketing y marca',
+  '@id': 'https://gbtconsultoria.com/#organizacion',
+  name: SITE_NAME,
   url: 'https://gbtconsultoria.com/',
+  logo: 'https://gbtconsultoria.com/isotipo.svg',
   image: 'https://gbtconsultoria.com/guillen-chaqueta.jpg',
-  description: 'Consultor de estrategia de marketing y marca para empresas y directivos que quieren comunicar con autoridad y posicionarse como referentes en su sector.',
+  email: CONTACT_EMAIL,
+  knowsAbout: [
+    'Estrategia de marca',
+    'Identidad visual y rebranding',
+    'Diseño y desarrollo web',
+    'Posicionamiento SEO',
+    'Posicionamiento en buscadores de IA (GEO)',
+    'Google Ads',
+    'Meta Ads',
+    'Gestión de redes sociales',
+    'Eventos y activaciones de marca',
+  ],
+  description: 'Consultoría de estrategia de marketing y marca en Zaragoza. Una red de especialistas senior dirigida por Guillén Bruna Tricas que lleva tu marketing de principio a fin: estrategia, marca, web, SEO y GEO, publicidad online, redes sociales y eventos.',
   areaServed: [
     { '@type': 'City', name: 'Zaragoza' },
     { '@type': 'AdministrativeArea', name: 'Aragón' },
@@ -44,6 +60,7 @@ const personLd = {
     jobTitle: 'Consultor de estrategia de marketing y marca',
     // El cargo se mantiene corto y idéntico en web, LinkedIn, redes y vídeos;
     // el resto de especialidades se declaran aquí para que buscadores e IA las asocien.
+    '@id': 'https://gbtconsultoria.com/#guillen',
     knowsAbout: [
       'Estrategia de marketing',
       'Estrategia de marca',
@@ -75,4 +92,4 @@ const personLd = {
 <meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={imageUrl} />
 
-<script type="application/ld+json" set:html={JSON.stringify(personLd)} />
+<script type="application/ld+json" set:html={JSON.stringify(orgLd)} />

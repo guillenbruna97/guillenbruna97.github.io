@@ -25,8 +25,8 @@ const todosLosArticulos = await getCollection('articulos');
 const categorias = activeCategories(todosLosArticulos.map((entry) => entry.data.tag));
 
 const tituloPagina = page.currentPage === 1
-  ? 'Artículos de marketing | Guillén Bruna Tricas'
-  : `Artículos de marketing | Página ${page.currentPage} | Guillén Bruna Tricas`;
+  ? 'Artículos de marketing | GBT Consultoría'
+  : `Artículos de marketing | Página ${page.currentPage} | GBT Consultoría`;
 
 const descripcionBase = 'Artículos sobre estrategia de marketing, marca, comunicación directiva y go-to-market B2B para empresas y directivos que quieren comunicar con autoridad.';
 const descripcionPagina = page.currentPage === 1

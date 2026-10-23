@@ -1,3 +1,6 @@
+// Nombre de la firma: sufijo de los <title> y nombre de la organización en el
+// schema. Guillén Bruna Tricas aparece como fundador (decidido 2026-10-22).
+export const SITE_NAME = 'GBT Consultoría';
 export const CONTACT_EMAIL = 'info@gbtconsultoria.com';
 export const BOOKING_URL = 'https://cal.com/guillen-bruna-tricas/15min';
 export const LINKEDIN_URL = 'https://www.linkedin.com/in/guillenbruna';

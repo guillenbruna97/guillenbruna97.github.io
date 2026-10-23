@@ -1,15 +1,11 @@
 ---
 import ServiceLayout from '../../../layouts/ServiceLayout.astro';
-import { getService } from '../../../consts';
-import { precioDe, diagnosticoVigente, enLanzamiento, euros } from '../../../data/precios';
-
-const p = precioDe('pipeline');
-const lanz = enLanzamiento() ? ' Es tarifa inicial para el primer proyecto con tu empresa, contratando hasta el 31 de marzo de 2027. Desde el segundo proyecto se aplica la tarifa normal.' : '';
+import { getService, SITE_NAME } from '../../../consts';
 
 const service = getService('pipeline')!;
 ---
 <ServiceLayout
-  title={`${service.seoTitle} | Guillén Bruna Tricas`}
+  title={`${service.seoTitle} | ${SITE_NAME}`}
   description="Diagnóstico comercial para empresas B2B con datos de tu CRM. Localizo en qué etapa del pipeline se pierden las oportunidades, por qué y qué hacer en cada una."
   heading={service.seoTitle}
   subtitle="Descubre dónde tu pipeline B2B pierde oportunidades valiosas y qué ajustes estructurales necesitas para convertir leads en clientes de forma consistente."
@@ -35,7 +31,7 @@ const service = getService('pipeline')!;
     },
     {
       question: '¿Cuánto cuesta el diagnóstico de pipeline?',
-      answer: `El diagnóstico de pipeline cuesta ${euros(p.desde)} más IVA. Puede llegar a ${euros(p.hasta!)} más IVA si tienes varias líneas de negocio o más de un equipo comercial. El precio es cerrado antes de empezar. Pagarás el 50 % al inicio y el 50 % restante en la entrega.${lanz}`,
+      answer: 'Depende de cuántas líneas de negocio y equipos comerciales haya que analizar. Tras una llamada de 15 minutos, en 5 días laborables recibes una propuesta con el precio cerrado, el plazo y qué incluye. Se paga el 50 % al inicio y el 50 % restante en la entrega.',
     },
     {
       question: '¿Hay alguna garantía?',
@@ -63,7 +59,7 @@ const service = getService('pipeline')!;
     },
     {
       question: '¿Quién aplica las recomendaciones?',
-      answer: 'Tu equipo aplica las recomendaciones. El informe está pensado para que se pueda aplicar sin mí. Si quieres ayuda para aplicarlo, hay un acompañamiento opcional desde 1.500 € más IVA al mes, sin permanencia.',
+      answer: 'Tu equipo aplica las recomendaciones. El informe está pensado para que se pueda aplicar sin mí. Si quieres ayuda para aplicarlo, hay un acompañamiento mensual opcional y sin permanencia.',
     },
     {
       question: '¿En qué se diferencia de contratar un consultor comercial o una formación de ventas?',

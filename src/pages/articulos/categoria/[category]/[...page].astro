@@ -32,8 +32,8 @@ const todosLosArticulos = await getCollection('articulos');
 const categorias = activeCategories(todosLosArticulos.map((entry) => entry.data.tag));
 
 const tituloPagina = page.currentPage === 1
-  ? `${category.metaTitle} | Guillén Bruna Tricas`
-  : `${category.metaTitle} | Pág. ${page.currentPage} | Guillén Bruna Tricas`;
+  ? `${category.metaTitle} | GBT Consultoría`
+  : `${category.metaTitle} | Pág. ${page.currentPage} | GBT Consultoría`;
 
 const descripcionPagina = page.currentPage === 1
   ? category.description

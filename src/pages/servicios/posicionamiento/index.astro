@@ -1,15 +1,11 @@
 ---
 import ServiceLayout from '../../../layouts/ServiceLayout.astro';
-import { getService } from '../../../consts';
-import { precioDe, diagnosticoVigente, enLanzamiento, euros } from '../../../data/precios';
-
-const p = precioDe('posicionamiento');
-const lanz = enLanzamiento() ? ' Es tarifa inicial para el primer proyecto con tu empresa, contratando hasta el 31 de marzo de 2027. Desde el segundo proyecto se aplica la tarifa normal.' : '';
+import { getService, SITE_NAME } from '../../../consts';
 
 const service = getService('posicionamiento')!;
 ---
 <ServiceLayout
-  title={`${service.seoTitle} | Guillén Bruna Tricas`}
+  title={`${service.seoTitle} | ${SITE_NAME}`}
   description="Posicionamiento de marca y propuesta de valor para empresas B2B, con ejemplos reescritos de web, presentación y venta que tu cliente entiende a la primera."
   heading={service.seoTitle}
   subtitle="Construye una narrativa de producto B2B que tu cliente entiende a la primera, diferenciando tu solución del resto e impulsando la decisión de compra."
@@ -35,7 +31,7 @@ const service = getService('posicionamiento')!;
     },
     {
       question: '¿Cuánto cuesta el proyecto de posicionamiento?',
-      answer: `El proyecto de posicionamiento cuesta ${euros(p.desde)} más IVA. Este precio es cerrado. Si trabajamos con más de dos segmentos de cliente, el coste puede ascender a ${euros(p.hasta!)} más IVA. Se paga un 50 % al inicio del proyecto y el 50 % restante en el momento de la entrega final.${lanz}`,
+      answer: 'Depende sobre todo de cuántos segmentos de cliente haya que trabajar. Tras una llamada de 15 minutos, en 5 días laborables recibes una propuesta con el precio cerrado, el plazo y qué incluye. Se paga un 50 % al inicio del proyecto y el 50 % restante en la entrega final.',
     },
     {
       question: '¿Cuánto dura y cuánto tiempo necesitas de mí?',

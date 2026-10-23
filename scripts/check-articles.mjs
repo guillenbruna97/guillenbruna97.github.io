@@ -12,7 +12,7 @@ import { readdirSync, readFileSync, existsSync } from 'node:fs';
 
 const ROOT = new URL('../', import.meta.url);
 const ARTICLES_DIR = new URL('src/content/articulos/', ROOT);
-const BRAND_SUFFIX = ' | Guillén Bruna Tricas';
+const BRAND_SUFFIX = ' | GBT Consultoría';
 const MAX_TITLE = 60;
 const WORDS_PER_MINUTE = 200;
 

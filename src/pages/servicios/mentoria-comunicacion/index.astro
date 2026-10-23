@@ -1,15 +1,11 @@
 ---
 import ServiceLayout from '../../../layouts/ServiceLayout.astro';
-import { getService } from '../../../consts';
-import { precioDe, enLanzamiento, euros } from '../../../data/precios';
-
-const p = precioDe('mentoria-comunicacion');
-const lanz = enLanzamiento() ? ' Es tarifa inicial para el primer proyecto con tu empresa, contratando hasta el 31 de marzo de 2027. Desde el segundo proyecto se aplica la tarifa normal.' : '';
+import { getService, SITE_NAME } from '../../../consts';
 
 const service = getService('mentoria-comunicacion')!;
 ---
 <ServiceLayout
-  title={`${service.seoTitle} | Guillén Bruna Tricas`}
+  title={`${service.seoTitle} | ${SITE_NAME}`}
   description="Media training y mentoría de comunicación para CEO, COO y CFO, con sesiones de preparación y notas de decisión escritas para cada intervención pública."
   heading={service.seoTitle}
   subtitle="Prepara a tu comité de dirección para que cada voz pública refuerce la marca con el mismo rigor estratégico, sea quien sea quien esté hablando."
@@ -35,7 +31,7 @@ const service = getService('mentoria-comunicacion')!;
     },
     {
       question: '¿Cuánto cuesta la mentoría de comunicación ejecutiva?',
-      answer: `El programa trimestral de mentoría de comunicación ejecutiva cuesta ${euros(p.desde)} más IVA por directivo. Este precio incluye 6 sesiones de 90 minutos, notas de decisión y apoyo entre sesiones. Para un comité de tres directivos, el coste es de ${euros(p.comite!)} más IVA por trimestre. Una intervención puntual, con una sesión de 2 horas y nota de decisión, cuesta ${euros(p.extra!.precio)} más IVA. El pago es por trimestre adelantado.${lanz}`,
+      answer: 'Depende de si es para un directivo o para un comité, y de si es el programa trimestral o una intervención puntual. El programa incluye 6 sesiones de 90 minutos, notas de decisión y apoyo entre sesiones. Tras una llamada de 15 minutos, en 5 días laborables recibes una propuesta con el precio cerrado, el plazo y qué incluye. El programa se paga por trimestre adelantado.',
     },
     {
       question: '¿Trabajas con alcaldes y cargos públicos?',
@@ -55,7 +51,7 @@ const service = getService('mentoria-comunicacion')!;
     },
     {
       question: '¿Me ayudas si surge una intervención urgente?',
-      answer: `Sí, te ayudo si surge una intervención urgente. Dentro del programa de mentoría, tienes apoyo entre sesiones para estas situaciones, con respuesta en 24 horas laborables. Si no estás en el programa, puedes solicitar una intervención puntual, que cuesta ${euros(p.extra!.precio)} más IVA.`,
+      answer: `Sí, te ayudo si surge una intervención urgente. Dentro del programa de mentoría, tienes apoyo entre sesiones para estas situaciones, con respuesta en 24 horas laborables. Si no estás en el programa, puedes solicitar una intervención puntual, con una sesión de 2 horas y nota de decisión.`,
     },
     {
       question: '¿Cómo se gestiona la confidencialidad?',
