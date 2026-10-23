@@ -5,7 +5,8 @@ import ContactBlock from '../components/ContactBlock.astro';
 import { Picture } from 'astro:assets';
 import { getServiceImage } from '../utils/service-images';
 import { casosForService } from '../data/casos';
-import { getPrecio, vigente, diagnosticoVigente, euros, SESION_DIAGNOSTICO, LANZAMIENTO } from '../data/precios';
+import { getPrecio } from '../data/precios';
+import { SITE_NAME } from '../consts';
 import FaqList, { type Faq } from '../components/FaqList.astro';
 
 interface Step {
@@ -34,9 +35,9 @@ const optimizedImage = getServiceImage(image);
 // sale de la URL /servicios/<slug>/. Sin casos, el bloque no se pinta.
 const serviceSlug = Astro.url.pathname.split('/').filter(Boolean)[1] ?? '';
 const relatedCasos = casosForService(serviceSlug);
-const base = getPrecio(serviceSlug);
-const precio = base && vigente(base);
-const diag = diagnosticoVigente();
+// Solo el formato (duración, dedicación, garantía): desde 2026-10-22 los
+// precios no se publican, van en la propuesta.
+const formato = getPrecio(serviceSlug);
 
 const serviceLd = {
   '@context': 'https://schema.org',
@@ -45,9 +46,9 @@ const serviceLd = {
   description,
   serviceType: heading,
   provider: {
-    '@type': 'Person',
-    name: 'Guillén Bruna Tricas',
-    url: 'https://gbtconsultoria.com/sobre-mi/',
+    '@type': 'ProfessionalService',
+    name: SITE_NAME,
+    url: 'https://gbtconsultoria.com/',
   },
   areaServed: [
     { '@type': 'City', name: 'Zaragoza' },
@@ -59,22 +60,6 @@ const serviceLd = {
     audienceType: 'CEO, COO, CFO, CEO de holding',
   },
   url: Astro.url.href,
-  ...(precio && {
-    offers: {
-      '@type': 'Offer',
-      priceCurrency: 'EUR',
-      price: precio.desde,
-      priceSpecification: {
-        '@type': 'PriceSpecification',
-        priceCurrency: 'EUR',
-        minPrice: precio.desde,
-        ...(precio.hasta && { maxPrice: precio.hasta }),
-        valueAddedTaxIncluded: false,
-      },
-      ...(precio.normal && { priceValidUntil: LANZAMIENTO.hasta }),
-      url: 'https://gbtconsultoria.com/como-trabajo/',
-    },
-  }),
 };
 const breadcrumbLd = {
   '@context': 'https://schema.org',
@@ -151,29 +136,16 @@ const breadcrumbLd = {
       </ol>
     </div>
 
-    {precio && (
+    {formato && (
       <div class="case-block-full" data-reveal>
-        <h2 class="block-label">Precio y formato</h2>
+        <h2 class="block-label">Formato</h2>
         <dl class="precio-grid">
-          <div>
-            <dt>Precio</dt>
-            <dd>
-              <strong>{euros(precio.desde)} + IVA</strong>{precio.unidad && ` ${precio.unidad}`}
-              {precio.normal && <span class="precio-nota">Antes <s>{euros(precio.normal.desde)}</s>. Tarifa inicial en el primer proyecto con tu empresa, {LANZAMIENTO.condicion}.</span>}
-              {precio.rango && <span class="precio-nota">{precio.rango}</span>}
-              {precio.extra && <span class="precio-nota">{precio.extra.label}, {euros(precio.extra.precio)} + IVA</span>}
-              {!precio.extra && (
-                <span class="precio-nota">¿Prefieres empezar por algo más pequeño? {SESION_DIAGNOSTICO.nombre} de 2 horas con nota escrita, {euros(diag.precio)} + IVA, que se descuenta si después contratas el proyecto.</span>
-              )}
-            </dd>
-          </div>
-          <div><dt>Duración</dt><dd>{precio.duracion}</dd></div>
-          <div><dt>Tu tiempo</dt><dd>{precio.dedicacion}</dd></div>
-          <div><dt>Pago</dt><dd>{precio.pago}</dd></div>
-          {precio.garantia && <div><dt>Garantía</dt><dd>{precio.garantia}</dd></div>}
-          <div><dt>No incluye</dt><dd>{precio.noIncluye.join('. ')}</dd></div>
+          <div><dt>Duración</dt><dd>{formato.duracion}</dd></div>
+          <div><dt>Tu tiempo</dt><dd>{formato.dedicacion}</dd></div>
+          {formato.garantia && <div><dt>Garantía</dt><dd>{formato.garantia}</dd></div>}
+          <div><dt>Fuera de este servicio</dt><dd>{formato.noIncluye.join('. ')}</dd></div>
         </dl>
-        <p class="precio-link">Formato mixto, sin permanencia y con acuerdo de confidencialidad. <a href="/como-trabajo/">Así trabajo</a></p>
+        <p class="precio-link">Precio cerrado en la propuesta, que recibes en 5 días laborables tras una llamada de 15 minutos. Sin permanencia y con acuerdo de confidencialidad. <a href="/como-trabajo/">Cómo trabajamos</a></p>
       </div>
     )}
 

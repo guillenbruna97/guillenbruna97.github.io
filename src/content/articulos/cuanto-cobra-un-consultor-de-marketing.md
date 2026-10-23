@@ -2,9 +2,10 @@
 title: "Cuánto cobra un consultor de marketing en España y qué estás pagando en realidad"
 seoTitle: "Tarifas de un consultor de marketing"
 tag: "Marketing · Precios"
-excerpt: "Las cifras que circulan mezclan al que ejecuta con el que piensa. Rangos con fuente, las tres formas de pagar y lo que cobro yo, publicado."
+excerpt: "Las cifras que circulan mezclan al que ejecuta con el que piensa. Rangos con fuente, las tres formas de pagar y cómo saber si un precio es justo."
 description: "Cuánto cobra un consultor de marketing en España, con cifras de fuentes reales, las formas de pago habituales y cómo saber si un precio es justo."
 date: 2026-10-11
+updated: 2026-10-23
 readingTime: "6 min de lectura"
 image: "/images/articulos/cuanto-cobra-un-consultor-de-marketing.jpg"
 imageAlt: "Ilustración de un directivo junto a una balanza en la que un montón de manos levantadas pesa menos que una brújula, sobre la diferencia entre pagar por ejecución y pagar por criterio al contratar un consultor de marketing"
@@ -22,7 +23,7 @@ faqs:
 
 La respuesta corta es que depende menos del consultor que de lo que le pidas. Las cifras que circulan por internet mezclan al profesional que gestiona tus redes con el que te ayuda a decidir a quién vender y con qué mensaje. Los dos se llaman consultor de marketing y no hacen el mismo trabajo, así que tampoco cobran lo mismo.
 
-Aquí tienes los rangos con su fuente, las tres formas habituales de pagar y, al final, lo que cobro yo. Lo publico porque es la primera pregunta que me hacen y la que menos gente responde con números.
+Aquí tienes los rangos con su fuente, las tres formas habituales de pagar y cómo saber si un precio es justo. Es la primera pregunta que me hacen y la que menos gente responde con números.
 
 ## Los rangos de mercado, con su fuente
 
@@ -52,16 +53,11 @@ Por eso un perfil de ejecución cobra por hora o por cuota mensual y un perfil e
 
 La alternativa a un consultor no suele ser no hacer nada, sino contratar. Un director de marketing con experiencia en Zaragoza puede costar hasta 92.000 euros brutos al año, más las cotizaciones a la Seguridad Social, el proceso de selección y los meses que tarda en dar resultados. Tiene sentido cuando el volumen de trabajo lo justifica. Si lo que te falta es dirección y no manos, un proyecto cerrado te da esa dirección por una fracción del coste, y tu equipo actual la ejecuta. Lo desarrollo en [asesor externo o equipo interno](/articulos/asesor-externo-de-marketing-vs-equipo-interno/).
 
-## Lo que cobro yo
+## Cómo cobramos en GBT Consultoría
 
-Trabajo por proyecto cerrado y publico los precios en [cómo trabajo](/como-trabajo/). El primer proyecto con cada empresa va con **tarifa inicial**, para quien contrate hasta el 31 de marzo de 2027. Es esta.
+Trabajamos por proyecto cerrado, o mes a mes y sin permanencia en los servicios continuos, como redes, SEO o publicidad. No publicamos una tarifa por servicio porque el alcance cambia demasiado de un caso a otro. No cuesta lo mismo ordenar el mensaje de una empresa con un solo segmento de cliente que lanzar una marca nueva con web, campañas y evento.
 
-- **[Diagnóstico de pipeline B2B](/servicios/pipeline/).** De 1.800 a 2.500 euros, en 3 semanas. El 50 % final solo se paga si el informe documenta al menos 3 fugas con datos de tu CRM, cada una con su acción priorizada.
-- **[Posicionamiento y propuesta de valor](/servicios/posicionamiento/).** De 2.200 a 3.000 euros, en 4 semanas, con dos rondas de revisión incluidas.
-- **[Estrategia go to market y cliente ideal](/servicios/gtm-icp/).** De 3.000 a 4.500 euros, en 6 semanas.
-- **[Mentoría de comunicación para directivos](/servicios/mentoria-comunicacion/).** 1.500 euros por directivo y trimestre, con 6 sesiones de 90 minutos. Un comité de tres directivos, 3.900 euros por trimestre.
-
-Los proyectos se pagan al 50 % al empezar y al 50 % en la entrega, sin permanencia. Lo que vale este trabajo está en la tarifa normal, que también publico, pero prefiero demostrarlo antes de cobrarlo. Me gusta formar parte del crecimiento de las empresas con las que trabajo, y la confianza se gana con resultados, no con un presupuesto. Por eso el primer proyecto va con tarifa inicial y la normal llega cuando ya hemos trabajado juntos. Lo que no cambia es la forma de trabajar. Sabes desde el primer día qué recibes, cuándo y cuánto cuesta, y trabajas conmigo directamente, sin intermediarios.
+Lo que sí es fijo es la forma. Tras una llamada de 15 minutos, en 5 días laborables recibes una propuesta con el entregable, el plazo, el precio cerrado y lo que queda fuera. Los proyectos se pagan al 50 % al empezar y al 50 % en la entrega, y recibes una sola factura aunque en tu proyecto intervengan varios especialistas de nuestra red. Lo tienes todo en [cómo trabajamos](/como-trabajo/).
 
 ## Cómo saber si un precio es justo
 
@@ -77,4 +73,4 @@ Si la respuesta a la primera es vaga, el precio da igual, porque no sabrás si h
 
 ## Por dónde empezar
 
-Si todavía no sabes qué necesitas, no contrates un proyecto. Empieza por una **sesión de diagnóstico** de dos horas sobre tu caso. Te llevas una nota escrita con el problema principal, tres prioridades y qué servicio encaja, o si no encaja ninguno. Con tarifa inicial cuesta 250 euros más IVA y, si contratas un proyecto en los 30 días siguientes, se descuentan de su precio.
+Si todavía no sabes qué necesitas, no contrates un proyecto. Empieza por una **sesión de diagnóstico** de dos horas sobre tu caso. Te llevas una nota escrita con el problema principal, tres prioridades y qué servicio encaja, o si no encaja ninguno. Si contratas un proyecto en los 30 días siguientes, se descuenta de su precio.
