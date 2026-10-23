@@ -136,7 +136,17 @@ import { GA_MEASUREMENT_ID } from '../consts';
   });
 
   rejectBtn?.addEventListener('click', () => {
+    const wasGranted = localStorage.getItem(STORAGE_KEY) === 'granted';
     localStorage.setItem(STORAGE_KEY, 'denied');
     banner?.classList.remove('is-open');
+    // GA4 ya cargado no se puede descargar en caliente: se recarga para
+    // que la retirada del consentimiento tenga efecto desde ya.
+    if (wasGranted) location.reload();
+  });
+
+  // "Preferencias de cookies" del footer: retirar o dar el consentimiento
+  // tiene que ser igual de fácil que darlo (RGPD), así que reabre el aviso.
+  document.querySelectorAll('[data-cookie-settings]').forEach((btn) => {
+    btn.addEventListener('click', revealBanner);
   });
 </script>
