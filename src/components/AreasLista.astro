@@ -1,0 +1,56 @@
+---
+// Las 6 áreas en filas: nombre y explicación a la izquierda, servicios concretos
+// a la derecha como enlaces en píldora. Estructura inspirada en el bloque
+// «En la práctica, funciona así» de elogia.net, con la identidad de GBT.
+import { AREAS } from '../data/areas';
+
+interface Props {
+  titulo?: string;
+  /** Nivel del título de cada área (h3 si la sección lleva h2 propio). */
+  nivel?: 'h2' | 'h3';
+}
+const { titulo, nivel = titulo ? 'h3' : 'h2' } = Astro.props;
+const Titulo = nivel;
+---
+<section class="al">
+  {titulo && <h2 class="al-titulo">{titulo}</h2>}
+  <ul class="al-lista">
+    {AREAS.map((area) => (
+      <li class="al-fila" data-reveal>
+        <div class="al-texto">
+          <Titulo class="al-nombre"><a href={`/servicios/${area.slug}/`}>{area.name}</a></Titulo>
+          <p>{area.intro}</p>
+        </div>
+        <ul class="al-servicios" aria-label={`Servicios de ${area.name}`}>
+          {area.servicios.map((s) => (
+            <li><a href={s.href ?? `/servicios/${area.slug}/`}>{s.name}<span aria-hidden="true"> ↗</span></a></li>
+          ))}
+        </ul>
+      </li>
+    ))}
+  </ul>
+</section>
+
+<style is:global>
+  .al { max-width: 1240px; margin: 0 auto; padding: 5rem 4vw 4rem; }
+  .al-titulo { font-family: 'Poppins', sans-serif; font-size: clamp(2rem, 4.4vw, 3.4rem); font-weight: 500; letter-spacing: -0.035em; line-height: 1.05; margin: 0 0 3rem; max-width: 900px; }
+  .al-lista { list-style: none; margin: 0; padding: 0; }
+  .al-fila { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 2rem 4rem; align-items: start; padding: 2.4rem 0; border-top: 1px solid rgba(0,0,0,0.1); }
+  body.dark .al-fila { border-top-color: rgba(255,255,255,0.1); }
+  .al-nombre { font-family: 'Poppins', sans-serif; font-size: clamp(1.15rem, 1.6vw, 1.4rem); font-weight: 500; letter-spacing: -0.02em; line-height: 1.25; margin: 0 0 0.7rem; }
+  .al-nombre a { color: inherit; text-decoration: none; transition: color var(--transition); }
+  .al-nombre a:hover { color: var(--blue); }
+  body.dark .al-nombre a:hover { color: var(--blue-light); }
+  .al-texto p { font-size: 0.95rem; font-weight: 300; line-height: 1.7; color: rgba(0,0,0,0.62); max-width: 520px; margin: 0; }
+  body.dark .al-texto p { color: rgba(232,232,232,0.62); }
+  .al-servicios { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 0.55rem; }
+  .al-servicios a { display: inline-block; padding: 0.45rem 0.95rem; border: 1px solid rgba(0,0,0,0.18); border-radius: 999px; font-size: 0.78rem; font-weight: 400; color: var(--black); text-decoration: none; white-space: nowrap; transition: border-color var(--transition), color var(--transition), background var(--transition); }
+  .al-servicios a:hover { border-color: var(--blue); color: var(--blue); }
+  body.dark .al-servicios a { color: #e8e8e8; border-color: rgba(232,232,232,0.22); }
+  body.dark .al-servicios a:hover { border-color: var(--blue-light); color: var(--blue-light); }
+  @media (max-width: 860px) {
+    .al-fila { grid-template-columns: 1fr; gap: 1.2rem; }
+    .al-servicios { justify-content: flex-start; }
+    .al-servicios a { white-space: normal; }
+  }
+</style>
