@@ -2,7 +2,10 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ContactBlock from '../components/ContactBlock.astro';
 import DiagnosticoBanner from '../components/DiagnosticoBanner.astro';
-import FotoPendiente from '../components/FotoPendiente.astro';
+import { Picture } from 'astro:assets';
+import heroIlustracion from '../assets/articulos/consultor-de-marketing-en-zaragoza.jpg';
+import heroIlustracionOscura from '../assets/hero/ilustracion-oscura.jpg';
+import CasosTabs from '../components/CasosTabs.astro';
 import AreasLista from '../components/AreasLista.astro';
 import { BOOKING_URL } from '../consts';
 
@@ -29,7 +32,10 @@ const trustLogos = [
           <a href="/trabajo/" class="btn-secondary">Ver casos reales</a>
         </div>
       </div>
-      <FotoPendiente class="hx-foto" ratio="16 / 7" texto="Sesión de trabajo con un cliente: Guillén y parte del equipo alrededor de una mesa, con luz natural y sin posar. Horizontal, de al menos 2400 px de ancho." />
+      <div class="hx-media" data-parallax aria-hidden="true">
+        <Picture src={heroIlustracion} alt="" width={1376} height={768} formats={['avif', 'webp']} quality={72} loading="eager" fetchpriority="high" class="hx-claro" />
+        <Picture src={heroIlustracionOscura} alt="" width={1376} height={768} formats={['avif', 'webp']} quality={72} loading="lazy" class="hx-oscuro" />
+      </div>
     </div>
     <div class="hh-trust">
       <p class="hh-trust-label">Marcas en la trayectoria de Guillén Bruna</p>
@@ -44,6 +50,8 @@ const trustLogos = [
       </div>
     </div>
   </section>
+
+  <CasosTabs />
 
   <section class="hx-manifiesto">
     <h2>Mientras una agencia vende lo que tiene en plantilla, nosotros montamos el equipo que necesita tu negocio</h2>
@@ -81,6 +89,26 @@ const trustLogos = [
     title="¿Hablamos de tu marketing?"
     subtitle="Cuéntanos tu caso y en 5 días laborables tienes una propuesta cerrada."
   />
+<script>
+    // Parallax de la imagen del hero: se desplaza hasta el 23 % de su altura
+    // (el 30 % que sobra respecto al contenedor) mientras el hero cruza la pantalla.
+    const media = document.querySelector<HTMLElement>('[data-parallax]');
+    if (media && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      const imgs = media.querySelectorAll<HTMLImageElement>('img');
+      let ticking = false;
+      const update = () => {
+        ticking = false;
+        const r = media.getBoundingClientRect();
+        const vh = window.innerHeight;
+        if (r.bottom < 0 || r.top > vh) return;
+        const progress = Math.min(1, Math.max(0, (vh - r.top) / (vh + r.height)));
+        imgs.forEach((img) => { img.style.transform = `translate3d(0, ${(-progress * 23).toFixed(2)}%, 0)`; });
+      };
+      window.addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+      window.addEventListener('resize', update);
+      update();
+    }
+  </script>
 </BaseLayout>
 
 <style is:global>
@@ -96,7 +124,17 @@ const trustLogos = [
   body.dark .hx-desc { color: rgba(232,232,232,0.68); }
   .hx-actions { display: flex; flex-wrap: wrap; gap: 0.8rem; }
   .hx-actions .btn-secondary { margin-left: 0; }
-  .hx-foto { width: 100%; }
+  /* Imagen del hero con parallax (como elogia.net): el contenedor recorta y la
+     imagen, un 30 % más alta, sube más despacio que la página al hacer scroll. */
+  .hx-media { position: relative; width: 100%; height: 70vh; min-height: 420px; max-height: 720px; overflow: hidden; border-radius: 16px; border: 1px solid rgba(0,0,0,0.1); background: #efebe3; }
+  body.dark .hx-media { border-color: rgba(255,255,255,0.1); background: #151510; }
+  .hx-media picture { position: absolute; inset: 0; display: block; }
+  .hx-media img { position: absolute; left: 0; top: 0; width: 100%; height: 130%; object-fit: cover; object-position: center 40%; will-change: transform; }
+  .hx-media .hx-oscuro { display: none; }
+  body.dark .hx-media .hx-claro { display: none; }
+  body.dark .hx-media .hx-oscuro { display: block; }
+  @media (prefers-reduced-motion: reduce) { .hx-media img { height: 100%; will-change: auto; } }
+  @media (max-width: 640px) { .hx-media { height: 48vh; min-height: 280px; } }
   body.dark .hh-trust-label { color: rgba(232,232,232,0.45); border-top-color: rgba(255,255,255,0.1); }
   body.dark .hh-logos img { filter: invert(1); opacity: 0.7; }
   /* Banda de logos a todo el ancho, al pie del hero: cuatro copias en fila que se desplazan hacia la derecha
