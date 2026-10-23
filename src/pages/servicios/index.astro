@@ -2,7 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ContactBlock from '../../components/ContactBlock.astro';
 import { SITE_NAME } from '../../consts';
-import { AREAS } from '../../data/areas';
+import AreasLista from '../../components/AreasLista.astro';
 
 // Las 6 áreas del catálogo (data/areas.ts). Los 4 servicios de consultoría
 // se listan dentro de «Estrategia y marca».
@@ -16,20 +16,7 @@ import { AREAS } from '../../data/areas';
     <p class="page-desc">Estrategia, marca, web, posicionamiento, publicidad, redes y eventos. Cada proyecto lo ejecutan los especialistas de nuestra red que mejor encajan con él, y tú hablas con una sola persona, que responde de todo.</p>
   </div>
 
-  <div class="services-group">
-    <div class="services-grid services-grid--3">
-      {AREAS.map((area, i) => (
-        <a href={`/servicios/${area.slug}/`} class="service-card" data-reveal>
-          <div class="service-card-top">
-            <span class="service-number">{String(i + 1).padStart(2, '0')}</span>
-          </div>
-          <h2>{area.name}</h2>
-          <p>{area.tagline}</p>
-          <span class="service-link">Ver área →</span>
-        </a>
-      ))}
-    </div>
-  </div>
+  <AreasLista />
 
   <div class="services-group">
     <p class="services-precios">Trabajamos desde Zaragoza, en persona en los momentos clave y en remoto el resto. Si estás comparando opciones en tu zona, <a href="/articulos/consultor-de-marketing-en-zaragoza/">tres preguntas para elegir consultor de marketing en Zaragoza</a>.</p>
