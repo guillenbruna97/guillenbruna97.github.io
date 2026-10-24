@@ -112,7 +112,7 @@ export const DETALLES: Record<string, DetalleCaso> = {
     ],
     resultado: 'El resultado fue real: <strong>400-500 pedidos</strong> y una comunidad de <strong>5.000 seguidores</strong> construida desde cero, sin inversión externa, hasta llegar al punto de equilibrio económico. El proyecto terminó por una decisión consciente: las diferencias de implicación y de visión entre socios generaron una tensión que decidimos resolver antes de que afectara a lo que más importaba. Fue una de las lecciones más honestas sobre liderazgo, roles y expectativas, y define cómo trabajo hoy con equipos y clientes.',
     destacado: {
-      titulo: 'La marca en Instagram',
+      titulo: 'La marca',
       texto: 'Camisetas de algodón orgánico en colores suaves, mensajes positivos y una vida al aire libre: la identidad que construimos para Broco, de la gorra al estampado.',
       galeria: [
         { imagen: brocoIg1, alt: 'Gorra negra con el logotipo de Broco' },
@@ -120,7 +120,6 @@ export const DETALLES: Record<string, DetalleCaso> = {
         { imagen: brocoIg3, alt: 'Camiseta azul de Broco con estampado en la espalda' },
         { imagen: brocoIg4, alt: 'Camiseta amarilla de Broco con el mensaje «kind people are my kinda people»' },
       ],
-      enlace: { texto: 'Ver @brocobrand.es en Instagram', href: 'https://www.instagram.com/brocobrand.es/' },
     },
   },
   'muebles-rey': {
