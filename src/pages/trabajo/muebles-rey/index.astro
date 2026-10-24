@@ -1,0 +1,58 @@
+---
+import CaseLayout from '../../../layouts/CaseLayout.astro';
+import { casos } from '../../../data/casos';
+
+const caso = casos.find((c) => c.slug === 'muebles-rey')!;
+---
+<CaseLayout
+  title={caso.detailTitle}
+  description={caso.detailDescription}
+  tags={caso.detailTags}
+  heading={caso.detailHeading}
+  meta={`${caso.company}, ${caso.role}`}
+  skills={caso.skills}
+>
+  <div class="case-intro">
+    <p>Muebles Rey es una de las marcas de Grupo Rey Corporación, uno de los grupos de retail de muebles con mayor recorrido en España. Entré en el grupo como técnico de marketing y llegué a Head of Social Media. En Muebles Rey llevé la gestión completa de las redes sociales, gestioné por separado toda la parte de paid media y trabajé de forma complementaria con una agencia de comunicación de referencia para llevar el estilo y la marca al punto que buscaba el grupo. En el mismo grupo llevé también <a href="/trabajo/muebles-tuco/">Muebles Tuco</a> y la cartelería de tienda de <a href="/trabajo/slm/">SLM</a>.</p>
+    <div class="case-intro-img case-intro-img--linked case-intro-img--logo">
+      <img src="/logos/rey.png" alt="Muebles Rey" />
+    </div>
+  </div>
+
+  <h2 class="case-section-h2">Qué se hizo</h2>
+  <div class="case-blocks">
+    <div>
+      <h3 class="block-label">Redes sociales</h3>
+      <p class="block-text">Gestión completa de las redes sociales de Muebles Rey: estrategia, planificación editorial, producción y comunidad, con una voz propia dentro de un grupo en el que llegué a llevar la comunicación digital de hasta <strong>6 marcas en paralelo</strong>. En el grupo lideré además más de 3 eventos de inauguración de tiendas, coordinando la presencia física, la cobertura en redes y el seguimiento posterior.</p>
+    </div>
+    <div>
+      <h3 class="block-label">Meta Ads y paid media</h3>
+      <p class="block-text">La parte de paid media de Muebles Rey la gestioné por separado. Las campañas de Meta Ads de Muebles Rey y Muebles Tuco sumaban presupuestos mensuales superiores a <strong>20.000 €</strong>, segmentados por marca, producto y temporada. La estrategia combinaba campañas de awareness con CPMs optimizados por debajo de la media del sector retail, y campañas de conversión con CTRs consistentemente por encima del <strong>1,5%</strong> y ROAS positivo en las líneas de producto principales. La arquitectura de campañas, la segmentación de audiencias y la adaptación del mensaje a cada marca y momento de temporada eran responsabilidad directa mía, con optimización continua de resultados.</p>
+    </div>
+  </div>
+
+  <div class="case-block-full">
+    <h3 class="block-label">Una agencia de referencia para elevar la marca</h3>
+    <p class="block-text">Una de las decisiones con más impacto fue la selección y onboarding de la agencia de comunicación para Muebles Rey. La marca necesitaba una atención más detallada y especializada de la que se podía gestionar íntegramente desde dentro. Identifiqué la mejor opción, la propuse y la concreté. Esa agencia sigue trabajando con la marca a día de hoy, años después de que yo dejara la organización, lo que habla por sí solo del criterio con el que se tomó esa decisión. Dentro de esa colaboración nació Perspectivas, un videopodcast de la marca que inicialmente se intentó desarrollar con otra agencia de medios sin el resultado esperado. La agencia que yo traje fue la que finalmente lo ejecutó correctamente, alineándolo con el mensaje, el estilo y la nueva identidad que Muebles Rey estaba asumiendo en ese momento.</p>
+  </div>
+
+  <div class="case-block-full">
+    <h3 class="block-label">Producción de spot de marca</h3>
+    <p class="block-text">Otra iniciativa que lideré fue la producción de un spot de marca para Muebles Rey. Mi participación abarcó desde la ideación creativa y el guion hasta la planificación y coordinación del rodaje, incluyendo la propuesta y contratación del grupo musical que protagoniza la pieza. Supervisé la ejecución final para asegurar la coherencia visual con la identidad de la marca. El resultado es un spot que combina música en directo, atmósfera de marca y producto de forma cohesionada.</p>
+  </div>
+
+  <div class="case-video-wrap">
+    <iframe
+      src="https://www.youtube.com/embed/i6RH0EIlEus"
+      title="Spot de marca Muebles Rey"
+      allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowfullscreen
+    ></iframe>
+    <p class="video-fallback">Si el vídeo no carga, <a href="https://youtu.be/i6RH0EIlEus" target="_blank" rel="noopener noreferrer">ver en YouTube ↗</a></p>
+  </div>
+
+  <div class="case-block-full">
+    <h3 class="block-label">Resultados</h3>
+    <p class="block-text">Durante mi etapa, la comunidad de Muebles Rey pasó de aproximadamente <strong>15.000 a 25.000 seguidores</strong>, con crecimiento en engagement y alcance orgánico, y la agencia que elegimos sigue con la marca. Lo que dejó esa etapa fue la comprensión real de lo que significa gestionar comunicación con volumen, con historia de marca y con una audiencia nacional. Y la confirmación de que las mejores decisiones estratégicas no son las que se ven en el momento, sino las que siguen funcionando cuando ya no estás.</p>
+  </div>
+</CaseLayout>
