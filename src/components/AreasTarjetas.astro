@@ -9,8 +9,12 @@ import FotoPendiente from './FotoPendiente.astro';
 
 interface Props {
   titulo?: string;
+  /** En /servicios/: la tarjeta lleva a la sección del área en la misma página, sin desplegable. */
+  ancla?: boolean;
 }
-const { titulo } = Astro.props;
+const { titulo, ancla = false } = Astro.props;
+// Como índice de la propia página el nombre no es un encabezado: el h2 del área está más abajo.
+const Nombre = ancla ? 'p' : 'h3';
 
 // Foto que necesita cada área (hasta tener las reales van huecos de foto).
 const FOTOS: Record<string, string> = {
@@ -30,8 +34,11 @@ const TONOS = ['azul', 'claro', 'roto', 'oscuro', 'azul', 'claro'];
       <li class={`at-card at-${TONOS[i % TONOS.length]}`} data-reveal>
         <FotoPendiente class="at-foto" ratio="4 / 3" texto={FOTOS[area.slug] ?? 'Foto del área. Vertical 4:3.'} />
         <div class="at-panel">
-          <h3 class="at-nombre"><a href={`/servicios/${area.slug}/`}>{area.name}</a></h3>
+          <Nombre class="at-nombre"><a href={ancla ? `#${area.slug}` : `/servicios/${area.slug}/`}>{area.name}</a></Nombre>
           <p class="at-tagline">{area.tagline}</p>
+          {ancla ? (
+            <a href={`#${area.slug}`} class="at-bajar">Ver qué incluye ↓</a>
+          ) : (
           <details class="at-detalle">
             <summary>Ver servicios</summary>
             <ul>
@@ -41,6 +48,7 @@ const TONOS = ['azul', 'claro', 'roto', 'oscuro', 'azul', 'claro'];
               <li class="at-area"><a href={`/servicios/${area.slug}/`}>Todo sobre {area.name.toLowerCase()} →</a></li>
             </ul>
           </details>
+          )}
         </div>
       </li>
     ))}
@@ -54,7 +62,7 @@ const TONOS = ['azul', 'claro', 'roto', 'oscuro', 'azul', 'claro'];
   .at-card { border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; }
   .at-card .at-foto { border-radius: 0; border: 0; }
   .at-panel { padding: 1.8rem 1.8rem 1.6rem; min-height: 17.5rem; display: flex; flex-direction: column; }
-  .at-nombre { font-size: clamp(1.5rem, 2.2vw, 2rem); line-height: 1.1; margin: 0 0 0.8rem; }
+  .at-nombre { font-weight: 500; letter-spacing: -0.015em; font-size: clamp(1.5rem, 2.2vw, 2rem); line-height: 1.1; margin: 0 0 0.8rem; }
   .at-nombre a { color: inherit; text-decoration: none; }
   .at-nombre a:hover { text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
   .at-tagline { font-size: 0.88rem; font-weight: 300; line-height: 1.6; margin: 0 0 1.4rem; opacity: 0.8; }
@@ -67,6 +75,8 @@ const TONOS = ['azul', 'claro', 'roto', 'oscuro', 'azul', 'claro'];
   .at-detalle li a { color: inherit; font-size: 0.86rem; font-weight: 300; text-decoration: none; }
   .at-detalle li a:hover { text-decoration: underline; text-underline-offset: 3px; }
   .at-detalle .at-area a { font-weight: 500; }
+  .at-bajar { margin-top: auto; border-top: 1px solid color-mix(in srgb, currentColor 25%, transparent); padding-top: 0.9rem; color: inherit; font-size: 0.85rem; font-weight: 500; text-decoration: none; }
+  .at-bajar:hover { text-decoration: underline; text-underline-offset: 3px; }
 
   /* Tonos de la marca (cerebro/identidad-visual.md) */
   .at-azul .at-panel { background: var(--blue); color: #ffffff; }
