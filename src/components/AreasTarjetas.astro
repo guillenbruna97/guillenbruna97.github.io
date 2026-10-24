@@ -31,7 +31,7 @@ const TONOS = ['azul', 'claro', 'roto', 'oscuro', 'azul', 'claro'];
   {titulo && <h2 class="at-titulo">{titulo}</h2>}
   <ul class="at-grid">
     {AREAS.map((area, i) => (
-      <li class={`at-card at-${TONOS[i % TONOS.length]}`} data-reveal>
+      <li class={`at-card at-${TONOS[i % TONOS.length]}`}>
         <FotoPendiente class="at-foto" ratio="4 / 3" texto={FOTOS[area.slug] ?? 'Foto del área. Vertical 4:3.'} />
         <div class="at-panel">
           <Nombre class="at-nombre"><a href={ancla ? `#${area.slug}` : `/servicios/${area.slug}/`}>{area.name}</a></Nombre>
@@ -45,7 +45,7 @@ const TONOS = ['azul', 'claro', 'roto', 'oscuro', 'azul', 'claro'];
               {area.servicios.map((s) => (
                 <li><a href={s.href ?? `/servicios/${area.slug}/`}>{s.name}</a></li>
               ))}
-              <li class="at-area"><a href={`/servicios/${area.slug}/`}>Todo sobre {area.name.toLowerCase()} →</a></li>
+              <li class="at-area"><a href={`/servicios/${area.slug}/`}>Todo sobre {area.name.toLowerCase()}</a></li>
             </ul>
           </details>
           )}

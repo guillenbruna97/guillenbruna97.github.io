@@ -29,7 +29,7 @@ const pageHref = (num: number) => (num === 1 ? `${basePath}/` : `${basePath}/${n
   {page.data.map((entry) => {
     const optimizedImage = getArticleImage(entry.data.image);
     return (
-    <div class="case-item" data-reveal>
+    <div class="case-item">
       {entry.data.image && (
         <div class="case-media">
           <a href={`/articulos/${entry.id}/`} aria-label={`Leer artículo: ${entry.data.title}`}>
@@ -58,7 +58,7 @@ const pageHref = (num: number) => (num === 1 ? `${basePath}/` : `${basePath}/${n
         </div>
         <h2><a href={`/articulos/${entry.id}/`}>{entry.data.title}</a></h2>
         <p class="case-desc">{entry.data.excerpt}</p>
-        <a href={`/articulos/${entry.id}/`} class="case-link">Leer artículo →</a>
+        <a href={`/articulos/${entry.id}/`} class="case-link">Leer artículo</a>
       </div>
     </div>
     );
@@ -102,10 +102,9 @@ const pageHref = (num: number) => (num === 1 ? `${basePath}/` : `${basePath}/${n
     flex-wrap: wrap;
   }
   .filter-btn {
-    font-size: 0.68rem;
+    font-size: 0.8rem;
     font-weight: 500;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    letter-spacing: 0;
     padding: 0.45rem 1rem;
     border-radius: 8px;
     background: transparent;

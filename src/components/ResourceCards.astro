@@ -15,11 +15,11 @@ const { cards } = Astro.props;
 ---
 <div class="resource-grid">
   {cards.map((card, i) => (
-    <a href={card.href} class="resource-card" data-reveal>
+    <a href={card.href} class="resource-card">
       <span class="resource-number">{String(i + 1).padStart(2, '0')}</span>
       <h2>{card.name}</h2>
       <p>{card.tagline}</p>
-      <span class="resource-link">{card.cta} →</span>
+      <span class="resource-link">{card.cta}</span>
     </a>
   ))}
 </div>

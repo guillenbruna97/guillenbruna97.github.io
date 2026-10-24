@@ -11,31 +11,31 @@ import { BOOKING_URL, MAILTO_URL, CONTACT_EMAIL, LINKEDIN_URL, LINKEDIN_HANDLE }
       <h1>Hablemos<br />sin rodeos</h1>
       <p class="contact-desc">Si tienes un proyecto, una pregunta o simplemente quieres hablar de marketing y negocio, escríbeme. Leo todos los mensajes y respondo a los que tienen sentido.</p>
       <h2 class="case-section-h2">Canales de contacto</h2>
-      <div class="contact-channels" data-reveal>
+      <div class="contact-channels">
         <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" class="channel-item">
           <div>
             <p class="channel-label">Agenda una llamada</p>
             <p class="channel-value">15 minutos, sin compromiso</p>
           </div>
-          <span class="channel-arrow">→</span>
+          <span class="channel-arrow" aria-hidden="true">↗</span>
         </a>
         <a href={MAILTO_URL} class="channel-item">
           <div>
             <p class="channel-label">Email</p>
             <p class="channel-value">{CONTACT_EMAIL}</p>
           </div>
-          <span class="channel-arrow">→</span>
+          <span class="channel-arrow" aria-hidden="true">↗</span>
         </a>
         <a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer" class="channel-item">
           <div>
             <p class="channel-label">LinkedIn</p>
             <p class="channel-value">{LINKEDIN_HANDLE}</p>
           </div>
-          <span class="channel-arrow">→</span>
+          <span class="channel-arrow" aria-hidden="true">↗</span>
         </a>
       </div>
     </div>
-    <div class="contact-info" data-reveal>
+    <div class="contact-info">
       <p class="info-label">Tu interlocutor</p>
       <div class="info-item">
         <p class="info-item-label">Ubicación</p>
@@ -104,10 +104,9 @@ import { BOOKING_URL, MAILTO_URL, CONTACT_EMAIL, LINKEDIN_URL, LINKEDIN_HANDLE }
   body.dark .channel-item:hover { border-color: var(--blue-light); background: var(--dark-surface); }
 
   .channel-label {
-    font-size: 0.68rem;
+    font-size: 0.8rem;
     font-weight: 500;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
+    letter-spacing: 0;
     color: rgba(0,0,0,0.35);
     margin-bottom: 0.2rem;
     transition: color var(--transition);
@@ -124,10 +123,9 @@ import { BOOKING_URL, MAILTO_URL, CONTACT_EMAIL, LINKEDIN_URL, LINKEDIN_HANDLE }
   /* CONTACT INFO */
   .contact-info { padding-top: 1rem; transition-delay: 0.1s; }
   .info-label {
-    font-size: 0.68rem;
+    font-size: 0.8rem;
     font-weight: 500;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
+    letter-spacing: 0;
     color: rgba(0,0,0,0.35);
     margin-bottom: 2rem;
     transition: color var(--transition);
@@ -136,10 +134,9 @@ import { BOOKING_URL, MAILTO_URL, CONTACT_EMAIL, LINKEDIN_URL, LINKEDIN_HANDLE }
 
   .info-item { margin-bottom: 2rem; }
   .info-item-label {
-    font-size: 0.72rem;
+    font-size: 0.82rem;
     font-weight: 500;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
+    letter-spacing: 0;
     color: var(--blue);
     margin-bottom: 0.3rem;
     transition: color var(--transition);
