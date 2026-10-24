@@ -1,22 +1,34 @@
 ---
-// Página de cada una de las 6 áreas del catálogo (contenido en data/areas.ts).
-// Los 4 servicios de consultoría tienen su propia página estática en
-// /servicios/<slug>/ y cuelgan de «Estrategia y marca».
+// Página de cada una de las 6 áreas (contenido en data/areas.ts), con el mismo
+// lenguaje visual que la home y /servicios/ (2026-10-24): cabecera con titular
+// grande y botones, foto, servicios en filas, para quién, cómo trabajamos,
+// casos del área en pestañas, preguntas frecuentes y el resto de áreas.
+// Las 4 fichas de consultoría tienen su propia página y cuelgan de «Estrategia y marca».
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import '../../styles/service.css';
-import Divider from '../../components/Divider.astro';
 import ContactBlock from '../../components/ContactBlock.astro';
 import FaqList from '../../components/FaqList.astro';
+import FotoPendiente from '../../components/FotoPendiente.astro';
+import CasosTabs from '../../components/CasosTabs.astro';
 import { AREAS, type Area } from '../../data/areas';
 import { casosForArea } from '../../data/casos';
-import { SITE_NAME } from '../../consts';
+import { SITE_NAME, BOOKING_URL } from '../../consts';
 
 export function getStaticPaths() {
   return AREAS.map((area) => ({ params: { area: area.slug }, props: { area } }));
 }
 
 const { area } = Astro.props as { area: Area };
-const relatedCasos = casosForArea(area.slug);
+const casosArea = casosForArea(area.slug);
+const otras = AREAS.filter((a) => a.slug !== area.slug);
+
+const FOTOS: Record<string, string> = {
+  'estrategia-y-marca': 'Sesión de estrategia con la dirección de un cliente, alrededor de una mesa o una pizarra. Horizontal, de al menos 2400 px de ancho.',
+  'diseno-web': 'Una web hecha por GBT vista en portátil y móvil, en un entorno de trabajo real. Horizontal, de al menos 2400 px de ancho.',
+  'seo-geo': 'Pantalla con resultados de Google o una respuesta de ChatGPT que cita a un cliente. Horizontal, de al menos 2400 px de ancho.',
+  'publicidad-online': 'Móvil con un anuncio real de un cliente y el panel de campañas detrás. Horizontal, de al menos 2400 px de ancho.',
+  'redes-sociales': 'Rodaje de contenido para las redes de un cliente: móvil, luz y alguien grabando. Horizontal, de al menos 2400 px de ancho.',
+  eventos: 'Evento real con público y escenario, como el Spain Innovation Summit. Horizontal, de al menos 2400 px de ancho.',
+};
 
 const pasos = [
   { title: 'Llamada de 15 minutos', text: 'Nos cuentas qué necesitas y vemos si podemos ayudarte.' },
@@ -59,72 +71,126 @@ const breadcrumbLd = {
 <BaseLayout title={`${area.seoTitle} | ${SITE_NAME}`} description={area.description}>
   <script type="application/ld+json" set:html={JSON.stringify(serviceLd)} />
   <script type="application/ld+json" set:html={JSON.stringify(breadcrumbLd)} />
-  <a href="/servicios/" class="back-link">← Volver a servicios</a>
 
-  <div class="case-main">
-    <div class="case-tags">
-      <span class="tag">{area.name}</span>
-    </div>
+  <header class="ar-cabecera">
+    <div class="ar-migas" role="navigation" aria-label="Migas de pan"><a href="/servicios/">Servicios</a><span aria-hidden="true">/</span><span>{area.name}</span></div>
     <h1>{area.seoTitle}</h1>
-    <p class="case-meta">{area.intro}</p>
-
-    <div class="case-block-full area-servicios-block">
-      <h2 class="block-label">Qué hacemos</h2>
-      <ul class="area-servicios">
-        {area.servicios.map((s) => (
-          <li>
-            <h3 class="process-title">{s.href ? <a href={s.href}>{s.name}</a> : s.name}</h3>
-            <p class="process-text">{s.text}</p>
-            {s.href && <a href={s.href} class="area-servicio-link">Ver servicio</a>}
-          </li>
-        ))}
-      </ul>
-    </div>
-
-    <div class="case-block-full">
-      <h2 class="block-label">Para quién es</h2>
-      <p class="block-text">{area.paraQuien}</p>
-    </div>
-
-    <div class="case-block-full">
-      <h2 class="block-label">Cómo trabajamos</h2>
-      <ol class="process-steps">
-        {pasos.map((paso, i) => (
-          <li>
-            <span class="process-number">{String(i + 1).padStart(2, '0')}</span>
-            <div>
-              <h3 class="process-title">{paso.title}</h3>
-              <p class="process-text">{paso.text}</p>
-            </div>
-          </li>
-        ))}
-      </ol>
-      <p class="precio-link">Sin permanencia, con acuerdo de confidencialidad y una sola factura. <a href="/quienes-somos/#la-red">Cómo elegimos a la red</a></p>
-    </div>
-
-    {relatedCasos.length > 0 && (
-      <div class="case-block-full">
-        <h2 class="block-label">{relatedCasos.length > 1 ? 'Casos relacionados' : 'Caso relacionado'}</h2>
-        <ul class="service-casos">
-          {relatedCasos.map((caso) => (
-            <li>
-              <a href={`/trabajo/${caso.slug}/`}>
-                <span class="service-caso-title">{caso.cardHeadline}</span>
-                <span class="service-caso-company">{caso.company}</span>
-              </a>
-            </li>
-          ))}
-        </ul>
+    <div class="ar-sub">
+      <p class="ar-intro">{area.intro}</p>
+      <div class="ar-botones">
+        <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" class="btn-primary">Reservar llamada de 15 minutos</a>
+        {casosArea.length > 0 && <a href="#casos" class="btn-secondary">Ver casos</a>}
       </div>
-    )}
-
-    <div class="case-block-full faq-block">
-      <h2 class="block-label">Preguntas frecuentes</h2>
-      <FaqList faqs={area.faqs} />
     </div>
-  </div>
+    <FotoPendiente ratio="16 / 7" texto={FOTOS[area.slug] ?? 'Foto del área. Horizontal, de al menos 2400 px de ancho.'} />
+  </header>
 
-  <Divider />
+  <section class="ar-bloque ar-dos">
+    <h2>Qué hacemos</h2>
+    <ul class="ar-servicios">
+      {area.servicios.map((s) => (
+        <li>
+          <h3>{s.href ? <a href={s.href}>{s.name}</a> : s.name}</h3>
+          <p>{s.text}{s.href && <> <a href={s.href} class="ar-enlace">Ver el servicio</a></>}</p>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="ar-bloque ar-dos">
+    <h2>Para quién es</h2>
+    <p class="ar-texto">{area.paraQuien}</p>
+  </section>
+
+  <section class="ar-bloque ar-dos">
+    <h2>Cómo trabajamos</h2>
+    <div>
+    <ol class="ar-pasos">
+      {pasos.map((paso) => (
+        <li>
+          <h3>{paso.title}</h3>
+          <p>{paso.text}</p>
+        </li>
+      ))}
+    </ol>
+    <p class="ar-nota">Sin permanencia, con acuerdo de confidencialidad y una sola factura. <a href="/quienes-somos/#la-red">Cómo elegimos a la red</a></p>
+    </div>
+  </section>
+
+  {casosArea.length > 0 && (
+    <div id="casos">
+      <CasosTabs casos={casosArea} titulo={casosArea.length > 1 ? 'Casos de esta área' : 'Un caso de esta área'} />
+    </div>
+  )}
+
+  <section class="ar-bloque ar-dos">
+    <h2>Preguntas frecuentes</h2>
+    <div><FaqList faqs={area.faqs} /></div>
+  </section>
+
+  <section class="ar-bloque ar-otras">
+    <h2>Otras áreas</h2>
+    <ul>
+      {otras.map((o) => (
+        <li><a href={`/servicios/${o.slug}/`}><strong>{o.name}</strong><span>{o.tagline}</span></a></li>
+      ))}
+    </ul>
+  </section>
 
   <ContactBlock title="¿Hablamos<br>de tu caso?" />
 </BaseLayout>
+
+<style is:global>
+  .ar-cabecera { max-width: 1240px; margin: 0 auto; padding: 3rem 4vw 1rem; }
+  .ar-migas { display: flex; gap: 0.5rem; font-size: 0.82rem; color: rgba(0,0,0,0.5); margin-bottom: 2rem; }
+  body.dark .ar-migas { color: rgba(232,232,232,0.5); }
+  .ar-migas a { color: inherit; text-decoration: none; }
+  .ar-migas a:hover { color: var(--blue); }
+  body.dark .ar-migas a:hover { color: var(--blue-light); }
+  .ar-cabecera h1 { font-size: clamp(2.4rem, 6vw, 5.2rem); max-width: 1100px; margin: 0 0 2rem; }
+  .ar-sub { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 1.6rem 3rem; margin-bottom: 2.6rem; }
+  .ar-intro { font-size: 1.05rem; font-weight: 300; line-height: 1.75; color: rgba(0,0,0,0.65); max-width: 600px; margin: 0; }
+  body.dark .ar-intro { color: rgba(232,232,232,0.68); }
+  .ar-botones { display: flex; flex-wrap: wrap; gap: 0.8rem; }
+  .ar-botones .btn-secondary { margin-left: 0; }
+
+  .ar-bloque { max-width: 1240px; margin: 0 auto; padding: 4rem 4vw 0; }
+  .ar-dos { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.6fr); gap: 1.5rem 4rem; align-items: start; }
+  .ar-bloque h2 { font-size: clamp(1.6rem, 2.8vw, 2.3rem); margin: 0; }
+  .ar-servicios, .ar-pasos { list-style: none; margin: 0; padding: 0; }
+  .ar-servicios li, .ar-pasos li { padding: 1.3rem 0; border-top: 1px solid rgba(0,0,0,0.1); }
+  .ar-servicios li:first-child, .ar-pasos li:first-child { padding-top: 0.2rem; border-top: 0; }
+  body.dark .ar-servicios li, body.dark .ar-pasos li { border-top-color: rgba(255,255,255,0.1); }
+  .ar-servicios h3, .ar-pasos h3 { font-size: 1.12rem; margin: 0 0 0.4rem; }
+  .ar-servicios h3 a { color: inherit; text-decoration: underline; text-decoration-color: rgba(0,74,173,0.35); text-underline-offset: 4px; }
+  .ar-servicios h3 a:hover { color: var(--blue); }
+  body.dark .ar-servicios h3 a:hover { color: var(--blue-light); }
+  .ar-servicios p, .ar-pasos p, .ar-texto { font-size: 0.98rem; font-weight: 300; line-height: 1.7; color: rgba(0,0,0,0.65); margin: 0; max-width: 640px; }
+  body.dark .ar-servicios p, body.dark .ar-pasos p, body.dark .ar-texto { color: rgba(232,232,232,0.65); }
+  .ar-texto { font-size: 1.1rem; }
+  .ar-enlace { font-weight: 500; color: var(--blue); }
+  body.dark .ar-enlace { color: var(--blue-light); }
+  .ar-pasos { counter-reset: paso; }
+  .ar-pasos li { counter-increment: paso; display: grid; grid-template-columns: 2.4rem 1fr; column-gap: 0.4rem; }
+  .ar-pasos li::before { content: counter(paso); grid-row: span 2; font-size: 1.12rem; font-weight: 500; color: var(--blue); }
+  body.dark .ar-pasos li::before { color: var(--blue-light); }
+  .ar-nota { margin: 1.2rem 0 0; font-size: 0.88rem; font-weight: 300; color: rgba(0,0,0,0.6); }
+  body.dark .ar-nota { color: rgba(232,232,232,0.6); }
+  .ar-nota a { color: var(--blue); font-weight: 500; }
+  body.dark .ar-nota a { color: var(--blue-light); }
+
+  .ar-otras ul { list-style: none; margin: 1.8rem 0 4rem; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 2rem; }
+  @media (max-width: 860px) { .ar-otras ul { grid-template-columns: 1fr; } }
+  .ar-otras li { border-top: 1px solid rgba(0,0,0,0.1); }
+  body.dark .ar-otras li { border-top-color: rgba(255,255,255,0.1); }
+  .ar-otras a { display: block; padding: 1.1rem 0; color: inherit; text-decoration: none; }
+  .ar-otras strong { display: block; font-weight: 500; margin-bottom: 0.3rem; }
+  .ar-otras span { display: block; font-size: 0.86rem; font-weight: 300; line-height: 1.55; color: rgba(0,0,0,0.6); }
+  body.dark .ar-otras span { color: rgba(232,232,232,0.6); }
+  .ar-otras a:hover strong { color: var(--blue); }
+  body.dark .ar-otras a:hover strong { color: var(--blue-light); }
+
+  @media (max-width: 860px) {
+    .ar-dos { grid-template-columns: 1fr; }
+  }
+</style>
