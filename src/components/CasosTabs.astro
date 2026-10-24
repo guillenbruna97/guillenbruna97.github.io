@@ -54,7 +54,9 @@ const total = String(casos.length).padStart(2, '0');
       tabs.forEach((t, k) => { t.setAttribute('aria-selected', String(k === i)); t.tabIndex = k === i ? 0 : -1; });
       panels.forEach((p, k) => { p.hidden = k !== i; });
       if (actual) actual.textContent = String(i + 1).padStart(2, '0');
-      tabs[i].scrollIntoView({ block: 'nearest', inline: 'nearest' });
+      // Solo desplaza la fila de pestañas en horizontal; scrollIntoView movía también la página.
+      const fila = tabs[i].parentElement!;
+      fila.scrollTo({ left: tabs[i].offsetLeft - fila.clientWidth / 2 + tabs[i].clientWidth / 2 });
       if (focus) tabs[i].focus();
     };
     tabs.forEach((t, k) => {

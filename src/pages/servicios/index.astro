@@ -105,26 +105,75 @@ const itemListLd = {
 </BaseLayout>
 
 <script>
+  // Navegación de la página de servicios. La pestaña activa se calcula con la
+  // posición del scroll (no con IntersectionObserver, que se salta secciones
+  // con scroll rápido) y la barra de pestañas solo se desplaza en horizontal:
+  // antes se usaba scrollIntoView, que también movía la página y peleaba con
+  // el scroll del usuario.
   const root = document.querySelector<HTMLElement>('[data-sv]');
   if (root) {
+    const nav = document.querySelector<HTMLElement>('body > nav, nav');
+    const barra = root.querySelector<HTMLElement>('.sv-barra')!;
+    const pestanas = root.querySelector<HTMLElement>('.sv-pestanas')!;
     const tabs = [...root.querySelectorAll<HTMLAnchorElement>('[data-sv-tab]')];
     const areas = [...root.querySelectorAll<HTMLElement>('[data-sv-area]')];
     const actual = root.querySelector('[data-sv-actual]');
+    const suave = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let activa = -1;
+    // Mientras dura un desplazamiento lanzado desde una pestaña, la pestaña pulsada no cambia.
+    let bloqueado = false;
+    const soltar = () => { bloqueado = false; calcular(); };
+
+    // Altura de lo que queda fijo arriba (menú + barra): ajusta el destino de los anclas.
+    const offset = () => (nav?.offsetHeight ?? 0) + barra.offsetHeight + 16;
+    const ajustarPadding = () => document.documentElement.style.setProperty('scroll-padding-top', `${offset()}px`);
+    ajustarPadding();
+    new ResizeObserver(ajustarPadding).observe(barra);
+
     const marcar = (n: number) => {
+      if (n === activa || n < 0) return;
+      activa = n;
       tabs.forEach((t, k) => (k === n ? t.setAttribute('aria-current', 'true') : t.removeAttribute('aria-current')));
       if (actual) actual.textContent = String(n + 1).padStart(2, '0');
-      tabs[n].scrollIntoView({ block: 'nearest', inline: 'nearest' });
+      const t = tabs[n];
+      pestanas.scrollTo({ left: t.offsetLeft - pestanas.clientWidth / 2 + t.clientWidth / 2, behavior: suave ? 'smooth' : 'auto' });
     };
-    const obs = new IntersectionObserver(
-      (entries) => entries.forEach((e) => { if (e.isIntersecting) marcar(areas.indexOf(e.target as HTMLElement)); }),
-      { rootMargin: '-45% 0px -50% 0px' }
-    );
-    areas.forEach((a) => obs.observe(a));
+
+    const calcular = () => {
+      if (bloqueado) return;
+      const linea = offset() + 100;
+      let n = 0;
+      areas.forEach((a, k) => { if (a.getBoundingClientRect().top <= linea) n = k; });
+      // Al final de la página la última área no llega a la línea: se marca igual.
+      const ultima = areas[areas.length - 1].getBoundingClientRect();
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4 && ultima.top < window.innerHeight) n = areas.length - 1;
+      marcar(n);
+    };
+    let pendiente = false;
+    window.addEventListener('scroll', () => { if (!pendiente) { pendiente = true; requestAnimationFrame(() => { pendiente = false; calcular(); }); } }, { passive: true });
+    calcular();
+
+    // Pestañas y tarjetas: desplazamiento suave hasta el área, marcando la pestaña al momento.
+    document.querySelectorAll<HTMLAnchorElement>('a[href^="#"]').forEach((a) => {
+      const n = areas.findIndex((el) => `#${el.id}` === a.getAttribute('href'));
+      if (n < 0) return;
+      a.addEventListener('click', (e) => {
+        e.preventDefault();
+        marcar(n);
+        bloqueado = suave;
+        if (suave) {
+          window.addEventListener('scrollend', soltar, { once: true });
+          setTimeout(() => { if (bloqueado) soltar(); }, 2500);
+        }
+        const top = areas[n].getBoundingClientRect().top + window.scrollY - offset();
+        window.scrollTo({ top, behavior: suave ? 'smooth' : 'auto' });
+        history.replaceState(null, '', `#${areas[n].id}`);
+      });
+    });
   }
 </script>
 
 <style is:global>
-  html { scroll-padding-top: 150px; }
   .sv-cabecera { max-width: 1240px; margin: 0 auto; padding: 4.5rem 4vw 0.5rem; }
   .sv-cabecera h1 { font-size: clamp(2.4rem, 5.6vw, 4.8rem); max-width: 1000px; margin: 0 0 1.6rem; }
   .sv-resumen { font-size: 1.05rem; font-weight: 300; line-height: 1.75; color: rgba(0,0,0,0.65); max-width: 720px; margin: 0; }
@@ -133,7 +182,7 @@ const itemListLd = {
   .sv { max-width: 1240px; margin: 0 auto; padding: 0 4vw 3rem; }
   .sv-barra { position: sticky; top: 76px; z-index: 50; display: flex; align-items: flex-end; justify-content: space-between; gap: 2rem; padding-top: 1.2rem; background: var(--white); border-bottom: 1px solid rgba(0,0,0,0.12); }
   body.dark .sv-barra { background: var(--dark-bg); border-bottom-color: rgba(255,255,255,0.12); }
-  .sv-pestanas { display: flex; gap: 2rem; overflow-x: auto; scrollbar-width: none; }
+  .sv-pestanas { display: flex; gap: 2rem; overflow-x: auto; scrollbar-width: none; scroll-snap-type: x proximity; }
   .sv-pestanas::-webkit-scrollbar { display: none; }
   .sv-pestanas a { border-bottom: 2px solid transparent; margin-bottom: -1px; padding: 0 0 0.9rem; font-size: 0.88rem; color: rgba(0,0,0,0.55); text-decoration: none; white-space: nowrap; transition: color var(--transition), border-color var(--transition); }
   .sv-pestanas a:hover { color: var(--black); }
@@ -185,7 +234,6 @@ const itemListLd = {
   body.dark .sv-pie a { color: var(--blue-light); }
 
   @media (max-width: 900px) {
-    html { scroll-padding-top: 170px; }
     .sv-area { grid-template-columns: 1fr; padding: 3rem 0; }
     .sv-lado { position: static; }
     .sv-servicios li { grid-template-columns: 1fr; }
