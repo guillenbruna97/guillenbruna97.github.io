@@ -1,12 +1,17 @@
 ---
+// Listado de casos reales (2026-10-24), inspirado en cyberclick.es/casos-de-exito
+// (sin su hero): banda oscura con filtro por área y carrusel de tarjetas con
+// la del centro destacada, y logos de las marcas. El bloque de testimonios
+// aparece solo cuando haya testimonios reales (TESTIMONIOS vacío por ahora).
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import Divider from '../../components/Divider.astro';
 import ContactBlock from '../../components/ContactBlock.astro';
 import TrustMarquee from '../../components/TrustMarquee.astro';
-import PageHeaderMarquee from '../../components/PageHeaderMarquee.astro';
+import FotoPendiente from '../../components/FotoPendiente.astro';
 import { Image } from 'astro:assets';
 import { casos } from '../../data/casos';
-import FotoPendiente from '../../components/FotoPendiente.astro';
+import { getDetalle } from '../../data/casos-detalle';
+import { AREAS } from '../../data/areas';
+import { SITE_NAME } from '../../consts';
 
 const trustLogos = [
   { src: '/logos/zebra.png', alt: 'Logo de Zebra AI Transformation Company' },
@@ -16,138 +21,179 @@ const trustLogos = [
   { src: '/logos/slm.png', alt: 'Logo de SLM' },
   { src: '/logos/integra.png', alt: 'Logo de Integra Consultoría Gerencial' },
 ];
+
+// Testimonios con nombre y cargo reales. Nunca inventados.
+const TESTIMONIOS: { texto: string; nombre: string; cargo: string; empresa: string }[] = [];
+
+const areasConCasos = AREAS.filter((a) => casos.some((c) => c.areas.includes(a.slug)));
+const total = String(casos.length).padStart(2, '0');
+const nombreArea = (slug: string) => AREAS.find((a) => a.slug === slug)?.name ?? '';
 ---
 <BaseLayout
-  title="Casos reales de marketing | GBT Consultoría"
-  description="Proyectos de estrategia de marca, lanzamiento de producto y generación de demanda. Casos reales para empresas y directivos."
+  title={`Casos reales de marketing | ${SITE_NAME}`}
+  description="Casos reales de estrategia de marca, redes sociales, paid media, web y eventos, con sus cifras: el reto de cada empresa, qué se hizo y qué resultado dio."
 >
-  <PageHeaderMarquee
-    message="Casos reales | Proyectos donde estrategia, ejecución y resultados fueron de la mano."
-  />
+  <header class="tc-cabecera">
+    <h1>Casos reales, resultados reales</h1>
+    <p>El reto de cada empresa, qué se hizo y qué resultado dio, con sus cifras. Proyectos dirigidos por Guillén Bruna, que hoy orquesta la red de GBT Consultoría.</p>
+  </header>
 
-  <Divider />
-
-  <div class="cases">
-    {casos.map((caso, i) => (
-      <div class="case-item">
-        <div class="case-media">
-          {caso.image ? (
-            <a href={`/trabajo/${caso.slug}/`} aria-label={caso.ariaLabel}>
-              <Image src={caso.image} alt={caso.imageAlt} width={960} widths={[480, 720, 960]} sizes="(max-width: 640px) 100vw, 50vw" format="webp" quality={55} />
-            </a>
-          ) : (
-            <FotoPendiente ratio="4 / 3" texto={`Foto del caso de ${caso.company}. Horizontal 4:3.`} />
-          )}
-        </div>
-        <div class="case-meta">
-          <p class="case-number">{String(i + 1).padStart(2, '0')}</p>
-        </div>
-        <div class="case-content">
-          <div class="case-tags">
-            {caso.cardTags.map((tag) => <span class="tag">{tag}</span>)}
-          </div>
-          <h2><a href={`/trabajo/${caso.slug}/`}>{caso.cardHeadline}</a></h2>
-          <p class="case-role">{caso.company}, {caso.role}</p>
-          <p class="case-desc">{caso.cardDesc}</p>
-          <p class="case-highlight">{caso.cardHighlight}</p>
-          <a href={`/trabajo/${caso.slug}/`} class="case-link">Ver caso completo</a>
+  <section class="tc-banda" data-tc aria-label="Casos">
+    <div class="tc-in">
+      <div class="tc-filtro">
+        <button type="button" class="tc-filtro-btn" aria-expanded="false" aria-controls="tc-areas">Filtrar por área</button>
+        <div class="tc-areas" id="tc-areas" hidden>
+          <button type="button" data-area="" aria-pressed="true">Todas</button>
+          {areasConCasos.map((a) => <button type="button" data-area={a.slug} aria-pressed="false">{a.name}</button>)}
         </div>
       </div>
-    ))}
-  </div>
+    </div>
 
-  <Divider />
+    <ul class="tc-pista" data-tc-pista>
+      {casos.map((caso) => {
+        const d = getDetalle(caso.slug);
+        return (
+          <li class="tc-card" data-areas={caso.areas.join(' ')}>
+            <a href={`/trabajo/${caso.slug}/`}>
+              <span class="tc-fondo">
+                {caso.image ? (
+                  <Image src={caso.image} alt="" width={600} format="webp" quality={55} loading="lazy" />
+                ) : (
+                  <FotoPendiente ratio="3 / 4" texto={`Foto del caso de ${caso.company}.`} />
+                )}
+              </span>
+              {d?.logo && <span class="tc-logo"><img src={d.logo} alt="" /></span>}
+              <span class="tc-info">
+                <span class="tc-pill" data-nombre-inicial={nombreArea(caso.areas[0])}>{nombreArea(caso.areas[0])}</span>
+                <h2>{caso.company}</h2>
+                <span class="tc-reto">{caso.reto}</span>
+              </span>
+            </a>
+          </li>
+        );
+      })}
+    </ul>
+
+    <div class="tc-controles">
+      <button type="button" data-dir="-1">Anterior</button>
+      <span><span data-tc-actual>01</span> / <span data-tc-total>{total}</span></span>
+      <button type="button" data-dir="1">Siguiente</button>
+    </div>
+  </section>
+
+  {TESTIMONIOS.length > 0 && (
+    <section class="tc-testimonios">
+      <div>
+        <h2>Clientes y testimonios</h2>
+        <p>Lo que dicen las personas con las que hemos trabajado.</p>
+      </div>
+      <ul>
+        {TESTIMONIOS.map((t) => (
+          <li><blockquote><p>{t.texto}</p><footer><strong>{t.nombre}</strong>, {t.cargo} en {t.empresa}</footer></blockquote></li>
+        ))}
+      </ul>
+    </section>
+  )}
 
   <TrustMarquee logos={trustLogos} />
 
-  <ContactBlock title="¿Trabajamos<br>juntos?" />
+  <ContactBlock title="¿Hablamos<br>de tu caso?" />
 </BaseLayout>
 
+<script>
+  const root = document.querySelector<HTMLElement>('[data-tc]');
+  if (root) {
+    const pista = root.querySelector<HTMLElement>('[data-tc-pista]')!;
+    const cards = [...root.querySelectorAll<HTMLElement>('.tc-card')];
+    const actual = root.querySelector('[data-tc-actual]')!;
+    const totalEl = root.querySelector('[data-tc-total]')!;
+    const suave = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+    const visibles = () => cards.filter((c) => !c.hidden);
+    const pad = (n: number) => String(n).padStart(2, '0');
+
+    // La tarjeta más cercana al centro de la pista queda destacada.
+    const marcar = () => {
+      const centro = pista.scrollLeft + pista.clientWidth / 2;
+      const vs = visibles();
+      let mejor = 0, dist = Infinity;
+      vs.forEach((c, i) => { const d = Math.abs(c.offsetLeft + c.offsetWidth / 2 - centro); if (d < dist) { dist = d; mejor = i; } });
+      cards.forEach((c) => c.classList.remove('activa'));
+      vs[mejor]?.classList.add('activa');
+      actual.textContent = pad(mejor + 1);
+      totalEl.textContent = pad(vs.length);
+      return mejor;
+    };
+    const ir = (i: number) => {
+      const vs = visibles();
+      const c = vs[Math.max(0, Math.min(vs.length - 1, i))];
+      if (c) pista.scrollTo({ left: c.offsetLeft - (pista.clientWidth - c.offsetWidth) / 2, behavior: suave });
+    };
+    let pendiente = false;
+    pista.addEventListener('scroll', () => { if (!pendiente) { pendiente = true; requestAnimationFrame(() => { pendiente = false; marcar(); }); } }, { passive: true });
+    root.querySelectorAll<HTMLButtonElement>('.tc-controles button').forEach((b) => b.addEventListener('click', () => ir(marcar() + Number(b.dataset.dir))));
+
+    const btn = root.querySelector<HTMLButtonElement>('.tc-filtro-btn')!;
+    const panel = root.querySelector<HTMLElement>('#tc-areas')!;
+    btn.addEventListener('click', () => { const abierto = btn.getAttribute('aria-expanded') === 'true'; btn.setAttribute('aria-expanded', String(!abierto)); panel.hidden = abierto; });
+    panel.querySelectorAll<HTMLButtonElement>('button').forEach((b) => b.addEventListener('click', () => {
+      panel.querySelectorAll('button').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+      const area = b.dataset.area;
+      cards.forEach((c) => { c.hidden = !!area && !c.dataset.areas!.split(' ').includes(area); });
+      // La etiqueta de cada tarjeta enseña el área filtrada (o la principal sin filtro).
+      cards.forEach((c) => { const pill = c.querySelector<HTMLElement>('.tc-pill')!; pill.textContent = area ? b.textContent : pill.dataset.nombreInicial!; });
+      pista.scrollTo({ left: 0 });
+      requestAnimationFrame(() => { ir(0); marcar(); });
+    }));
+    ir(0);
+    marcar();
+  }
+</script>
+
 <style is:global>
-  /* CASES */
-  .cases { padding: 3rem 2rem; max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2rem; }
-  .case-item {
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
-    padding: 0 0 2rem;
-    border: 1px solid rgba(0,0,0,0.1);
-    background: var(--white);
-    transition: border-color var(--transition), opacity 0.6s ease, transform 0.6s ease;
-  }
-  body.dark .case-item { border-color: rgba(255,255,255,0.12); background: var(--dark-bg); }
-  .case-media { aspect-ratio: 16 / 10; overflow: hidden; background: var(--blue); }
-  .case-media a { display: block; height: 100%; }
-  .case-media img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
-  .case-item:hover .case-media img { transform: scale(1.03); }
-  .case-meta { display: flex; justify-content: space-between; align-items: baseline; padding: 1.25rem 1.5rem 0; }
-  .case-content { padding: 0 1.5rem; }
-  .case-item.hidden { display: none; }
-  .case-item:nth-child(2) { transition-delay: 0.08s; }
-  .case-item:nth-child(3) { transition-delay: 0.16s; }
-  .case-item:nth-child(4) { transition-delay: 0.24s; }
+  .tc-cabecera { max-width: 1240px; margin: 0 auto; padding: 4.5rem 4vw 3.5rem; }
+  .tc-cabecera h1 { font-size: clamp(2.4rem, 5.6vw, 4.8rem); margin: 0 0 1.4rem; max-width: 1000px; }
+  .tc-cabecera p { font-size: 1.05rem; font-weight: 300; line-height: 1.75; color: rgba(0,0,0,0.65); max-width: 680px; margin: 0; }
+  body.dark .tc-cabecera p { color: rgba(232,232,232,0.68); }
 
-  .case-number {
-    font-size: 0.68rem;
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    color: var(--blue);
-    transition: color var(--transition);
-  }
-  body.dark .case-number { color: var(--blue-light); }
+  .tc-banda { background: #1c1c1c; color: #f6f6f6; padding: 3rem 0 3.5rem; }
+  body.dark .tc-banda { background: #14161b; }
+  .tc-in { max-width: 1240px; margin: 0 auto; padding: 0 4vw; }
+  .tc-filtro { margin-bottom: 2rem; }
+  .tc-filtro-btn { appearance: none; background: none; border: 0; color: inherit; font: 400 0.92rem 'Poppins', sans-serif; cursor: pointer; padding: 0; display: inline-flex; align-items: center; gap: 0.6rem; }
+  .tc-filtro-btn::before { content: ''; width: 16px; height: 10px; border-top: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; }
+  .tc-areas { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
+  .tc-areas[hidden] { display: none; }
+  .tc-areas button { appearance: none; border: 1px solid rgba(246,246,246,0.3); background: none; color: inherit; border-radius: 999px; padding: 0.4rem 0.95rem; font: 400 0.82rem 'Poppins', sans-serif; cursor: pointer; }
+  .tc-areas button[aria-pressed="true"] { background: #f6f6f6; color: #0a0a0a; border-color: #f6f6f6; }
 
-  .case-tags { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 0.7rem; }
+  .tc-pista { list-style: none; margin: 0; padding: 1rem calc(50vw - 160px); display: flex; gap: 1.2rem; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+  .tc-pista::-webkit-scrollbar { display: none; }
+  .tc-card { flex: 0 0 320px; scroll-snap-align: center; transition: transform 0.3s ease, opacity 0.3s ease; opacity: 0.6; transform: scale(0.94); }
+  .tc-card[hidden] { display: none; }
+  .tc-card.activa { opacity: 1; transform: none; }
+  .tc-card a { position: relative; display: block; height: 440px; border-radius: 16px; overflow: hidden; color: #f6f6f6; text-decoration: none; border: 2px solid transparent; }
+  .tc-card.activa a { border-color: var(--blue-light); }
+  .tc-fondo, .tc-fondo picture, .tc-fondo img, .tc-fondo .foto-pendiente { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; border-radius: 0; }
+  .tc-fondo::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.35) 55%, rgba(0,0,0,0.1) 100%); }
+  .tc-logo { position: absolute; top: 1.2rem; left: 1.2rem; width: 64px; height: 64px; border-radius: 50%; background: #fff; display: grid; place-items: center; z-index: 1; }
+  .tc-logo img { max-width: 44px; max-height: 30px; width: auto; }
+  .tc-info { position: absolute; left: 1.4rem; right: 1.4rem; bottom: 1.4rem; z-index: 1; display: flex; flex-direction: column; align-items: flex-start; gap: 0.6rem; }
+  .tc-pill { font-size: 0.75rem; border: 1px solid rgba(246,246,246,0.6); border-radius: 999px; padding: 0.25rem 0.75rem; }
+  .tc-info h2 { font-size: 1.35rem; margin: 0; color: #f6f6f6; }
+  .tc-reto { font-size: 0.86rem; font-weight: 300; line-height: 1.5; color: rgba(246,246,246,0.85); }
+  .tc-controles { display: flex; justify-content: center; align-items: center; gap: 1.4rem; margin-top: 1.8rem; font-size: 0.88rem; font-variant-numeric: tabular-nums; }
+  .tc-controles button { appearance: none; background: none; color: inherit; border: 1px solid rgba(246,246,246,0.4); border-radius: 999px; padding: 0.55rem 1.4rem; font: 500 0.82rem 'Poppins', sans-serif; cursor: pointer; }
+  .tc-controles button:hover { border-color: #f6f6f6; }
 
-  .case-content h2 {
-    font-size: 1.3rem;
-    font-weight: 500;
-    letter-spacing: -0.02em;
-    margin-bottom: 0.3rem;
-    transition: color var(--transition);
-  }
-  .case-content h2 a { color: inherit; text-decoration: none; }
-  body.dark .case-content h2 { color: #e8e8e8; }
-
-  .case-role {
-    font-size: 0.8rem;
-    font-weight: 400;
-    color: var(--blue);
-    margin-bottom: 1rem;
-    transition: color var(--transition);
-  }
-  body.dark .case-role { color: var(--blue-light); }
-
-  .case-desc {
-    font-size: 0.9rem;
-    font-weight: 300;
-    color: rgba(0,0,0,0.6);
-    line-height: 1.8;
-    margin-bottom: 1rem;
-    transition: color var(--transition);
-  }
-  body.dark .case-desc { color: rgba(232,232,232,0.6); }
-
-  .case-highlight {
-    font-size: 0.8rem;
-    font-weight: 500;
-    color: rgba(0,0,0,0.75);
-    margin: -0.4rem 0 1.1rem;
-    transition: color var(--transition);
-  }
-  body.dark .case-highlight { color: rgba(232,232,232,0.75); }
-
-  .case-link {
-    font-size: 0.78rem;
-    font-weight: 500;
-    color: var(--blue);
-    text-decoration: none;
-    transition: color var(--transition);
-  }
-  body.dark .case-link { color: var(--blue-light); }
-  .case-link:hover { text-decoration: underline; }
+  .tc-testimonios { max-width: 1240px; margin: 0 auto; padding: 5rem 4vw; display: grid; grid-template-columns: 1fr 1.3fr; gap: 3rem; }
+  .tc-testimonios ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.2rem; }
+  .tc-testimonios blockquote { margin: 0; padding: 1.8rem; border: 1px solid rgba(0,0,0,0.1); }
+  .tc-testimonios blockquote p { font-style: italic; font-weight: 300; line-height: 1.7; margin: 0 0 1rem; }
 
   @media (max-width: 640px) {
-    .cases { grid-template-columns: 1fr; padding-left: 1.25rem; padding-right: 1.25rem; }
+    .tc-pista { padding: 1rem calc(50vw - 135px); }
+    .tc-card { flex-basis: 270px; }
+    .tc-card a { height: 400px; }
+    .tc-testimonios { grid-template-columns: 1fr; }
   }
 </style>
-

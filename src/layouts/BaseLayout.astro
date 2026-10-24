@@ -5,6 +5,7 @@ import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import LoadingScreen from '../components/LoadingScreen.astro';
 import CookieConsent from '../components/CookieConsent.astro';
+import Siguenos from '../components/Siguenos.astro';
 import { BOOKING_URL } from '../consts';
 
 interface Props {
@@ -70,6 +71,7 @@ const { title, description, image, ogType, noindex } = Astro.props;
       <slot />
     </main>
     <Footer />
+    <Siguenos />
     {!__PREPRO__ && <CookieConsent />}
     <script define:vars={{ BOOKING_URL }}>
       // GA4 solo registraba la vista de página base — no había ningún
