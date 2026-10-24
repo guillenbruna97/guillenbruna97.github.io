@@ -11,7 +11,7 @@ const total = String(casos.length).padStart(2, '0');
 <section class="ct" data-casos>
   <div class="ct-cabecera">
     <h2 class="ct-titulo">Casos reales, resultados reales</h2>
-    <a href="/trabajo/" class="ct-todos">Ver todos los casos ↗</a>
+    <a href="/trabajo/" class="ct-todos">Ver todos los casos</a>
   </div>
 
   <div class="ct-barra">
@@ -30,11 +30,11 @@ const total = String(casos.length).padStart(2, '0');
   {casos.map((caso, i) => (
     <div class="ct-panel" role="tabpanel" id={`ct-panel-${caso.slug}`} aria-labelledby={`ct-tab-${caso.slug}`} hidden={i !== 0}>
       <div class="ct-texto">
-        <p class="ct-sector">{caso.company} · {caso.sector}</p>
+        <p class="ct-sector"><span class="ct-empresa">{caso.company}</span>{caso.sector}</p>
         <h3 class="ct-reto">{caso.reto}</h3>
         <p class="ct-resultado">{caso.cardHighlight}</p>
         <p class="ct-capacidades">{caso.capacidades}</p>
-        <a href={`/trabajo/${caso.slug}/`} class="ct-ver">Ver el caso ↗</a>
+        <a href={`/trabajo/${caso.slug}/`} class="ct-ver">Ver el caso</a>
       </div>
       <a href={`/trabajo/${caso.slug}/`} class="ct-imagen" tabindex="-1" aria-hidden="true">
         <Picture src={caso.image} alt="" width={900} formats={['avif', 'webp']} quality={65} loading="lazy" />
@@ -96,6 +96,8 @@ const total = String(casos.length).padStart(2, '0');
 
   .ct-panel { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 2.5rem 4rem; align-items: start; padding-top: 2.6rem; }
   .ct-panel[hidden] { display: none; }
+  .ct-empresa { display: block; font-weight: 500; color: var(--black); margin-bottom: 0.15rem; }
+  body.dark .ct-empresa { color: #e8e8e8; }
   .ct-sector { font-size: 0.8rem; color: rgba(0,0,0,0.5); margin: 0 0 1.2rem; }
   body.dark .ct-sector { color: rgba(232,232,232,0.5); }
   .ct-reto { font-family: 'Poppins', sans-serif; font-size: clamp(1.5rem, 2.6vw, 2.1rem); font-weight: 500; letter-spacing: -0.03em; line-height: 1.15; margin: 0 0 1.4rem; max-width: 520px; }

@@ -111,10 +111,10 @@ const breadcrumbLd = {
     <div class="about-sidebar">
       <p class="sidebar-label">Más sobre mí</p>
       <ul class="sidebar-links">
-        <li><a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer">LinkedIn →</a></li>
-        <li><a href={MAILTO_URL}>Email →</a></li>
-        <li><a href="/trabajo/">Ver casos →</a></li>
-        <li><a href="/articulos/consultor-de-marketing-en-zaragoza/">Consultor de marketing en Zaragoza →</a></li>
+        <li><a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer">LinkedIn ↗</a></li>
+        <li><a href={MAILTO_URL}>Email</a></li>
+        <li><a href="/trabajo/">Ver casos</a></li>
+        <li><a href="/articulos/consultor-de-marketing-en-zaragoza/">Consultor de marketing en Zaragoza</a></li>
       </ul>
     </div>
     <div>
@@ -133,15 +133,15 @@ const breadcrumbLd = {
   <div class="momentos-section">
     <h3 class="momentos-title">Momentos que me definen</h3>
     <div class="momentos-grid">
-      <div class="momento-item" data-reveal>
+      <div class="momento-item">
         <Picture src={momentoBroco} alt="Guillén Bruna Tricas junto al equipo cofundador de Broco, su marca de moda sostenible" width={700} height={700} formats={['avif', 'webp']} fallbackFormat="png" quality={55} loading="lazy" />
         <p class="momento-caption">Amigos que se convierten en socios. O socios que se convierten en amigos.</p>
       </div>
-      <div class="momento-item" data-reveal>
+      <div class="momento-item">
         <Picture src={momentoSis} alt="Guillén Bruna Tricas en el Spain Innovation Summit, evento de innovación organizado junto a su equipo en Zebra AI Transformation Company" width={700} height={700} formats={['avif', 'webp']} fallbackFormat="png" quality={55} loading="lazy" />
         <p class="momento-caption">Eventos que se crean en equipo.</p>
       </div>
-      <div class="momento-item" data-reveal>
+      <div class="momento-item">
         <Picture src={momentoSlm} alt="Guillén Bruna Tricas trabajando en un proyecto especial para SLM" width={700} height={700} formats={['avif', 'webp']} fallbackFormat="png" quality={55} loading="lazy" />
         <p class="momento-caption">Trabajos especiales que dejan huella.</p>
       </div>
@@ -186,10 +186,9 @@ const breadcrumbLd = {
   .page-header { padding: 5rem 2rem 2rem; max-width: 900px; margin: 0 auto; }
   .page-tag {
     display: inline-block;
-    font-size: 0.7rem;
+    font-size: 0.82rem;
     font-weight: 500;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
+    letter-spacing: 0;
     color: var(--blue);
     border: 1px solid var(--blue);
     padding: 0.3rem 0.8rem;
@@ -219,14 +218,13 @@ const breadcrumbLd = {
   .ct-label {
     font-family: 'Poppins', sans-serif;
     line-height: 1.6;
-    font-size: 0.7rem;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--blue);
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0;
+    color: rgba(0,0,0,0.5);
     margin-bottom: 1rem;
   }
-  body.dark .ct-label { color: var(--blue-light); }
+  body.dark .ct-label { color: rgba(232,232,232,0.5); }
 
   /* FAQ (mismo estilo que ServiceLayout) */
   .faq-list { display: flex; flex-direction: column; gap: 0.7rem; max-width: 720px; padding-bottom: 2rem; }
@@ -385,10 +383,9 @@ const breadcrumbLd = {
   }
   .about-sidebar { position: sticky; top: 6rem; }
   .sidebar-label {
-    font-size: 0.68rem;
+    font-size: 0.8rem;
     font-weight: 500;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
+    letter-spacing: 0;
     color: rgba(0,0,0,0.35);
     margin-bottom: 1.5rem;
     transition: color var(--transition);

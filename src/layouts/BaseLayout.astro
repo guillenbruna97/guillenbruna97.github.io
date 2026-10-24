@@ -71,25 +71,6 @@ const { title, description, image, ogType, noindex } = Astro.props;
     </main>
     <Footer />
     {!__PREPRO__ && <CookieConsent />}
-    <script>
-      const revealTargets = document.querySelectorAll('[data-reveal]');
-      if ('IntersectionObserver' in window && revealTargets.length) {
-        const observer = new IntersectionObserver(
-          (entries) => {
-            // Una sola vez: antes era toggle(isIntersecting) y el bloque se
-            // volvía a ocultar al salir de pantalla, dejando huecos en blanco
-            // al volver a subir y en capturas de página completa.
-            for (const entry of entries) {
-              if (!entry.isIntersecting) continue;
-              entry.target.classList.add('is-visible');
-              observer.unobserve(entry.target);
-            }
-          },
-          { threshold: 0.15 }
-        );
-        revealTargets.forEach((el) => observer.observe(el));
-      }
-    </script>
     <script define:vars={{ BOOKING_URL }}>
       // GA4 solo registraba la vista de página base — no había ningún
       // evento en los clics de "Reservar llamada" ni "Escríbeme", así que

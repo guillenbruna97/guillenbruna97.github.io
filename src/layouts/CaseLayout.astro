@@ -46,9 +46,9 @@ const breadcrumbLd = {
 
     <slot />
 
-    <div class="skills-section" data-reveal>
+    <div class="skills-section">
       <h2 class="skills-label">Qué se trabajó</h2>
-      <p class="skills-list">{skills.join(' · ')}</p>
+      <p class="skills-list">{skills.join(', ')}</p>
     </div>
 
     {relatedServices.length > 0 && (
@@ -56,7 +56,7 @@ const breadcrumbLd = {
         <h2 class="skills-label">Servicio relacionado</h2>
         <ul>
           {relatedServices.map((service) => (
-            <li><a href={`/servicios/${service.slug}/`}>{service.name} →</a></li>
+            <li><a href={`/servicios/${service.slug}/`}>{service.name}</a></li>
           ))}
         </ul>
       </div>
@@ -175,15 +175,14 @@ const breadcrumbLd = {
   .block-label {
     font-family: 'Poppins', sans-serif;
     line-height: 1.6;
-    font-size: 0.7rem;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--blue);
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0;
+    color: rgba(0,0,0,0.5);
     margin-bottom: 0.7rem;
     transition: color var(--transition);
   }
-  body.dark .block-label { color: var(--blue-light); }
+  body.dark .block-label { color: rgba(232,232,232,0.5); }
 
   .block-text {
     font-size: 0.92rem;
@@ -234,10 +233,9 @@ const breadcrumbLd = {
   .skills-label {
     font-family: 'Poppins', sans-serif;
     line-height: 1.6;
-    font-size: 0.68rem;
+    font-size: 0.8rem;
     font-weight: 500;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
+    letter-spacing: 0;
     color: rgba(0,0,0,0.35);
     margin-bottom: 1rem;
     transition: color var(--transition);

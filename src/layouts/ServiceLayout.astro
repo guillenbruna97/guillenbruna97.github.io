@@ -116,14 +116,14 @@ const breadcrumbLd = {
       </div>
     </div>
 
-    <div class="case-block-full" data-reveal>
+    <div class="case-block-full">
       <h2 class="block-label">Qué recibes</h2>
       <ul class="deliverable-list">
         {recibe.map((item) => <li>{item}</li>)}
       </ul>
     </div>
 
-    <div class="case-block-full" data-reveal>
+    <div class="case-block-full">
       <h2 class="block-label">Cómo trabajamos</h2>
       <ol class="process-steps">
         {pasos.map((paso, i) => (
@@ -139,7 +139,7 @@ const breadcrumbLd = {
     </div>
 
     {formato && (
-      <div class="case-block-full" data-reveal>
+      <div class="case-block-full">
         <h2 class="block-label">Formato</h2>
         <dl class="precio-grid">
           <div><dt>Duración</dt><dd>{formato.duracion}</dd></div>
@@ -152,14 +152,14 @@ const breadcrumbLd = {
     )}
 
     {relatedCasos.length > 0 && (
-      <div class="case-block-full" data-reveal>
+      <div class="case-block-full">
         <h2 class="block-label">Caso relacionado</h2>
         <ul class="service-casos">
           {relatedCasos.map((caso) => (
             <li>
               <a href={`/trabajo/${caso.slug}/`}>
                 <span class="service-caso-title">{caso.cardHeadline}</span>
-                <span class="service-caso-company">{caso.company} · {caso.role}</span>
+                <span class="service-caso-company">{caso.company}, {caso.role}</span>
               </a>
             </li>
           ))}
@@ -170,7 +170,7 @@ const breadcrumbLd = {
     <p class="service-cierre">{cierre}</p>
 
     {faqs && faqs.length > 0 && (
-      <div class="case-block-full faq-block" data-reveal>
+      <div class="case-block-full faq-block">
         <h2 class="block-label">Preguntas frecuentes</h2>
         <FaqList faqs={faqs} />
       </div>

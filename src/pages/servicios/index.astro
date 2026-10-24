@@ -66,7 +66,6 @@ const itemListLd = {
       return (
         <section class="sv-area" id={area.slug} data-sv-area>
           <div class="sv-texto">
-            <p class="sv-num">{String(i + 1).padStart(2, '0')}</p>
             <h2>{area.name}</h2>
             <p class="sv-intro">{area.intro}</p>
             <h3 class="sv-label">Qué hacemos</h3>
@@ -80,15 +79,15 @@ const itemListLd = {
             </ul>
             <h3 class="sv-label">Para quién es</h3>
             <p class="sv-para">{area.paraQuien}</p>
-            <a href={`/servicios/${area.slug}/`} class="sv-mas">{area.name}: cómo trabajamos y preguntas frecuentes →</a>
+            <a href={`/servicios/${area.slug}/`} class="sv-mas">{area.name}: cómo trabajamos y preguntas frecuentes</a>
           </div>
           <aside class="sv-lado">
             <FotoPendiente ratio="4 / 3" texto={FOTOS[area.slug] ?? 'Foto del área. Horizontal 4:3.'} />
             {caso && (
               <a href={`/trabajo/${caso.slug}/`} class="sv-caso">
-                <span class="sv-caso-label">Caso real · {caso.company}</span>
+                <span class="sv-caso-label">Caso real de {caso.company}</span>
                 <span class="sv-caso-reto">{caso.reto}</span>
-                <span class="sv-caso-ver">Ver el caso ↗</span>
+                <span class="sv-caso-ver">Ver el caso</span>
               </a>
             )}
           </aside>
@@ -149,12 +148,10 @@ const itemListLd = {
   .sv-area { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 2.5rem 4.5rem; padding: 4rem 0; border-bottom: 1px solid rgba(0,0,0,0.08); }
   body.dark .sv-area { border-bottom-color: rgba(255,255,255,0.08); }
   .sv-area:last-of-type { border-bottom: 0; }
-  .sv-num { font-size: 0.85rem; font-weight: 500; color: var(--blue); margin: 0 0 0.6rem; font-variant-numeric: tabular-nums; }
-  body.dark .sv-num { color: var(--blue-light); }
   .sv-texto h2 { font-size: clamp(1.9rem, 3.4vw, 2.8rem); margin: 0 0 1.2rem; }
   .sv-intro { font-size: 1.02rem; font-weight: 300; line-height: 1.75; color: rgba(0,0,0,0.68); margin: 0 0 2.2rem; max-width: 600px; }
   body.dark .sv-intro { color: rgba(232,232,232,0.7); }
-  .sv-label { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(0,0,0,0.5); margin: 0 0 1rem; line-height: 1.6; }
+  .sv-label { font-size: 0.82rem; font-weight: 600; letter-spacing: 0; color: rgba(0,0,0,0.5); margin: 0 0 1rem; line-height: 1.6; }
   body.dark .sv-label { color: rgba(232,232,232,0.5); }
   .sv-servicios { list-style: none; margin: 0 0 2.2rem; padding: 0; }
   .sv-servicios li { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.4fr); gap: 0.3rem 1.5rem; padding: 0.95rem 0; border-top: 1px solid rgba(0,0,0,0.08); }

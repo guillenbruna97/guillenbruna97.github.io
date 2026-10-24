@@ -83,7 +83,7 @@ export const categoryOf = (tag: string) => categoryFor(tag).nombre;
 export const displayTag = (tag: string) => {
   const [, ...rest] = tag.split('·');
   const sub = rest.join('·').trim();
-  return sub ? `${categoryOf(tag)} · ${sub}` : categoryOf(tag);
+  return sub ? `${categoryOf(tag)}, ${sub}` : categoryOf(tag);
 };
 
 // Solo las categorías que tienen al menos un artículo, en el orden de CATEGORIES.

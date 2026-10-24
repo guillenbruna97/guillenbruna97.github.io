@@ -59,15 +59,14 @@
   .block-label {
     font-family: 'Poppins', sans-serif;
     line-height: 1.6;
-    font-size: 0.7rem;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--blue);
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0;
+    color: rgba(0,0,0,0.5);
     margin-bottom: 0.7rem;
     transition: color var(--transition);
   }
-  body.dark .block-label { color: var(--blue-light); }
+  body.dark .block-label { color: rgba(232,232,232,0.5); }
 
   .block-text {
     font-size: 0.92rem;
@@ -161,10 +160,9 @@
     max-width: 720px;
   }
   .precio-grid dt {
-    font-size: 0.72rem;
+    font-size: 0.82rem;
     font-weight: 500;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
+    letter-spacing: 0;
     color: rgba(0,0,0,0.5);
     margin-bottom: 0.25rem;
   }

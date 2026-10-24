@@ -75,18 +75,18 @@ const breadcrumbLd = {
           <li>
             <h3 class="process-title">{s.href ? <a href={s.href}>{s.name}</a> : s.name}</h3>
             <p class="process-text">{s.text}</p>
-            {s.href && <a href={s.href} class="area-servicio-link">Ver servicio →</a>}
+            {s.href && <a href={s.href} class="area-servicio-link">Ver servicio</a>}
           </li>
         ))}
       </ul>
     </div>
 
-    <div class="case-block-full" data-reveal>
+    <div class="case-block-full">
       <h2 class="block-label">Para quién es</h2>
       <p class="block-text">{area.paraQuien}</p>
     </div>
 
-    <div class="case-block-full" data-reveal>
+    <div class="case-block-full">
       <h2 class="block-label">Cómo trabajamos</h2>
       <ol class="process-steps">
         {pasos.map((paso, i) => (
@@ -103,7 +103,7 @@ const breadcrumbLd = {
     </div>
 
     {relatedCasos.length > 0 && (
-      <div class="case-block-full" data-reveal>
+      <div class="case-block-full">
         <h2 class="block-label">{relatedCasos.length > 1 ? 'Casos relacionados' : 'Caso relacionado'}</h2>
         <ul class="service-casos">
           {relatedCasos.map((caso) => (
@@ -118,7 +118,7 @@ const breadcrumbLd = {
       </div>
     )}
 
-    <div class="case-block-full faq-block" data-reveal>
+    <div class="case-block-full faq-block">
       <h2 class="block-label">Preguntas frecuentes</h2>
       <FaqList faqs={area.faqs} />
     </div>

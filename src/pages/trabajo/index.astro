@@ -28,7 +28,7 @@ const trustLogos = [
 
   <div class="cases">
     {casos.map((caso, i) => (
-      <div class="case-item" data-reveal>
+      <div class="case-item">
         <div class="case-media">
           <a href={`/trabajo/${caso.slug}/`} aria-label={caso.ariaLabel}>
             <Image src={caso.image} alt={caso.imageAlt} width={960} widths={[480, 720, 960]} sizes="(max-width: 640px) 100vw, 50vw" format="webp" quality={55} />
@@ -42,10 +42,10 @@ const trustLogos = [
             {caso.cardTags.map((tag) => <span class="tag">{tag}</span>)}
           </div>
           <h2><a href={`/trabajo/${caso.slug}/`}>{caso.cardHeadline}</a></h2>
-          <p class="case-role">{caso.company} · {caso.role}</p>
+          <p class="case-role">{caso.company}, {caso.role}</p>
           <p class="case-desc">{caso.cardDesc}</p>
           <p class="case-highlight">{caso.cardHighlight}</p>
-          <a href={`/trabajo/${caso.slug}/`} class="case-link">Ver caso completo →</a>
+          <a href={`/trabajo/${caso.slug}/`} class="case-link">Ver caso completo</a>
         </div>
       </div>
     ))}
