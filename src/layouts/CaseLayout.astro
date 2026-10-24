@@ -1,27 +1,31 @@
 ---
+// Página de un caso real, con la estructura de los casos de siegemedia.com
+// (elegida por Dirección el 2026-10-24) y la identidad de GBT: cabecera con
+// cifras, ficha de la empresa y el reto, resultados, qué se hizo, trabajo
+// destacado y casos relacionados. Datos: data/casos.ts y data/casos-detalle.ts.
 import BaseLayout from './BaseLayout.astro';
-import Divider from '../components/Divider.astro';
 import ContactBlock from '../components/ContactBlock.astro';
-import { casos, getCaso } from '../data/casos';
+import { Image } from 'astro:assets';
+import { casos, casosForArea } from '../data/casos';
+import { getDetalle } from '../data/casos-detalle';
+import { AREAS } from '../data/areas';
 import { getService } from '../consts';
 
 interface Props {
-  title: string;
-  description: string;
-  ogType?: string;
-  tags: string[];
-  heading: string;
-  meta: string;
-  skills: string[];
+  slug: string;
 }
-const { title, description, ogType = 'article', tags, heading, meta, skills } = Astro.props;
+const { slug } = Astro.props;
+const caso = casos.find((c) => c.slug === slug)!;
+const detalle = getDetalle(slug)!;
+const areasCaso = caso.areas.map((a) => AREAS.find((x) => x.slug === a)).filter((a) => a !== undefined);
+const servicios = caso.services.map((s) => getService(s)).filter((s) => s !== undefined);
 
-// El slug sale de la URL (/trabajo/<slug>/) para no tener que pasarlo desde
-// cada página de caso. Servicios relacionados y "otros casos" dan a cada caso
-// enlaces internos más allá del listado de /trabajo/.
-const slug = Astro.url.pathname.split('/').filter(Boolean)[1] ?? '';
-const relatedServices = (getCaso(slug)?.services ?? []).map((s) => getService(s)).filter((s) => s !== undefined);
-const otherCasos = casos.filter((c) => c.slug !== slug);
+// Relacionados: primero los que comparten área; si faltan, el resto. Máximo 3.
+const mismos = caso.areas.flatMap((a) => casosForArea(a)).filter((c, i, arr) => c.slug !== slug && arr.findIndex((x) => x.slug === c.slug) === i);
+const relacionados = [...mismos, ...casos.filter((c) => c.slug !== slug && !mismos.includes(c))].slice(0, 3);
+
+const max = Math.max(1, ...(detalle.comparativas ?? []).map((c) => c.despues));
+const fmt = (n: number) => n.toLocaleString('es-ES');
 
 const breadcrumbLd = {
   '@context': 'https://schema.org',
@@ -29,271 +33,242 @@ const breadcrumbLd = {
   itemListElement: [
     { '@type': 'ListItem', position: 1, name: 'Inicio', item: 'https://gbtconsultoria.com/' },
     { '@type': 'ListItem', position: 2, name: 'Casos reales', item: 'https://gbtconsultoria.com/trabajo/' },
-    { '@type': 'ListItem', position: 3, name: heading, item: Astro.url.href },
+    { '@type': 'ListItem', position: 3, name: caso.company, item: Astro.url.href },
   ],
 };
 ---
-<BaseLayout title={title} description={description} ogType={ogType}>
+<BaseLayout title={caso.detailTitle} description={caso.detailDescription} ogType="article">
   <script type="application/ld+json" set:html={JSON.stringify(breadcrumbLd)} />
-  <a href="/trabajo/" class="back-link">← Volver a casos reales</a>
 
-  <div class="case-main">
-    <div class="case-tags">
-      {tags.map((tag) => <span class="tag">{tag}</span>)}
+  <header class="cs-cabecera">
+    <div class="cs-in">
+      <div class="cs-migas" role="navigation" aria-label="Migas de pan">
+        <a href="/trabajo/">Casos reales</a><span aria-hidden="true">/</span><span>{caso.company}</span>
+      </div>
+      <div class="cs-cabecera-grid">
+        <div>
+          <p class="cs-sector">{caso.sector}</p>
+          <h1>{caso.reto}</h1>
+          <p class="cs-rol">Rol de Guillén Bruna: {caso.role}</p>
+        </div>
+        {detalle.cifras.length > 0 ? (
+          <dl class="cs-cifras">
+            {detalle.cifras.map((c) => (
+              <div><dt>{c.valor}</dt><dd>{c.etiqueta}</dd></div>
+            ))}
+          </dl>
+        ) : detalle.logo && (
+          <div class="cs-cifras cs-cifras--logo"><img src={detalle.logo} alt={caso.company} /></div>
+        )}
+      </div>
     </div>
-    <h1>{heading}</h1>
-    <p class="case-meta">{meta}</p>
+  </header>
 
-    <slot />
-
-    <div class="skills-section">
-      <h2 class="skills-label">Qué se trabajó</h2>
-      <p class="skills-list">{skills.join(', ')}</p>
+  <section class="cs-in cs-ficha-grid">
+    <aside class="cs-ficha">
+      <div class="cs-ficha-logo">
+        {detalle.logo ? <img src={detalle.logo} alt={caso.company} /> : <span>{caso.company}</span>}
+      </div>
+      <div class="cs-ficha-cuerpo">
+        <p>{detalle.empresa}</p>
+        <dl>
+          <div><dt>Sector</dt><dd>{caso.sector}</dd></div>
+          <div><dt>Rol de Guillén</dt><dd>{caso.role}</dd></div>
+          {areasCaso.length > 0 && (
+            <div><dt>Servicios aplicados</dt><dd>{areasCaso.map((a, i) => <>{i > 0 && ', '}<a href={`/servicios/${a!.slug}/`}>{a!.name}</a></>)}</dd></div>
+          )}
+          {detalle.web && <div><dt>Web</dt><dd><a href={detalle.web} target="_blank" rel="noopener noreferrer">{detalle.web.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '')} ↗</a></dd></div>}
+        </dl>
+      </div>
+    </aside>
+    <div class="cs-texto">
+      <h2>El reto</h2>
+      {detalle.reto.map((p) => <p set:html={p} />)}
     </div>
+  </section>
 
-    {relatedServices.length > 0 && (
-      <div class="case-services">
-        <h2 class="skills-label">Servicio relacionado</h2>
-        <ul>
-          {relatedServices.map((service) => (
-            <li><a href={`/servicios/${service.slug}/`}>{service.name}</a></li>
-          ))}
-        </ul>
+  <section class="cs-in cs-bloque">
+    <h2>Resultados</h2>
+    {detalle.comparativas && detalle.comparativas.length > 0 && (
+      <div class="cs-graficas">
+        {detalle.comparativas.map((c) => (
+          <figure class="cs-grafica">
+            <figcaption>{c.etiqueta}</figcaption>
+            <div class="cs-barra"><span class="cs-barra-txt">Al empezar</span><span class="cs-barra-fill cs-antes" style={`width:${(c.antes / max) * 100}%`}></span><strong>{fmt(c.antes)}</strong></div>
+            <div class="cs-barra"><span class="cs-barra-txt">Al terminar</span><span class="cs-barra-fill cs-despues" style={`width:${(c.despues / max) * 100}%`}></span><strong>{fmt(c.despues)}</strong></div>
+            <p class="cs-grafica-nota">{c.unidad}, cifras aproximadas</p>
+          </figure>
+        ))}
       </div>
     )}
+    <p class="cs-resultado" set:html={detalle.resultado} />
+  </section>
 
-    <section class="other-cases" aria-label="Otros casos">
-      <h2 class="skills-label">Otros casos</h2>
-      <ul>
-        {otherCasos.map((caso) => (
+  <section class="cs-in cs-bloque">
+    <h2>Qué se hizo</h2>
+    <ol class="cs-fases">
+      {detalle.fases.map((f) => (
+        <li>
+          <h3>{f.titulo}</h3>
+          <p set:html={f.texto} />
+        </li>
+      ))}
+    </ol>
+    {servicios.length > 0 && (
+      <p class="cs-servicios">Servicio relacionado: {servicios.map((s, i) => <>{i > 0 && ', '}<a href={`/servicios/${s!.slug}/`}>{s!.name}</a></>)}</p>
+    )}
+  </section>
+
+  {detalle.destacado && (
+    <section class="cs-destacado">
+      <div class="cs-in cs-destacado-grid">
+        <div class="cs-destacado-media">
+          {detalle.destacado.video ? (
+            <iframe src={`https://www.youtube.com/embed/${detalle.destacado.video.id}`} title={detalle.destacado.video.titulo} loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+          ) : detalle.destacado.imagen && (
+            <Image src={detalle.destacado.imagen} alt={detalle.destacado.imagenAlt ?? ''} width={1100} widths={[600, 900, 1100]} sizes="(max-width: 900px) 100vw, 640px" format="webp" quality={60} loading="lazy" />
+          )}
+        </div>
+        <div>
+          <h2>Trabajo destacado</h2>
+          <h3>{detalle.destacado.titulo}</h3>
+          <p>{detalle.destacado.texto}</p>
+          {detalle.destacado.video && <p><a href={`https://youtu.be/${detalle.destacado.video.id}`} target="_blank" rel="noopener noreferrer">Ver en YouTube ↗</a></p>}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section class="cs-in cs-bloque cs-relacionados">
+    <h2>Casos relacionados</h2>
+    <ul>
+      {relacionados.map((r) => {
+        const d = getDetalle(r.slug);
+        return (
           <li>
-            <a href={`/trabajo/${caso.slug}/`}>
-              <span class="other-case-title">{caso.cardHeadline}</span>
-              <span class="other-case-company">{caso.company}</span>
+            <a href={`/trabajo/${r.slug}/`}>
+              <span class="cs-rel-logo">{d?.logo ? <img src={d.logo} alt="" /> : <span>{r.company}</span>}</span>
+              <span class="cs-rel-texto">
+                <strong>{r.reto}</strong>
+                <span>{r.company}, {r.sector}</span>
+              </span>
             </a>
           </li>
-        ))}
-      </ul>
-    </section>
-  </div>
+        );
+      })}
+    </ul>
+  </section>
 
-  <Divider />
-
-  <ContactBlock title="¿Trabajamos<br>juntos?" />
+  <ContactBlock title="¿Hablamos<br>de tu caso?" />
 </BaseLayout>
 
 <style is:global>
-  .back-link {
-    display: block;
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 2rem 2rem 0;
-    font-size: 0.78rem;
-    font-weight: 400;
-    color: rgba(0,0,0,0.6);
-    text-decoration: none;
-    transition: color var(--transition), transform 0.15s ease;
-  }
-  body.dark .back-link { color: rgba(232,232,232,0.6); }
-  .back-link:hover { color: var(--blue); transform: translateX(-3px); }
-  body.dark .back-link:hover { color: var(--blue-light); }
+  .cs-in { max-width: 1240px; margin: 0 auto; padding-left: 4vw; padding-right: 4vw; }
+  .cs-cabecera { background: var(--off-white); padding: 2.4rem 0 4rem; }
+  body.dark .cs-cabecera { background: #121419; }
+  .cs-migas { display: flex; gap: 0.5rem; font-size: 0.82rem; color: rgba(0,0,0,0.5); margin-bottom: 2.4rem; }
+  body.dark .cs-migas { color: rgba(232,232,232,0.5); }
+  .cs-migas a { color: inherit; text-decoration: none; }
+  .cs-migas a:hover { color: var(--blue); }
+  .cs-cabecera-grid { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 0.9fr); gap: 3rem 5rem; align-items: center; }
+  .cs-sector { font-size: 0.85rem; font-weight: 500; color: var(--blue); margin: 0 0 1rem; }
+  body.dark .cs-sector { color: var(--blue-light); }
+  .cs-cabecera h1 { font-size: clamp(2rem, 4.4vw, 3.6rem); margin: 0 0 1.4rem; }
+  .cs-rol { font-size: 0.92rem; font-weight: 300; color: rgba(0,0,0,0.6); margin: 0; }
+  body.dark .cs-rol { color: rgba(232,232,232,0.6); }
+  .cs-cifras { margin: 0; background: var(--white); border: 1px solid rgba(0,0,0,0.08); box-shadow: 12px 12px 0 var(--blue); padding: 0.6rem 2rem; }
+  body.dark .cs-cifras { background: #0a0a0a; border-color: rgba(255,255,255,0.1); box-shadow: 12px 12px 0 var(--blue-light); }
+  .cs-cifras div { padding: 1.2rem 0; border-top: 1px solid rgba(0,0,0,0.08); }
+  body.dark .cs-cifras div { border-top-color: rgba(255,255,255,0.1); }
+  .cs-cifras div:first-child { border-top: 0; }
+  .cs-cifras dt { font-size: clamp(1.6rem, 2.6vw, 2.2rem); font-weight: 500; letter-spacing: -0.03em; line-height: 1.1; }
+  .cs-cifras dd { margin: 0.3rem 0 0; font-size: 0.88rem; font-weight: 300; line-height: 1.5; color: rgba(0,0,0,0.65); }
+  body.dark .cs-cifras dd { color: rgba(232,232,232,0.65); }
+  .cs-cifras--logo { display: grid; place-items: center; padding: 3rem 2rem; }
+  .cs-cifras--logo img { max-width: 220px; width: 100%; }
+  body.dark .cs-cifras--logo img, body.dark .cs-ficha-logo img, body.dark .cs-rel-logo img { filter: invert(1); }
 
-  .case-main { padding: 2rem 2rem 3rem; max-width: 900px; margin: 0 auto; }
+  .cs-ficha-grid { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.3fr); gap: 3rem 5rem; align-items: start; padding-top: 5rem; }
+  .cs-ficha { border: 1px solid rgba(0,0,0,0.08); }
+  body.dark .cs-ficha { border-color: rgba(255,255,255,0.1); }
+  .cs-ficha-logo { background: var(--off-white); display: grid; place-items: center; padding: 2.4rem; min-height: 9rem; }
+  body.dark .cs-ficha-logo { background: #121419; }
+  .cs-ficha-logo img { max-width: 180px; max-height: 70px; width: auto; }
+  .cs-ficha-logo span { font-size: 1.4rem; font-weight: 500; letter-spacing: -0.02em; }
+  .cs-ficha-cuerpo { padding: 1.6rem; font-size: 0.9rem; font-weight: 300; line-height: 1.6; }
+  .cs-ficha-cuerpo p { margin: 0 0 1.2rem; }
+  .cs-ficha dl { margin: 0; display: grid; gap: 0.6rem; }
+  .cs-ficha dt { display: inline; font-weight: 500; }
+  .cs-ficha dt::after { content: ': '; }
+  .cs-ficha dd { display: inline; margin: 0; }
+  .cs-ficha a { color: var(--blue); }
+  body.dark .cs-ficha a { color: var(--blue-light); }
 
-  .case-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.2rem; }
+  .cs-texto h2, .cs-bloque h2 { font-size: clamp(1.7rem, 3vw, 2.4rem); margin: 0 0 1.4rem; }
+  .cs-texto p, .cs-resultado, .cs-fases p { font-size: 1rem; font-weight: 300; line-height: 1.75; color: rgba(0,0,0,0.7); margin: 0 0 1rem; max-width: 720px; }
+  body.dark .cs-texto p, body.dark .cs-resultado, body.dark .cs-fases p { color: rgba(232,232,232,0.7); }
+  .cs-texto a, .cs-resultado a, .cs-fases a { color: var(--blue); }
+  body.dark .cs-texto a, body.dark .cs-resultado a, body.dark .cs-fases a { color: var(--blue-light); }
+  .cs-texto strong, .cs-resultado strong, .cs-fases strong { font-weight: 600; color: var(--black); }
+  body.dark .cs-texto strong, body.dark .cs-resultado strong, body.dark .cs-fases strong { color: #e8e8e8; }
+  .cs-bloque { padding-top: 5rem; }
+  .cs-bloque > h2 { padding-top: 3rem; border-top: 1px solid rgba(0,0,0,0.1); }
+  body.dark .cs-bloque > h2 { border-top-color: rgba(255,255,255,0.1); }
 
-  .case-main h1 {
-    font-size: clamp(1.8rem, 4vw, 2.6rem);
-    font-weight: 500;
-    letter-spacing: -0.03em;
-    line-height: 1.1;
-    margin-bottom: 0.5rem;
-  }
+  .cs-graficas { display: grid; gap: 1.5rem; margin-bottom: 2rem; }
+  .cs-grafica { margin: 0; padding: 2rem 2.2rem; background: var(--off-white); max-width: 860px; }
+  body.dark .cs-grafica { background: #121419; }
+  .cs-grafica figcaption { font-weight: 500; font-size: 1.05rem; margin-bottom: 1.4rem; }
+  .cs-barra { display: grid; grid-template-columns: 7rem 1fr auto; align-items: center; gap: 1rem; margin-bottom: 0.8rem; }
+  .cs-barra-txt { font-size: 0.82rem; color: rgba(0,0,0,0.55); }
+  body.dark .cs-barra-txt { color: rgba(232,232,232,0.55); }
+  .cs-barra-fill { display: block; height: 14px; }
+  .cs-antes { background: rgba(0,0,0,0.18); }
+  body.dark .cs-antes { background: rgba(255,255,255,0.22); }
+  .cs-despues { background: var(--blue); }
+  body.dark .cs-despues { background: var(--blue-light); }
+  .cs-barra { grid-template-columns: 7rem minmax(0, 1fr) 4.5rem; }
+  .cs-barra-fill { grid-column: 2; justify-self: start; }
+  .cs-barra strong { font-size: 0.95rem; font-weight: 500; text-align: right; font-variant-numeric: tabular-nums; }
+  .cs-grafica-nota { font-size: 0.78rem; color: rgba(0,0,0,0.5); margin: 1rem 0 0; }
+  body.dark .cs-grafica-nota { color: rgba(232,232,232,0.5); }
 
-  .case-meta {
-    font-size: 0.85rem;
-    font-weight: 400;
-    color: var(--blue);
-    margin-bottom: 2.5rem;
-    transition: color var(--transition);
-  }
-  body.dark .case-meta { color: var(--blue-light); }
+  .cs-fases { list-style: none; margin: 0; padding: 0; max-width: 820px; }
+  .cs-fases li { padding: 1.4rem 0; border-top: 1px solid rgba(0,0,0,0.08); }
+  .cs-fases li:first-child { border-top: 0; padding-top: 0; }
+  body.dark .cs-fases li { border-top-color: rgba(255,255,255,0.08); }
+  .cs-fases h3 { font-size: 1.15rem; margin: 0 0 0.6rem; }
+  .cs-fases p { margin: 0; }
+  .cs-servicios { font-size: 0.9rem; font-weight: 300; margin-top: 1.4rem; }
+  .cs-servicios a { color: var(--blue); font-weight: 500; }
+  body.dark .cs-servicios a { color: var(--blue-light); }
 
-  .case-intro {
-    display: grid;
-    grid-template-columns: 1.3fr 1fr;
-    gap: 2.5rem;
-    align-items: center;
-    margin-bottom: 3rem;
-  }
-  .case-intro p {
-    font-size: 0.95rem;
-    font-weight: 300;
-    color: rgba(0,0,0,0.65);
-    line-height: 1.85;
-    transition: color var(--transition);
-  }
-  body.dark .case-intro p { color: rgba(232,232,232,0.65); }
+  .cs-destacado { background: #0a0a0a; color: #f6f6f6; margin-top: 5rem; padding: 5rem 0; }
+  .cs-destacado-grid { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 3rem 4rem; align-items: center; }
+  .cs-destacado h2 { font-size: clamp(1.7rem, 3vw, 2.4rem); margin: 0 0 1.6rem; color: #f6f6f6; }
+  .cs-destacado h3 { font-size: 1.15rem; margin: 0 0 0.6rem; color: #f6f6f6; }
+  .cs-destacado p { font-size: 0.95rem; font-weight: 300; line-height: 1.7; color: rgba(246,246,246,0.75); margin: 0 0 0.8rem; }
+  .cs-destacado a { color: var(--blue-light); font-weight: 500; }
+  .cs-destacado-media iframe { width: 100%; aspect-ratio: 16 / 9; border: 0; display: block; }
+  .cs-destacado-media img { width: 100%; height: auto; display: block; }
 
-  .case-intro-img {
-    border-radius: 4px;
-    overflow: hidden;
-    display: block;
-  }
-  .case-intro-img img { width: 100%; height: auto; display: block; object-fit: contain; }
+  .cs-relacionados ul { list-style: none; margin: 0 0 5rem; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.2rem; }
+  .cs-relacionados a { display: flex; flex-direction: column; height: 100%; border: 1px solid rgba(0,0,0,0.1); color: inherit; text-decoration: none; transition: border-color var(--transition); }
+  body.dark .cs-relacionados a { border-color: rgba(255,255,255,0.12); }
+  .cs-relacionados a:hover { border-color: var(--blue); }
+  .cs-rel-logo { display: grid; place-items: center; height: 8.5rem; background: #1c1c1c; border-bottom: 3px solid var(--blue); }
+  .cs-rel-logo img { max-width: 150px; max-height: 56px; width: auto; filter: brightness(0) invert(1); }
+  body.dark .cs-rel-logo img { filter: brightness(0) invert(1); }
+  .cs-rel-logo span { color: #f6f6f6; font-weight: 500; font-size: 1.2rem; }
+  .cs-rel-texto { padding: 1.2rem 1.3rem 1.4rem; display: flex; flex-direction: column; gap: 0.7rem; }
+  .cs-rel-texto strong { font-weight: 500; font-size: 1rem; line-height: 1.35; letter-spacing: -0.01em; }
+  .cs-rel-texto span { font-size: 0.82rem; color: var(--blue); }
+  body.dark .cs-rel-texto span { color: var(--blue-light); }
 
-  /* Tarjeta blanca intencional: algunas imagenes de caso (screenshots
-     externos, logos exportados con fondo solido) traen su propio fondo
-     claro horneado en el archivo y no se pueden editar o recortar sin
-     riesgo. En vez de perseguir que se mezclen con el tema, se tratan
-     como una tarjeta fija, con el mismo aspecto en claro y en oscuro
-     a proposito -- no es un olvido de modo oscuro. */
-  .case-intro-img--linked {
-    background: #ffffff;
-    border: 1px solid rgba(0,0,0,0.08);
-    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
-    transition: opacity var(--transition);
-  }
-  .case-intro-img--linked:hover { opacity: 0.85; }
-
-  .case-intro-img--logo {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 2rem;
-  }
-  .case-intro-img--logo img { width: 100%; max-width: 220px; display: block; }
-
-  .case-blocks {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2.5rem;
-    margin-bottom: 1rem;
-  }
-
-  /* h3 reales con aspecto de etiqueta (global.css pone serif a h1-h3). */
-  .block-label {
-    font-family: 'Poppins', sans-serif;
-    line-height: 1.6;
-    font-size: 0.82rem;
-    font-weight: 500;
-    letter-spacing: 0;
-    color: rgba(0,0,0,0.5);
-    margin-bottom: 0.7rem;
-    transition: color var(--transition);
-  }
-  body.dark .block-label { color: rgba(232,232,232,0.5); }
-
-  .block-text {
-    font-size: 0.92rem;
-    font-weight: 300;
-    color: rgba(0,0,0,0.6);
-    line-height: 1.85;
-    transition: color var(--transition);
-  }
-  body.dark .block-text { color: rgba(232,232,232,0.6); }
-  .block-text strong { font-weight: 600; color: var(--black); transition: color var(--transition); }
-  body.dark .block-text strong { color: #e8e8e8; }
-
-  .case-block-full { margin: 2.5rem 0; }
-  .case-block-full .block-text { max-width: 640px; }
-
-  .case-video-wrap { margin: 2.5rem 0; }
-  .case-video-wrap iframe {
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    border-radius: 4px;
-    border: none;
-    display: block;
-  }
-  .video-fallback {
-    font-size: 0.78rem;
-    font-weight: 400;
-    color: rgba(0,0,0,0.6);
-    margin-top: 0.75rem;
-    transition: color var(--transition);
-  }
-  body.dark .video-fallback { color: rgba(232,232,232,0.6); }
-  .video-fallback a {
-    color: var(--blue);
-    text-decoration: none;
-    transition: color var(--transition);
-  }
-  body.dark .video-fallback a { color: var(--blue-light); }
-  .video-fallback a:hover { text-decoration: underline; }
-
-  .skills-section {
-    margin-top: 3rem;
-    padding-top: 2.5rem;
-    border-top: 1px solid rgba(0,0,0,0.06);
-    transition: border-color var(--transition), opacity 0.6s ease, transform 0.6s ease;
-  }
-  body.dark .skills-section { border-top-color: rgba(255,255,255,0.08); }
-
-  .skills-label {
-    font-family: 'Poppins', sans-serif;
-    line-height: 1.6;
-    font-size: 0.8rem;
-    font-weight: 500;
-    letter-spacing: 0;
-    color: rgba(0,0,0,0.35);
-    margin-bottom: 1rem;
-    transition: color var(--transition);
-  }
-  body.dark .skills-label { color: rgba(232,232,232,0.4); }
-
-  /* Sobriedad: lista de texto en vez de pastillas con hover. */
-  .skills-list {
-    font-size: 0.88rem;
-    font-weight: 400;
-    line-height: 1.9;
-    color: rgba(0,0,0,0.7);
-    max-width: 640px;
-    transition: color var(--transition);
-  }
-  body.dark .skills-list { color: rgba(232,232,232,0.7); }
-
-  .case-services, .other-cases {
-    margin-top: 2.5rem;
-    padding-top: 2rem;
-    border-top: 1px solid rgba(0,0,0,0.06);
-  }
-  body.dark .case-services, body.dark .other-cases { border-top-color: rgba(255,255,255,0.08); }
-  .case-services ul, .other-cases ul { list-style: none; padding: 0; margin: 0; }
-  .case-services a {
-    font-size: 0.92rem;
-    font-weight: 500;
-    color: var(--blue);
-    text-decoration: none;
-    line-height: 2;
-  }
-  body.dark .case-services a { color: var(--blue-light); }
-  .case-services a:hover { text-decoration: underline; }
-
-  .other-cases li + li { border-top: 1px solid rgba(0,0,0,0.06); }
-  body.dark .other-cases li + li { border-top-color: rgba(255,255,255,0.08); }
-  .other-cases a {
-    display: flex;
-    justify-content: space-between;
-    gap: 1rem;
-    padding: 0.9rem 0;
-    text-decoration: none;
-    color: var(--black);
-    transition: color var(--transition);
-  }
-  body.dark .other-cases a { color: #e8e8e8; }
-  .other-cases a:hover { color: var(--blue); }
-  body.dark .other-cases a:hover { color: var(--blue-light); }
-  .other-case-title { font-family: 'Poppins', sans-serif; font-size: 1.1rem; }
-  .other-case-company { font-size: 0.78rem; color: rgba(0,0,0,0.5); white-space: nowrap; align-self: center; }
-  body.dark .other-case-company { color: rgba(232,232,232,0.5); }
-  @media (max-width: 640px) {
-    .other-cases a { flex-direction: column; gap: 0.2rem; }
-    .other-case-company { align-self: flex-start; white-space: normal; }
-  }
-
-  @media (max-width: 640px) {
-    .case-intro { grid-template-columns: 1fr; }
-    .case-blocks { grid-template-columns: 1fr; gap: 1.5rem; }
+  @media (max-width: 900px) {
+    .cs-cabecera-grid, .cs-ficha-grid, .cs-destacado-grid { grid-template-columns: 1fr; }
+    .cs-cifras { margin-right: 12px; }
+    .cs-relacionados ul { grid-template-columns: 1fr; }
+    .cs-barra { grid-template-columns: 5.5rem minmax(0, 1fr) 4rem; }
   }
 </style>
