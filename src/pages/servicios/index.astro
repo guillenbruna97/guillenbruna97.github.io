@@ -57,9 +57,7 @@ const itemListLd = {
         ))}
       </div>
       <div class="sv-nav">
-        <button type="button" class="ct-flecha" data-dir="-1" aria-label="Área anterior">←</button>
         <span class="sv-contador"><span data-sv-actual>01</span> / {total}</span>
-        <button type="button" class="ct-flecha" data-dir="1" aria-label="Área siguiente">→</button>
       </div>
     </div>
 
@@ -113,9 +111,7 @@ const itemListLd = {
     const tabs = [...root.querySelectorAll<HTMLAnchorElement>('[data-sv-tab]')];
     const areas = [...root.querySelectorAll<HTMLElement>('[data-sv-area]')];
     const actual = root.querySelector('[data-sv-actual]');
-    let i = 0;
     const marcar = (n: number) => {
-      i = n;
       tabs.forEach((t, k) => (k === n ? t.setAttribute('aria-current', 'true') : t.removeAttribute('aria-current')));
       if (actual) actual.textContent = String(n + 1).padStart(2, '0');
       tabs[n].scrollIntoView({ block: 'nearest', inline: 'nearest' });
@@ -125,12 +121,6 @@ const itemListLd = {
       { rootMargin: '-45% 0px -50% 0px' }
     );
     areas.forEach((a) => obs.observe(a));
-    root.querySelectorAll<HTMLButtonElement>('.ct-flecha').forEach((b) =>
-      b.addEventListener('click', () => {
-        const n = Math.min(areas.length - 1, Math.max(0, i + Number(b.dataset.dir)));
-        areas[n].scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
-      })
-    );
   }
 </script>
 
@@ -155,10 +145,6 @@ const itemListLd = {
   .sv-nav { display: flex; align-items: center; gap: 0.8rem; padding-bottom: 0.6rem; flex-shrink: 0; }
   .sv-contador { font-size: 0.8rem; font-variant-numeric: tabular-nums; color: rgba(0,0,0,0.55); }
   body.dark .sv-contador { color: rgba(232,232,232,0.55); }
-  .ct-flecha { appearance: none; width: 34px; height: 34px; border-radius: 50%; border: 1px solid rgba(0,0,0,0.18); background: none; color: inherit; cursor: pointer; font-size: 0.9rem; transition: border-color var(--transition), color var(--transition); }
-  .ct-flecha:hover { border-color: var(--blue); color: var(--blue); }
-  body.dark .ct-flecha { border-color: rgba(232,232,232,0.22); }
-  body.dark .ct-flecha:hover { border-color: var(--blue-light); color: var(--blue-light); }
 
   .sv-area { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 2.5rem 4.5rem; padding: 4rem 0; border-bottom: 1px solid rgba(0,0,0,0.08); }
   body.dark .sv-area { border-bottom-color: rgba(255,255,255,0.08); }
