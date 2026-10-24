@@ -37,7 +37,7 @@ const TONOS = ['azul', 'claro', 'roto', 'oscuro', 'azul', 'claro'];
           <Nombre class="at-nombre"><a href={ancla ? `#${area.slug}` : `/servicios/${area.slug}/`}>{area.name}</a></Nombre>
           <p class="at-tagline">{area.tagline}</p>
           {ancla ? (
-            <a href={`#${area.slug}`} class="at-bajar">Ver qué incluye ↓</a>
+            <a href={`#${area.slug}`} class="at-bajar">Ver qué incluye</a>
           ) : (
           <details class="at-detalle">
             <summary>Ver servicios</summary>
@@ -75,7 +75,8 @@ const TONOS = ['azul', 'claro', 'roto', 'oscuro', 'azul', 'claro'];
   .at-detalle li a { color: inherit; font-size: 0.86rem; font-weight: 300; text-decoration: none; }
   .at-detalle li a:hover { text-decoration: underline; text-underline-offset: 3px; }
   .at-detalle .at-area a { font-weight: 500; }
-  .at-bajar { margin-top: auto; border-top: 1px solid color-mix(in srgb, currentColor 25%, transparent); padding-top: 0.9rem; color: inherit; font-size: 0.85rem; font-weight: 500; text-decoration: none; }
+  .at-bajar { margin-top: auto; border-top: 1px solid color-mix(in srgb, currentColor 25%, transparent); padding-top: 0.9rem; display: flex; justify-content: space-between; align-items: center; color: inherit; font-size: 0.85rem; font-weight: 500; text-decoration: none; }
+  .at-bajar::after { content: '+'; font-size: 1.2rem; font-weight: 300; }
   .at-bajar:hover { text-decoration: underline; text-underline-offset: 3px; }
 
   /* Tonos de la marca (cerebro/identidad-visual.md) */
