@@ -183,8 +183,9 @@ const breadcrumbLd = {
   .cs-cabecera h1 { font-size: clamp(2rem, 4.4vw, 3.6rem); margin: 0 0 1.4rem; }
   .cs-rol { font-size: 0.92rem; font-weight: 300; color: rgba(0,0,0,0.6); margin: 0; }
   body.dark .cs-rol { color: rgba(232,232,232,0.6); }
-  .cs-cifras { margin: 0; background: var(--white); border: 1px solid rgba(0,0,0,0.08); box-shadow: 12px 12px 0 var(--blue); padding: 0.6rem 2rem; }
-  body.dark .cs-cifras { background: #0a0a0a; border-color: rgba(255,255,255,0.1); box-shadow: 12px 12px 0 var(--blue-light); }
+  /* Sombra difusa con un toque del azul de la marca (antes un bloque azul desplazado, demasiado duro). */
+  .cs-cifras { margin: 0; background: var(--white); border: 1px solid rgba(0,0,0,0.06); border-radius: 16px; box-shadow: 0 30px 60px -25px rgba(0,74,173,0.35), 0 12px 24px -12px rgba(0,0,0,0.08); padding: 0.6rem 2rem; }
+  body.dark .cs-cifras { background: #0a0a0a; border-color: rgba(255,255,255,0.1); box-shadow: 0 30px 60px -25px rgba(149,192,250,0.28), 0 12px 24px -12px rgba(0,0,0,0.5); }
   .cs-cifras div { padding: 1.2rem 0; border-top: 1px solid rgba(0,0,0,0.08); }
   body.dark .cs-cifras div { border-top-color: rgba(255,255,255,0.1); }
   .cs-cifras div:first-child { border-top: 0; }
@@ -276,7 +277,6 @@ const breadcrumbLd = {
 
   @media (max-width: 900px) {
     .cs-cabecera-grid, .cs-ficha-grid, .cs-destacado-grid { grid-template-columns: 1fr; }
-    .cs-cifras { margin-right: 12px; }
     .cs-relacionados ul { grid-template-columns: 1fr; }
     .cs-barra { grid-template-columns: 5.5rem minmax(0, 1fr) 4rem; }
   }
