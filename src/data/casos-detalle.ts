@@ -136,15 +136,15 @@ export const DETALLES: Record<string, DetalleCaso> = {
     fases: [
       { titulo: 'Gestión completa de redes sociales', texto: 'Estrategia, planificación editorial, producción y comunidad, con una voz propia dentro de un grupo en el que llegué a llevar la comunicación digital de hasta <strong>6 marcas en paralelo</strong>. En el grupo lideré además más de 3 eventos de inauguración de tiendas, coordinando la presencia física, la cobertura en redes y el seguimiento posterior.' },
       { titulo: 'Paid media gestionado por separado', texto: 'Las campañas de Meta Ads de Muebles Rey y Muebles Tuco sumaban más de <strong>20.000 € al mes</strong>, segmentadas por marca, producto y temporada: campañas de awareness con CPM por debajo de la media del retail y de conversión con CTR por encima del <strong>1,5 %</strong> y ROAS positivo en las líneas de producto principales.' },
-      { titulo: 'Una agencia de referencia para elevar la marca', texto: 'La marca necesitaba una atención más detallada y especializada de la que se podía dar íntegramente desde dentro. Identifiqué la mejor agencia de comunicación, la propuse y la incorporé, y trabajamos de forma complementaria. Sigue con la marca a día de hoy. Dentro de esa colaboración nació Perspectivas, un videopodcast de marca que ya se había intentado con otra agencia sin el resultado esperado.' },
-      { titulo: 'Spot de marca', texto: 'Lideré la producción de un spot para Muebles Rey: idea creativa, guion, planificación y coordinación del rodaje, incluida la propuesta y contratación del grupo musical que lo protagoniza, y supervisión final para mantener la coherencia con la identidad de la marca.' },
+      { titulo: 'Una agencia de referencia para elevar la marca', texto: 'La marca necesitaba una atención más detallada y especializada de la que se podía dar íntegramente desde dentro. Identifiqué la mejor agencia de comunicación, la propuse y la incorporé, y trabajamos de forma complementaria. Sigue con la marca a día de hoy.' },
+      { titulo: 'Perspectivas, el videopodcast de la marca', texto: 'Perspectivas ya se había intentado con otra agencia sin el resultado esperado. Lo montamos todo junto con la producción de la agencia que incorporamos, alineado con el mensaje, el estilo y la nueva identidad de Muebles Rey, y las campañas de paid media para darlo a conocer las hicimos por nuestra cuenta.' },
     ],
     resultado: 'Durante mi etapa, la comunidad de Muebles Rey pasó de aproximadamente <strong>15.000 a 25.000 seguidores</strong>, con más engagement y alcance orgánico. Y la agencia que elegimos sigue con la marca: las mejores decisiones son las que siguen funcionando cuando ya no estás.',
     comparativas: [{ etiqueta: 'Seguidores de Muebles Rey', antes: 15000, despues: 25000, unidad: 'seguidores' }],
     destacado: {
-      titulo: 'Spot de marca de Muebles Rey',
-      texto: 'Música en directo, atmósfera de marca y producto, de la idea al rodaje.',
-      video: { id: 'i6RH0EIlEus', titulo: 'Spot de marca Muebles Rey' },
+      titulo: 'Perspectivas, el videopodcast de Muebles Rey',
+      texto: 'Tráiler del videopodcast de la marca: montado junto con la producción de la agencia y lanzado con nuestras propias campañas de paid media.',
+      video: { id: 'rHpAE7U9OEs', titulo: 'Tráiler de Perspectivas, el videopodcast de Muebles Rey' },
     },
   },
   'muebles-tuco': {
@@ -161,9 +161,15 @@ export const DETALLES: Record<string, DetalleCaso> = {
     fases: [
       { titulo: 'Gestión completa de redes sociales', texto: 'Estrategia, planificación editorial, producción y comunidad. Llegué a llevar la comunicación digital de hasta <strong>6 marcas del grupo en paralelo</strong>, incluidas franquicias, así que cada una necesitaba una identidad diferenciada y un criterio claro para no confundirse con las demás.' },
       { titulo: 'Meta Ads', texto: 'Las campañas de Meta Ads de Muebles Tuco y Muebles Rey sumaban más de <strong>20.000 € al mes</strong>, segmentadas por marca, producto y temporada, con campañas de conversión por encima del <strong>1,5 %</strong> de CTR y ROAS positivo en las líneas de producto principales.' },
+      { titulo: 'Spot de marca', texto: 'Lideré la producción de un spot para Muebles Tuco: idea creativa, guion, planificación y coordinación del rodaje, incluida la propuesta y contratación del grupo musical que lo protagoniza, y supervisión final para mantener la coherencia con la identidad de la marca.' },
     ],
     resultado: 'Durante mi etapa, la comunidad de Muebles Tuco pasó de aproximadamente <strong>20.000 a 35.000 seguidores</strong>, con más engagement y alcance orgánico.',
     comparativas: [{ etiqueta: 'Seguidores de Muebles Tuco', antes: 20000, despues: 35000, unidad: 'seguidores' }],
+    destacado: {
+      titulo: 'Spot de marca de Muebles Tuco',
+      texto: 'Música en directo, atmósfera de marca y producto, de la idea al rodaje.',
+      video: { id: 'i6RH0EIlEus', titulo: 'Spot de marca Muebles Tuco' },
+    },
   },
   slm: {
     empresa: 'Marca de Grupo Rey Corporación, el mismo grupo de retail de muebles que Muebles Rey y Muebles Tuco.',
