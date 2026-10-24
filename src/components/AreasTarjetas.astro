@@ -1,0 +1,83 @@
+---
+// Las 6 áreas en tarjetas: foto arriba y panel de color abajo con el nombre y
+// un desplegable con los servicios. Inspirado en el bloque de tarjetas de
+// superside.com, con los colores de GBT (azul, azul claro, blanco roto y
+// superficie oscura). Los enlaces y el texto están en el HTML aunque el
+// desplegable esté cerrado, así que Google los lee igual.
+import { AREAS } from '../data/areas';
+import FotoPendiente from './FotoPendiente.astro';
+
+interface Props {
+  titulo?: string;
+}
+const { titulo } = Astro.props;
+
+// Foto que necesita cada área (hasta tener las reales van huecos de foto).
+const FOTOS: Record<string, string> = {
+  'estrategia-y-marca': 'Sesión de estrategia con dirección: pizarra o mesa con post-its, manos y personas trabajando. Vertical 4:3.',
+  'diseno-web': 'Portátil o pantalla con una web hecha por GBT, en un entorno de trabajo real. Vertical 4:3.',
+  'seo-geo': 'Pantalla con un panel de resultados de búsqueda o una respuesta de ChatGPT citando a un cliente. Vertical 4:3.',
+  'publicidad-online': 'Móvil con un anuncio de Instagram de un cliente, o panel de campañas. Vertical 4:3.',
+  'redes-sociales': 'Rodaje de contenido: móvil en trípode, luz y alguien grabando. Vertical 4:3.',
+  eventos: 'Evento real: el Spain Innovation Summit u otro, con público y escenario. Vertical 4:3.',
+};
+const TONOS = ['azul', 'claro', 'roto', 'oscuro', 'azul', 'claro'];
+---
+<section class="at">
+  {titulo && <h2 class="at-titulo">{titulo}</h2>}
+  <ul class="at-grid">
+    {AREAS.map((area, i) => (
+      <li class={`at-card at-${TONOS[i % TONOS.length]}`} data-reveal>
+        <FotoPendiente class="at-foto" ratio="4 / 3" texto={FOTOS[area.slug] ?? 'Foto del área. Vertical 4:3.'} />
+        <div class="at-panel">
+          <h3 class="at-nombre"><a href={`/servicios/${area.slug}/`}>{area.name}</a></h3>
+          <p class="at-tagline">{area.tagline}</p>
+          <details class="at-detalle">
+            <summary>Ver servicios</summary>
+            <ul>
+              {area.servicios.map((s) => (
+                <li><a href={s.href ?? `/servicios/${area.slug}/`}>{s.name}</a></li>
+              ))}
+              <li class="at-area"><a href={`/servicios/${area.slug}/`}>Todo sobre {area.name.toLowerCase()} →</a></li>
+            </ul>
+          </details>
+        </div>
+      </li>
+    ))}
+  </ul>
+</section>
+
+<style is:global>
+  .at { max-width: 1240px; margin: 0 auto; padding: 5rem 4vw 4rem; }
+  .at-titulo { font-size: clamp(2rem, 4.4vw, 3.4rem); line-height: 1.05; margin: 0 0 2.6rem; max-width: 900px; }
+  .at-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; align-items: start; }
+  .at-card { border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; }
+  .at-card .at-foto { border-radius: 0; border: 0; }
+  .at-panel { padding: 1.8rem 1.8rem 1.6rem; min-height: 17.5rem; display: flex; flex-direction: column; }
+  .at-nombre { font-size: clamp(1.5rem, 2.2vw, 2rem); line-height: 1.1; margin: 0 0 0.8rem; }
+  .at-nombre a { color: inherit; text-decoration: none; }
+  .at-nombre a:hover { text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
+  .at-tagline { font-size: 0.88rem; font-weight: 300; line-height: 1.6; margin: 0 0 1.4rem; opacity: 0.8; }
+  .at-detalle { margin-top: auto; border-top: 1px solid currentColor; border-color: color-mix(in srgb, currentColor 25%, transparent); padding-top: 0.9rem; }
+  .at-detalle summary { cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; font-weight: 500; }
+  .at-detalle summary::-webkit-details-marker { display: none; }
+  .at-detalle summary::after { content: '+'; font-size: 1.2rem; font-weight: 300; transition: transform 0.2s ease; }
+  .at-detalle[open] summary::after { transform: rotate(45deg); }
+  .at-detalle ul { list-style: none; margin: 0.9rem 0 0; padding: 0; display: flex; flex-direction: column; gap: 0.55rem; }
+  .at-detalle li a { color: inherit; font-size: 0.86rem; font-weight: 300; text-decoration: none; }
+  .at-detalle li a:hover { text-decoration: underline; text-underline-offset: 3px; }
+  .at-detalle .at-area a { font-weight: 500; }
+
+  /* Tonos de la marca (cerebro/identidad-visual.md) */
+  .at-azul .at-panel { background: var(--blue); color: #ffffff; }
+  .at-claro .at-panel { background: var(--blue-light); color: #0a0a0a; }
+  .at-roto .at-panel { background: var(--off-white); color: #0a0a0a; }
+  .at-oscuro .at-panel { background: #1c1c1c; color: #f6f6f6; }
+  body.dark .at-roto .at-panel { background: #f6f6f6; }
+  body.dark .at-oscuro .at-panel { background: #22262e; }
+  .at-roto { border: 1px solid rgba(0,0,0,0.06); }
+  body.dark .at-oscuro { border: 1px solid rgba(255,255,255,0.08); }
+
+  @media (max-width: 980px) { .at-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 620px) { .at-grid { grid-template-columns: 1fr; } .at-panel { min-height: 0; } }
+</style>
