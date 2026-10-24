@@ -4,6 +4,7 @@
 // reto del cliente (campo `reto` de data/casos.ts). Todo el texto está en el
 // HTML (los paneles ocultos también), así que Google lo lee entero.
 import { Picture } from 'astro:assets';
+import FotoPendiente from './FotoPendiente.astro';
 import { casos as todos } from '../data/casos';
 
 interface Props {
@@ -44,9 +45,13 @@ const total = String(casos.length).padStart(2, '0');
         <p class="ct-capacidades">{caso.capacidades}</p>
         <a href={`/trabajo/${caso.slug}/`} class="ct-ver">Ver el caso</a>
       </div>
-      <a href={`/trabajo/${caso.slug}/`} class="ct-imagen" tabindex="-1" aria-hidden="true">
-        <Picture src={caso.image} alt="" width={900} formats={['avif', 'webp']} quality={65} loading="lazy" />
-      </a>
+      {caso.image ? (
+        <a href={`/trabajo/${caso.slug}/`} class="ct-imagen" tabindex="-1" aria-hidden="true">
+          <Picture src={caso.image} alt="" width={900} formats={['avif', 'webp']} quality={65} loading="lazy" />
+        </a>
+      ) : (
+        <FotoPendiente ratio="4 / 3" texto={`Foto del caso de ${caso.company}: una campaña o una pieza real. Horizontal 4:3.`} />
+      )}
     </div>
   ))}
 </section>

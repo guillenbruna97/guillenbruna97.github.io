@@ -54,6 +54,8 @@ const categoryRedirects = {
 const pageRedirects = {
   '/sobre-mi/': '/quienes-somos/',
   '/como-trabajo/': '/quienes-somos/#como-trabajamos',
+  // Grupo Rey se separó en Muebles Rey, Muebles Tuco y SLM (2026-10-24).
+  '/trabajo/grupo-rey/': '/trabajo/muebles-rey/',
 };
 const allRedirects = { ...categoryRedirects, ...pageRedirects };
 

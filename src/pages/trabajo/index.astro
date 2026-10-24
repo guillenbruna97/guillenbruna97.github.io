@@ -6,6 +6,7 @@ import TrustMarquee from '../../components/TrustMarquee.astro';
 import PageHeaderMarquee from '../../components/PageHeaderMarquee.astro';
 import { Image } from 'astro:assets';
 import { casos } from '../../data/casos';
+import FotoPendiente from '../../components/FotoPendiente.astro';
 
 const trustLogos = [
   { src: '/logos/zebra.png', alt: 'Logo de Zebra AI Transformation Company' },
@@ -30,9 +31,13 @@ const trustLogos = [
     {casos.map((caso, i) => (
       <div class="case-item">
         <div class="case-media">
-          <a href={`/trabajo/${caso.slug}/`} aria-label={caso.ariaLabel}>
-            <Image src={caso.image} alt={caso.imageAlt} width={960} widths={[480, 720, 960]} sizes="(max-width: 640px) 100vw, 50vw" format="webp" quality={55} />
-          </a>
+          {caso.image ? (
+            <a href={`/trabajo/${caso.slug}/`} aria-label={caso.ariaLabel}>
+              <Image src={caso.image} alt={caso.imageAlt} width={960} widths={[480, 720, 960]} sizes="(max-width: 640px) 100vw, 50vw" format="webp" quality={55} />
+            </a>
+          ) : (
+            <FotoPendiente ratio="4 / 3" texto={`Foto del caso de ${caso.company}. Horizontal 4:3.`} />
+          )}
         </div>
         <div class="case-meta">
           <p class="case-number">{String(i + 1).padStart(2, '0')}</p>
