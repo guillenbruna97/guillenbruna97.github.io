@@ -4,13 +4,19 @@
 // reto del cliente (campo `reto` de data/casos.ts). Todo el texto está en el
 // HTML (los paneles ocultos también), así que Google lo lee entero.
 import { Picture } from 'astro:assets';
-import { casos } from '../data/casos';
+import { casos as todos } from '../data/casos';
 
+interface Props {
+  /** Casos a enseñar (por defecto, todos). */
+  casos?: typeof todos;
+  titulo?: string;
+}
+const { casos = todos, titulo = 'Casos reales, resultados reales' } = Astro.props;
 const total = String(casos.length).padStart(2, '0');
 ---
 <section class="ct" data-casos>
   <div class="ct-cabecera">
-    <h2 class="ct-titulo">Casos reales, resultados reales</h2>
+    <h2 class="ct-titulo">{titulo}</h2>
     <a href="/trabajo/" class="ct-todos">Ver todos los casos</a>
   </div>
 
@@ -20,11 +26,13 @@ const total = String(casos.length).padStart(2, '0');
         <button type="button" role="tab" id={`ct-tab-${caso.slug}`} aria-controls={`ct-panel-${caso.slug}`} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1}>{caso.company}</button>
       ))}
     </div>
-    <div class="ct-nav">
-      <button type="button" class="ct-flecha" data-dir="-1" aria-label="Caso anterior">←</button>
-      <span class="ct-contador" aria-live="polite"><span data-actual>01</span> / {total}</span>
-      <button type="button" class="ct-flecha" data-dir="1" aria-label="Caso siguiente">→</button>
-    </div>
+    {casos.length > 1 && (
+      <div class="ct-nav">
+        <button type="button" class="ct-flecha" data-dir="-1" aria-label="Caso anterior">←</button>
+        <span class="ct-contador" aria-live="polite"><span data-actual>01</span> / {total}</span>
+        <button type="button" class="ct-flecha" data-dir="1" aria-label="Caso siguiente">→</button>
+      </div>
+    )}
   </div>
 
   {casos.map((caso, i) => (
