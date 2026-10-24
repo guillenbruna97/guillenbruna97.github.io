@@ -1,6 +1,9 @@
 import zebraSisImage from '../assets/casos/zebra-sis.jpg';
 import zebraWebImage from '../assets/casos/zebra-web.jpg';
-import brocoImage from '../assets/casos/broco.png';
+import brocoIg1 from '../assets/casos/broco-ig-1.jpg';
+import brocoIg2 from '../assets/casos/broco-ig-2.jpg';
+import brocoIg3 from '../assets/casos/broco-ig-3.jpg';
+import brocoIg4 from '../assets/casos/broco-ig-4.jpg';
 
 // Contenido de la página de cada caso (/trabajo/<slug>/), pintado por
 // CaseLayout con la estructura de los casos de siegemedia.com (2026-10-24):
@@ -29,6 +32,9 @@ export interface Destacado {
   video?: { id: string; titulo: string };
   imagen?: ImageMetadata;
   imagenAlt?: string;
+  /** Varias piezas en rejilla (como el «Featured content» de Siege). */
+  galeria?: { imagen: ImageMetadata; alt: string }[];
+  enlace?: { texto: string; href: string };
 }
 export interface DetalleCaso {
   /** Qué es la empresa, para la ficha. */
@@ -89,6 +95,7 @@ export const DETALLES: Record<string, DetalleCaso> = {
     resultado: 'La línea de servicios digitales no fue un proyecto temporal: hoy forma parte permanente de la propuesta de valor de Integra, con planes de comunicación, social media y relaciones públicas en su catálogo oficial. Lo más valioso fue trabajar en consultoría pura, donde el cliente es una dirección general que toma decisiones con impacto real y el consultor tiene que ganarse la confianza antes de que se escuche cualquier recomendación.',
   },
   broco: {
+    logo: '/logos/broco.png',
     empresa: 'Marca de moda urbana sostenible creada desde cero por tres amigos en Zaragoza.',
     cifras: [
       { valor: '400-500', etiqueta: 'pedidos' },
@@ -105,10 +112,15 @@ export const DETALLES: Record<string, DetalleCaso> = {
     ],
     resultado: 'El resultado fue real: <strong>400-500 pedidos</strong> y una comunidad de <strong>5.000 seguidores</strong> construida desde cero, sin inversión externa, hasta llegar al punto de equilibrio económico. El proyecto terminó por una decisión consciente: las diferencias de implicación y de visión entre socios generaron una tensión que decidimos resolver antes de que afectara a lo que más importaba. Fue una de las lecciones más honestas sobre liderazgo, roles y expectativas, y define cómo trabajo hoy con equipos y clientes.',
     destacado: {
-      titulo: 'La marca',
-      texto: 'Identidad, producto y comunidad hechos a mano por el equipo fundador.',
-      imagen: brocoImage,
-      imagenAlt: 'Equipo fundador de Broco, marca de moda sostenible',
+      titulo: 'La marca en Instagram',
+      texto: 'Camisetas de algodón orgánico en colores suaves, mensajes positivos y una vida al aire libre: la identidad que construimos para Broco, de la gorra al estampado.',
+      galeria: [
+        { imagen: brocoIg1, alt: 'Gorra negra con el logotipo de Broco' },
+        { imagen: brocoIg2, alt: 'Camiseta verde menta de Broco' },
+        { imagen: brocoIg3, alt: 'Camiseta azul de Broco con estampado en la espalda' },
+        { imagen: brocoIg4, alt: 'Camiseta amarilla de Broco con el mensaje «kind people are my kinda people»' },
+      ],
+      enlace: { texto: 'Ver @brocobrand.es en Instagram', href: 'https://www.instagram.com/brocobrand.es/' },
     },
   },
   'muebles-rey': {
