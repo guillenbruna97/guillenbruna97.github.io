@@ -84,7 +84,7 @@ const nombreArea = (slug: string) => areas.find((a) => a.slug === slug)?.name ??
             <a href={enlace(lang, `/trabajo/${caso.slug}/`)}>
               <span class="tc-fondo">
                 {caso.image ? (
-                  <Image src={caso.image} alt="" width={600} format="webp" quality={55} loading="lazy" />
+                  <Image src={caso.image} alt="" width={600} format="webp" quality={55} loading="lazy" style={caso.imagePos ? `object-position: ${caso.imagePos};` : undefined} />
                 ) : (
                   <FotoPendiente ratio="3 / 4" texto={T.foto(caso.company)} />
                 )}
