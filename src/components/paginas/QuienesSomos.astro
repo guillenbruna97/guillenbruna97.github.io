@@ -199,14 +199,21 @@ const breadcrumbLd = {
 
   <section class="qs-bloque" id="la-red">
     <h2>{T.red}</h2>
-    <ol class="qs-red">
-      {red.map((r, i) => (
-        <li class={`qs-red-${TONOS[i]}`}>
-          <h3>{r.title}</h3>
-          <p>{r.text}</p>
-        </li>
-      ))}
-    </ol>
+    <div class="qs-camino" data-camino>
+      <svg class="qs-camino-svg" aria-hidden="true" focusable="false">
+        <path class="qs-camino-pista" />
+        <path class="qs-camino-linea" />
+        <g class="qs-camino-hitos"></g>
+      </svg>
+      <ol class="qs-red">
+        {red.map((r, i) => (
+          <li class={`qs-red-${TONOS[i]}`}>
+            <h3>{r.title}</h3>
+            <p>{r.text}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
   </section>
 
   <section class="qs-bloque qs-guillen" id="guillen">
@@ -279,7 +286,22 @@ const breadcrumbLd = {
   .qs-dos { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.6fr); gap: 1.5rem 4rem; align-items: start; }
   .qs-dos > h2 { margin: 0; }
 
-  .qs-red { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 1rem; }
+  .qs-red { list-style: none; margin: 0; padding: 0 0 3.2rem; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 3.2rem 1rem; position: relative; z-index: 1; }
+  /* Las dos de abajo cambian de sitio para que el camino las recorra en orden (de derecha a izquierda). */
+  .qs-red li:nth-child(4) { order: 5; } .qs-red li:nth-child(5) { order: 4; }
+  /* Camino que se dibuja al hacer scroll (2026-10-25): pista gris discontinua con
+     el recorrido entero y, encima, la línea azul que avanza. Cada tarjeta tiene su
+     hito, que se rellena cuando la línea llega. */
+  .qs-camino { position: relative; }
+  .qs-camino-svg { position: absolute; left: 0; top: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; z-index: 0; }
+  .qs-camino-pista { fill: none; stroke: rgba(0,0,0,0.14); stroke-width: 2; stroke-dasharray: 2 8; stroke-linecap: round; }
+  .qs-camino-linea { fill: none; stroke: var(--blue); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+  .qs-camino-hitos circle { fill: var(--white); stroke: rgba(0,0,0,0.2); stroke-width: 2; transition: fill 0.35s ease, stroke 0.35s ease, r 0.35s ease; }
+  .qs-camino-hitos circle.llegado { fill: var(--blue); stroke: var(--blue); r: 7px; }
+  body.dark .qs-camino-pista { stroke: rgba(255,255,255,0.18); }
+  body.dark .qs-camino-linea { stroke: var(--blue-light); }
+  body.dark .qs-camino-hitos circle { fill: var(--dark-bg); stroke: rgba(255,255,255,0.25); }
+  body.dark .qs-camino-hitos circle.llegado { fill: var(--blue-light); stroke: var(--blue-light); }
   .qs-red li { grid-column: span 2; border-radius: 16px; padding: 1.8rem 1.8rem 2rem; min-height: 14rem; display: flex; flex-direction: column; }
   .qs-red li:nth-child(4), .qs-red li:nth-child(5) { grid-column: span 3; }
   .qs-red h3 { font-size: clamp(1.25rem, 1.8vw, 1.6rem); line-height: 1.15; margin: 0 0 auto; padding-bottom: 1.4rem; }
@@ -349,8 +371,86 @@ const breadcrumbLd = {
 
   @media (max-width: 900px) {
     .qs-cols, .qs-dos, .qs-guillen, .qs-casos a { grid-template-columns: 1fr; }
-    .qs-red { grid-template-columns: 1fr; }
-    .qs-red li, .qs-red li:nth-child(4), .qs-red li:nth-child(5) { grid-column: auto; min-height: 0; }
+    .qs-red { grid-template-columns: 1fr; gap: 1.2rem; padding: 0 0 0 2.4rem; }
+    .qs-red li, .qs-red li:nth-child(4), .qs-red li:nth-child(5) { grid-column: auto; min-height: 0; order: 0; }
     .qs-momentos { grid-template-columns: 1fr; }
   }
 </style>
+
+<script>
+  // Camino de «Cómo elegimos a la red»: se calcula con la posición real de las
+  // tarjetas (escritorio: serpentea por los huecos; móvil: baja por la izquierda)
+  // y se dibuja según el scroll. Con movimiento reducido sale entero.
+  const caja = document.querySelector<HTMLElement>('[data-camino]');
+  if (caja) {
+    const NS = 'http://www.w3.org/2000/svg';
+    const svg = caja.querySelector('svg')!;
+    const pista = svg.querySelector<SVGPathElement>('.qs-camino-pista')!;
+    const linea = svg.querySelector<SVGPathElement>('.qs-camino-linea')!;
+    const hitosG = svg.querySelector('.qs-camino-hitos')!;
+    const tarjetas = [...caja.querySelectorAll<HTMLElement>('.qs-red li')];
+    const quieto = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let largo = 0;
+    let marcas: { el: SVGCircleElement; en: number }[] = [];
+
+    const trazar = () => {
+      const base = caja.getBoundingClientRect();
+      const rc = tarjetas.map((t) => { const b = t.getBoundingClientRect(); return { x: b.left - base.left, y: b.top - base.top, w: b.width, h: b.height }; });
+      const movil = window.matchMedia('(max-width: 900px)').matches;
+      let d = '';
+      let hitos: [number, number][] = [];
+      if (movil) {
+        const x = 12;
+        hitos = rc.map((c) => [x, c.y + c.h / 2]);
+        d = `M ${x} ${rc[0].y + 8} L ${x} ${rc[rc.length - 1].y + rc[rc.length - 1].h - 8}`;
+      } else {
+        const fila1 = rc[0].y + rc[0].h;
+        const fila2 = Math.max(rc[3].y + rc[3].h, rc[4].y + rc[4].h);
+        const y1 = fila1 + (rc[3].y - fila1) / 2;
+        const y2 = fila2 + 1.6 * 16;
+        const der = rc[2].x + rc[2].w + 22;
+        const izq = rc[0].x - 22;
+        const cx = (c: typeof rc[number]) => c.x + c.w / 2;
+        const ola = (xa: number, xb: number, y: number, sube: boolean) => ` Q ${(xa + xb) / 2} ${y + (sube ? -14 : 14)} ${xb} ${y}`;
+        const rad = 26;
+        hitos = [[cx(rc[0]), y1], [cx(rc[1]), y1], [cx(rc[2]), y1], [cx(rc[3]), y2], [cx(rc[4]), y2]];
+        d = `M ${izq} ${y1}` + ola(izq, hitos[0][0], y1, true) + ola(hitos[0][0], hitos[1][0], y1, false) + ola(hitos[1][0], hitos[2][0], y1, true)
+          + ` L ${der - rad} ${y1} Q ${der} ${y1} ${der} ${y1 + rad} L ${der} ${y2 - rad} Q ${der} ${y2} ${der - rad} ${y2}`
+          + ola(der - rad, hitos[3][0], y2, true) + ola(hitos[3][0], hitos[4][0], y2, false) + ola(hitos[4][0], izq, y2, true);
+      }
+      pista.setAttribute('d', d);
+      linea.setAttribute('d', d);
+      largo = linea.getTotalLength();
+      linea.style.strokeDasharray = `${largo}`;
+      // Distancia a lo largo del camino de cada hito (muestreo).
+      const muestras: [number, number, number][] = [];
+      for (let l = 0; l <= largo; l += 4) { const pt = linea.getPointAtLength(l); muestras.push([l, pt.x, pt.y]); }
+      hitosG.replaceChildren();
+      marcas = hitos.map(([hx, hy]) => {
+        let mejor = 0, dist = Infinity;
+        muestras.forEach(([l, x, y]) => { const dd = (x - hx) ** 2 + (y - hy) ** 2; if (dd < dist) { dist = dd; mejor = l; } });
+        const el = document.createElementNS(NS, 'circle');
+        el.setAttribute('cx', String(hx)); el.setAttribute('cy', String(hy)); el.setAttribute('r', '5');
+        hitosG.appendChild(el);
+        return { el, en: mejor };
+      });
+      avanzar();
+    };
+
+    const avanzar = () => {
+      const b = caja.getBoundingClientRect();
+      const vh = window.innerHeight;
+      // Empieza cuando el bloque entra por abajo y termina cuando su final pasa del 70 % de la pantalla.
+      const p = quieto ? 1 : Math.min(1, Math.max(0, (vh * 0.85 - b.top) / (b.height + vh * 0.15)));
+      const hecho = largo * p;
+      linea.style.strokeDashoffset = String(largo - hecho);
+      marcas.forEach((m) => m.el.classList.toggle('llegado', hecho >= m.en - 2));
+    };
+
+    let pendiente = false;
+    window.addEventListener('scroll', () => { if (!pendiente) { pendiente = true; requestAnimationFrame(() => { pendiente = false; avanzar(); }); } }, { passive: true });
+    window.addEventListener('resize', trazar);
+    document.fonts?.ready.then(trazar);
+    trazar();
+  }
+</script>
