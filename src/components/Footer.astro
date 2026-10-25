@@ -149,20 +149,8 @@ const year = new Date().getFullYear();
     transition: color var(--transition);
   }
   body.dark .footer-cta-text { color: rgba(232,232,232,0.75); }
-  .footer-cta-btn {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 1rem;
-    padding: 1rem 1.25rem;
-    background: var(--white);
-    border-radius: 12px;
-    font-size: 0.85rem;
-    font-weight: 500;
-    color: var(--black);
-    text-decoration: none;
-    transition: background var(--transition), color var(--transition);
-  }
+  /* Forma en global.css (BOTONES). */
+  .footer-cta-btn { display: flex; background: var(--white); color: var(--black); }
   body.dark .footer-cta-btn { background: var(--dark-surface2); color: #e8e8e8; }
   .footer-cta-btn:hover { background: var(--blue); color: var(--white); }
   body.dark .footer-cta-btn:hover { background: var(--blue-light); color: var(--dark-bg); }

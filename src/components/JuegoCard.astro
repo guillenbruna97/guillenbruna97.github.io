@@ -42,10 +42,11 @@ const href = `/recursos/minijuegos/${game.slug}/`;
   .jc-titulo { font-size: clamp(1.4rem, 2.2vw, 1.9rem); line-height: 1.12; margin: 0 0 0.8rem; }
   .jc-titulo a { color: inherit; text-decoration: none; }
   .jc-texto { font-size: 0.92rem; font-weight: 300; line-height: 1.65; margin: 0 0 1.6rem; opacity: 0.85; }
-  .jc-cta { margin-top: auto; display: inline-block; padding: 0.7rem 1.4rem; border-radius: 8px; font-size: 0.85rem; font-weight: 500; text-decoration: none; transition: transform 0.15s ease; }
-  .jc-cta:hover { transform: translateY(-1px); }
+  .jc-cta { margin-top: auto; }
   .jc-azul .jc-panel { background: var(--blue); color: #fff; }
   .jc-azul .jc-cta { background: #fff; color: var(--blue); }
+  .jc-cta:hover { background: #0a0a0a !important; color: #fff !important; }
+  .jc-oscuro .jc-cta:hover { background: #fff !important; color: #0a0a0a !important; }
   .jc-oscuro .jc-panel { background: #1c1c1c; color: #f6f6f6; }
   body.dark .jc-oscuro .jc-panel { background: #22262e; }
   .jc-oscuro .jc-cta { background: var(--blue-light); color: #0a0a0a; }
