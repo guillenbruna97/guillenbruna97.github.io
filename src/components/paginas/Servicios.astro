@@ -4,6 +4,8 @@ import ContactBlock from '../../components/ContactBlock.astro';
 import AreasTarjetas from '../../components/AreasTarjetas.astro';
 import BurbujaRecomendador from '../../components/BurbujaRecomendador.astro';
 import FotoPendiente from '../../components/FotoPendiente.astro';
+import Foto from '../../components/Foto.astro';
+import { FOTOS_AREA } from '../../data/fotos';
 import { SITE_NAME } from '../../consts';
 import { AREAS } from '../../data/areas';
 import { casosForArea } from '../../data/casos';
@@ -135,7 +137,7 @@ const itemListLd = {
             <a href={ir(`/servicios/${area.slug}/`)} class="sv-mas">{T.mas(area.name)}</a>
           </div>
           <aside class="sv-lado">
-            <FotoPendiente ratio="4 / 3" texto={FOTOS[area.slug] ?? 'Foto del área. Horizontal 4:3.'} />
+            {FOTOS_AREA[area.slug] ? <Foto foto={FOTOS_AREA[area.slug]} ratio="4 / 3" sizes="(max-width: 900px) 100vw, 480px" /> : <FotoPendiente ratio="4 / 3" texto={FOTOS[area.slug] ?? 'Foto del área. Horizontal 4:3.'} />}
             {caso && (
               <a href={ir(`/trabajo/${caso.slug}/`)} class="sv-caso">
                 <span class="sv-caso-label">{T.casoDe(caso.company)}</span>

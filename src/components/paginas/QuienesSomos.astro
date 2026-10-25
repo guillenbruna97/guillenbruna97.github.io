@@ -7,7 +7,8 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ContactBlock from '../../components/ContactBlock.astro';
 import FaqList from '../../components/FaqList.astro';
-import FotoPendiente from '../../components/FotoPendiente.astro';
+import Foto from '../../components/Foto.astro';
+import { FOTO_QUIENES } from '../../data/fotos';
 import { Picture } from 'astro:assets';
 import { LINKEDIN_URL, BOOKING_URL, SITE_NAME } from '../../consts';
 import { casos } from '../../data/casos';
@@ -185,7 +186,7 @@ const breadcrumbLd = {
         <a href={ir('/trabajo/')} class="btn-secondary">{T.casos}</a>
       </div>
     </div>
-    <FotoPendiente ratio="16 / 7" texto="Guillén con parte de la red en una sesión de trabajo con un cliente, con luz natural y sin posar. Horizontal, de al menos 2400 px de ancho." />
+    <Foto foto={FOTO_QUIENES} ratio="16 / 7" sizes="(max-width: 1300px) 92vw, 1200px" loading="eager" />
   </header>
 
   <section class="qs-manifiesto">
