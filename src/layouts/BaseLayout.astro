@@ -7,7 +7,7 @@ import LoadingScreen from '../components/LoadingScreen.astro';
 import CookieConsent from '../components/CookieConsent.astro';
 import Siguenos from '../components/Siguenos.astro';
 import { BOOKING_URL } from '../consts';
-import { getLang, ui } from '../i18n';
+import { getLang, ui, RUTAS_EN } from '../i18n';
 
 interface Props {
   title: string;
@@ -25,6 +25,20 @@ const t = ui(lang);
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script is:inline define:vars={{ RUTAS_EN }}>
+      // Idioma recordado (2026-10-25): quien lee en inglés sigue en inglés al
+      // cambiar de página hasta que elija español en el selector. Leer una página
+      // /en/ cuenta como elegir inglés; si una página española tiene pareja inglesa
+      // y la elección es inglés, se salta a la pareja antes de pintar nada.
+      try {
+        var enIngles = /^\/en(\/|$)/.test(location.pathname);
+        if (enIngles) localStorage.setItem('lang', 'en');
+        else if (localStorage.getItem('lang') === 'en') {
+          var destino = RUTAS_EN[location.pathname.replace(/\/?$/, '/')];
+          if (destino) location.replace(destino + location.search + location.hash);
+        }
+      } catch (e) { /* sin almacenamiento: cada página en su idioma */ }
+    </script>
     <link rel="icon" type="image/svg+xml" href="/isotipo.svg" />
     <link rel="preload" href="/fonts/poppins-400.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/newsreader-italic.woff2" as="font" type="font/woff2" crossorigin />
