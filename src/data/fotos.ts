@@ -1,14 +1,16 @@
 import estrategia from '../assets/fotos/estrategia-pizarra.jpg';
 import web from '../assets/fotos/web-revision.jpg';
-import seo from '../assets/fotos/seo-analisis.jpg';
+import seo from '../assets/fotos/seo-especialista.jpg';
 import publicidad from '../assets/fotos/publicidad-movil.jpg';
-import redes from '../assets/fotos/redes-rodaje.jpg';
+import redes from '../assets/fotos/redes-edicion.jpg';
 import eventos from '../assets/casos/zebra-sis.jpg';
 import sesion from '../assets/fotos/quienes-sesion.jpg';
 
 // Fotos de las áreas y de Quiénes somos (2026-10-25), según
 // marca-personal/ux-ui/prompts-fotos.md. Las de Guillén están generadas con IA a
 // partir de sus fotos; Eventos es la foto real del Spain Innovation Summit.
+// SEO y GEO y Redes muestran a especialistas de la red, sin cara reconocible
+// (decisión de Dirección: Guillén solo sale donde el trabajo es suyo).
 // `foco` es el object-position: qué parte se queda al recortar a 4:3 o 16:7.
 export interface Foto {
   img: ImageMetadata;
@@ -29,8 +31,8 @@ export const FOTOS_AREA: Record<string, Foto> = {
   },
   'seo-geo': {
     img: seo,
-    alt: { es: 'Guillén Bruna analiza datos de posicionamiento en un monitor y toma notas', en: 'Guillén Bruna analyses search data on a monitor and takes notes' },
-    foco: '50% 28%',
+    alt: { es: 'Especialista en SEO toma notas junto a un monitor con datos de posicionamiento', en: 'SEO specialist taking notes next to a monitor with search data' },
+    foco: '60% 45%',
   },
   'publicidad-online': {
     img: publicidad,
@@ -39,8 +41,8 @@ export const FOTOS_AREA: Record<string, Foto> = {
   },
   'redes-sociales': {
     img: redes,
-    alt: { es: 'Guillén Bruna graba contenido para redes con un móvil y un aro de luz', en: 'Guillén Bruna records social media content with a phone and a ring light' },
-    foco: '55% 27%',
+    alt: { es: 'Especialista en contenido edita un vídeo para redes sociales en su puesto', en: 'Content specialist editing a social media video at his desk' },
+    foco: '55% 40%',
   },
   eventos: {
     img: eventos,
