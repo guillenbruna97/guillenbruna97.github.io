@@ -42,6 +42,9 @@ for (const url of urls) {
 }
 for (const [destino, origen] of enlaces) {
   if (urls.includes(destino)) continue; // ya comprobada como página
+  // Cloudflare cambia los mailto por /cdn-cgi/l/email-protection y los descifra con JS:
+  // sin JS responde 404, pero para el visitante el enlace funciona. No es un enlace roto.
+  if (new URL(destino).pathname.startsWith('/cdn-cgi/')) continue;
   const { status, error } = await pedir(destino);
   if (status !== 200) problemas.push(`Enlace roto ${destino} (${status || error}), enlazado desde ${origen}`);
 }
