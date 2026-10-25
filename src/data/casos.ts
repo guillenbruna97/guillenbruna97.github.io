@@ -3,6 +3,7 @@ import zebraCaseImage from '../assets/casos/zebra-sis.jpg';
 import integraCaseImage from '../assets/casos/integra.jpeg';
 import grupoReyCaseImage from '../assets/casos/grupo-rey.jpeg';
 import slmCaseImage from '../assets/sobre-mi/momento-slm.png';
+import tucoCaseImage from '../assets/casos/tuco-taller-castellon.jpg';
 
 // Fuente única para los datos de cada caso que se repetían, sin control del
 // compilador, entre el listado (/trabajo/) y cada página de detalle
@@ -129,13 +130,15 @@ export const casos = [
     company: 'Muebles Tuco',
     role: 'Head of Social Media en Grupo Rey Corporación',
     services: [] as string[],
-    areas: ['redes-sociales', 'publicidad-online'],
+    areas: ['redes-sociales', 'publicidad-online', 'eventos'],
     sector: 'Retail de muebles, B2C',
     reto: 'Hacer crecer la comunidad de Muebles Tuco con voz propia dentro de un grupo de varias marcas',
-    capacidades: 'Redes sociales, Meta Ads, Spot de marca',
+    capacidades: 'Redes sociales, Meta Ads, Spot de marca, Inauguración de tienda',
     ariaLabel: 'Ver caso de Muebles Tuco',
-    image: undefined as ImageMetadata | undefined,
-    imageAlt: 'Campaña de Muebles Tuco en redes sociales',
+    image: tucoCaseImage as ImageMetadata | undefined,
+    // Foto vertical: el recorte apaisado se centra en Guillén.
+    imagePos: '62% 32%',
+    imageAlt: 'Guillén Bruna Tricas dirige el taller de inauguración de una tienda de Muebles Tuco en Castellón',
     cardTags: ['Redes sociales'],
     cardHeadline: 'Gestión completa de redes con voz propia',
     cardDesc: 'Gestión completa de las redes sociales de Muebles Tuco con una identidad diferenciada del resto de marcas del grupo, campañas de Meta Ads segmentadas por producto y temporada, y el spot de marca.',
@@ -144,7 +147,7 @@ export const casos = [
     detailDescription: 'Caso real de redes sociales y spot de marca para Muebles Tuco: comunidad de 20.000 a 35.000 seguidores con voz propia dentro de un grupo multimarca.',
     detailTags: ['Redes sociales', 'Retail'],
     detailHeading: 'Gestión completa de redes con voz propia',
-    skills: ['Estrategia en redes sociales', 'Planificación editorial', 'Gestión de comunidad', 'Meta Ads', 'Producción de spot'],
+    skills: ['Estrategia en redes sociales', 'Planificación editorial', 'Gestión de comunidad', 'Meta Ads', 'Producción de spot', 'Eventos de inauguración'],
   },
   {
     slug: 'slm',

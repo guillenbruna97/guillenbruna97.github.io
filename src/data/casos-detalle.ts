@@ -161,6 +161,7 @@ export const DETALLES: Record<string, DetalleCaso> = {
     fases: [
       { titulo: 'Gestión completa de redes sociales', texto: 'Estrategia, planificación editorial, producción y comunidad. Llegué a llevar la comunicación digital de hasta <strong>6 marcas del grupo en paralelo</strong>, incluidas franquicias, así que cada una necesitaba una identidad diferenciada y un criterio claro para no confundirse con las demás.' },
       { titulo: 'Meta Ads', texto: 'Las campañas de Meta Ads de Muebles Tuco y Muebles Rey sumaban más de <strong>20.000 € al mes</strong>, segmentadas por marca, producto y temporada, con campañas de conversión por encima del <strong>1,5 %</strong> de CTR y ROAS positivo en las líneas de producto principales.' },
+      { titulo: 'Taller de inauguración en Castellón', texto: 'Para la apertura de una tienda nueva en Castellón preparé y dirigí el taller de inauguración: una actividad práctica con clientes en la propia tienda, decorando piezas de cerámica alrededor de una mesa.' },
       { titulo: 'Spot de marca', texto: 'Lideré la producción de un spot para Muebles Tuco: idea creativa, guion, planificación y coordinación del rodaje, incluida la propuesta y contratación del grupo musical que lo protagoniza, y supervisión final para mantener la coherencia con la identidad de la marca.' },
     ],
     resultado: 'Durante mi etapa, la comunidad de Muebles Tuco pasó de aproximadamente <strong>20.000 a 35.000 seguidores</strong>, con más engagement y alcance orgánico.',

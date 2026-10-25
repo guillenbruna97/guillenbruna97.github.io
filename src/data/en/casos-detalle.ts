@@ -111,6 +111,7 @@ const EN: Record<string, Textos> = {
     fases: [
       { titulo: 'Full social media management', texto: 'Strategy, editorial planning, production and community. I ended up running the digital communication of up to <strong>6 group brands in parallel</strong>, including franchises, so each one needed a distinct identity and clear criteria so as not to be confused with the others.' },
       { titulo: 'Meta Ads', texto: 'The Meta Ads campaigns for Muebles Tuco and Muebles Rey added up to more than <strong>€20,000 a month</strong>, segmented by brand, product and season, with conversion campaigns above <strong>1.5%</strong> CTR and positive ROAS on the main product lines.' },
+      { titulo: 'Opening workshop in Castellón', texto: 'For the opening of a new store in Castellón, I prepared and ran the opening workshop: a hands-on activity with customers in the store itself, decorating ceramic pieces around a table.' },
       { titulo: 'Brand spot', texto: 'I led the production of a spot for Muebles Tuco: creative idea, script, planning and coordination of the shoot, including proposing and hiring the band that stars in it, and final supervision to keep it consistent with the brand identity.' },
     ],
     resultado: 'During my time, the Muebles Tuco community grew from roughly <strong>20,000 to 35,000 followers</strong>, with more engagement and organic reach.',
