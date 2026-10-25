@@ -3,12 +3,13 @@ import web from '../assets/fotos/web-disenadora.jpg';
 import seo from '../assets/fotos/seo-especialista.jpg';
 import publicidad from '../assets/fotos/publicidad-especialista.jpg';
 import redes from '../assets/fotos/redes-edicion.jpg';
-import eventos from '../assets/casos/zebra-sis.jpg';
+import eventos from '../assets/fotos/eventos-auditorio.jpg';
 import sesion from '../assets/fotos/quienes-sesion.jpg';
 
 // Fotos de las áreas y de Quiénes somos (2026-10-25), según
 // marca-personal/ux-ui/prompts-fotos.md. Las de Guillén están generadas con IA a
-// partir de sus fotos; Eventos es la foto real del Spain Innovation Summit.
+// partir de sus fotos. Eventos es una escena genérica creada con IA, sin
+// nombre ni logotipos, para no repetir la foto real del caso de Zebra.
 // Web, SEO y GEO, Publicidad y Redes muestran a especialistas de la red, sin cara reconocible
 // (decisión de Dirección: Guillén solo sale donde el trabajo es suyo).
 // `foco` es el object-position: qué parte se queda al recortar a 4:3 o 16:7.
@@ -46,8 +47,8 @@ export const FOTOS_AREA: Record<string, Foto> = {
   },
   eventos: {
     img: eventos,
-    alt: { es: 'Equipo en el Spain Innovation Summit, evento organizado por Guillén Bruna', en: 'Team at the Spain Innovation Summit, an event organised by Guillén Bruna' },
-    foco: '50% 40%',
+    alt: { es: 'Evento corporativo en un auditorio visto desde la mesa de control, con una ponente en el escenario', en: 'Corporate event in an auditorium seen from the control desk, with a speaker on stage' },
+    foco: '62% 40%',
   },
 };
 
