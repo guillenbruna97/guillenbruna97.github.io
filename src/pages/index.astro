@@ -6,6 +6,7 @@ import { Picture } from 'astro:assets';
 import heroIlustracion from '../assets/articulos/consultor-de-marketing-en-zaragoza.jpg';
 import heroIlustracionOscura from '../assets/hero/ilustracion-oscura.jpg';
 import CasosTabs from '../components/CasosTabs.astro';
+import BurbujaRecomendador from '../components/BurbujaRecomendador.astro';
 import AreasTarjetas from '../components/AreasTarjetas.astro';
 import { BOOKING_URL } from '../consts';
 
@@ -109,6 +110,7 @@ const trustLogos = [
       update();
     }
   </script>
+  <BurbujaRecomendador />
 </BaseLayout>
 
 <style is:global>

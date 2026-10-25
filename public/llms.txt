@@ -27,6 +27,7 @@ Todo por propuesta. Tras una llamada de 15 minutos, el cliente recibe en 5 días
 
 ## Otras páginas
 
+- [Recomendador de servicios](https://gbtconsultoria.com/recomendador/): seis preguntas que indican qué servicios encajan con cada empresa y por dónde empezar.
 - [Quiénes somos](https://gbtconsultoria.com/quienes-somos/): la red, cómo se elige a sus especialistas, quién la dirige y cómo trabajamos.
 - [Casos reales](https://gbtconsultoria.com/trabajo/): proyectos de estrategia de marca, lanzamiento de producto, web, paid media y eventos.
 - [Artículos](https://gbtconsultoria.com/articulos/): piezas sobre posicionamiento, marca, go to market y comunicación ejecutiva.

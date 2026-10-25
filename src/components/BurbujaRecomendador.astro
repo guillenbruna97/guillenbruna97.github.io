@@ -1,0 +1,50 @@
+---
+// Burbuja flotante «¿Te ayudo a elegir?» que lleva al recomendador (inspirada en
+// cafeselcriollo.com). Solo en la home y en /servicios/ (decisión 2026-10-25):
+// aparece al bajar un poco, no mientras está abierto el aviso de cookies, y si
+// se cierra no vuelve en 7 días.
+---
+<div class="burbuja" id="burbuja" hidden>
+  <a href="/recomendador/" class="burbuja-enlace">
+    <span class="burbuja-icono" aria-hidden="true">
+      <svg viewBox="0 0 24 24" width="20" height="20"><path d="M12 3c-4.97 0-9 3.58-9 8 0 2.08.9 3.98 2.38 5.41L5 21l4.2-1.85c.88.23 1.82.35 2.8.35 4.97 0 9-3.58 9-8s-4.03-8-9-8Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+    </span>
+    <span class="burbuja-texto">¿Te ayudamos a elegir qué necesitas?</span>
+  </a>
+  <button type="button" class="burbuja-cerrar" id="burbuja-cerrar" aria-label="Cerrar">×</button>
+</div>
+
+<script>
+  const b = document.getElementById('burbuja');
+  const CLAVE = 'burbujaRecoCerrada';
+  let cerrada = false;
+  try { const t = Number(localStorage.getItem(CLAVE)); cerrada = !!t && Date.now() - t < 7 * 864e5; } catch {}
+  if (b && !cerrada) {
+    const cookiesAbierto = () => !!document.querySelector('.cookie-consent.is-open');
+    const revisar = () => { b.hidden = window.scrollY < 500 || cookiesAbierto(); };
+    window.addEventListener('scroll', revisar, { passive: true });
+    setInterval(revisar, 1500);
+    revisar();
+    document.getElementById('burbuja-cerrar')?.addEventListener('click', () => {
+      b.remove();
+      try { localStorage.setItem(CLAVE, String(Date.now())); } catch {}
+    });
+    b.querySelector('a')?.addEventListener('click', () => { const g = (window as unknown as { gtag?: (...a: unknown[]) => void }).gtag; g?.('event', 'recomendador_burbuja_click'); });
+  }
+</script>
+
+<style is:global>
+  .burbuja { position: fixed; right: 1.2rem; bottom: 1.2rem; z-index: 95; display: flex; align-items: flex-start; max-width: 300px; background: var(--white); border-radius: 18px; border: 1.5px solid transparent; background: linear-gradient(var(--white), var(--white)) padding-box, linear-gradient(110deg, #004aad, #95c0fa 50%, #004aad) border-box; box-shadow: 0 12px 30px -12px rgba(16, 34, 64, 0.3), 0 0 22px rgba(0, 74, 173, 0.14); }
+  .burbuja[hidden] { display: none; }
+  body.dark .burbuja { background: linear-gradient(#14171d, #14171d) padding-box, linear-gradient(110deg, #95c0fa, #004aad 50%, #95c0fa) border-box; box-shadow: 0 0 22px rgba(149, 192, 250, 0.16); }
+  .burbuja-enlace { display: flex; align-items: center; gap: 0.75rem; padding: 0.9rem 0.6rem 0.9rem 1rem; color: inherit; text-decoration: none; font-size: 0.88rem; font-weight: 500; line-height: 1.35; }
+  .burbuja-icono { flex: none; display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; background: var(--blue); color: #fff; }
+  body.dark .burbuja-icono { background: var(--blue-light); color: #0a0a0a; }
+  .burbuja-enlace:hover .burbuja-texto { color: var(--blue); }
+  body.dark .burbuja-enlace:hover .burbuja-texto { color: var(--blue-light); }
+  .burbuja-cerrar { appearance: none; background: none; border: 0; padding: 0.5rem 0.75rem; font-size: 1.1rem; line-height: 1; color: rgba(0,0,0,0.45); cursor: pointer; }
+  body.dark .burbuja-cerrar { color: rgba(232,232,232,0.5); }
+  @media (prefers-reduced-motion: no-preference) { .burbuja:not([hidden]) { animation: burbuja-entra 0.4s ease-out; } }
+  @keyframes burbuja-entra { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+  @media print { .burbuja { display: none; } }
+</style>

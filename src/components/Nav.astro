@@ -36,6 +36,7 @@ const isActive = (href: string) => {
       </ul>
     </li>
     <li><a href="/contacto/" class={isActive('/contacto/') ? 'active' : ''}>Contacto</a></li>
+    <li class="nav-reco-item"><a href="/recomendador/" class:list={['nav-reco', { active: isActive('/recomendador/') }]}>¿Qué necesitas?</a></li>
   </ul>
   <div class="nav-right">
     <button class="hamburger" id="hamburger" aria-expanded="false" aria-controls="navLinks" aria-label="Abrir menú">
@@ -48,6 +49,24 @@ const isActive = (href: string) => {
 </nav>
 
 <style is:global>
+  /* Recomendador destacado (inspirado en cafeselcriollo.com): píldora con borde
+     en degradado de los dos azules de la marca y un halo suave. */
+  .nav-links a.nav-reco {
+    display: inline-block;
+    padding: 0.45rem 1rem;
+    border: 1.5px solid transparent;
+    border-radius: 999px;
+    color: var(--black);
+    font-weight: 500;
+    background: linear-gradient(var(--white), var(--white)) padding-box, linear-gradient(110deg, #004aad, #95c0fa 50%, #004aad) border-box;
+    box-shadow: 0 0 18px rgba(0, 74, 173, 0.16);
+    transition: box-shadow 0.3s ease, color 0.3s ease;
+  }
+  .nav-links a.nav-reco::after { display: none; }
+  .nav-links a.nav-reco:hover, .nav-links a.nav-reco.active { color: var(--blue); box-shadow: 0 0 24px rgba(0, 74, 173, 0.26); }
+  body.dark .nav-links a.nav-reco { color: #e8e8e8; background: linear-gradient(var(--dark-bg), var(--dark-bg)) padding-box, linear-gradient(110deg, #95c0fa, #004aad 50%, #95c0fa) border-box; box-shadow: 0 0 18px rgba(149, 192, 250, 0.18); }
+  body.dark .nav-links a.nav-reco:hover, body.dark .nav-links a.nav-reco.active { color: var(--blue-light); box-shadow: 0 0 24px rgba(149, 192, 250, 0.3); }
+
   .hamburger { display: none; }
 
   nav {
