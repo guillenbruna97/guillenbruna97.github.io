@@ -1,26 +1,29 @@
 ---
+// Quiénes somos (rediseño 2026-10-25) con las piezas que Dirección ya aprobó en
+// la home, servicios y casos: titular grande con foto, frase con dos columnas,
+// «Cómo elegimos a la red» en tarjetas de color, quién la orquesta, dónde lo ha
+// demostrado (casos), cómo trabajamos y preguntas frecuentes.
+// Anclas que se enlazan desde otras páginas: #la-red, #guillen, #como-trabajamos.
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import Divider from '../../components/Divider.astro';
 import ContactBlock from '../../components/ContactBlock.astro';
+import FaqList from '../../components/FaqList.astro';
+import FotoPendiente from '../../components/FotoPendiente.astro';
 import { Picture } from 'astro:assets';
-import { LINKEDIN_URL, MAILTO_URL, BOOKING_URL, SITE_NAME } from '../../consts';
+import { LINKEDIN_URL, BOOKING_URL, SITE_NAME } from '../../consts';
+import { casos } from '../../data/casos';
 import guillenChaqueta from '../../assets/sobre-mi/guillen-chaqueta.png';
 import momentoBroco from '../../assets/sobre-mi/momento-broco.png';
 import momentoSis from '../../assets/sobre-mi/momento-sis.png';
 import momentoSlm from '../../assets/sobre-mi/momento-slm.png';
 
-// Une las antiguas /sobre-mi/ y /como-trabajo/ (redirigidas aquí, ver
-// astro.config.mjs). Orden decidido el 2026-10-22: qué es GBT, cómo elegimos
-// a la red, quién la orquesta y cómo trabajamos. Voz «nosotros»; «yo» solo
-// en el bloque de Guillén.
-
 const red = [
   { title: 'Solo entra quien hemos visto trabajar', text: 'Nadie llega a la red por su portfolio. Llega porque hemos comprobado sus resultados en proyectos reales.' },
-  { title: 'Especialistas, no todoterrenos', text: 'Cada profesional hace una cosa y la hace muy bien. En las áreas clave hay más de un especialista, así que elegimos el perfil que mejor encaja con tu sector y tu proyecto nunca depende de una sola persona.' },
+  { title: 'Especialistas, no todoterrenos', text: 'Cada profesional hace una cosa y la hace muy bien. En las áreas clave hay más de uno, así que elegimos el perfil que mejor encaja con tu sector y tu proyecto nunca depende de una sola persona.' },
   { title: 'Experiencia senior', text: 'Ningún proyecto se aprende con tu presupuesto.' },
   { title: 'Cada entrega se revisa antes de llegarte', text: 'Guillén Bruna revisa todo lo que sale hacia el cliente. La calidad la responde él, no el especialista de turno.' },
-  { title: 'Un solo interlocutor y una sola factura', text: 'Hablas con una persona, que coordina al resto. Aunque en tu proyecto intervengan varios especialistas, recibes una sola factura.' },
+  { title: 'Un solo interlocutor y una sola factura', text: 'Hablas con una persona, que coordina al resto. Aunque intervengan varios especialistas, recibes una sola factura.' },
 ];
+const TONOS = ['azul', 'claro', 'roto', 'oscuro', 'azul'];
 
 const pasos = [
   { title: 'Llamada de 15 minutos', text: 'Nos cuentas tu situación y vemos si podemos ayudarte.' },
@@ -30,9 +33,8 @@ const pasos = [
   { title: 'Medición y ajuste', text: 'Revisamos los resultados contigo y corregimos el rumbo cuando hace falta.' },
 ];
 
-// Preguntas comunes a todos los servicios. Salen del banco de preguntas previas
-// a la contratación (marca-personal/seo-geo/ai-visibility/preguntas-precompra.csv).
-// Sin importes: todo va por propuesta.
+// Preguntas comunes a todos los servicios (banco de preguntas previas a la
+// contratación, marca-personal/seo-geo/ai-visibility/preguntas-precompra.csv).
 const faqs = [
   { question: '¿Trabajaré contigo o con un equipo?', answer: 'Con los dos. Guillén Bruna dirige tu proyecto y es tu único interlocutor. Lo ejecutan especialistas senior de nuestra red, elegidos para tu caso, y cada entrega pasa por su revisión antes de llegarte.' },
   { question: '¿Cuánto cuesta?', answer: 'Cada proyecto tiene un precio cerrado que va en la propuesta. Depende del alcance, porque no cuesta lo mismo una web corporativa que una campaña en tres canales. Tras una llamada de 15 minutos, en 5 días laborables recibes la propuesta con alcance, precio y plazos.' },
@@ -50,11 +52,6 @@ const faqs = [
   { question: '¿Cómo empezamos?', answer: 'Con una llamada de 15 minutos sin compromiso para que nos cuentes tu situación. Si encaja, en 5 días laborables te enviamos una propuesta con el alcance, el precio y las fechas cerrados.' },
 ];
 
-const faqLd = {
-  '@context': 'https://schema.org',
-  '@type': 'FAQPage',
-  mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.question, acceptedAnswer: { '@type': 'Answer', text: f.answer } })),
-};
 const breadcrumbLd = {
   '@context': 'https://schema.org',
   '@type': 'BreadcrumbList',
@@ -69,401 +66,184 @@ const breadcrumbLd = {
   description="Una red de especialistas senior en marketing y marca orquestada por Guillén Bruna en Zaragoza. Cómo la elegimos, quién la dirige y cómo trabajamos contigo."
   image="/guillen-chaqueta.jpg"
 >
-  <script type="application/ld+json" set:html={JSON.stringify(faqLd)} />
   <script type="application/ld+json" set:html={JSON.stringify(breadcrumbLd)} />
 
-  <div class="page-header">
-    <span class="page-tag">Quiénes somos</span>
-    <h1>GBT<br />Consultoría</h1>
-    <p class="page-desc">Somos una red de profesionales excelentes de marketing, marca y comunicación, orquestada por Guillén Bruna. Llevamos tu marketing de principio a fin y de la mano contigo: estrategia, marca, web, posicionamiento en Google y en la IA, publicidad online, redes sociales y eventos. No intentamos abarcarlo todo con una plantilla fija. Montamos el equipo que necesita cada proyecto.</p>
-  </div>
+  <header class="qs-cabecera">
+    <h1>Una red de especialistas senior, orquestada por Guillén Bruna</h1>
+    <div class="qs-sub">
+      <p class="qs-intro">Somos GBT Consultoría. Llevamos tu marketing de principio a fin y de la mano contigo: estrategia, marca, web, posicionamiento en Google y en la IA, publicidad online, redes sociales y eventos.</p>
+      <div class="qs-botones">
+        <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" class="btn-primary">Reservar llamada de 15 minutos</a>
+        <a href="/trabajo/" class="btn-secondary">Ver casos reales</a>
+      </div>
+    </div>
+    <FotoPendiente ratio="16 / 7" texto="Guillén con parte de la red en una sesión de trabajo con un cliente, con luz natural y sin posar. Horizontal, de al menos 2400 px de ancho." />
+  </header>
 
-  <section class="ct-section" id="la-red">
-    <h2 class="ct-label">Cómo elegimos a la red</h2>
-    <p class="qs-lead">Las agencias venden lo que tienen en plantilla. Nosotros montamos el equipo que tu proyecto necesita.</p>
-    <ol class="qs-list">
-      {red.map((item) => (
-        <li><strong>{item.title}.</strong> {item.text}</li>
+  <section class="qs-manifiesto">
+    <h2>Las agencias venden lo que tienen en plantilla. Nosotros montamos el equipo que tu proyecto necesita</h2>
+    <div class="qs-cols">
+      <p>No intentamos abarcarlo todo con una plantilla fija. Para cada proyecto elegimos a los especialistas de nuestra red que mejor encajan con él, y solo a esos.</p>
+      <p>Una sola persona dirige el proyecto, coordina a todo el equipo y responde de cada entrega. Tú hablas con ella y recibes una sola factura.</p>
+    </div>
+  </section>
+
+  <section class="qs-bloque" id="la-red">
+    <h2>Cómo elegimos a la red</h2>
+    <ol class="qs-red">
+      {red.map((r, i) => (
+        <li class={`qs-red-${TONOS[i]}`}>
+          <h3>{r.title}</h3>
+          <p>{r.text}</p>
+        </li>
       ))}
     </ol>
   </section>
 
-  <Divider />
-
-  <div class="about-hero" id="guillen">
-    <div class="about-hero-text">
-      <p class="ct-label">Quién orquesta la red</p>
-      <h2 class="about-name">Guillén<br /><span class="accent">Bruna</span><br />Tricas</h2>
-      <div class="about-meta">
-        <p><span>Consultor de estrategia de marketing y marca</span></p>
-        <p>Zaragoza, España</p>
-        <p>Head of Brand & Marketing en Zebra AI Transformation Company</p>
-      </div>
-      <p class="about-intro">No soy un especialista de canal. Entiendo el negocio completo, y por eso puedo dirigir a quienes sí lo son.</p>
-    </div>
-    <div class="about-hero-img">
-      <span class="ghost-mark about-ghost-mark" aria-hidden="true">*</span>
+  <section class="qs-bloque qs-guillen" id="guillen">
+    <div class="qs-guillen-foto">
       <Picture src={guillenChaqueta} alt="Guillén Bruna Tricas, fundador de GBT Consultoría" width={768} height={960} formats={['avif', 'webp']} fallbackFormat="png" quality={65} loading="lazy" />
     </div>
-  </div>
-
-  <div class="about-body">
-    <div class="about-sidebar">
-      <p class="sidebar-label">Más sobre mí</p>
-      <ul class="sidebar-links">
-        <li><a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer">LinkedIn ↗</a></li>
-        <li><a href={MAILTO_URL}>Email</a></li>
-        <li><a href="/trabajo/">Ver casos</a></li>
-        <li><a href="/articulos/consultor-de-marketing-en-zaragoza/">Consultor de marketing en Zaragoza</a></li>
-      </ul>
+    <div class="qs-guillen-texto">
+      <p class="qs-etiqueta">Quién orquesta la red</p>
+      <h2>Guillén <span class="accent">Bruna</span> Tricas</h2>
+      <p class="qs-cargo">Consultor de estrategia de marketing y marca. Zaragoza, España. Head of Brand & Marketing en Zebra AI Transformation Company.</p>
+      <p>No soy un especialista de canal. Entiendo el negocio completo, y por eso puedo dirigir a quienes sí lo son. Mi papel en GBT es el de director: entiendo tu negocio, decido contigo la estrategia, elijo a los especialistas que encajan con tu proyecto y respondo de cada entrega.</p>
+      <p>Tengo la cabeza de un estratega y las manos de alguien que ejecuta. Mi trayectoria en ventas, consultoría, eCommerce, retail y producto tecnológico me ha dado una visión integral del negocio. Por el camino he conocido a muchos de los profesionales que hoy forman la red.</p>
+      <p>Fuera del trabajo soy de Zaragoza, por elección. El fútbol me apasiona: lo jugué en serio y luego entrené en categorías base, y eso me enseñó a acompañar un proceso y a conseguir que alguien mejore sin que sienta una exigencia excesiva. Si algo lleva el nombre de GBT, quiero que refleje exactamente lo que pienso.</p>
+      <p><a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer">LinkedIn de Guillén ↗</a></p>
     </div>
+  </section>
+
+  <section class="qs-bloque">
+    <h2>Dónde lo ha demostrado</h2>
+    <ul class="qs-casos">
+      {casos.map((c) => (
+        <li>
+          <a href={`/trabajo/${c.slug}/`}>
+            <span class="qs-casos-empresa">{c.company}<span>{c.role}</span></span>
+            <span class="qs-casos-reto">{c.reto}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+    <div class="qs-momentos">
+      <figure><Picture src={momentoBroco} alt="Guillén Bruna Tricas junto al equipo cofundador de Broco" width={700} height={700} formats={['avif', 'webp']} fallbackFormat="png" quality={55} loading="lazy" /><figcaption>Amigos que se convierten en socios. O socios que se convierten en amigos.</figcaption></figure>
+      <figure><Picture src={momentoSis} alt="Guillén Bruna Tricas en el Spain Innovation Summit" width={700} height={700} formats={['avif', 'webp']} fallbackFormat="png" quality={55} loading="lazy" /><figcaption>Eventos que se crean en equipo.</figcaption></figure>
+      <figure><Picture src={momentoSlm} alt="Guillén Bruna Tricas frente a una tienda de SLM" width={700} height={700} formats={['avif', 'webp']} fallbackFormat="png" quality={55} loading="lazy" /><figcaption>Trabajos especiales que dejan huella.</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="qs-bloque qs-dos" id="como-trabajamos">
+    <h2>Cómo trabajamos</h2>
     <div>
-      <div class="about-text">
-        <p>Mi papel en GBT es el de director. Entiendo tu negocio, decido contigo la estrategia, elijo a los especialistas que encajan con tu proyecto y respondo de cada entrega. Tengo la cabeza de un estratega y las manos de alguien que ejecuta. Mi trayectoria en ventas, consultoría, eCommerce, retail y producto tecnológico me ha dado una visión integral del negocio, y eso me permite conectar puntos desde muchos ángulos, no solo desde el marketing.</p>
-        <p>Actualmente lidero marketing y marca en <a href="/trabajo/zebra-ventures/">Zebra AI Transformation Company</a>, una empresa de transformación digital con IA enfocada en pymes. Gestiono en paralelo la marca corporativa, un producto B2B llamado MASAI y una línea de productos de IA. Es un rol donde lo estratégico y lo operativo conviven cada día.</p>
-        <p>Antes fundé <a href="/trabajo/broco/">Broco</a>, una marca de eCommerce que construí desde cero. Fue la experiencia que más me enseñó sobre negocio real, tomando cada decisión con consecuencias directas. También pasé por Grupo Rey, con <a href="/trabajo/muebles-rey/">Muebles Rey</a> y <a href="/trabajo/muebles-tuco/">Muebles Tuco</a>, y por <a href="/trabajo/integra/">Integra Consultoría Gerencial</a>, donde entendí cómo se mueve el marketing en entornos de gran volumen y cómo se trabaja con dirección general cuando los números importan. Por el camino he conocido a muchos de los profesionales que hoy forman la red.</p>
-      </div>
-      <div class="about-text" style="margin-top:1.5rem">
-        <p>Fuera del trabajo soy de Zaragoza, por elección. El fútbol me apasiona. Lo jugué en serio y luego entrené en categorías base, y eso me enseñó a acompañar un proceso y a conseguir que alguien mejore sin que sienta una exigencia excesiva.</p>
-        <p>Soy exigente conmigo mismo y organizo casi todo en sistemas. Me importa mucho cómo se cuentan las cosas. Si algo lleva el nombre de GBT, quiero que refleje exactamente lo que pienso.</p>
-      </div>
+      <ol class="qs-pasos">
+        {pasos.map((p) => (<li><h3>{p.title}</h3><p>{p.text}</p></li>))}
+      </ol>
+      <p class="qs-nota">Precio cerrado en cada propuesta, sin permanencia y con acuerdo de confidencialidad. Trabajamos en remoto y en persona en los momentos clave, desde Zaragoza.</p>
+      <p class="qs-diagnostico"><strong>¿Prefieres empezar por algo pequeño?</strong> Una sesión de diagnóstico: dos horas sobre tu caso y una nota escrita con el problema principal, tres prioridades y qué servicio encaja, o si no encaja ninguno. Si después contratas un proyecto en los 30 días siguientes, se descuenta de su precio. <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">Pídela en una llamada de 15 minutos</a>.</p>
     </div>
-  </div>
-
-  <div class="momentos-section">
-    <h3 class="momentos-title">Momentos que me definen</h3>
-    <div class="momentos-grid">
-      <div class="momento-item">
-        <Picture src={momentoBroco} alt="Guillén Bruna Tricas junto al equipo cofundador de Broco, su marca de moda sostenible" width={700} height={700} formats={['avif', 'webp']} fallbackFormat="png" quality={55} loading="lazy" />
-        <p class="momento-caption">Amigos que se convierten en socios. O socios que se convierten en amigos.</p>
-      </div>
-      <div class="momento-item">
-        <Picture src={momentoSis} alt="Guillén Bruna Tricas en el Spain Innovation Summit, evento de innovación organizado junto a su equipo en Zebra AI Transformation Company" width={700} height={700} formats={['avif', 'webp']} fallbackFormat="png" quality={55} loading="lazy" />
-        <p class="momento-caption">Eventos que se crean en equipo.</p>
-      </div>
-      <div class="momento-item">
-        <Picture src={momentoSlm} alt="Guillén Bruna Tricas trabajando en un proyecto especial para SLM" width={700} height={700} formats={['avif', 'webp']} fallbackFormat="png" quality={55} loading="lazy" />
-        <p class="momento-caption">Trabajos especiales que dejan huella.</p>
-      </div>
-    </div>
-  </div>
-
-  <Divider />
-
-  <section class="ct-section" id="como-trabajamos">
-    <h2 class="ct-label">Cómo trabajamos</h2>
-    <ol class="qs-list">
-      {pasos.map((paso) => (
-        <li><strong>{paso.title}.</strong> {paso.text}</li>
-      ))}
-    </ol>
-    <p class="qs-note">Precio cerrado en cada propuesta, sin permanencia y con acuerdo de confidencialidad. Trabajamos en remoto y en persona en los momentos clave, desde Zaragoza.</p>
   </section>
 
-  <section class="ct-section">
-    <h2 class="ct-label">Para empezar sin comprometerte a un proyecto</h2>
-    <p class="qs-text"><strong>Sesión de diagnóstico.</strong> Dos horas sobre tu caso y una nota escrita con el problema principal, tres prioridades y qué servicio encaja, o si no encaja ninguno. Si contratas un proyecto en los 30 días siguientes, se descuenta de su precio. <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">Pídela en una llamada de 15 minutos</a>.</p>
-  </section>
-
-  <section class="ct-section">
-    <h2 class="ct-label">Preguntas antes de contratar</h2>
-    <div class="faq-list">
-      {faqs.map((faq) => (
-        <details class="faq-item">
-          <summary>{faq.question}</summary>
-          <p>{faq.answer}</p>
-        </details>
-      ))}
-    </div>
+  <section class="qs-bloque qs-dos">
+    <h2>Preguntas antes de contratar</h2>
+    <div><FaqList faqs={faqs} /></div>
   </section>
 
   <ContactBlock title="¿Hablamos<br>de tu caso?" />
 </BaseLayout>
 
 <style is:global>
-  /* PAGE HEADER (copiado de las otras páginas: el CSS de una página solo se
-     empaqueta en ella) */
-  .page-header { padding: 5rem 2rem 2rem; max-width: 900px; margin: 0 auto; }
-  .page-tag {
-    display: inline-block;
-    font-size: 0.82rem;
-    font-weight: 500;
-    letter-spacing: 0;
-    color: var(--blue);
-    border: 1px solid var(--blue);
-    padding: 0.3rem 0.8rem;
-    border-radius: 2px;
-    margin-bottom: 2rem;
-    transition: color var(--transition), border-color var(--transition);
-  }
-  body.dark .page-tag { color: var(--blue-light); border-color: var(--blue-light); }
-  .page-header h1 {
-    font-size: clamp(2rem, 4vw, 3.2rem);
-    font-weight: 500;
-    line-height: 1.05;
-    letter-spacing: -0.03em;
-    margin-bottom: 1rem;
-  }
-  .page-desc {
-    font-size: 1rem;
-    font-weight: 300;
-    color: rgba(0,0,0,0.55);
-    max-width: 560px;
-    line-height: 1.8;
-    transition: color var(--transition);
-  }
-  body.dark .page-desc { color: rgba(232,232,232,0.55); }
+  .qs-cabecera { max-width: 1240px; margin: 0 auto; padding: 4.5rem 4vw 1rem; }
+  .qs-cabecera h1 { font-size: clamp(2.4rem, 6vw, 5.2rem); max-width: 1100px; margin: 0 0 2rem; }
+  .qs-sub { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 1.6rem 3rem; margin-bottom: 2.6rem; }
+  .qs-intro { font-size: 1.05rem; font-weight: 300; line-height: 1.75; color: rgba(0,0,0,0.65); max-width: 600px; margin: 0; }
+  body.dark .qs-intro { color: rgba(232,232,232,0.68); }
+  .qs-botones { display: flex; flex-wrap: wrap; gap: 0.8rem; }
+  .qs-botones .btn-secondary { margin-left: 0; }
 
-  .ct-section { max-width: 900px; margin: 0 auto; padding: 1.5rem 2rem 1rem; }
-  .ct-label {
-    font-family: 'Poppins', sans-serif;
-    line-height: 1.6;
-    font-size: 0.82rem;
-    font-weight: 500;
-    letter-spacing: 0;
-    color: rgba(0,0,0,0.5);
-    margin-bottom: 1rem;
-  }
-  body.dark .ct-label { color: rgba(232,232,232,0.5); }
+  .qs-manifiesto { max-width: 1240px; margin: 0 auto; padding: 5rem 4vw 0; }
+  .qs-manifiesto h2 { font-size: clamp(1.8rem, 3.6vw, 2.9rem); line-height: 1.12; max-width: 1000px; margin: 0 0 2.6rem; }
+  .qs-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem 4rem; }
+  .qs-cols p { font-size: 0.98rem; font-weight: 300; line-height: 1.75; color: rgba(0,0,0,0.65); margin: 0; }
+  body.dark .qs-cols p { color: rgba(232,232,232,0.65); }
 
-  /* FAQ (mismo estilo que ServiceLayout) */
-  .faq-list { display: flex; flex-direction: column; gap: 0.7rem; max-width: 720px; padding-bottom: 2rem; }
-  .faq-item {
-    border: 1px solid rgba(0,0,0,0.1);
-    border-radius: 10px;
-    padding: 1rem 1.2rem;
-    transition: border-color var(--transition), background var(--transition);
-  }
-  body.dark .faq-item { border-color: rgba(255,255,255,0.12); }
-  .faq-item[open] { background: rgba(0,0,0,0.02); }
-  body.dark .faq-item[open] { background: rgba(255,255,255,0.03); }
-  .faq-item summary {
-    font-size: 0.95rem;
-    font-weight: 500;
-    color: var(--black);
-    cursor: pointer;
-    list-style: none;
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 1rem;
-  }
-  body.dark .faq-item summary { color: #e8e8e8; }
-  .faq-item summary::-webkit-details-marker { display: none; }
-  .faq-item summary::after {
-    content: '+';
-    flex: none;
-    font-family: 'Poppins', sans-serif;
-    font-size: 1.1rem;
-    color: var(--blue);
-    transition: transform 0.2s ease;
-  }
-  body.dark .faq-item summary::after { color: var(--blue-light); }
-  .faq-item[open] summary::after { transform: rotate(45deg); }
-  .faq-item summary:hover { color: var(--blue); }
-  .faq-item p {
-    font-size: 0.88rem;
-    font-weight: 300;
-    color: rgba(0,0,0,0.7);
-    line-height: 1.7;
-    margin: 0.8rem 0 0;
-  }
-  body.dark .faq-item p { color: rgba(232,232,232,0.7); }
+  .qs-bloque { max-width: 1240px; margin: 0 auto; padding: 5.5rem 4vw 0; }
+  .qs-bloque > h2 { font-size: clamp(1.8rem, 3.2vw, 2.6rem); margin: 0 0 2.2rem; }
+  .qs-dos { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.6fr); gap: 1.5rem 4rem; align-items: start; }
+  .qs-dos > h2 { margin: 0; }
 
-  @media (max-width: 640px) {
-    .ct-section { padding: 1.5rem 1.5rem 1rem; }
-  }
+  .qs-red { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 1rem; }
+  .qs-red li { grid-column: span 2; border-radius: 16px; padding: 1.8rem 1.8rem 2rem; min-height: 14rem; display: flex; flex-direction: column; }
+  .qs-red li:nth-child(4), .qs-red li:nth-child(5) { grid-column: span 3; }
+  .qs-red h3 { font-size: clamp(1.25rem, 1.8vw, 1.6rem); line-height: 1.15; margin: 0 0 auto; padding-bottom: 1.4rem; }
+  .qs-red p { font-size: 0.9rem; font-weight: 300; line-height: 1.6; margin: 0; opacity: 0.85; }
+  .qs-red-azul { background: var(--blue); color: #fff; }
+  .qs-red-claro { background: var(--blue-light); color: #0a0a0a; }
+  .qs-red-roto { background: var(--off-white); color: #0a0a0a; border: 1px solid rgba(0,0,0,0.06); }
+  .qs-red-oscuro { background: #1c1c1c; color: #f6f6f6; }
+  body.dark .qs-red-oscuro { background: #22262e; }
+  body.dark .qs-red-roto { background: #f6f6f6; }
 
-  /* LISTAS DE LA RED Y DE PASOS: texto plano numerado, sin tarjetas */
-  .qs-lead, .qs-text, .qs-note { font-size: 0.98rem; font-weight: 300; line-height: 1.85; color: rgba(0,0,0,0.65); max-width: 720px; transition: color var(--transition); }
-  body.dark .qs-lead, body.dark .qs-text, body.dark .qs-note { color: rgba(232,232,232,0.65); }
-  .qs-lead { margin-bottom: 1.2rem; }
-  .qs-note { font-size: 0.85rem; color: rgba(0,0,0,0.55); margin-top: 1.2rem; }
-  body.dark .qs-note { color: rgba(232,232,232,0.55); }
-  .qs-text strong, .qs-list strong { font-weight: 500; color: var(--black); }
-  body.dark .qs-text strong, body.dark .qs-list strong { color: #e8e8e8; }
-  .qs-text a { color: var(--blue); }
-  body.dark .qs-text a { color: var(--blue-light); }
-  .qs-list { max-width: 720px; padding-left: 1.3rem; display: flex; flex-direction: column; gap: 0.9rem; font-size: 0.98rem; font-weight: 300; line-height: 1.75; color: rgba(0,0,0,0.65); }
-  body.dark .qs-list { color: rgba(232,232,232,0.65); }
-  .qs-list li::marker { color: rgba(0,0,0,0.4); font-weight: 400; }
-  body.dark .qs-list li::marker { color: rgba(232,232,232,0.4); }
-  .about-name {
-    font-size: clamp(2.2rem, 4vw, 3.8rem);
-    font-weight: 500;
-    line-height: 1.0;
-    letter-spacing: -0.03em;
-    margin-bottom: 1.5rem;
-  }
+  .qs-guillen { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: 3rem 5rem; align-items: start; }
+  .qs-guillen-foto { border-radius: 16px; overflow: hidden; background: var(--off-white); aspect-ratio: 4 / 5; }
+  body.dark .qs-guillen-foto { background: #121419; }
+  /* Recorte a medio cuerpo: la foto disponible es de cuerpo entero y en pantalón corto,
+     poco adecuada para un directivo. Se quita cuando haya un retrato profesional. */
+  .qs-guillen-foto { position: relative; }
+  .qs-guillen-foto picture { position: absolute; inset: 0; }
+  .qs-guillen-foto img { position: absolute; left: 50%; top: 4%; width: 190%; max-width: none; height: auto; transform: translateX(-50%); display: block; }
+  .qs-guillen-foto::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 22%; background: linear-gradient(to bottom, transparent, var(--off-white)); }
+  body.dark .qs-guillen-foto::after { background: linear-gradient(to bottom, transparent, #121419); }
+  .qs-etiqueta { font-size: 0.85rem; font-weight: 500; color: rgba(0,0,0,0.5); margin: 0 0 1rem; }
+  body.dark .qs-etiqueta { color: rgba(232,232,232,0.5); }
+  .qs-guillen h2 { font-size: clamp(2.2rem, 4.4vw, 3.6rem); margin: 0 0 1rem; }
+  .qs-cargo { font-size: 0.92rem; font-weight: 500; color: var(--blue) !important; }
+  body.dark .qs-cargo { color: var(--blue-light) !important; }
+  .qs-guillen-texto p { font-size: 1rem; font-weight: 300; line-height: 1.8; color: rgba(0,0,0,0.68); margin: 0 0 1.1rem; max-width: 640px; }
+  body.dark .qs-guillen-texto p { color: rgba(232,232,232,0.68); }
+  .qs-guillen-texto a, .qs-diagnostico a { color: var(--blue); font-weight: 500; }
+  body.dark .qs-guillen-texto a, body.dark .qs-diagnostico a { color: var(--blue-light); }
 
-  /* ABOUT HERO */
-  .about-hero {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 5rem 2rem 0;
-    display: grid;
-    grid-template-columns: 1fr 420px;
-    gap: 2rem;
-    align-items: end;
-    min-height: 520px;
-  }
-  .about-hero-text { padding-bottom: 4rem; }
+  .qs-casos { list-style: none; margin: 0 0 3rem; padding: 0; }
+  .qs-casos li { border-top: 1px solid rgba(0,0,0,0.1); }
+  .qs-casos li:last-child { border-bottom: 1px solid rgba(0,0,0,0.1); }
+  body.dark .qs-casos li { border-color: rgba(255,255,255,0.1); }
+  .qs-casos a { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.6fr); gap: 0.4rem 4rem; padding: 1.3rem 0; color: inherit; text-decoration: none; }
+  .qs-casos-empresa { font-weight: 500; }
+  .qs-casos-empresa span { display: block; font-size: 0.82rem; font-weight: 300; color: rgba(0,0,0,0.55); margin-top: 0.2rem; }
+  body.dark .qs-casos-empresa span { color: rgba(232,232,232,0.55); }
+  .qs-casos-reto { font-size: 1.05rem; line-height: 1.45; letter-spacing: -0.01em; }
+  .qs-casos a:hover .qs-casos-reto { color: var(--blue); }
+  body.dark .qs-casos a:hover .qs-casos-reto { color: var(--blue-light); }
 
+  .qs-momentos { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+  .qs-momentos figure { margin: 0; }
+  .qs-momentos img { width: 100%; height: auto; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 16px; display: block; }
+  .qs-momentos figcaption { font-size: 0.82rem; font-weight: 300; color: rgba(0,0,0,0.55); margin-top: 0.6rem; }
+  body.dark .qs-momentos figcaption { color: rgba(232,232,232,0.55); }
 
-  .about-meta { margin-bottom: 2rem; }
-  .about-meta p { font-size: 0.78rem; font-weight: 400; color: rgba(0,0,0,0.6); margin-bottom: 0.3rem; transition: color var(--transition); }
-  body.dark .about-meta p { color: rgba(232,232,232,0.6); }
-  .about-meta span { color: var(--blue); font-weight: 500; transition: color var(--transition); }
-  body.dark .about-meta span { color: var(--blue-light); }
+  .qs-pasos { list-style: none; margin: 0; padding: 0; counter-reset: paso; }
+  .qs-pasos li { counter-increment: paso; display: grid; grid-template-columns: 2.4rem 1fr; column-gap: 0.4rem; padding: 1.2rem 0; border-top: 1px solid rgba(0,0,0,0.1); }
+  .qs-pasos li:first-child { border-top: 0; padding-top: 0.2rem; }
+  body.dark .qs-pasos li { border-top-color: rgba(255,255,255,0.1); }
+  .qs-pasos li::before { content: counter(paso); grid-row: span 2; font-size: 1.12rem; font-weight: 500; color: var(--blue); }
+  body.dark .qs-pasos li::before { color: var(--blue-light); }
+  .qs-pasos h3 { font-size: 1.12rem; margin: 0 0 0.3rem; }
+  .qs-pasos p, .qs-diagnostico { font-size: 0.98rem; font-weight: 300; line-height: 1.7; color: rgba(0,0,0,0.65); margin: 0; }
+  body.dark .qs-pasos p, body.dark .qs-diagnostico { color: rgba(232,232,232,0.65); }
+  .qs-nota { font-size: 0.88rem; font-weight: 300; color: rgba(0,0,0,0.6); margin: 1.2rem 0 2rem; }
+  body.dark .qs-nota { color: rgba(232,232,232,0.6); }
+  .qs-diagnostico { padding: 1.6rem 1.8rem; background: var(--off-white); border-radius: 16px; }
+  body.dark .qs-diagnostico { background: #121419; }
+  .qs-diagnostico strong { font-weight: 500; color: var(--black); }
+  body.dark .qs-diagnostico strong { color: #e8e8e8; }
+  .qs-dos:last-of-type { padding-bottom: 5rem; }
 
-  .about-intro {
-    font-size: 1rem;
-    font-weight: 300;
-    color: rgba(0,0,0,0.6);
-    line-height: 1.85;
-    max-width: 420px;
-    transition: color var(--transition);
-  }
-  body.dark .about-intro { color: rgba(232,232,232,0.6); }
-
-  .about-hero-img {
-    position: relative;
-    align-self: end;
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-  }
-  /* Encuadre de medio cuerpo: la foto disponible es de cuerpo entero y en
-     pantalón corto, poco adecuada para un CFO. Se recorta a la altura de la
-     cintura con un fundido inferior hasta tener un retrato profesional nuevo. */
-  .about-hero-img {
-    height: 440px;
-    overflow: hidden;
-    align-items: flex-start;
-    -webkit-mask-image: linear-gradient(to bottom, #000 78%, transparent 100%);
-    mask-image: linear-gradient(to bottom, #000 78%, transparent 100%);
-  }
-  .about-hero-img img {
-    position: relative;
-    z-index: 1;
-    height: 860px;
-    width: auto;
-    max-width: none;
-    object-fit: contain;
-    object-position: top;
-  }
-
-  .about-ghost-mark {
-    font-size: clamp(8rem, 18vw, 13rem);
-    top: 6%;
-    right: -8%;
-  }
-
-  @media (prefers-reduced-motion: no-preference) {
-    .about-hero-text > * { opacity: 0; animation: hero-fade-up 0.7s ease forwards; }
-    .about-hero-text > *:nth-child(1) { animation-delay: 0s; }
-    .about-hero-text > *:nth-child(2) { animation-delay: 0.08s; }
-    .about-hero-text > *:nth-child(3) { animation-delay: 0.16s; }
-    .about-hero-text > *:nth-child(4) { animation-delay: 0.24s; }
-  }
-  @keyframes hero-fade-up {
-    from { opacity: 0; transform: translateY(16px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  /* ABOUT BODY */
-  .about-body {
-    padding: 4rem 2rem;
-    max-width: 900px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: 1fr 1.4fr;
-    gap: 5rem;
-    align-items: start;
-  }
-  .about-sidebar { position: sticky; top: 6rem; }
-  .sidebar-label {
-    font-size: 0.8rem;
-    font-weight: 500;
-    letter-spacing: 0;
-    color: rgba(0,0,0,0.35);
-    margin-bottom: 1.5rem;
-    transition: color var(--transition);
-  }
-  body.dark .sidebar-label { color: rgba(232,232,232,0.4); }
-  .sidebar-links { display: flex; flex-direction: column; gap: 0.8rem; list-style: none; }
-  .sidebar-links a { font-size: 0.82rem; font-weight: 400; color: rgba(0,0,0,0.5); text-decoration: none; transition: color var(--transition); }
-  body.dark .sidebar-links a { color: rgba(232,232,232,0.5); }
-  .sidebar-links a:hover { color: var(--blue); }
-  body.dark .sidebar-links a:hover { color: var(--blue-light); }
-
-  .about-text { font-size: 0.98rem; font-weight: 300; line-height: 1.95; color: rgba(0,0,0,0.65); transition: color var(--transition); }
-  body.dark .about-text { color: rgba(232,232,232,0.65); }
-  .about-text p + p { margin-top: 1.5rem; }
-  .about-text strong { font-weight: 600; color: var(--black); transition: color var(--transition); }
-  body.dark .about-text strong { color: #e8e8e8; }
-  /* Las empresas enlazan a su caso: mismo peso que el antiguo <strong>, con subrayado discreto. */
-  .about-text a {
-    font-weight: 600;
-    color: var(--black);
-    text-decoration: underline;
-    text-decoration-color: rgba(0,0,0,0.25);
-    text-underline-offset: 3px;
-    transition: color var(--transition), text-decoration-color var(--transition);
-  }
-  body.dark .about-text a { color: #e8e8e8; text-decoration-color: rgba(255,255,255,0.3); }
-  .about-text a:hover { color: var(--blue); text-decoration-color: currentColor; }
-  body.dark .about-text a:hover { color: var(--blue-light); }
-
-  /* MOMENTOS */
-  .momentos-section { padding: 5rem 2rem; max-width: 900px; margin: 0 auto; }
-  .momentos-title {
-    font-size: clamp(1.4rem, 3vw, 2rem);
-    font-weight: 500;
-    letter-spacing: -0.03em;
-    margin-bottom: 3rem;
-    transition: color var(--transition);
-  }
-  body.dark .momentos-title { color: #e8e8e8; }
-  .momentos-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
-  .momento-item { display: flex; flex-direction: column; gap: 0.8rem; }
-  .momento-item img {
-    width: 100%;
-    height: auto;
-    aspect-ratio: 1 / 1;
-    object-fit: cover;
-    border-radius: 2px;
-    display: block;
-    transition: transform 0.3s ease;
-  }
-  .momento-item img:hover { transform: scale(1.02); }
-  .momento-caption {
-    font-size: 0.78rem;
-    font-weight: 300;
-    color: rgba(0,0,0,0.55);
-    line-height: 1.5;
-    font-style: italic;
-    transition: color var(--transition);
-  }
-  body.dark .momento-caption { color: rgba(232,232,232,0.45); }
-
-  @media (max-width: 640px) {
-    .about-hero { grid-template-columns: 1fr; min-height: auto; padding-top: 3rem; }
-    .about-hero-img { display: none; }
-    .about-hero-text { padding-bottom: 2rem; }
-    .about-body { grid-template-columns: 1fr; gap: 2.5rem; }
-    .about-sidebar { position: static; }
-    .momentos-grid {
-      display: flex;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      -webkit-overflow-scrolling: touch;
-      gap: 1.5rem;
-      padding-bottom: 0.5rem;
-    }
-    .momento-item {
-      flex: 0 0 80%;
-      scroll-snap-align: center;
-    }
+  @media (max-width: 900px) {
+    .qs-cols, .qs-dos, .qs-guillen, .qs-casos a { grid-template-columns: 1fr; }
+    .qs-red { grid-template-columns: 1fr; }
+    .qs-red li, .qs-red li:nth-child(4), .qs-red li:nth-child(5) { grid-column: auto; min-height: 0; }
+    .qs-momentos { grid-template-columns: 1fr; }
   }
 </style>
