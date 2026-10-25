@@ -27,7 +27,7 @@ const T = en ? {
   seoTitle: `Real marketing case studies | ${SITE_NAME}`,
   seoDescription: 'Real cases of brand strategy, social media, paid media, web and events, with their figures: each company’s challenge, what was done and the result.',
   h1: 'Real cases, real results',
-  intro: 'Each company’s challenge, what was done and the result, with the figures. Projects led by Guillén Bruna, who today orchestrates the GBT Consultoría network.',
+  intro: 'Each company’s challenge, what was done and the result, with the figures. Projects Guillén Bruna has worked on, who today orchestrates the GBT Consultoría network.',
   banda: 'Cases', filtrar: 'Filter by area', todas: 'All', foto: (c: string) => `Photo of the ${c} case.`,
   anterior: 'Previous', siguiente: 'Next', testimonios: 'Clients and testimonials', testimoniosTexto: 'What the people we have worked with say.', en: 'at',
   contacto: 'Shall we talk<br>about your case?',
@@ -35,7 +35,7 @@ const T = en ? {
   seoTitle: `Casos reales de marketing | ${SITE_NAME}`,
   seoDescription: 'Casos reales de estrategia de marca, redes sociales, paid media, web y eventos, con sus cifras: el reto de cada empresa, qué se hizo y qué resultado dio.',
   h1: 'Casos reales, resultados reales',
-  intro: 'El reto de cada empresa, qué se hizo y qué resultado dio, con sus cifras. Proyectos dirigidos por Guillén Bruna, que hoy orquesta la red de GBT Consultoría.',
+  intro: 'El reto de cada empresa, qué se hizo y qué resultado dio, con sus cifras. Proyectos en los que ha trabajado Guillén Bruna, que hoy orquesta la red de GBT Consultoría.',
   banda: 'Casos', filtrar: 'Filtrar por área', todas: 'Todas', foto: (c: string) => `Foto del caso de ${c}.`,
   anterior: 'Anterior', siguiente: 'Siguiente', testimonios: 'Clientes y testimonios', testimoniosTexto: 'Lo que dicen las personas con las que hemos trabajado.', en: 'en',
   contacto: '¿Hablamos<br>de tu caso?',
@@ -56,10 +56,10 @@ const trustLogos = [
 const ir = (ruta: string) => enlace(lang, ruta);
 const C = en ? {
   cifras: [
-    { valor: '6', texto: 'brands, each with its own voice, managed in parallel', caso: 'muebles-tuco', empresa: 'Grupo Rey Corporación' },
-    { valor: '€20,000+', texto: 'a month invested in Meta Ads, segmented by brand and season', caso: 'muebles-rey', empresa: 'Muebles Rey and Muebles Tuco' },
-    { valor: '+15,000', texto: 'new followers, from 20,000 to 35,000', caso: 'muebles-tuco', empresa: 'Muebles Tuco' },
-    { valor: '400-500', texto: 'orders with no outside investment, up to break-even', caso: 'broco', empresa: 'Broco' },
+    { valor: '6', texto: 'brands, each with its own voice, managed in parallel' },
+    { valor: '€20,000+', texto: 'a month invested in Meta Ads, segmented by brand and season' },
+    { valor: '+15,000', texto: 'new followers, from 20,000 to 35,000' },
+    { valor: '400-500', texto: 'orders with no outside investment, up to break-even' },
   ],
   cifrasTitulo: 'Some figures from these cases',
   detalleTitulo: 'All the cases, in detail',
@@ -67,23 +67,23 @@ const C = en ? {
   rol: 'Role', hecho: 'What was done', resultado: 'Result', ver: 'See the full case',
   detrasTitulo: 'What is behind each case',
   detras: [
-    { titulo: 'One person accountable', texto: 'Guillén Bruna led every one of these projects, as in-house head of marketing, as a consultant or as a founder. Each case states his role.' },
+    { titulo: 'His role, stated in each case', texto: 'At Zebra AI Transformation Company, Guillén Bruna led brand and marketing. In the rest he was part of the team: as head of social media, as a consultant or as a co-founder. Each case states his role.' },
     { titulo: 'Figures from the period', texto: 'The numbers are from each project, and approximate where indicated. Nothing is rounded up or added after the fact.' },
-    { titulo: 'Today, with the network', texto: 'That same way of working is what GBT Consultoría offers: Guillén leads the project and the specialists in the network carry it out.' },
+    { titulo: 'Today, with the network', texto: 'What he learned in these projects is the basis of GBT Consultoría: today Guillén leads each project and the specialists in the network carry it out.' },
   ],
   faqsTitulo: 'Frequently asked questions',
   faqs: [
-    { question: 'Who did the work in these cases?', answer: 'Guillén Bruna led all of them, in different roles: head of brand and marketing in-house, head of social media in a multi-brand group, consultant and founder. Each case page states his role and what was done.' },
+    { question: 'What was Guillén Bruna’s role in these cases?', answer: 'At Zebra AI Transformation Company he led brand and marketing. In the rest he was part of the team: as head of social media in a multi-brand group, as a consultant and as a co-founder. Each case page states his role and what was done.' },
     { question: 'Are the figures real?', answer: 'Yes. They come from each project during the period Guillén worked on it, and are marked as approximate where they are. No figures are invented or projected.' },
     { question: 'Can you do something similar for my company?', answer: 'After a 15-minute call we tell you whether we can help, and within 5 working days you get a proposal with the scope, the team, the timeline and a fixed price.' },
   ],
   reco: 'Not sure which service you need?', recoEnlace: 'Answer 6 questions and we will tell you',
 } : {
   cifras: [
-    { valor: '6', texto: 'marcas con voz propia gestionadas en paralelo', caso: 'muebles-tuco', empresa: 'Grupo Rey Corporación' },
-    { valor: '+20.000 €', texto: 'al mes invertidos en Meta Ads, segmentados por marca y temporada', caso: 'muebles-rey', empresa: 'Muebles Rey y Muebles Tuco' },
-    { valor: '+15.000', texto: 'seguidores nuevos, de 20.000 a 35.000', caso: 'muebles-tuco', empresa: 'Muebles Tuco' },
-    { valor: '400-500', texto: 'pedidos sin inversión externa, hasta el punto de equilibrio', caso: 'broco', empresa: 'Broco' },
+    { valor: '6', texto: 'marcas con voz propia gestionadas en paralelo' },
+    { valor: '+20.000 €', texto: 'al mes invertidos en Meta Ads, segmentados por marca y temporada' },
+    { valor: '+15.000', texto: 'seguidores nuevos, de 20.000 a 35.000' },
+    { valor: '400-500', texto: 'pedidos sin inversión externa, hasta el punto de equilibrio' },
   ],
   cifrasTitulo: 'Algunas cifras de estos casos',
   detalleTitulo: 'Todos los casos, en detalle',
@@ -91,13 +91,13 @@ const C = en ? {
   rol: 'Rol', hecho: 'Qué se hizo', resultado: 'Resultado', ver: 'Ver el caso completo',
   detrasTitulo: 'Qué hay detrás de cada caso',
   detras: [
-    { titulo: 'Un solo responsable', texto: 'Guillén Bruna dirigió cada uno de estos proyectos, como responsable de marketing dentro de la empresa, como consultor o como fundador. Cada caso indica su rol.' },
+    { titulo: 'Su papel, claro en cada caso', texto: 'En Zebra AI Transformation Company, Guillén Bruna dirigió la marca y el marketing. En el resto formó parte del equipo: como responsable de redes, como consultor o como cofundador. Cada caso indica su rol.' },
     { titulo: 'Cifras del periodo', texto: 'Los números son de cada proyecto, y aproximados cuando así se indica. No se redondean al alza ni se añaden después.' },
-    { titulo: 'Hoy, con la red', texto: 'Esa misma forma de trabajar es la que ofrece GBT Consultoría: Guillén dirige el proyecto y lo ejecutan los especialistas de la red.' },
+    { titulo: 'Hoy, con la red', texto: 'Lo aprendido en estos proyectos es la base de GBT Consultoría: hoy Guillén dirige cada proyecto y lo ejecutan los especialistas de la red.' },
   ],
   faqsTitulo: 'Preguntas frecuentes',
   faqs: [
-    { question: '¿Quién hizo el trabajo en estos casos?', answer: 'Guillén Bruna los dirigió todos, con distintos roles: responsable de marca y marketing dentro de la empresa, responsable de redes en un grupo de varias marcas, consultor y fundador. En la página de cada caso se indica su rol y qué se hizo.' },
+    { question: '¿Qué papel tuvo Guillén Bruna en estos casos?', answer: 'En Zebra AI Transformation Company dirigió la marca y el marketing. En el resto formó parte del equipo: como responsable de redes sociales en un grupo de varias marcas, como consultor y como cofundador. En la página de cada caso se indica su rol y qué se hizo.' },
     { question: '¿Las cifras son reales?', answer: 'Sí. Salen de cada proyecto durante el tiempo en que Guillén trabajó en él, y se marcan como aproximadas cuando lo son. No hay cifras inventadas ni proyectadas.' },
     { question: '¿Podéis hacer algo parecido para mi empresa?', answer: 'Tras una llamada de 15 minutos te decimos si podemos ayudarte, y en 5 días laborables recibes una propuesta con el alcance, el equipo, los plazos y el precio cerrado.' },
   ],
@@ -124,7 +124,6 @@ const nombreArea = (slug: string) => areas.find((a) => a.slug === slug)?.name ??
         <li>
           <strong>{c.valor}</strong>
           <span>{c.texto}</span>
-          <a href={ir(`/trabajo/${c.caso}/`)}>{c.empresa}</a>
         </li>
       ))}
     </ul>
@@ -236,36 +235,75 @@ const nombreArea = (slug: string) => areas.find((a) => a.slug === slug)?.name ??
 </BaseLayout>
 
 <script>
+  // Carrusel infinito (2026-10-25): las tarjetas se clonan por JS a izquierda y
+  // derecha (los clones no están en el HTML, así Google no lee nada repetido) y,
+  // al pararse el scroll en una copia, se salta sin animación a la misma tarjeta
+  // del juego central. Así nunca se acaba y desde el principio hay casos a los
+  // dos lados.
   const root = document.querySelector<HTMLElement>('[data-tc]');
   if (root) {
     const pista = root.querySelector<HTMLElement>('[data-tc-pista]')!;
-    const cards = [...root.querySelectorAll<HTMLElement>('.tc-card')];
+    const originales = [...pista.querySelectorAll<HTMLElement>('.tc-card')];
+    const clonar = (copia: number) => originales.map((c) => {
+      const k = c.cloneNode(true) as HTMLElement;
+      k.dataset.copia = String(copia);
+      k.setAttribute('aria-hidden', 'true');
+      k.setAttribute('inert', '');
+      return k;
+    });
+    originales.forEach((c) => { c.dataset.copia = '1'; });
+    pista.prepend(...clonar(0));
+    pista.append(...clonar(2));
+    const cards = [...pista.querySelectorAll<HTMLElement>('.tc-card')];
     const actual = root.querySelector('[data-tc-actual]')!;
     const totalEl = root.querySelector('[data-tc-total]')!;
     const suave = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
     const visibles = () => cards.filter((c) => !c.hidden);
     const pad = (n: number) => String(n).padStart(2, '0');
+    const centrar = (c: HTMLElement) => c.offsetLeft - (pista.clientWidth - c.offsetWidth) / 2;
 
-    // La tarjeta más cercana al centro de la pista queda destacada.
+    // La tarjeta más cercana al centro queda destacada; el contador cuenta solo un juego.
     const marcar = () => {
       const centro = pista.scrollLeft + pista.clientWidth / 2;
       const vs = visibles();
-      let mejor = 0, dist = Infinity;
-      vs.forEach((c, i) => { const d = Math.abs(c.offsetLeft + c.offsetWidth / 2 - centro); if (d < dist) { dist = d; mejor = i; } });
-      cards.forEach((c) => c.classList.remove('activa'));
-      vs[mejor]?.classList.add('activa');
-      actual.textContent = pad(mejor + 1);
-      totalEl.textContent = pad(vs.length);
+      let mejor = vs[0], dist = Infinity;
+      vs.forEach((c) => { const d = Math.abs(c.offsetLeft + c.offsetWidth / 2 - centro); if (d < dist) { dist = d; mejor = c; } });
+      cards.forEach((c) => c.classList.toggle('activa', c === mejor));
+      const juego = vs.filter((c) => c.dataset.copia === mejor?.dataset.copia);
+      actual.textContent = pad(juego.indexOf(mejor) + 1);
+      totalEl.textContent = pad(juego.length);
       return mejor;
     };
-    const ir = (i: number) => {
+    // Si la tarjeta activa es un clon, salta a su original sin que se note.
+    const recolocar = () => {
+      const a = marcar();
+      if (!a || a.dataset.copia === '1') return;
+      const i = originales.findIndex((o) => o.querySelector('h2')?.textContent === a.querySelector('h2')?.textContent);
+      const o = originales[i];
+      if (!o || o.hidden) return;
+      pista.style.scrollSnapType = 'none';
+      pista.scrollLeft += o.offsetLeft - a.offsetLeft;
+      requestAnimationFrame(() => { pista.style.scrollSnapType = ''; marcar(); });
+    };
+    const ir = (dir: number) => {
       const vs = visibles();
-      const c = vs[Math.max(0, Math.min(vs.length - 1, i))];
-      if (c) pista.scrollTo({ left: c.offsetLeft - (pista.clientWidth - c.offsetWidth) / 2, behavior: suave });
+      const k = vs.indexOf(marcar()) + dir;
+      const c = vs[Math.max(0, Math.min(vs.length - 1, k))];
+      if (c) pista.scrollTo({ left: centrar(c), behavior: suave });
     };
     let pendiente = false;
-    pista.addEventListener('scroll', () => { if (!pendiente) { pendiente = true; requestAnimationFrame(() => { pendiente = false; marcar(); }); } }, { passive: true });
-    root.querySelectorAll<HTMLButtonElement>('.tc-controles button').forEach((b) => b.addEventListener('click', () => ir(marcar() + Number(b.dataset.dir))));
+    let parada: number | undefined;
+    pista.addEventListener('scroll', () => {
+      if (!pendiente) { pendiente = true; requestAnimationFrame(() => { pendiente = false; marcar(); }); }
+      clearTimeout(parada);
+      parada = window.setTimeout(recolocar, 160);
+    }, { passive: true });
+    root.querySelectorAll<HTMLButtonElement>('.tc-controles button').forEach((b) => b.addEventListener('click', () => ir(Number(b.dataset.dir))));
+
+    const inicio = () => {
+      const primera = originales.find((c) => !c.hidden);
+      if (primera) { pista.style.scrollSnapType = 'none'; pista.scrollLeft = centrar(primera); requestAnimationFrame(() => { pista.style.scrollSnapType = ''; marcar(); }); }
+    };
 
     const btn = root.querySelector<HTMLButtonElement>('.tc-filtro-btn')!;
     const panel = root.querySelector<HTMLElement>('#tc-areas')!;
@@ -276,11 +314,10 @@ const nombreArea = (slug: string) => areas.find((a) => a.slug === slug)?.name ??
       cards.forEach((c) => { c.hidden = !!area && !c.dataset.areas!.split(' ').includes(area); });
       // La etiqueta de cada tarjeta enseña el área filtrada (o la principal sin filtro).
       cards.forEach((c) => { const pill = c.querySelector<HTMLElement>('.tc-pill')!; pill.textContent = area ? b.textContent : pill.dataset.nombreInicial!; });
-      pista.scrollTo({ left: 0 });
-      requestAnimationFrame(() => { ir(0); marcar(); });
+      requestAnimationFrame(inicio);
     }));
-    ir(0);
-    marcar();
+    window.addEventListener('resize', inicio);
+    inicio();
   }
 </script>
 
@@ -295,9 +332,6 @@ const nombreArea = (slug: string) => areas.find((a) => a.slug === slug)?.name ??
   body.dark .tc-cifras strong { color: var(--blue-light); }
   .tc-cifras span { font-size: 0.92rem; font-weight: 300; line-height: 1.5; color: rgba(0,0,0,0.7); }
   body.dark .tc-cifras span { color: rgba(232,232,232,0.7); }
-  .tc-cifras a { font-size: 0.82rem; color: rgba(0,0,0,0.5); text-decoration: underline; text-underline-offset: 3px; margin-top: auto; }
-  body.dark .tc-cifras a { color: rgba(232,232,232,0.5); }
-  .tc-cifras a:hover { color: var(--blue); }
   @media (max-width: 900px) { .tc-cifras { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 
   .tc-detalle, .tc-detras, .tc-faqs { max-width: 1240px; margin: 0 auto; padding: 5.5rem 4vw 0; }
@@ -354,7 +388,7 @@ const nombreArea = (slug: string) => areas.find((a) => a.slug === slug)?.name ??
   .tc-areas button { appearance: none; border: 1px solid rgba(246,246,246,0.3); background: none; color: inherit; border-radius: 999px; padding: 0.4rem 0.95rem; font: 400 0.82rem 'Poppins', sans-serif; cursor: pointer; }
   .tc-areas button[aria-pressed="true"] { background: #f6f6f6; color: #0a0a0a; border-color: #f6f6f6; }
 
-  .tc-pista { list-style: none; margin: 0; padding: 1rem calc(50vw - 160px); display: flex; gap: 1.2rem; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+  .tc-pista { list-style: none; margin: 0; padding: 1rem 0; display: flex; gap: 1.2rem; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
   .tc-pista::-webkit-scrollbar { display: none; }
   .tc-card { flex: 0 0 320px; scroll-snap-align: center; transition: transform 0.3s ease, opacity 0.3s ease; opacity: 0.6; transform: scale(0.94); }
   .tc-card[hidden] { display: none; }
@@ -379,7 +413,6 @@ const nombreArea = (slug: string) => areas.find((a) => a.slug === slug)?.name ??
   .tc-testimonios blockquote p { font-style: italic; font-weight: 300; line-height: 1.7; margin: 0 0 1rem; }
 
   @media (max-width: 640px) {
-    .tc-pista { padding: 1rem calc(50vw - 135px); }
     .tc-card { flex-basis: 270px; }
     .tc-card a { height: 400px; }
     .tc-testimonios { grid-template-columns: 1fr; }
