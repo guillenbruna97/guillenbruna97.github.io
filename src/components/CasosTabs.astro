@@ -51,7 +51,7 @@ const total = String(casos.length).padStart(2, '0');
       </div>
       {caso.image ? (
         <a href={enlace(lang, `/trabajo/${caso.slug}/`)} class="ct-imagen" tabindex="-1" aria-hidden="true">
-          <Picture src={caso.image} alt="" width={900} formats={['avif', 'webp']} quality={65} loading="lazy" style={caso.imagePos ? `object-position: ${caso.imagePos};` : undefined} />
+          <Picture src={caso.image} alt={caso.imageAlt} width={900} formats={['avif', 'webp']} quality={65} loading="lazy" style={caso.imagePos ? `object-position: ${caso.imagePos};` : undefined} />
         </a>
       ) : (
         <FotoPendiente ratio="4 / 3" texto={t.fotoCaso(caso.company)} />

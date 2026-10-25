@@ -26,6 +26,7 @@ const ancho = Math.min(foto.img.width, 2400);
     formats={['avif', 'webp']}
     quality={70}
     loading={loading}
+    fetchpriority={loading === 'eager' ? 'high' : undefined}
     style={`object-position: ${foto.foco};`}
   />
 </figure>
