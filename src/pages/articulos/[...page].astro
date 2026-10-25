@@ -2,10 +2,9 @@
 import type { GetStaticPaths } from 'astro';
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import Divider from '../../components/Divider.astro';
 import ContactBlock from '../../components/ContactBlock.astro';
 import ArticlesListing from '../../components/ArticlesListing.astro';
-import PageHeaderMarquee from '../../components/PageHeaderMarquee.astro';
+import CabeceraPagina from '../../components/CabeceraPagina.astro';
 import { activeCategories } from '../../utils/articles';
 
 export const getStaticPaths = (async ({ paginate }) => {
@@ -14,8 +13,8 @@ export const getStaticPaths = (async ({ paginate }) => {
   );
   // Maximo de articulos por pagina, sin que penalice al posicionamiento:
   // cada pagina es una URL real e indexable con su propio canonical.
-  // 6 = 3 filas x 2 columnas en el grid de cards.
-  return paginate(articulos, { pageSize: 6 });
+  // 7 = uno destacado + 2 filas de 3.
+  return paginate(articulos, { pageSize: 7 });
 }) satisfies GetStaticPaths;
 
 const { page } = Astro.props;
@@ -38,14 +37,14 @@ const descripcionPagina = page.currentPage === 1
   description={descripcionPagina}
   noindex={page.currentPage > 1}
 >
-  <PageHeaderMarquee
-    message="Ideas sobre marketing y negocio | Escribo sobre lo que aprendo trabajando. Sin teoría vacía, sin contenido de relleno."
+  <CabeceraPagina
+    titulo="Artículos de marketing, marca y estrategia"
+    intro="Lo que aprendemos trabajando con empresas: estrategia de marketing, marca, go to market, comunicación directiva e IA en marketing. Sin teoría vacía ni contenido de relleno."
+    migas={[{ href: '/recursos/', texto: 'Recursos' }, { href: '/articulos/', texto: 'Artículos' }]}
   />
-
-  <Divider />
 
   <ArticlesListing page={page} categorias={categorias} activeSlug="all" basePath="/articulos" />
 
-  <ContactBlock title="¿Trabajamos<br>juntos?" />
+  <ContactBlock title="¿Hablamos<br>de tu caso?" />
 </BaseLayout>
 
