@@ -1,157 +1,246 @@
 ---
+// Contacto (2026-10-25) con el lenguaje aprobado: cabecera grande, formulario
+// (decidido el 2026-10-22: «llamada + formulario») y, al lado, los canales
+// directos y quién te atiende. El formulario envía a HubSpot por la Forms API
+// pública, igual que el diagnóstico; en preproducción no guarda nada.
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { BOOKING_URL, MAILTO_URL, CONTACT_EMAIL, LINKEDIN_URL, LINKEDIN_HANDLE } from '../../consts';
+import CabeceraPagina from '../../components/CabeceraPagina.astro';
+import {
+  BOOKING_URL,
+  MAILTO_URL,
+  CONTACT_EMAIL,
+  LINKEDIN_URL,
+  LINKEDIN_HANDLE,
+  SITE_NAME,
+  HUBSPOT_PORTAL_ID,
+  HUBSPOT_CONTACT_FORM_ID,
+  HUBSPOT_CONTACT_MESSAGE_FIELD,
+  HUBSPOT_SUBSCRIPTION_TYPE_ID,
+  LEAD_TEXTO_PRIVACIDAD,
+  LEAD_TEXTO_COMERCIAL,
+} from '../../consts';
+import { AREAS } from '../../data/areas';
+
+const config = {
+  hubspot: { portalId: HUBSPOT_PORTAL_ID, formId: HUBSPOT_CONTACT_FORM_ID, subscriptionTypeId: HUBSPOT_SUBSCRIPTION_TYPE_ID, campoMensaje: HUBSPOT_CONTACT_MESSAGE_FIELD },
+  textoPrivacidad: LEAD_TEXTO_PRIVACIDAD,
+  textoComercial: LEAD_TEXTO_COMERCIAL,
+};
+
+const contactLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ContactPage',
+  name: `Contacto | ${SITE_NAME}`,
+  url: 'https://gbtconsultoria.com/contacto/',
+  mainEntity: { '@id': 'https://gbtconsultoria.com/#organizacion' },
+};
 ---
 <BaseLayout
-  title="Contacto | GBT Consultoría"
-  description="Habla con un consultor de estrategia de marketing y marca. Posicionamiento, go-to-market y comunicación ejecutiva para directivos en Zaragoza."
+  title={`Contacto | ${SITE_NAME}`}
+  description="Cuéntanos qué necesitas: reserva una llamada de 15 minutos o escríbenos. En 5 días laborables tienes una propuesta cerrada. GBT Consultoría, Zaragoza."
 >
-  <div class="contact-main">
-    <div>
-      <h1>Hablemos<br />sin rodeos</h1>
-      <p class="contact-desc">Si tienes un proyecto, una pregunta o simplemente quieres hablar de marketing y negocio, escríbeme. Leo todos los mensajes y respondo a los que tienen sentido.</p>
-      <h2 class="case-section-h2">Canales de contacto</h2>
-      <div class="contact-channels">
-        <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" class="channel-item">
+  <script type="application/ld+json" set:html={JSON.stringify(contactLd)} />
+
+  <CabeceraPagina
+    titulo="Cuéntanos qué necesita tu marketing"
+    intro="Reserva una llamada de 15 minutos o escríbenos. Después de hablar, en 5 días laborables tienes una propuesta con el alcance, el equipo, los plazos y el precio cerrado."
+  />
+
+  <div class="co">
+    <section class="co-form-wrap" aria-labelledby="co-form-titulo">
+      <h2 id="co-form-titulo">Escríbenos</h2>
+      <form class="co-form" id="contact-form" novalidate>
+        <div class="co-fila">
+          <label class="co-campo"><span>Nombre</span><input name="nombre" type="text" autocomplete="given-name" required /></label>
+          <label class="co-campo"><span>Empresa</span><input name="empresa" type="text" autocomplete="organization" /></label>
+        </div>
+        <div class="co-fila">
+          <label class="co-campo"><span>Email</span><input name="email" type="email" autocomplete="email" required /></label>
+          <label class="co-campo"><span>Teléfono <em>(opcional)</em></span><input name="telefono" type="tel" autocomplete="tel" /></label>
+        </div>
+        <fieldset class="co-areas">
+          <legend>¿Con qué te ayudamos? <em>(opcional)</em></legend>
           <div>
-            <p class="channel-label">Agenda una llamada</p>
-            <p class="channel-value">15 minutos, sin compromiso</p>
+            {AREAS.map((a) => (
+              <label><input type="checkbox" name="area" value={a.name} /><span>{a.name}</span></label>
+            ))}
           </div>
-          <span class="channel-arrow" aria-hidden="true">↗</span>
+        </fieldset>
+        <label class="co-campo"><span>Tu mensaje</span><textarea name="mensaje" rows="5" required placeholder="Qué quieres conseguir, en qué punto estás y para cuándo."></textarea></label>
+        <div class="co-honeypot" aria-hidden="true">
+          <label for="co-web">No rellenes este campo</label>
+          <input id="co-web" name="web" type="text" tabindex="-1" autocomplete="off" />
+        </div>
+        <label class="co-check"><input type="checkbox" name="privacidad" required /><span>He leído y acepto la <a href="/privacidad/" target="_blank" rel="noopener">política de privacidad</a>.</span></label>
+        <label class="co-check"><input type="checkbox" name="comercial" /><span>{LEAD_TEXTO_COMERCIAL}</span></label>
+        <p class="co-error" id="co-error" role="alert" hidden></p>
+        <button type="submit" class="btn-primary" id="co-enviar">Enviar mensaje</button>
+        <p class="co-legal">El responsable de tus datos es Guillén Bruna Tricas (GBT Consultoría). Los usamos para responderte y, solo si lo marcas, para enviarte comunicaciones comerciales. Se guardan en HubSpot. Puedes acceder, rectificar o suprimir tus datos escribiendo a <a href={MAILTO_URL}>{CONTACT_EMAIL}</a>.</p>
+      </form>
+      <div class="co-ok" id="co-ok" hidden tabindex="-1">
+        <h3>Mensaje recibido</h3>
+        <p>Gracias. Lo leemos y te respondemos al email que nos has dejado. Si prefieres ir más rápido, <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">reserva una llamada de 15 minutos</a>.</p>
+      </div>
+    </section>
+
+    <aside class="co-lado">
+      <div class="co-canales">
+        <h2>O directamente</h2>
+        <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" class="co-canal">
+          <strong>Reservar una llamada</strong><span>15 minutos, sin compromiso</span>
         </a>
-        <a href={MAILTO_URL} class="channel-item">
-          <div>
-            <p class="channel-label">Email</p>
-            <p class="channel-value">{CONTACT_EMAIL}</p>
-          </div>
-          <span class="channel-arrow" aria-hidden="true">↗</span>
+        <a href={MAILTO_URL} class="co-canal">
+          <strong>Email</strong><span>{CONTACT_EMAIL}</span>
         </a>
-        <a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer" class="channel-item">
-          <div>
-            <p class="channel-label">LinkedIn</p>
-            <p class="channel-value">{LINKEDIN_HANDLE}</p>
-          </div>
-          <span class="channel-arrow" aria-hidden="true">↗</span>
+        <a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer" class="co-canal">
+          <strong>LinkedIn</strong><span>{LINKEDIN_HANDLE}</span>
         </a>
       </div>
-    </div>
-    <div class="contact-info">
-      <p class="info-label">Tu interlocutor</p>
-      <div class="info-item">
-        <p class="info-item-label">Ubicación</p>
-        <p class="info-item-value">Zaragoza, España</p>
+      <div class="co-persona">
+        <span class="co-persona-foto" aria-hidden="true"></span>
+        <div>
+          <p class="co-persona-quien">Te atiende Guillén Bruna Tricas</p>
+          <p>Consultor de estrategia de marketing y marca, orquesta la red de GBT Consultoría. Head of Brand & Marketing en Zebra AI Transformation Company. Desde Zaragoza, en persona en los momentos clave y en remoto el resto.</p>
+          <a href="/quienes-somos/">Quiénes somos</a>
+        </div>
       </div>
-      <div class="info-item">
-        <p class="info-item-label">Rol actual</p>
-        <p class="info-item-value">Head of Brand & Marketing en Zebra AI Transformation Company</p>
-      </div>
-      <div class="info-item">
-        <p class="info-item-label">Disponibilidad</p>
-        <p class="info-item-value">Abierto a proyectos, colaboraciones y conversaciones interesantes</p>
-      </div>
-      <div class="info-item">
-        <p class="info-item-label">Áreas</p>
-        <p class="info-item-value">Marketing estratégico, GTM, marca, consultoría, SaaS B2B</p>
-      </div>
-    </div>
+    </aside>
   </div>
 </BaseLayout>
 
+<script define:vars={{ config }}>
+  const form = document.getElementById('contact-form');
+  const errorEl = document.getElementById('co-error');
+  const okEl = document.getElementById('co-ok');
+  const boton = document.getElementById('co-enviar');
+  const track = (name, params = {}) => { if (typeof gtag === 'function') gtag('event', name, params); };
+
+  const enviar = async (d, areas, comercial) => {
+    const { portalId, formId, subscriptionTypeId, campoMensaje } = config.hubspot;
+    if (!portalId || !formId) { console.warn('HubSpot sin configurar: el mensaje no se guarda (preproducción).'); return; }
+    const mensaje = [areas.length ? `Áreas: ${areas.join(', ')}` : '', d.mensaje, `Consentimiento comercial: ${comercial ? 'sí' : 'no'}`].filter(Boolean).join('\n\n');
+    const fields = [
+      { name: 'email', value: d.email },
+      { name: 'firstname', value: d.nombre },
+      { name: 'company', value: d.empresa },
+      { name: 'phone', value: d.telefono },
+      { name: 'diagnostico_resultado', value: 'Contacto web' },
+      { name: campoMensaje, value: mensaje },
+    ].filter((f) => f.value);
+    const consent = { consentToProcess: true, text: config.textoPrivacidad };
+    if (subscriptionTypeId) consent.communications = [{ value: comercial, subscriptionTypeId: Number(subscriptionTypeId), text: config.textoComercial }];
+    const res = await fetch(`https://api.hsforms.com/submissions/v3/integration/submit/${portalId}/${formId}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ fields, context: { pageUri: location.href, pageName: document.title }, legalConsentOptions: { consent } }),
+    });
+    if (!res.ok) throw new Error(`HubSpot ${res.status}: ${await res.text()}`);
+  };
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const fd = new FormData(form);
+    const d = {
+      nombre: String(fd.get('nombre') ?? '').trim(),
+      empresa: String(fd.get('empresa') ?? '').trim(),
+      email: String(fd.get('email') ?? '').trim(),
+      telefono: String(fd.get('telefono') ?? '').trim(),
+      mensaje: String(fd.get('mensaje') ?? '').trim(),
+    };
+    const areas = fd.getAll('area').map(String);
+    const comercial = fd.get('comercial') === 'on';
+    let error = '';
+    if (!d.nombre) error = 'Escribe tu nombre.';
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(d.email)) error = 'Revisa el email, parece que falta algo.';
+    else if (!d.mensaje) error = 'Cuéntanos en el mensaje qué necesitas.';
+    else if (fd.get('privacidad') !== 'on') error = 'Para enviar el mensaje necesitas aceptar la política de privacidad.';
+    errorEl.textContent = error;
+    errorEl.hidden = !error;
+    if (error) return;
+
+    boton.disabled = true;
+    boton.textContent = 'Enviando…';
+    try {
+      if (!fd.get('web')) await enviar(d, areas, comercial);
+      track('contacto_enviado', { areas: areas.length, comercial });
+      form.hidden = true;
+      okEl.hidden = false;
+      okEl.focus();
+    } catch (err) {
+      console.error(err);
+      track('contacto_error_envio');
+      errorEl.innerHTML = `No hemos podido enviarlo. Escríbenos a <a href="mailto:${'info@gbtconsultoria.com'}">info@gbtconsultoria.com</a> y te respondemos igual.`;
+      errorEl.hidden = false;
+      boton.disabled = false;
+      boton.textContent = 'Enviar mensaje';
+    }
+  });
+</script>
+
 <style is:global>
-  .contact-main {
-    padding: 5rem 2rem;
-    max-width: 900px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 6rem;
-    align-items: start;
-  }
+  .co { max-width: 1240px; margin: 0 auto; padding: 0 4vw 5rem; display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 3rem 5rem; align-items: start; }
+  .co h2 { font-size: clamp(1.5rem, 2.4vw, 1.9rem); margin: 0 0 1.6rem; }
 
-  .contact-main h1 {
-    font-size: clamp(2rem, 4vw, 3.2rem);
-    font-weight: 500;
-    line-height: 1.05;
-    letter-spacing: -0.03em;
-    margin-bottom: 1.5rem;
-  }
+  .co-form { display: flex; flex-direction: column; gap: 1.2rem; }
+  .co-form[hidden] { display: none; }
+  .co-fila { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+  .co-campo { display: flex; flex-direction: column; gap: 0.45rem; font-size: 0.85rem; font-weight: 500; }
+  .co-campo em, .co-areas em { font-style: normal; font-weight: 300; color: rgba(0,0,0,0.5); }
+  body.dark .co-campo em, body.dark .co-areas em { color: rgba(232,232,232,0.5); }
+  .co-campo input, .co-campo textarea { font: 300 1rem 'Poppins', sans-serif; color: inherit; background: var(--off-white); border: 1px solid transparent; border-radius: 12px; padding: 0.85rem 1rem; transition: border-color var(--transition), background var(--transition); }
+  .co-campo textarea { resize: vertical; min-height: 8rem; }
+  .co-campo input:focus, .co-campo textarea:focus { outline: none; border-color: var(--blue); background: var(--white); }
+  body.dark .co-campo input, body.dark .co-campo textarea { background: #14171d; }
+  body.dark .co-campo input:focus, body.dark .co-campo textarea:focus { border-color: var(--blue-light); background: #0a0a0a; }
+  .co-campo textarea::placeholder { color: rgba(0,0,0,0.4); }
+  body.dark .co-campo textarea::placeholder { color: rgba(232,232,232,0.35); }
 
-  .contact-desc {
-    font-size: 1rem;
-    font-weight: 300;
-    color: rgba(0,0,0,0.6);
-    line-height: 1.85;
-    margin-bottom: 2.5rem;
-    transition: color var(--transition);
-  }
-  body.dark .contact-desc { color: rgba(232,232,232,0.6); }
+  .co-areas { border: 0; padding: 0; margin: 0.2rem 0 0; }
+  .co-areas legend { font-size: 0.85rem; font-weight: 500; margin-bottom: 0.7rem; padding: 0; }
+  .co-areas div { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .co-areas label { position: relative; cursor: pointer; }
+  .co-areas input { position: absolute; opacity: 0; inset: 0; cursor: pointer; }
+  .co-areas span { display: inline-block; padding: 0.5rem 1rem; border: 1px solid rgba(0,0,0,0.18); border-radius: 999px; font-size: 0.85rem; transition: background var(--transition), color var(--transition), border-color var(--transition); }
+  .co-areas input:checked + span { background: var(--blue); border-color: var(--blue); color: #fff; }
+  .co-areas input:focus-visible + span { outline: 2px solid var(--blue); outline-offset: 2px; }
+  body.dark .co-areas span { border-color: rgba(232,232,232,0.22); }
+  body.dark .co-areas input:checked + span { background: var(--blue-light); border-color: var(--blue-light); color: #0a0a0a; }
 
-  .contact-channels { display: flex; flex-direction: column; gap: 1rem; }
+  .co-check { display: flex; gap: 0.7rem; align-items: flex-start; font-size: 0.85rem; font-weight: 300; line-height: 1.55; }
+  .co-check input { margin-top: 0.25rem; accent-color: var(--blue); width: 16px; height: 16px; flex: none; }
+  .co-check a, .co-legal a, .co-ok a, .co-error a { color: var(--blue); }
+  body.dark .co-check a, body.dark .co-legal a, body.dark .co-ok a, body.dark .co-error a { color: var(--blue-light); }
+  .co-honeypot { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+  .co-error { color: #b42318; font-size: 0.88rem; margin: 0; }
+  body.dark .co-error { color: #ff8a80; }
+  .co-form .btn-primary { align-self: flex-start; margin-top: 0.4rem; }
+  .co-legal { font-size: 0.76rem; font-weight: 300; line-height: 1.6; color: rgba(0,0,0,0.5); margin: 0.4rem 0 0; max-width: 620px; }
+  body.dark .co-legal { color: rgba(232,232,232,0.5); }
+  .co-ok { padding: 2rem; background: var(--off-white); border-radius: 16px; outline: none; }
+  body.dark .co-ok { background: #121419; }
+  .co-ok h3 { font-size: 1.4rem; margin: 0 0 0.6rem; }
+  .co-ok p { margin: 0; font-weight: 300; line-height: 1.7; }
 
-  .channel-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1.2rem 1.5rem;
-    border: 1px solid rgba(0,0,0,0.08);
-    border-radius: 8px;
-    text-decoration: none;
-    color: inherit;
-    transition: border-color var(--transition), background var(--transition);
-  }
-  body.dark .channel-item { border-color: rgba(255,255,255,0.08); }
-  .channel-item:hover { border-color: var(--blue); background: var(--off-white); }
-  body.dark .channel-item:hover { border-color: var(--blue-light); background: var(--dark-surface); }
+  .co-lado { display: flex; flex-direction: column; gap: 2rem; position: sticky; top: 110px; }
+  .co-canal { display: block; padding: 1.1rem 0; border-top: 1px solid rgba(0,0,0,0.1); color: inherit; text-decoration: none; }
+  .co-canal:last-child { border-bottom: 1px solid rgba(0,0,0,0.1); }
+  body.dark .co-canal { border-color: rgba(255,255,255,0.1); }
+  .co-canal strong { display: block; font-weight: 500; margin-bottom: 0.2rem; }
+  .co-canal span { font-size: 0.9rem; font-weight: 300; color: rgba(0,0,0,0.6); }
+  body.dark .co-canal span { color: rgba(232,232,232,0.6); }
+  .co-canal:hover strong { color: var(--blue); }
+  body.dark .co-canal:hover strong { color: var(--blue-light); }
+  .co-persona { display: flex; gap: 1.1rem; padding: 1.5rem; background: var(--off-white); border-radius: 16px; }
+  body.dark .co-persona { background: #121419; }
+  .co-persona-foto { width: 64px; height: 64px; border-radius: 50%; flex: none; background: #e9e9e9 url('/guillen-chaqueta.jpg') no-repeat; background-size: 340%; background-position: 50% 4%; }
+  .co-persona p { margin: 0 0 0.6rem; font-size: 0.88rem; font-weight: 300; line-height: 1.6; }
+  .co-persona .co-persona-quien { font-weight: 500; margin-bottom: 0.3rem; }
+  .co-persona a { font-size: 0.88rem; font-weight: 500; color: var(--blue); }
+  body.dark .co-persona a { color: var(--blue-light); }
 
-  .channel-label {
-    font-size: 0.8rem;
-    font-weight: 500;
-    letter-spacing: 0;
-    color: rgba(0,0,0,0.35);
-    margin-bottom: 0.2rem;
-    transition: color var(--transition);
-  }
-  body.dark .channel-label { color: rgba(232,232,232,0.35); }
-
-  .channel-value { font-size: 0.9rem; font-weight: 500; overflow-wrap: anywhere; transition: color var(--transition); }
-  body.dark .channel-value { color: #e8e8e8; }
-
-  .channel-arrow { color: var(--blue); font-size: 1rem; opacity: 0.4; transition: opacity 0.2s, color var(--transition); }
-  body.dark .channel-arrow { color: var(--blue-light); }
-  .channel-item:hover .channel-arrow { opacity: 1; }
-
-  /* CONTACT INFO */
-  .contact-info { padding-top: 1rem; transition-delay: 0.1s; }
-  .info-label {
-    font-size: 0.8rem;
-    font-weight: 500;
-    letter-spacing: 0;
-    color: rgba(0,0,0,0.35);
-    margin-bottom: 2rem;
-    transition: color var(--transition);
-  }
-  body.dark .info-label { color: rgba(232,232,232,0.4); }
-
-  .info-item { margin-bottom: 2rem; }
-  .info-item-label {
-    font-size: 0.82rem;
-    font-weight: 500;
-    letter-spacing: 0;
-    color: var(--blue);
-    margin-bottom: 0.3rem;
-    transition: color var(--transition);
-  }
-  body.dark .info-item-label { color: var(--blue-light); }
-  .info-item-value {
-    font-size: 0.92rem;
-    font-weight: 300;
-    color: rgba(0,0,0,0.65);
-    transition: color var(--transition);
-  }
-  body.dark .info-item-value { color: rgba(232,232,232,0.65); }
-
-  @media (max-width: 640px) {
-    /* minmax(0, 1fr): con 1fr la columna no baja del email más largo y a 320px desbordaba */
-    .contact-main { grid-template-columns: minmax(0, 1fr); gap: 3rem; padding: 4rem 1.5rem; }
+  @media (max-width: 900px) {
+    .co { grid-template-columns: 1fr; }
+    .co-lado { position: static; }
+    .co-fila { grid-template-columns: 1fr; }
   }
 </style>
