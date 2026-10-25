@@ -1,5 +1,5 @@
 import estrategia from '../assets/fotos/estrategia-pizarra.jpg';
-import web from '../assets/fotos/web-revision.jpg';
+import web from '../assets/fotos/web-disenadora.jpg';
 import seo from '../assets/fotos/seo-especialista.jpg';
 import publicidad from '../assets/fotos/publicidad-movil.jpg';
 import redes from '../assets/fotos/redes-edicion.jpg';
@@ -9,7 +9,7 @@ import sesion from '../assets/fotos/quienes-sesion.jpg';
 // Fotos de las áreas y de Quiénes somos (2026-10-25), según
 // marca-personal/ux-ui/prompts-fotos.md. Las de Guillén están generadas con IA a
 // partir de sus fotos; Eventos es la foto real del Spain Innovation Summit.
-// SEO y GEO y Redes muestran a especialistas de la red, sin cara reconocible
+// Web, SEO y GEO y Redes muestran a especialistas de la red, sin cara reconocible
 // (decisión de Dirección: Guillén solo sale donde el trabajo es suyo).
 // `foco` es el object-position: qué parte se queda al recortar a 4:3 o 16:7.
 export interface Foto {
@@ -26,8 +26,8 @@ export const FOTOS_AREA: Record<string, Foto> = {
   },
   'diseno-web': {
     img: web,
-    alt: { es: 'Guillén Bruna revisa una web en el portátil y su versión móvil', en: 'Guillén Bruna reviews a website on the laptop and its mobile version' },
-    foco: '45% 28%',
+    alt: { es: 'Diseñadora web ajusta el diseño de una página en una tableta, con las pantallas de la web en el monitor y en la pared', en: 'Web designer adjusting a page design on a tablet, with the website screens on the monitor and the wall' },
+    foco: '55% 25%',
   },
   'seo-geo': {
     img: seo,
