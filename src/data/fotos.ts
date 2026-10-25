@@ -23,7 +23,7 @@ export const FOTOS_AREA: Record<string, Foto> = {
   'estrategia-y-marca': {
     img: estrategia,
     alt: { es: 'Guillén Bruna explica un esquema de estrategia en la pizarra a dos personas de dirección', en: 'Guillén Bruna explains a strategy diagram on the whiteboard to two members of the leadership team' },
-    foco: '55% 30%',
+    foco: '58% 18%',
   },
   'diseno-web': {
     img: web,
