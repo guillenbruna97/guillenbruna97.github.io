@@ -99,7 +99,7 @@ const breadcrumbLd = {
           {areasCaso.length > 0 && (
             <div><dt>{T.aplicados}</dt><dd>{areasCaso.map((a, i) => <>{i > 0 && ', '}<a href={ir(`/servicios/${a!.slug}/`)}>{a!.name}</a></>)}</dd></div>
           )}
-          {detalle.web && <div><dt>{T.web}</dt><dd><a href={detalle.web} target="_blank" rel="noopener noreferrer">{detalle.web.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '')} ↗</a></dd></div>}
+          {detalle.web && <div><dt>{T.web}</dt><dd><a href={detalle.web} target="_blank" rel="noopener noreferrer">{detalle.web.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '')}</a></dd></div>}
         </dl>
       </div>
     </aside>
@@ -161,8 +161,8 @@ const breadcrumbLd = {
           <h2>{T.destacado}</h2>
           <h3>{detalle.destacado.titulo}</h3>
           <p>{detalle.destacado.texto}</p>
-          {detalle.destacado.video && <p><a href={`https://youtu.be/${detalle.destacado.video.id}`} target="_blank" rel="noopener noreferrer">{T.youtube} ↗</a></p>}
-          {detalle.destacado.enlace && <p><a href={detalle.destacado.enlace.href} target="_blank" rel="noopener noreferrer">{detalle.destacado.enlace.texto} ↗</a></p>}
+          {detalle.destacado.video && <p><a href={`https://youtu.be/${detalle.destacado.video.id}`} target="_blank" rel="noopener noreferrer">{T.youtube}</a></p>}
+          {detalle.destacado.enlace && <p><a href={detalle.destacado.enlace.href} target="_blank" rel="noopener noreferrer">{detalle.destacado.enlace.texto}</a></p>}
         </div>
       </div>
     </section>
