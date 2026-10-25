@@ -11,8 +11,35 @@ export const getLang = (pathname: string): Lang => (pathname === '/en' || pathna
 // están aquí llevan hreflang y el selector salta a su pareja; el resto del
 // selector lleva a la home del otro idioma, y los enlaces de la versión inglesa
 // a páginas aún sin traducir caen en la española.
+// Slugs ingleses de las áreas (mismo identificador que en español).
+export const AREA_EN: Record<string, string> = {
+  'estrategia-y-marca': 'strategy-and-brand',
+  'diseno-web': 'web-design',
+  'seo-geo': 'seo-geo',
+  'publicidad-online': 'online-advertising',
+  'redes-sociales': 'social-media',
+  eventos: 'events',
+};
+// Fichas de consultoría: slug español → inglés.
+export const FICHA_EN: Record<string, string> = {
+  pipeline: 'pipeline-audit',
+  'gtm-icp': 'go-to-market',
+  posicionamiento: 'brand-positioning',
+  'mentoria-comunicacion': 'media-training',
+};
+export const CASOS_EN = ['zebra-ventures', 'integra', 'broco', 'muebles-rey', 'muebles-tuco', 'slm'];
+
 export const RUTAS_EN: Record<string, string> = {
   '/': '/en/',
+  '/servicios/': '/en/services/',
+  ...Object.fromEntries(Object.entries(AREA_EN).map(([es, en]) => [`/servicios/${es}/`, `/en/services/${en}/`])),
+  ...Object.fromEntries(Object.entries(FICHA_EN).map(([es, en]) => [`/servicios/${es}/`, `/en/services/${en}/`])),
+  '/trabajo/': '/en/case-studies/',
+  ...Object.fromEntries(CASOS_EN.map((c) => [`/trabajo/${c}/`, `/en/case-studies/${c}/`])),
+  '/quienes-somos/': '/en/about/',
+  '/contacto/': '/en/contact/',
+  '/recomendador/': '/en/recommender/',
+  '/privacidad/': '/en/privacy/',
 };
 const RUTAS_ES = Object.fromEntries(Object.entries(RUTAS_EN).map(([es, en]) => [en, es]));
 

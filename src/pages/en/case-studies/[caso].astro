@@ -1,0 +1,10 @@
+---
+import CaseLayout from '../../../layouts/CaseLayout.astro';
+import { casos } from '../../../data/casos';
+
+export function getStaticPaths() {
+  return casos.map((c) => ({ params: { caso: c.slug } }));
+}
+const { caso } = Astro.params;
+---
+<CaseLayout slug={caso!} lang="en" />

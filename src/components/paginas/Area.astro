@@ -1,0 +1,217 @@
+---
+// Página de cada una de las 6 áreas (contenido en data/areas.ts), con el mismo
+// lenguaje visual que la home y /servicios/ (2026-10-24): cabecera con titular
+// grande y botones, foto, servicios en filas, para quién, cómo trabajamos,
+// casos del área en pestañas, preguntas frecuentes y el resto de áreas.
+// Las 4 fichas de consultoría tienen su propia página y cuelgan de «Estrategia y marca».
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ContactBlock from '../../components/ContactBlock.astro';
+import FaqList from '../../components/FaqList.astro';
+import FotoPendiente from '../../components/FotoPendiente.astro';
+import CasosTabs from '../../components/CasosTabs.astro';
+import { AREAS, type Area } from '../../data/areas';
+import { casosForArea } from '../../data/casos';
+import { AREAS_EN } from '../../data/en/areas';
+import { casosForAreaEn } from '../../data/en/casos';
+import { SITE_NAME, BOOKING_URL } from '../../consts';
+import { enlace, type Lang } from '../../i18n';
+
+interface Props { area: Area; lang: Lang }
+const { area, lang } = Astro.props;
+const en = lang === 'en';
+const ir = (ruta: string) => enlace(lang, ruta);
+const casosArea = (en ? casosForAreaEn : casosForArea)(area.slug);
+const otras = (en ? AREAS_EN : AREAS).filter((a) => a.slug !== area.slug);
+const T = en ? {
+  llamada: 'Book a 15-minute call', verCasos: 'See cases', queHacemos: 'What we do', verServicio: 'See the service',
+  paraQuien: 'Who it is for', comoTrabajamos: 'How we work',
+  nota: 'No lock-in, with a confidentiality agreement and one invoice.', red: 'How we choose the network',
+  casos: 'Cases in this area', unCaso: 'A case in this area', faqs: 'Frequently asked questions', otras: 'Other areas',
+  migas: 'Breadcrumbs', inicio: 'Home', servicios: 'Services', contacto: 'Shall we talk<br>about your case?',
+  pais: 'Spain',
+} : {
+  llamada: 'Reservar llamada de 15 minutos', verCasos: 'Ver casos', queHacemos: 'Qué hacemos', verServicio: 'Ver el servicio',
+  paraQuien: 'Para quién es', comoTrabajamos: 'Cómo trabajamos',
+  nota: 'Sin permanencia, con acuerdo de confidencialidad y una sola factura.', red: 'Cómo elegimos a la red',
+  casos: 'Casos de esta área', unCaso: 'Un caso de esta área', faqs: 'Preguntas frecuentes', otras: 'Otras áreas',
+  migas: 'Migas de pan', inicio: 'Inicio', servicios: 'Servicios', contacto: '¿Hablamos<br>de tu caso?',
+  pais: 'España',
+};
+
+const FOTOS: Record<string, string> = {
+  'estrategia-y-marca': 'Sesión de estrategia con la dirección de un cliente, alrededor de una mesa o una pizarra. Horizontal, de al menos 2400 px de ancho.',
+  'diseno-web': 'Una web hecha por GBT vista en portátil y móvil, en un entorno de trabajo real. Horizontal, de al menos 2400 px de ancho.',
+  'seo-geo': 'Pantalla con resultados de Google o una respuesta de ChatGPT que cita a un cliente. Horizontal, de al menos 2400 px de ancho.',
+  'publicidad-online': 'Móvil con un anuncio real de un cliente y el panel de campañas detrás. Horizontal, de al menos 2400 px de ancho.',
+  'redes-sociales': 'Rodaje de contenido para las redes de un cliente: móvil, luz y alguien grabando. Horizontal, de al menos 2400 px de ancho.',
+  eventos: 'Evento real con público y escenario, como el Spain Innovation Summit. Horizontal, de al menos 2400 px de ancho.',
+};
+
+const pasos = en ? [
+  { title: '15-minute call', text: 'You tell us what you need and we see whether we can help.' },
+  { title: 'Proposal within 5 working days', text: 'With the scope, the team, the timeline and a fixed price.' },
+  { title: 'A tailored team and one person accountable', text: 'The specialists from the network your project needs, coordinated by Guillén Bruna, who reviews every deliverable before it reaches you.' },
+] : [
+  { title: 'Llamada de 15 minutos', text: 'Nos cuentas qué necesitas y vemos si podemos ayudarte.' },
+  { title: 'Propuesta en 5 días laborables', text: 'Con el alcance, el equipo, los plazos y el precio cerrado.' },
+  { title: 'Equipo a medida y un solo responsable', text: 'Los especialistas de la red que necesita tu proyecto, coordinados por Guillén Bruna, que revisa cada entrega antes de que te llegue.' },
+];
+
+const serviceLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: area.name,
+  serviceType: area.name,
+  description: area.description,
+  provider: { '@type': 'ProfessionalService', name: SITE_NAME, url: 'https://gbtconsultoria.com/' },
+  inLanguage: lang,
+  areaServed: [
+    { '@type': 'City', name: 'Zaragoza' },
+    { '@type': 'AdministrativeArea', name: 'Aragón' },
+    { '@type': 'Country', name: T.pais },
+  ],
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: area.name,
+    itemListElement: area.servicios.map((s) => ({
+      '@type': 'Offer',
+      itemOffered: { '@type': 'Service', name: s.name, description: s.text, ...(s.href && { url: `https://gbtconsultoria.com${ir(s.href)}` }) },
+    })),
+  },
+  url: Astro.url.href,
+};
+const breadcrumbLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: T.inicio, item: `https://gbtconsultoria.com${ir('/')}` },
+    { '@type': 'ListItem', position: 2, name: T.servicios, item: `https://gbtconsultoria.com${ir('/servicios/')}` },
+    { '@type': 'ListItem', position: 3, name: area.name, item: Astro.url.href },
+  ],
+};
+---
+<BaseLayout title={`${area.seoTitle} | ${SITE_NAME}`} description={area.description}>
+  <script type="application/ld+json" set:html={JSON.stringify(serviceLd)} />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbLd)} />
+
+  <header class="ar-cabecera">
+    <div class="ar-migas" role="navigation" aria-label={T.migas}><a href={ir('/servicios/')}>{T.servicios}</a><span aria-hidden="true">/</span><span>{area.name}</span></div>
+    <h1>{area.seoTitle}</h1>
+    <div class="ar-sub">
+      <p class="ar-intro">{area.intro}</p>
+      <div class="ar-botones">
+        <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" class="btn-primary">{T.llamada}</a>
+        {casosArea.length > 0 && <a href="#casos" class="btn-secondary">{T.verCasos}</a>}
+      </div>
+    </div>
+    <FotoPendiente ratio="16 / 7" texto={FOTOS[area.slug] ?? 'Foto del área. Horizontal, de al menos 2400 px de ancho.'} />
+  </header>
+
+  <section class="ar-bloque ar-dos">
+    <h2>{T.queHacemos}</h2>
+    <ul class="ar-servicios">
+      {area.servicios.map((s) => (
+        <li>
+          <h3>{s.href ? <a href={ir(s.href)}>{s.name}</a> : s.name}</h3>
+          <p>{s.text}{s.href && <> <a href={ir(s.href)} class="ar-enlace">{T.verServicio}</a></>}</p>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="ar-bloque ar-dos">
+    <h2>{T.paraQuien}</h2>
+    <p class="ar-texto">{area.paraQuien}</p>
+  </section>
+
+  <section class="ar-bloque ar-dos">
+    <h2>{T.comoTrabajamos}</h2>
+    <div>
+    <ol class="ar-pasos">
+      {pasos.map((paso) => (
+        <li>
+          <h3>{paso.title}</h3>
+          <p>{paso.text}</p>
+        </li>
+      ))}
+    </ol>
+    <p class="ar-nota">{T.nota} <a href={ir('/quienes-somos/#la-red')}>{T.red}</a></p>
+    </div>
+  </section>
+
+  {casosArea.length > 0 && (
+    <div id="casos">
+      <CasosTabs casos={casosArea} titulo={casosArea.length > 1 ? T.casos : T.unCaso} />
+    </div>
+  )}
+
+  <section class="ar-bloque ar-dos">
+    <h2>{T.faqs}</h2>
+    <div><FaqList faqs={area.faqs} /></div>
+  </section>
+
+  <section class="ar-bloque ar-otras">
+    <h2>{T.otras}</h2>
+    <ul>
+      {otras.map((o) => (
+        <li><a href={ir(`/servicios/${o.slug}/`)}><strong>{o.name}</strong><span>{o.tagline}</span></a></li>
+      ))}
+    </ul>
+  </section>
+
+  <ContactBlock title={T.contacto} />
+</BaseLayout>
+
+<style is:global>
+  .ar-cabecera { max-width: 1240px; margin: 0 auto; padding: 3rem 4vw 1rem; }
+  .ar-migas { display: flex; gap: 0.5rem; font-size: 0.82rem; color: rgba(0,0,0,0.5); margin-bottom: 2rem; }
+  body.dark .ar-migas { color: rgba(232,232,232,0.5); }
+  .ar-migas a { color: inherit; text-decoration: none; }
+  .ar-migas a:hover { color: var(--blue); }
+  body.dark .ar-migas a:hover { color: var(--blue-light); }
+  .ar-cabecera h1 { font-size: clamp(2.4rem, 6vw, 5.2rem); max-width: 1100px; margin: 0 0 2rem; }
+  .ar-sub { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 1.6rem 3rem; margin-bottom: 2.6rem; }
+  .ar-intro { font-size: 1.05rem; font-weight: 300; line-height: 1.75; color: rgba(0,0,0,0.65); max-width: 600px; margin: 0; }
+  body.dark .ar-intro { color: rgba(232,232,232,0.68); }
+  .ar-botones { display: flex; flex-wrap: wrap; gap: 0.8rem; }
+
+  .ar-bloque { max-width: 1240px; margin: 0 auto; padding: 4rem 4vw 0; }
+  .ar-dos { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.6fr); gap: 1.5rem 4rem; align-items: start; }
+  .ar-bloque h2 { font-size: clamp(1.6rem, 2.8vw, 2.3rem); margin: 0; }
+  .ar-servicios, .ar-pasos { list-style: none; margin: 0; padding: 0; }
+  .ar-servicios li, .ar-pasos li { padding: 1.3rem 0; border-top: 1px solid rgba(0,0,0,0.1); }
+  .ar-servicios li:first-child, .ar-pasos li:first-child { padding-top: 0.2rem; border-top: 0; }
+  body.dark .ar-servicios li, body.dark .ar-pasos li { border-top-color: rgba(255,255,255,0.1); }
+  .ar-servicios h3, .ar-pasos h3 { font-size: 1.12rem; margin: 0 0 0.4rem; }
+  .ar-servicios h3 a { color: inherit; text-decoration: underline; text-decoration-color: rgba(0,74,173,0.35); text-underline-offset: 4px; }
+  .ar-servicios h3 a:hover { color: var(--blue); }
+  body.dark .ar-servicios h3 a:hover { color: var(--blue-light); }
+  .ar-servicios p, .ar-pasos p, .ar-texto { font-size: 0.98rem; font-weight: 300; line-height: 1.7; color: rgba(0,0,0,0.65); margin: 0; max-width: 640px; }
+  body.dark .ar-servicios p, body.dark .ar-pasos p, body.dark .ar-texto { color: rgba(232,232,232,0.65); }
+  .ar-texto { font-size: 1.1rem; }
+  .ar-enlace { font-weight: 500; color: var(--blue); }
+  body.dark .ar-enlace { color: var(--blue-light); }
+  .ar-pasos { counter-reset: paso; }
+  .ar-pasos li { counter-increment: paso; display: grid; grid-template-columns: 2.4rem 1fr; column-gap: 0.4rem; }
+  .ar-pasos li::before { content: counter(paso); grid-row: span 2; font-size: 1.12rem; font-weight: 500; color: var(--blue); }
+  body.dark .ar-pasos li::before { color: var(--blue-light); }
+  .ar-nota { margin: 1.2rem 0 0; font-size: 0.88rem; font-weight: 300; color: rgba(0,0,0,0.6); }
+  body.dark .ar-nota { color: rgba(232,232,232,0.6); }
+  .ar-nota a { color: var(--blue); font-weight: 500; }
+  body.dark .ar-nota a { color: var(--blue-light); }
+
+  .ar-otras ul { list-style: none; margin: 1.8rem 0 4rem; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 2rem; }
+  @media (max-width: 860px) { .ar-otras ul { grid-template-columns: 1fr; } }
+  .ar-otras li { border-top: 1px solid rgba(0,0,0,0.1); }
+  body.dark .ar-otras li { border-top-color: rgba(255,255,255,0.1); }
+  .ar-otras a { display: block; padding: 1.1rem 0; color: inherit; text-decoration: none; }
+  .ar-otras strong { display: block; font-weight: 500; margin-bottom: 0.3rem; }
+  .ar-otras span { display: block; font-size: 0.86rem; font-weight: 300; line-height: 1.55; color: rgba(0,0,0,0.6); }
+  body.dark .ar-otras span { color: rgba(232,232,232,0.6); }
+  .ar-otras a:hover strong { color: var(--blue); }
+  body.dark .ar-otras a:hover strong { color: var(--blue-light); }
+
+  @media (max-width: 860px) {
+    .ar-dos { grid-template-columns: 1fr; }
+  }
+</style>

@@ -1,0 +1,297 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ContactBlock from '../../components/ContactBlock.astro';
+import AreasTarjetas from '../../components/AreasTarjetas.astro';
+import BurbujaRecomendador from '../../components/BurbujaRecomendador.astro';
+import FotoPendiente from '../../components/FotoPendiente.astro';
+import { SITE_NAME } from '../../consts';
+import { AREAS } from '../../data/areas';
+import { casosForArea } from '../../data/casos';
+import { AREAS_EN } from '../../data/en/areas';
+import { casosForAreaEn } from '../../data/en/casos';
+import { enlace, type Lang } from '../../i18n';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const en = lang === 'en';
+const areas = en ? AREAS_EN : AREAS;
+const casosDe = en ? casosForAreaEn : casosForArea;
+const ir = (ruta: string) => enlace(lang, ruta);
+const T = en ? {
+  seoTitle: `Marketing services in Zaragoza, Spain | ${SITE_NAME}`,
+  seoDescription: 'Strategy and brand, web design, SEO and GEO, Google Ads and Meta Ads, social media and events in Zaragoza, Spain. A network of senior specialists and one point of contact.',
+  lista: 'GBT Consultoría services',
+  h1: 'Marketing services, from start to finish',
+  resumen: 'We do six things: strategy and brand, websites, visibility on Google and in AI search, online advertising, social media and events. You can hire one or all of them. Either way you talk to one person, who builds the team with the specialists in our network and answers for every deliverable.',
+  barra: 'Service areas',
+  queHacemos: 'What we do',
+  paraQuien: 'Who it is for',
+  mas: (a: string) => `${a}: how we work and FAQs`,
+  casoDe: (c: string) => `Real case: ${c}`,
+  verCaso: 'See the case',
+  pie1: 'A fixed price in every proposal, which you get within 5 working days after a 15-minute call. No lock-in, one point of contact and one invoice.',
+  comoTrabajamos: 'How we work',
+  pie2: 'We work from Zaragoza, Spain: in person at the key moments and remotely the rest of the time.',
+  pie2Enlace: '',
+  contacto: 'Shall we talk<br>about your case?',
+} : {
+  seoTitle: `Servicios de marketing en Zaragoza | ${SITE_NAME}`,
+  seoDescription: 'Estrategia y marca, diseño web, SEO y GEO, Google Ads y Meta Ads, redes sociales y eventos en Zaragoza. Una red de especialistas senior y un solo interlocutor.',
+  lista: 'Servicios de GBT Consultoría',
+  h1: 'Servicios de marketing, de principio a fin',
+  resumen: 'Hacemos seis cosas: estrategia y marca, webs, posicionamiento en Google y en la IA, publicidad online, redes sociales y eventos. Puedes contratar una sola o todas. En cualquier caso hablas con una persona, que monta el equipo con los especialistas de nuestra red y responde de cada entrega.',
+  barra: 'Áreas de servicio',
+  queHacemos: 'Qué hacemos',
+  paraQuien: 'Para quién es',
+  mas: (a: string) => `${a}: cómo trabajamos y preguntas frecuentes`,
+  casoDe: (c: string) => `Caso real de ${c}`,
+  verCaso: 'Ver el caso',
+  pie1: 'Precio cerrado en cada propuesta, que recibes en 5 días laborables tras una llamada de 15 minutos. Sin permanencia, con un solo interlocutor y una sola factura.',
+  comoTrabajamos: 'Cómo trabajamos',
+  pie2: 'Trabajamos desde Zaragoza, en persona en los momentos clave y en remoto el resto. Si estás comparando opciones en tu zona,',
+  pie2Enlace: 'tres preguntas para elegir consultor de marketing en Zaragoza',
+  contacto: '¿Hablamos<br>de tu caso?',
+};
+
+// Página de servicios (2026-10-24): las 6 áreas en tarjetas como índice, una
+// barra fija con pestañas que sigue el scroll (como el bloque de casos de la
+// home) y una sección por área con todo a la vista: qué resuelve, cada
+// servicio en una línea, para quién es y un caso real. Nada queda escondido.
+const total = String(areas.length).padStart(2, '0');
+const FOTOS: Record<string, string> = {
+  'estrategia-y-marca': 'Sesión de estrategia con dirección alrededor de una mesa. Horizontal 4:3.',
+  'diseno-web': 'Web hecha por GBT en portátil y móvil, en un entorno real. Horizontal 4:3.',
+  'seo-geo': 'Pantalla con resultados de Google o una respuesta de ChatGPT citando a un cliente. Horizontal 4:3.',
+  'publicidad-online': 'Móvil con un anuncio de un cliente y el panel de campañas detrás. Horizontal 4:3.',
+  'redes-sociales': 'Rodaje de contenido para redes de un cliente. Horizontal 4:3.',
+  eventos: 'Evento real con público y escenario (Spain Innovation Summit). Horizontal 4:3.',
+};
+// Nombres cortos para que las 6 pestañas quepan en la barra.
+const CORTO: Record<string, string> = en ? {
+  'estrategia-y-marca': 'Strategy and brand',
+  'diseno-web': 'Web',
+  'seo-geo': 'SEO and GEO',
+  'publicidad-online': 'Advertising',
+  'redes-sociales': 'Social and content',
+  eventos: 'Events',
+} : {
+  'estrategia-y-marca': 'Estrategia y marca',
+  'diseno-web': 'Web',
+  'seo-geo': 'SEO y GEO',
+  'publicidad-online': 'Publicidad',
+  'redes-sociales': 'Redes y contenido',
+  eventos: 'Eventos',
+};
+const itemListLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: T.lista,
+  itemListElement: areas.map((a, i) => ({ '@type': 'ListItem', position: i + 1, name: a.name, url: `https://gbtconsultoria.com${ir(`/servicios/${a.slug}/`)}` })),
+};
+---
+<BaseLayout
+  title={T.seoTitle}
+  description={T.seoDescription}
+>
+  <script type="application/ld+json" set:html={JSON.stringify(itemListLd)} />
+
+  <header class="sv-cabecera">
+    <h1>{T.h1}</h1>
+    <p class="sv-resumen">{T.resumen}</p>
+  </header>
+
+  <AreasTarjetas ancla />
+
+  <div class="sv" data-sv>
+    <div class="sv-barra" role="navigation" aria-label={T.barra}>
+      <div class="sv-pestanas">
+        {areas.map((area, i) => (
+          <a href={`#${area.slug}`} data-sv-tab aria-current={i === 0 ? 'true' : undefined}>{CORTO[area.slug] ?? area.name}</a>
+        ))}
+      </div>
+      <div class="sv-nav">
+        <span class="sv-contador"><span data-sv-actual>01</span> / {total}</span>
+      </div>
+    </div>
+
+    {areas.map((area) => {
+      const caso = casosDe(area.slug)[0];
+      return (
+        <section class="sv-area" id={area.slug} data-sv-area>
+          <div class="sv-texto">
+            <h2>{area.name}</h2>
+            <p class="sv-intro">{area.intro}</p>
+            <h3 class="sv-label">{T.queHacemos}</h3>
+            <ul class="sv-servicios">
+              {area.servicios.map((s) => (
+                <li>
+                  <strong>{s.href ? <a href={ir(s.href)}>{s.name}</a> : s.name}</strong>
+                  <span>{s.text}</span>
+                </li>
+              ))}
+            </ul>
+            <h3 class="sv-label">{T.paraQuien}</h3>
+            <p class="sv-para">{area.paraQuien}</p>
+            <a href={ir(`/servicios/${area.slug}/`)} class="sv-mas">{T.mas(area.name)}</a>
+          </div>
+          <aside class="sv-lado">
+            <FotoPendiente ratio="4 / 3" texto={FOTOS[area.slug] ?? 'Foto del área. Horizontal 4:3.'} />
+            {caso && (
+              <a href={ir(`/trabajo/${caso.slug}/`)} class="sv-caso">
+                <span class="sv-caso-label">{T.casoDe(caso.company)}</span>
+                <span class="sv-caso-reto">{caso.reto}</span>
+                <span class="sv-caso-ver">{T.verCaso}</span>
+              </a>
+            )}
+          </aside>
+        </section>
+      );
+    })}
+  </div>
+
+  <div class="sv-pie">
+    <p>{T.pie1} <a href={ir('/quienes-somos/#como-trabajamos')}>{T.comoTrabajamos}</a></p>
+    <p>{T.pie2}{T.pie2Enlace && <> <a href="/articulos/consultor-de-marketing-en-zaragoza/">{T.pie2Enlace}</a>.</>}</p>
+  </div>
+
+  <ContactBlock title={T.contacto} />
+  <BurbujaRecomendador />
+</BaseLayout>
+
+<script>
+  // Navegación de la página de servicios. La pestaña activa se calcula con la
+  // posición del scroll (no con IntersectionObserver, que se salta secciones
+  // con scroll rápido) y la barra de pestañas solo se desplaza en horizontal:
+  // antes se usaba scrollIntoView, que también movía la página y peleaba con
+  // el scroll del usuario.
+  const root = document.querySelector<HTMLElement>('[data-sv]');
+  if (root) {
+    const nav = document.querySelector<HTMLElement>('body > nav, nav');
+    const barra = root.querySelector<HTMLElement>('.sv-barra')!;
+    const pestanas = root.querySelector<HTMLElement>('.sv-pestanas')!;
+    const tabs = [...root.querySelectorAll<HTMLAnchorElement>('[data-sv-tab]')];
+    const areas = [...root.querySelectorAll<HTMLElement>('[data-sv-area]')];
+    const actual = root.querySelector('[data-sv-actual]');
+    const suave = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let activa = -1;
+    // Mientras dura un desplazamiento lanzado desde una pestaña, la pestaña pulsada no cambia.
+    let bloqueado = false;
+    const soltar = () => { bloqueado = false; calcular(); };
+
+    // Altura de lo que queda fijo arriba (menú + barra): ajusta el destino de los anclas.
+    const offset = () => (nav?.offsetHeight ?? 0) + barra.offsetHeight + 16;
+    const ajustarPadding = () => document.documentElement.style.setProperty('scroll-padding-top', `${offset()}px`);
+    ajustarPadding();
+    new ResizeObserver(ajustarPadding).observe(barra);
+
+    const marcar = (n: number) => {
+      if (n === activa || n < 0) return;
+      activa = n;
+      tabs.forEach((t, k) => (k === n ? t.setAttribute('aria-current', 'true') : t.removeAttribute('aria-current')));
+      if (actual) actual.textContent = String(n + 1).padStart(2, '0');
+      const t = tabs[n];
+      pestanas.scrollTo({ left: t.offsetLeft - pestanas.clientWidth / 2 + t.clientWidth / 2, behavior: suave ? 'smooth' : 'auto' });
+    };
+
+    const calcular = () => {
+      if (bloqueado) return;
+      const linea = offset() + 100;
+      let n = 0;
+      areas.forEach((a, k) => { if (a.getBoundingClientRect().top <= linea) n = k; });
+      // Al final de la página la última área no llega a la línea: se marca igual.
+      const ultima = areas[areas.length - 1].getBoundingClientRect();
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4 && ultima.top < window.innerHeight) n = areas.length - 1;
+      marcar(n);
+    };
+    let pendiente = false;
+    window.addEventListener('scroll', () => { if (!pendiente) { pendiente = true; requestAnimationFrame(() => { pendiente = false; calcular(); }); } }, { passive: true });
+    calcular();
+
+    // Pestañas y tarjetas: desplazamiento suave hasta el área, marcando la pestaña al momento.
+    document.querySelectorAll<HTMLAnchorElement>('a[href^="#"]').forEach((a) => {
+      const n = areas.findIndex((el) => `#${el.id}` === a.getAttribute('href'));
+      if (n < 0) return;
+      a.addEventListener('click', (e) => {
+        e.preventDefault();
+        marcar(n);
+        bloqueado = suave;
+        if (suave) {
+          window.addEventListener('scrollend', soltar, { once: true });
+          setTimeout(() => { if (bloqueado) soltar(); }, 2500);
+        }
+        const top = areas[n].getBoundingClientRect().top + window.scrollY - offset();
+        window.scrollTo({ top, behavior: suave ? 'smooth' : 'auto' });
+        history.replaceState(null, '', `#${areas[n].id}`);
+      });
+    });
+  }
+</script>
+
+<style is:global>
+  .sv-cabecera { max-width: 1240px; margin: 0 auto; padding: 4.5rem 4vw 0.5rem; }
+  .sv-cabecera h1 { font-size: clamp(2.4rem, 5.6vw, 4.8rem); max-width: 1000px; margin: 0 0 1.6rem; }
+  .sv-resumen { font-size: 1.05rem; font-weight: 300; line-height: 1.75; color: rgba(0,0,0,0.65); max-width: 720px; margin: 0; }
+  body.dark .sv-resumen { color: rgba(232,232,232,0.68); }
+
+  .sv { max-width: 1240px; margin: 0 auto; padding: 0 4vw 3rem; }
+  .sv-barra { position: sticky; top: 76px; z-index: 50; display: flex; align-items: flex-end; justify-content: space-between; gap: 2rem; padding-top: 1.2rem; background: var(--white); border-bottom: 1px solid rgba(0,0,0,0.12); }
+  body.dark .sv-barra { background: var(--dark-bg); border-bottom-color: rgba(255,255,255,0.12); }
+  .sv-pestanas { display: flex; gap: 2rem; overflow-x: auto; scrollbar-width: none; scroll-snap-type: x proximity; }
+  .sv-pestanas::-webkit-scrollbar { display: none; }
+  .sv-pestanas a { border-bottom: 2px solid transparent; margin-bottom: -1px; padding: 0 0 0.9rem; font-size: 0.88rem; color: rgba(0,0,0,0.55); text-decoration: none; white-space: nowrap; transition: color var(--transition), border-color var(--transition); }
+  .sv-pestanas a:hover { color: var(--black); }
+  .sv-pestanas a[aria-current="true"] { color: var(--black); font-weight: 500; border-bottom-color: var(--blue); }
+  body.dark .sv-pestanas a { color: rgba(232,232,232,0.55); }
+  body.dark .sv-pestanas a:hover, body.dark .sv-pestanas a[aria-current="true"] { color: #e8e8e8; }
+  body.dark .sv-pestanas a[aria-current="true"] { border-bottom-color: var(--blue-light); }
+  .sv-nav { display: flex; align-items: center; gap: 0.8rem; padding-bottom: 0.6rem; flex-shrink: 0; }
+  .sv-contador { font-size: 0.8rem; font-variant-numeric: tabular-nums; color: rgba(0,0,0,0.55); }
+  body.dark .sv-contador { color: rgba(232,232,232,0.55); }
+
+  .sv-area { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 2.5rem 4.5rem; padding: 4rem 0; border-bottom: 1px solid rgba(0,0,0,0.08); }
+  body.dark .sv-area { border-bottom-color: rgba(255,255,255,0.08); }
+  .sv-area:last-of-type { border-bottom: 0; }
+  .sv-texto h2 { font-size: clamp(1.9rem, 3.4vw, 2.8rem); margin: 0 0 1.2rem; }
+  .sv-intro { font-size: 1.02rem; font-weight: 300; line-height: 1.75; color: rgba(0,0,0,0.68); margin: 0 0 2.2rem; max-width: 600px; }
+  body.dark .sv-intro { color: rgba(232,232,232,0.7); }
+  .sv-label { font-size: 0.82rem; font-weight: 600; letter-spacing: 0; color: rgba(0,0,0,0.5); margin: 0 0 1rem; line-height: 1.6; }
+  body.dark .sv-label { color: rgba(232,232,232,0.5); }
+  .sv-servicios { list-style: none; margin: 0 0 2.2rem; padding: 0; }
+  .sv-servicios li { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.4fr); gap: 0.3rem 1.5rem; padding: 0.95rem 0; border-top: 1px solid rgba(0,0,0,0.08); }
+  body.dark .sv-servicios li { border-top-color: rgba(255,255,255,0.08); }
+  .sv-servicios strong { font-size: 0.95rem; font-weight: 500; }
+  .sv-servicios strong a { color: inherit; text-decoration: underline; text-decoration-color: rgba(0,74,173,0.35); text-underline-offset: 3px; }
+  .sv-servicios strong a:hover { color: var(--blue); }
+  body.dark .sv-servicios strong a:hover { color: var(--blue-light); }
+  .sv-servicios span { font-size: 0.9rem; font-weight: 300; line-height: 1.6; color: rgba(0,0,0,0.65); }
+  body.dark .sv-servicios span { color: rgba(232,232,232,0.65); }
+  .sv-para { font-size: 0.95rem; font-weight: 300; line-height: 1.7; color: rgba(0,0,0,0.65); margin: 0 0 1.8rem; max-width: 600px; }
+  body.dark .sv-para { color: rgba(232,232,232,0.65); }
+  .sv-mas { font-size: 0.88rem; font-weight: 500; color: var(--blue); text-decoration: none; }
+  .sv-mas:hover { text-decoration: underline; }
+  body.dark .sv-mas { color: var(--blue-light); }
+
+  .sv-lado { display: flex; flex-direction: column; gap: 1rem; position: sticky; top: 160px; align-self: start; }
+  .sv-caso { display: block; padding: 1.4rem 1.5rem; border-radius: 16px; background: var(--off-white); border: 1px solid rgba(0,0,0,0.06); color: inherit; text-decoration: none; transition: border-color var(--transition); }
+  body.dark .sv-caso { background: #161a21; border-color: rgba(255,255,255,0.08); }
+  .sv-caso:hover { border-color: var(--blue); }
+  .sv-caso-label { display: block; font-size: 0.76rem; color: rgba(0,0,0,0.5); margin-bottom: 0.5rem; }
+  body.dark .sv-caso-label { color: rgba(232,232,232,0.5); }
+  .sv-caso-reto { display: block; font-size: 1.1rem; font-weight: 500; letter-spacing: -0.02em; line-height: 1.3; margin-bottom: 0.9rem; }
+  .sv-caso-ver { font-size: 0.82rem; font-weight: 500; color: var(--blue); }
+  body.dark .sv-caso-ver { color: var(--blue-light); }
+
+  .sv-pie { max-width: 1240px; margin: 0 auto; padding: 0 4vw 3rem; }
+  .sv-pie p { font-size: 0.9rem; font-weight: 300; line-height: 1.7; color: rgba(0,0,0,0.65); max-width: 820px; margin: 0 0 0.8rem; }
+  body.dark .sv-pie p { color: rgba(232,232,232,0.65); }
+  .sv-pie a { color: var(--blue); font-weight: 500; }
+  body.dark .sv-pie a { color: var(--blue-light); }
+
+  @media (max-width: 900px) {
+    .sv-area { grid-template-columns: 1fr; padding: 3rem 0; }
+    .sv-lado { position: static; }
+    .sv-servicios li { grid-template-columns: 1fr; }
+    .sv-barra { flex-direction: column; align-items: stretch; gap: 0.6rem; }
+    .sv-nav { order: -1; justify-content: flex-end; padding-bottom: 0; }
+  }
+</style>

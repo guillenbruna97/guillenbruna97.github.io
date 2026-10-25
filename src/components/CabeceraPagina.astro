@@ -1,6 +1,7 @@
 ---
 // Cabecera de página con el lenguaje aprobado en la home (2026-10-25): migas
 // opcionales, H1 grande e intro. Se usa en Recursos, artículos y minijuegos.
+import { getLang } from '../i18n';
 interface Props {
   titulo: string;
   intro?: string;
@@ -10,7 +11,7 @@ const { titulo, intro, migas } = Astro.props;
 ---
 <header class="cp">
   {migas && migas.length > 0 && (
-    <div class="cp-migas" role="navigation" aria-label="Migas de pan">
+    <div class="cp-migas" role="navigation" aria-label={getLang(Astro.url.pathname) === "en" ? "Breadcrumbs" : "Migas de pan"}>
       {migas.map((m, i) => <>{i > 0 && <span aria-hidden="true">/</span>}<a href={m.href}>{m.texto}</a></>)}
     </div>
   )}
