@@ -181,13 +181,15 @@ const contactLd = {
   .co { max-width: 1240px; margin: 0 auto; padding: 0 4vw 5rem; display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 3rem 5rem; align-items: start; }
   .co h2 { font-size: clamp(1.5rem, 2.4vw, 1.9rem); margin: 0 0 1.6rem; }
 
+  .co-form-wrap, .co-lado { min-width: 0; }
   .co-form { display: flex; flex-direction: column; gap: 1.2rem; }
   .co-form[hidden] { display: none; }
-  .co-fila { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
-  .co-campo { display: flex; flex-direction: column; gap: 0.45rem; font-size: 0.85rem; font-weight: 500; }
+  .co-fila { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1.2rem; }
+  .co-campo { min-width: 0; display: flex; flex-direction: column; gap: 0.45rem; font-size: 0.85rem; font-weight: 500; }
   .co-campo em, .co-areas em { font-style: normal; font-weight: 300; color: rgba(0,0,0,0.5); }
   body.dark .co-campo em, body.dark .co-areas em { color: rgba(232,232,232,0.5); }
   .co-campo input, .co-campo textarea { font: 300 1rem 'Poppins', sans-serif; color: inherit; background: var(--off-white); border: 1px solid transparent; border-radius: 12px; padding: 0.85rem 1rem; transition: border-color var(--transition), background var(--transition); }
+  .co-campo input, .co-campo textarea { width: 100%; min-width: 0; box-sizing: border-box; }
   .co-campo textarea { resize: vertical; min-height: 8rem; }
   .co-campo input:focus, .co-campo textarea:focus { outline: none; border-color: var(--blue); background: var(--white); }
   body.dark .co-campo input, body.dark .co-campo textarea { background: #14171d; }
