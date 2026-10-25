@@ -11,7 +11,7 @@ import FotoPendiente from '../../components/FotoPendiente.astro';
 import { Picture } from 'astro:assets';
 import { LINKEDIN_URL, BOOKING_URL, SITE_NAME } from '../../consts';
 import { casos } from '../../data/casos';
-import guillenChaqueta from '../../assets/sobre-mi/guillen-chaqueta.png';
+import guillenRetrato from '../../assets/sobre-mi/guillen-retrato.png';
 import momentoBroco from '../../assets/sobre-mi/momento-broco.png';
 import momentoSis from '../../assets/sobre-mi/momento-sis.png';
 import momentoSlm from '../../assets/sobre-mi/momento-slm.png';
@@ -64,7 +64,7 @@ const breadcrumbLd = {
 <BaseLayout
   title={`Quiénes somos y cómo trabajamos | ${SITE_NAME}`}
   description="Una red de especialistas senior en marketing y marca orquestada por Guillén Bruna en Zaragoza. Cómo la elegimos, quién la dirige y cómo trabajamos contigo."
-  image="/guillen-chaqueta.jpg"
+  image="/guillen-retrato.jpg"
 >
   <script type="application/ld+json" set:html={JSON.stringify(breadcrumbLd)} />
 
@@ -102,7 +102,7 @@ const breadcrumbLd = {
 
   <section class="qs-bloque qs-guillen" id="guillen">
     <div class="qs-guillen-foto">
-      <Picture src={guillenChaqueta} alt="Guillén Bruna Tricas, fundador de GBT Consultoría" width={768} height={960} formats={['avif', 'webp']} fallbackFormat="png" quality={65} loading="lazy" />
+      <Picture src={guillenRetrato} alt="Guillén Bruna Tricas, fundador de GBT Consultoría" width={800} height={800} formats={['avif', 'webp']} fallbackFormat="png" quality={65} loading="lazy" />
     </div>
     <div class="qs-guillen-texto">
       <p class="qs-etiqueta">Quién orquesta la red</p>
@@ -187,13 +187,9 @@ const breadcrumbLd = {
   .qs-guillen { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: 3rem 5rem; align-items: start; }
   .qs-guillen-foto { border-radius: 16px; overflow: hidden; background: var(--off-white); aspect-ratio: 4 / 5; }
   body.dark .qs-guillen-foto { background: #121419; }
-  /* Recorte a medio cuerpo: la foto disponible es de cuerpo entero y en pantalón corto,
-     poco adecuada para un directivo. Se quita cuando haya un retrato profesional. */
-  .qs-guillen-foto { position: relative; }
-  .qs-guillen-foto picture { position: absolute; inset: 0; }
-  .qs-guillen-foto img { position: absolute; left: 50%; top: 4%; width: 190%; max-width: none; height: auto; transform: translateX(-50%); display: block; }
-  .qs-guillen-foto::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 22%; background: linear-gradient(to bottom, transparent, var(--off-white)); }
-  body.dark .qs-guillen-foto::after { background: linear-gradient(to bottom, transparent, #121419); }
+  /* Retrato sobre fondo blanco: la tarjeta va en blanco también en oscuro. */
+  .qs-guillen-foto { background: #fff !important; border: 1px solid rgba(0,0,0,0.06); }
+  .qs-guillen-foto img { width: 100%; height: 100%; object-fit: cover; object-position: center 30%; display: block; }
   .qs-etiqueta { font-size: 0.85rem; font-weight: 500; color: rgba(0,0,0,0.5); margin: 0 0 1rem; }
   body.dark .qs-etiqueta { color: rgba(232,232,232,0.5); }
   .qs-guillen h2 { font-size: clamp(2.2rem, 4.4vw, 3.6rem); margin: 0 0 1rem; }
