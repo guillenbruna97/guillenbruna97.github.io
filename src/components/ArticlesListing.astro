@@ -14,6 +14,7 @@ const { page, categorias, activeSlug, basePath } = Astro.props;
 
 // El primer artículo de cada página va destacado arriba y el resto en filas de 3.
 const [primero, ...resto] = page.data;
+const dos = (n: number) => String(n).padStart(2, '0');
 const pageHref = (num: number) => (num === 1 ? `${basePath}/` : `${basePath}/${num}/`);
 ---
 
@@ -35,25 +36,25 @@ const pageHref = (num: number) => (num === 1 ? `${basePath}/` : `${basePath}/${n
 {page.lastPage > 1 && (
   <nav class="pagination" aria-label="Paginación de artículos">
     {page.url.prev ? (
-      <a href={`${page.url.prev}/`} class="pagination-link pagination-prev" rel="prev" aria-label="Artículos más recientes"><svg class="pagination-icon" viewBox="0 0 30 12" width="30" height="12" aria-hidden="true" focusable="false"><path d="M1 8.5H28L21 2"/></svg></a>
+      <a href={`${page.url.prev}/`} class="pagination-link pagination-prev" rel="prev" aria-label="Artículos más recientes"><svg class="pagination-icon" viewBox="0 0 40 16" width="40" height="16" aria-hidden="true" focusable="false"><path class="pi-linea" d="M2.5 9.2C8 7.6 13.5 9.9 19.5 8.6S30.5 7.4 35.6 8.3"/><path class="pi-punta" d="M29.4 2.9C31.6 4.6 33.9 6.6 36.4 8.4C33.7 9.8 31.4 11.6 29.8 13.6"/></svg></a>
     ) : (
-      <span class="pagination-link pagination-prev pagination-disabled" aria-hidden="true"><svg class="pagination-icon" viewBox="0 0 30 12" width="30" height="12" aria-hidden="true" focusable="false"><path d="M1 8.5H28L21 2"/></svg></span>
+      <span class="pagination-link pagination-prev pagination-disabled" aria-hidden="true"><svg class="pagination-icon" viewBox="0 0 40 16" width="40" height="16" aria-hidden="true" focusable="false"><path class="pi-linea" d="M2.5 9.2C8 7.6 13.5 9.9 19.5 8.6S30.5 7.4 35.6 8.3"/><path class="pi-punta" d="M29.4 2.9C31.6 4.6 33.9 6.6 36.4 8.4C33.7 9.8 31.4 11.6 29.8 13.6"/></svg></span>
     )}
 
     <div class="pagination-pages">
       {Array.from({ length: page.lastPage }, (_, i) => i + 1).map((num) => (
         num === page.currentPage ? (
-          <span class="pagination-page pagination-page-current" aria-current="page">{num}</span>
+          <span class="pagination-page pagination-page-current" aria-current="page">{dos(num)}</span>
         ) : (
-          <a href={pageHref(num)} class="pagination-page">{num}</a>
+          <a href={pageHref(num)} class="pagination-page" aria-label={`Página ${num}`}>{dos(num)}</a>
         )
       ))}
     </div>
 
     {page.url.next ? (
-      <a href={`${page.url.next}/`} class="pagination-link pagination-next" rel="next" aria-label="Artículos más antiguos"><svg class="pagination-icon" viewBox="0 0 30 12" width="30" height="12" aria-hidden="true" focusable="false"><path d="M1 8.5H28L21 2"/></svg></a>
+      <a href={`${page.url.next}/`} class="pagination-link pagination-next" rel="next" aria-label="Artículos más antiguos"><svg class="pagination-icon" viewBox="0 0 40 16" width="40" height="16" aria-hidden="true" focusable="false"><path class="pi-linea" d="M2.5 9.2C8 7.6 13.5 9.9 19.5 8.6S30.5 7.4 35.6 8.3"/><path class="pi-punta" d="M29.4 2.9C31.6 4.6 33.9 6.6 36.4 8.4C33.7 9.8 31.4 11.6 29.8 13.6"/></svg></a>
     ) : (
-      <span class="pagination-link pagination-next pagination-disabled" aria-hidden="true"><svg class="pagination-icon" viewBox="0 0 30 12" width="30" height="12" aria-hidden="true" focusable="false"><path d="M1 8.5H28L21 2"/></svg></span>
+      <span class="pagination-link pagination-next pagination-disabled" aria-hidden="true"><svg class="pagination-icon" viewBox="0 0 40 16" width="40" height="16" aria-hidden="true" focusable="false"><path class="pi-linea" d="M2.5 9.2C8 7.6 13.5 9.9 19.5 8.6S30.5 7.4 35.6 8.3"/><path class="pi-punta" d="M29.4 2.9C31.6 4.6 33.9 6.6 36.4 8.4C33.7 9.8 31.4 11.6 29.8 13.6"/></svg></span>
     )}
   </nav>
 )}
@@ -71,66 +72,34 @@ const pageHref = (num: number) => (num === 1 ? `${basePath}/` : `${basePath}/${n
   @media (max-width: 980px) { .al-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   @media (max-width: 620px) { .al-grid { grid-template-columns: 1fr; } }
 
-  /* PAGINATION */
-  .pagination {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-    padding: 0 2rem 3rem;
-    max-width: 900px;
-    margin: 0 auto;
-    flex-wrap: wrap;
-  }
-  /* Pasar de página: círculo fino con una flecha de una sola barba, sin texto (el nombre va en aria-label). */
-  .pagination-link {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 3rem;
-    height: 3rem;
-    border: 1px solid rgba(0,0,0,0.18);
-    border-radius: 50%;
-    color: var(--blue);
-    transition: background var(--transition), border-color var(--transition), color var(--transition);
-  }
-  .pagination-icon {
-    fill: none;
-    stroke: currentColor;
-    stroke-width: 1.4;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    transition: transform var(--transition);
-  }
+  /* PAGINACIÓN (2026-10-25): flecha dibujada como un trazo de rotulador, en la
+     línea de las ilustraciones de los artículos; números de dos cifras con la
+     página actual subrayada en azul. Todo junto y centrado. */
+  .pagination { display: flex; align-items: center; justify-content: center; gap: 1.6rem; padding: 0 4vw 4rem; max-width: 1240px; margin: 0 auto; }
+  .pagination-link { display: inline-flex; align-items: center; justify-content: center; width: 3.2rem; height: 2.75rem; color: var(--blue); border-radius: 8px; }
+  body.dark .pagination-link { color: var(--blue-light); }
+  .pagination-icon { fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; overflow: visible; transition: transform 0.25s ease; }
   .pagination-prev .pagination-icon { transform: scaleX(-1); }
-  .pagination-link:hover { background: var(--blue); border-color: var(--blue); color: var(--white); }
-  .pagination-next:hover .pagination-icon { transform: translateX(3px); }
-  .pagination-prev:hover .pagination-icon { transform: scaleX(-1) translateX(3px); }
-  body.dark .pagination-link { color: var(--blue-light); border-color: rgba(232,232,232,0.22); }
-  body.dark .pagination-link:hover { background: var(--blue-light); border-color: var(--blue-light); color: var(--dark-bg); }
-  .pagination-disabled { opacity: 0.3; pointer-events: none; }
-
-  .pagination-pages { display: flex; gap: 0.4rem; }
-  .pagination-page {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 1.9rem;
-    height: 1.9rem;
-    font-size: 0.78rem;
-    font-weight: 500;
-    border-radius: 6px;
-    color: rgba(0,0,0,0.5);
-    text-decoration: none;
-    transition: all var(--transition);
+  .pagination-icon path { stroke-dasharray: 40; stroke-dashoffset: 0; }
+  @media (prefers-reduced-motion: no-preference) {
+    .pagination-link:hover .pi-linea { animation: pi-trazo 0.45s ease-out; }
+    .pagination-link:hover .pi-punta { animation: pi-trazo 0.3s ease-out 0.3s backwards; }
+    .pagination-next:hover .pagination-icon { transform: translateX(4px); }
+    .pagination-prev:hover .pagination-icon { transform: scaleX(-1) translateX(4px); }
   }
-  body.dark .pagination-page { color: rgba(232,232,232,0.5); }
-  .pagination-page:hover:not(.pagination-page-current) { background: rgba(0,0,0,0.06); }
-  body.dark .pagination-page:hover:not(.pagination-page-current) { background: rgba(255,255,255,0.08); }
-  .pagination-page-current { background: var(--black); color: var(--white); }
-  body.dark .pagination-page-current { background: var(--blue-light); color: var(--dark-bg); }
+  @keyframes pi-trazo { from { stroke-dashoffset: 40; } to { stroke-dashoffset: 0; } }
+  .pagination-link:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
+  .pagination-disabled { visibility: hidden; }
 
-  @media (max-width: 640px) {
-    .pagination { justify-content: center; }
-  }
+  .pagination-pages { display: flex; gap: 0.3rem; }
+  .pagination-page { position: relative; display: inline-flex; align-items: center; justify-content: center; min-width: 2.6rem; height: 2.75rem; font-size: 0.95rem; font-weight: 400; font-variant-numeric: tabular-nums; letter-spacing: 0.02em; color: rgba(0,0,0,0.4); text-decoration: none; transition: color var(--transition); }
+  body.dark .pagination-page { color: rgba(232,232,232,0.4); }
+  .pagination-page:hover { color: var(--black); }
+  body.dark .pagination-page:hover { color: #e8e8e8; }
+  .pagination-page-current { color: var(--black); font-weight: 500; }
+  body.dark .pagination-page-current { color: #e8e8e8; }
+  .pagination-page-current::after { content: ''; position: absolute; left: 22%; right: 22%; bottom: 0.45rem; height: 2px; border-radius: 2px; background: var(--blue); }
+  body.dark .pagination-page-current::after { background: var(--blue-light); }
+
+  @media (max-width: 640px) { .pagination { gap: 0.4rem; } .pagination-page { min-width: 2.2rem; } }
 </style>
