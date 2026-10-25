@@ -48,45 +48,26 @@ const { title, subtitle } = Astro.props;
   }
   body.dark .contact-sub { color: rgba(232,232,232,0.6); }
 
+  /* Hueco a la derecha para que la barra «Síguenos» (fija, a partir de 900px) no tape los botones. */
+  @media (min-width: 901px) { .contact-block { padding-right: 96px; } }
   .contact-actions { display: flex; align-items: center; gap: 0.9rem; flex-shrink: 0; }
 
-  .btn-contact {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    background: var(--white);
-    color: var(--blue);
-    font-family: 'Poppins', sans-serif;
-    font-size: 0.82rem;
-    font-weight: 600;
-    padding: 0.85rem 1.8rem;
-    border-radius: 8px;
-    cursor: pointer;
-    border: 1px solid transparent;
-    flex-shrink: 0;
-    letter-spacing: 0.04em;
-    text-decoration: none;
-    white-space: nowrap;
-    transition: background var(--transition), color var(--transition), border-color var(--transition), transform 0.15s ease;
-  }
-  .btn-contact:hover { background: var(--off-white); transform: translateY(-1px); }
-  body.dark .btn-contact { background: var(--blue-light); color: var(--dark-bg); }
-  body.dark .btn-contact:hover { background: #7ab0f0; }
-
-  .btn-contact--ghost {
-    background: transparent;
-    color: var(--white);
-    border-color: rgba(255,255,255,0.4);
-  }
-  .btn-contact--ghost:hover { background: rgba(255,255,255,0.1); color: var(--white); }
-  body.dark .btn-contact--ghost { background: transparent; color: #e8e8e8; border-color: rgba(232,232,232,0.3); }
-  body.dark .btn-contact--ghost:hover { border-color: var(--blue-light); color: var(--blue-light); background: transparent; }
+  /* Forma de los botones en global.css (BOTONES). Aquí solo los colores sobre la banda azul. */
+  .btn-contact { white-space: nowrap; flex-shrink: 0; }
+  .btn-contact:not(.btn-contact--ghost) { background: var(--white); color: var(--blue); }
+  .btn-contact:not(.btn-contact--ghost):hover { background: #0a0a0a; color: var(--white); }
+  body.dark .btn-contact:not(.btn-contact--ghost) { background: var(--blue-light); color: #0a0a0a; }
+  body.dark .btn-contact:not(.btn-contact--ghost):hover { background: #f6f6f6; color: #0a0a0a; }
+  .btn-contact--ghost { background: none; color: var(--white); }
+  .btn-contact--ghost::after { background: var(--blue-light); }
+  body.dark .btn-contact--ghost { color: #e8e8e8; }
 
   /* En móvil los dos botones (nowrap) no caben en fila dentro de 375px y
      provocaban scroll horizontal en toda la web: van apilados a todo el ancho. */
   @media (max-width: 640px) {
     .contact-block { flex-direction: column; gap: 2rem; align-items: flex-start; padding: 3.5rem 1.5rem; }
     .contact-actions { width: 100%; flex-direction: column; align-items: stretch; }
-    .btn-contact { justify-content: center; }
+    .btn-contact:not(.btn-contact--ghost) { justify-content: space-between; }
+    .btn-contact--ghost { align-self: flex-start; }
   }
 </style>

@@ -165,46 +165,88 @@ body.dark .tag { background: var(--dark-surface2); color: rgba(232,232,232,0.5);
 body.dark .tag:hover { color: var(--blue-light); }
 
 
-/* Botones principal y secundario (antes solo en la home). */
-.btn-primary {
+/* BOTONES (2026-10-25, variante B elegida por Dirección): nada de rectángulo
+   redondeado de plantilla. Principal recto (2px) con el texto a la izquierda y
+   el trazo de rotulador de la marca a la derecha; al pasar el ratón, a negro y
+   el trazo avanza. Secundario sin caja: texto con subrayado dibujado a mano.
+   El trazo va como máscara CSS, así toma el color del texto. */
+:root {
+  --trazo-flecha: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 16'%3E%3Cg fill='none' stroke='black' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2.5 9.2C8 7.6 13.5 9.9 19.5 8.6S30.5 7.4 35.6 8.3'/%3E%3Cpath d='M29.4 2.9C31.6 4.6 33.9 6.6 36.4 8.4C33.7 9.8 31.4 11.6 29.8 13.6'/%3E%3C/g%3E%3C/svg%3E");
+  --trazo-subrayado: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 8' preserveAspectRatio='none'%3E%3Cpath d='M1 5.2C20 3.4 40 6.2 64 4.6S104 3.2 127 4.8' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E");
+}
+.btn-primary, .btn-contact:not(.btn-contact--ghost), .diag-band-cta, .jc-cta, .footer-cta-btn {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  background: var(--blue);
-  color: var(--white);
+  justify-content: space-between;
+  gap: 1.4rem;
+  padding: 1rem 1.2rem 1rem 1.4rem;
+  border-radius: 2px;
+  border: 0;
   font-family: 'Poppins', sans-serif;
-  font-size: 0.82rem;
+  font-size: 0.9rem;
   font-weight: 500;
-  padding: 0.85rem 1.8rem;
-  border-radius: 8px;
-  cursor: pointer;
-  border: none;
-  letter-spacing: 0.04em;
+  letter-spacing: 0;
+  line-height: 1.2;
   text-decoration: none;
-  transition: background var(--transition), transform 0.15s ease;
+  cursor: pointer;
+  transition: background 0.25s ease, color 0.25s ease;
 }
-.btn-primary:hover { background: #003a8a; transform: translateY(-1px); }
-body.dark .btn-primary { background: var(--blue-light); color: var(--dark-bg); }
-body.dark .btn-primary:hover { background: #7ab0f0; }
+.btn-primary::after, .btn-contact:not(.btn-contact--ghost)::after, .diag-band-cta::after, .jc-cta::after, .footer-cta-btn::after {
+  content: '';
+  flex: none;
+  width: 34px;
+  height: 14px;
+  background: currentColor;
+  -webkit-mask: var(--trazo-flecha) center / contain no-repeat;
+  mask: var(--trazo-flecha) center / contain no-repeat;
+  transition: transform 0.3s ease;
+}
+.btn-primary:hover::after, .btn-contact:not(.btn-contact--ghost):hover::after, .diag-band-cta:hover::after, .jc-cta:hover::after, .footer-cta-btn:hover::after { transform: translateX(5px); }
+@media (prefers-reduced-motion: reduce) {
+  .btn-primary:hover::after, .btn-contact:hover::after, .diag-band-cta:hover::after, .jc-cta:hover::after, .footer-cta-btn:hover::after { transform: none; }
+}
+.btn-primary { background: var(--blue); color: var(--white); }
+.btn-primary:hover { background: #0a0a0a; color: var(--white); }
+body.dark .btn-primary { background: var(--blue-light); color: #0a0a0a; }
+body.dark .btn-primary:hover { background: #f6f6f6; color: #0a0a0a; }
 
-.btn-secondary {
+.btn-secondary, .btn-contact--ghost {
+  position: relative;
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  background: transparent;
-  color: var(--black);
+  padding: 0.6rem 0 0.75rem;
+  margin-left: 0;
+  background: none;
+  border: 0;
+  border-radius: 0;
   font-family: 'Poppins', sans-serif;
-  font-size: 0.82rem;
-  font-weight: 400;
-  padding: 0.85rem 1.8rem;
-  border-radius: 8px;
-  cursor: pointer;
-  border: 1px solid rgba(0,0,0,0.2);
-  letter-spacing: 0.04em;
-  margin-left: 1rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  letter-spacing: 0;
+  color: var(--black);
   text-decoration: none;
-  transition: border-color var(--transition), color var(--transition), transform 0.15s ease;
+  cursor: pointer;
+  transition: color 0.25s ease;
 }
-.btn-secondary:hover { border-color: var(--blue); color: var(--blue); transform: translateY(-1px); }
-body.dark .btn-secondary { color: #e8e8e8; border-color: rgba(232,232,232,0.25); }
-body.dark .btn-secondary:hover { border-color: var(--blue-light); color: var(--blue-light); }
+.btn-secondary::after, .btn-contact--ghost::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0.15rem;
+  height: 7px;
+  background: var(--blue);
+  -webkit-mask: var(--trazo-subrayado) center / 100% 100% no-repeat;
+  mask: var(--trazo-subrayado) center / 100% 100% no-repeat;
+  transform-origin: left;
+  transition: transform 0.35s ease;
+}
+.btn-secondary:hover { color: var(--blue); }
+@media (prefers-reduced-motion: no-preference) {
+  .btn-secondary:hover::after, .btn-contact--ghost:hover::after { animation: subrayado 0.45s ease-out; }
+}
+@keyframes subrayado { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+body.dark .btn-secondary { color: #e8e8e8; }
+body.dark .btn-secondary::after { background: var(--blue-light); }
+body.dark .btn-secondary:hover { color: var(--blue-light); }
+.btn-primary:focus-visible, .btn-secondary:focus-visible, .btn-contact:focus-visible, .diag-band-cta:focus-visible, .jc-cta:focus-visible, .footer-cta-btn:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
