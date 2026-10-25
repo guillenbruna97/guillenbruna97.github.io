@@ -10,29 +10,51 @@ import { casos, casosForArea } from '../data/casos';
 import { getDetalle } from '../data/casos-detalle';
 import { AREAS } from '../data/areas';
 import { getService } from '../consts';
+import { casosEn, casosForAreaEn } from '../data/en/casos';
+import { getDetalleEn } from '../data/en/casos-detalle';
+import { AREAS_EN } from '../data/en/areas';
+import { FICHAS_EN } from '../data/en/fichas';
+import { enlace, type Lang } from '../i18n';
 
 interface Props {
   slug: string;
+  lang?: Lang;
 }
-const { slug } = Astro.props;
-const caso = casos.find((c) => c.slug === slug)!;
-const detalle = getDetalle(slug)!;
-const areasCaso = caso.areas.map((a) => AREAS.find((x) => x.slug === a)).filter((a) => a !== undefined);
-const servicios = caso.services.map((s) => getService(s)).filter((s) => s !== undefined);
+const { slug, lang = 'es' } = Astro.props;
+const en = lang === 'en';
+const ir = (ruta: string) => enlace(lang, ruta);
+const todos = en ? casosEn : casos;
+const casosDeArea = en ? casosForAreaEn : casosForArea;
+const caso = todos.find((c) => c.slug === slug)!;
+const detalle = en ? getDetalleEn(slug) : getDetalle(slug)!;
+const areasCaso = caso.areas.map((a) => (en ? AREAS_EN : AREAS).find((x) => x.slug === a)).filter((a) => a !== undefined);
+const servicios = caso.services.map((s) => getService(s)).filter((s) => s !== undefined)
+  .map((s) => ({ slug: s.slug, name: en ? FICHAS_EN[s.slug]?.seoTitle ?? s.name : s.name }));
+const T = en ? {
+  inicio: 'Home', casos: 'Case studies', migas: 'Breadcrumbs', rol: 'Guillén Bruna’s role:', sector: 'Sector', rolCorto: 'Guillén’s role',
+  aplicados: 'Services applied', web: 'Website', reto: 'The challenge', resultados: 'Results', antes: 'At the start', despues: 'At the end',
+  hecho: 'What we did', relacionado: 'Related service:', destacado: 'Featured work', youtube: 'Watch on YouTube', relacionados: 'Related cases',
+  contacto: 'Shall we talk<br>about your case?',
+} : {
+  inicio: 'Inicio', casos: 'Casos reales', migas: 'Migas de pan', rol: 'Rol de Guillén Bruna:', sector: 'Sector', rolCorto: 'Rol de Guillén',
+  aplicados: 'Servicios aplicados', web: 'Web', reto: 'El reto', resultados: 'Resultados', antes: 'Al empezar', despues: 'Al terminar',
+  hecho: 'Qué se hizo', relacionado: 'Servicio relacionado:', destacado: 'Trabajo destacado', youtube: 'Ver en YouTube', relacionados: 'Casos relacionados',
+  contacto: '¿Hablamos<br>de tu caso?',
+};
 
 // Relacionados: primero los que comparten área; si faltan, el resto. Máximo 3.
-const mismos = caso.areas.flatMap((a) => casosForArea(a)).filter((c, i, arr) => c.slug !== slug && arr.findIndex((x) => x.slug === c.slug) === i);
-const relacionados = [...mismos, ...casos.filter((c) => c.slug !== slug && !mismos.includes(c))].slice(0, 3);
+const mismos = caso.areas.flatMap((a) => casosDeArea(a)).filter((c, i, arr) => c.slug !== slug && arr.findIndex((x) => x.slug === c.slug) === i);
+const relacionados = [...mismos, ...todos.filter((c) => c.slug !== slug && !mismos.includes(c))].slice(0, 3);
 
 const max = Math.max(1, ...(detalle.comparativas ?? []).map((c) => c.despues));
-const fmt = (n: number) => n.toLocaleString('es-ES');
+const fmt = (n: number) => n.toLocaleString(en ? 'en-GB' : 'es-ES');
 
 const breadcrumbLd = {
   '@context': 'https://schema.org',
   '@type': 'BreadcrumbList',
   itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'Inicio', item: 'https://gbtconsultoria.com/' },
-    { '@type': 'ListItem', position: 2, name: 'Casos reales', item: 'https://gbtconsultoria.com/trabajo/' },
+    { '@type': 'ListItem', position: 1, name: T.inicio, item: `https://gbtconsultoria.com${ir('/')}` },
+    { '@type': 'ListItem', position: 2, name: T.casos, item: `https://gbtconsultoria.com${ir('/trabajo/')}` },
     { '@type': 'ListItem', position: 3, name: caso.company, item: Astro.url.href },
   ],
 };
@@ -42,14 +64,14 @@ const breadcrumbLd = {
 
   <header class="cs-cabecera">
     <div class="cs-in">
-      <div class="cs-migas" role="navigation" aria-label="Migas de pan">
-        <a href="/trabajo/">Casos reales</a><span aria-hidden="true">/</span><span>{caso.company}</span>
+      <div class="cs-migas" role="navigation" aria-label={T.migas}>
+        <a href={ir('/trabajo/')}>{T.casos}</a><span aria-hidden="true">/</span><span>{caso.company}</span>
       </div>
       <div class="cs-cabecera-grid">
         <div>
           <p class="cs-sector">{caso.sector}</p>
           <h1>{caso.reto}</h1>
-          <p class="cs-rol">Rol de Guillén Bruna: {caso.role}</p>
+          <p class="cs-rol">{T.rol} {caso.role}</p>
         </div>
         {detalle.cifras.length > 0 ? (
           <dl class="cs-cifras">
@@ -72,31 +94,31 @@ const breadcrumbLd = {
       <div class="cs-ficha-cuerpo">
         <p>{detalle.empresa}</p>
         <dl>
-          <div><dt>Sector</dt><dd>{caso.sector}</dd></div>
-          <div><dt>Rol de Guillén</dt><dd>{caso.role}</dd></div>
+          <div><dt>{T.sector}</dt><dd>{caso.sector}</dd></div>
+          <div><dt>{T.rolCorto}</dt><dd>{caso.role}</dd></div>
           {areasCaso.length > 0 && (
-            <div><dt>Servicios aplicados</dt><dd>{areasCaso.map((a, i) => <>{i > 0 && ', '}<a href={`/servicios/${a!.slug}/`}>{a!.name}</a></>)}</dd></div>
+            <div><dt>{T.aplicados}</dt><dd>{areasCaso.map((a, i) => <>{i > 0 && ', '}<a href={ir(`/servicios/${a!.slug}/`)}>{a!.name}</a></>)}</dd></div>
           )}
-          {detalle.web && <div><dt>Web</dt><dd><a href={detalle.web} target="_blank" rel="noopener noreferrer">{detalle.web.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '')} ↗</a></dd></div>}
+          {detalle.web && <div><dt>{T.web}</dt><dd><a href={detalle.web} target="_blank" rel="noopener noreferrer">{detalle.web.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '')} ↗</a></dd></div>}
         </dl>
       </div>
     </aside>
     <div class="cs-texto">
-      <h2>El reto</h2>
+      <h2>{T.reto}</h2>
       {detalle.reto.map((p) => <p set:html={p} />)}
     </div>
   </section>
 
   <section class="cs-in cs-bloque">
-    <h2>Resultados</h2>
+    <h2>{T.resultados}</h2>
     {detalle.comparativas && detalle.comparativas.length > 0 && (
       <div class="cs-graficas">
         {detalle.comparativas.map((c) => (
           <figure class="cs-grafica">
             <figcaption>{c.etiqueta}</figcaption>
-            <div class="cs-barra"><span class="cs-barra-txt">Al empezar</span><span class="cs-barra-fill cs-antes" style={`width:${(c.antes / max) * 100}%`}></span><strong>{fmt(c.antes)}</strong></div>
-            <div class="cs-barra"><span class="cs-barra-txt">Al terminar</span><span class="cs-barra-fill cs-despues" style={`width:${(c.despues / max) * 100}%`}></span><strong>{fmt(c.despues)}</strong></div>
-            <p class="cs-grafica-nota">{c.unidad}, cifras aproximadas</p>
+            <div class="cs-barra"><span class="cs-barra-txt">{T.antes}</span><span class="cs-barra-fill cs-antes" style={`width:${(c.antes / max) * 100}%`}></span><strong>{fmt(c.antes)}</strong></div>
+            <div class="cs-barra"><span class="cs-barra-txt">{T.despues}</span><span class="cs-barra-fill cs-despues" style={`width:${(c.despues / max) * 100}%`}></span><strong>{fmt(c.despues)}</strong></div>
+            <p class="cs-grafica-nota">{c.unidad}, {en ? "approximate figures" : "cifras aproximadas"}</p>
           </figure>
         ))}
       </div>
@@ -105,7 +127,7 @@ const breadcrumbLd = {
   </section>
 
   <section class="cs-in cs-bloque">
-    <h2>Qué se hizo</h2>
+    <h2>{T.hecho}</h2>
     <ol class="cs-fases">
       {detalle.fases.map((f) => (
         <li>
@@ -115,7 +137,7 @@ const breadcrumbLd = {
       ))}
     </ol>
     {servicios.length > 0 && (
-      <p class="cs-servicios">Servicio relacionado: {servicios.map((s, i) => <>{i > 0 && ', '}<a href={`/servicios/${s!.slug}/`}>{s!.name}</a></>)}</p>
+      <p class="cs-servicios">{T.relacionado} {servicios.map((s, i) => <>{i > 0 && ', '}<a href={ir(`/servicios/${s!.slug}/`)}>{s!.name}</a></>)}</p>
     )}
   </section>
 
@@ -136,10 +158,10 @@ const breadcrumbLd = {
           )}
         </div>
         <div>
-          <h2>Trabajo destacado</h2>
+          <h2>{T.destacado}</h2>
           <h3>{detalle.destacado.titulo}</h3>
           <p>{detalle.destacado.texto}</p>
-          {detalle.destacado.video && <p><a href={`https://youtu.be/${detalle.destacado.video.id}`} target="_blank" rel="noopener noreferrer">Ver en YouTube ↗</a></p>}
+          {detalle.destacado.video && <p><a href={`https://youtu.be/${detalle.destacado.video.id}`} target="_blank" rel="noopener noreferrer">{T.youtube} ↗</a></p>}
           {detalle.destacado.enlace && <p><a href={detalle.destacado.enlace.href} target="_blank" rel="noopener noreferrer">{detalle.destacado.enlace.texto} ↗</a></p>}
         </div>
       </div>
@@ -147,13 +169,13 @@ const breadcrumbLd = {
   )}
 
   <section class="cs-in cs-bloque cs-relacionados">
-    <h2>Casos relacionados</h2>
+    <h2>{T.relacionados}</h2>
     <ul>
       {relacionados.map((r) => {
         const d = getDetalle(r.slug);
         return (
           <li>
-            <a href={`/trabajo/${r.slug}/`}>
+            <a href={ir(`/trabajo/${r.slug}/`)}>
               <span class="cs-rel-logo">{d?.logo ? <img src={d.logo} alt="" /> : <span>{r.company}</span>}</span>
               <span class="cs-rel-texto">
                 <strong>{r.reto}</strong>
@@ -166,7 +188,7 @@ const breadcrumbLd = {
     </ul>
   </section>
 
-  <ContactBlock title="¿Hablamos<br>de tu caso?" />
+  <ContactBlock title={T.contacto} />
 </BaseLayout>
 
 <style is:global>
