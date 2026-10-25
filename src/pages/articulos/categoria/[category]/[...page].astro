@@ -2,10 +2,9 @@
 import type { GetStaticPaths } from 'astro';
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../../../layouts/BaseLayout.astro';
-import Divider from '../../../../components/Divider.astro';
 import ContactBlock from '../../../../components/ContactBlock.astro';
 import ArticlesListing from '../../../../components/ArticlesListing.astro';
-import PageHeaderMarquee from '../../../../components/PageHeaderMarquee.astro';
+import CabeceraPagina from '../../../../components/CabeceraPagina.astro';
 import { activeCategories, categoryFor } from '../../../../utils/articles';
 
 export const getStaticPaths = (async ({ paginate }) => {
@@ -19,7 +18,7 @@ export const getStaticPaths = (async ({ paginate }) => {
   return activeCategories(articulos.map((entry) => entry.data.tag)).flatMap((category) => {
     const articulosDeCategoria = articulos.filter((entry) => categoryFor(entry.data.tag).slug === category.slug);
     return paginate(articulosDeCategoria, {
-      pageSize: 6,
+      pageSize: 7,
       params: { category: category.slug },
       props: { category },
     });
@@ -44,13 +43,12 @@ const descripcionPagina = page.currentPage === 1
   description={descripcionPagina}
   noindex={page.currentPage > 1}
 >
-  <PageHeaderMarquee
-    message={`${category.heading} | Escribo sobre lo que aprendo trabajando. Sin teoría vacía, sin contenido de relleno.`}
+  <CabeceraPagina
+    titulo={category.heading}
+    migas={[{ href: '/recursos/', texto: 'Recursos' }, { href: '/articulos/', texto: 'Artículos' }]}
   />
-
-  <Divider />
 
   <ArticlesListing page={page} categorias={categorias} activeSlug={category.slug} basePath={`/articulos/categoria/${category.slug}`} />
 
-  <ContactBlock title="¿Trabajamos<br>juntos?" />
+  <ContactBlock title="¿Hablamos<br>de tu caso?" />
 </BaseLayout>

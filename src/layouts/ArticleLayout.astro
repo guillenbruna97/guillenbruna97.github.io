@@ -1,16 +1,13 @@
 ---
 import BaseLayout from './BaseLayout.astro';
-import Tag from '../components/Tag.astro';
+import ArticuloCard from '../components/ArticuloCard.astro';
+import type { CollectionEntry } from 'astro:content';
 import ContactBlock from '../components/ContactBlock.astro';
 import { Picture } from 'astro:assets';
 import { getArticleImage } from '../utils/article-images';
 import { getService, SITE_NAME } from '../consts';
 import FaqList, { type Faq } from '../components/FaqList.astro';
 
-interface RelatedArticulo {
-  id: string;
-  data: { title: string; excerpt: string; image?: string; imageAlt?: string };
-}
 
 interface Props {
   title: string;
@@ -23,7 +20,7 @@ interface Props {
   image?: string;
   imageAlt?: string;
   service?: string;
-  related?: RelatedArticulo[];
+  related?: CollectionEntry<'articulos'>[];
   faqs?: Faq[];
 }
 const { title, description, tag, heading, date, updated, readingTime, image, imageAlt, service, related = [], faqs = [] } = Astro.props;
@@ -69,11 +66,9 @@ const breadcrumbLd = {
 <BaseLayout title={title} description={description} image={image} ogType="article">
   <script type="application/ld+json" set:html={JSON.stringify(articleLd)} />
   <script type="application/ld+json" set:html={JSON.stringify(breadcrumbLd)} />
-  <a href="/articulos/" class="back-link">← Volver a artículos</a>
-
   <div class="article-main">
-    <div class="article-header-tags">
-      <Tag label={tag} />
+    <div class="article-migas" role="navigation" aria-label="Migas de pan">
+      <a href="/recursos/">Recursos</a><span aria-hidden="true">/</span><a href="/articulos/">Artículos</a><span aria-hidden="true">/</span><span>{tag}</span>
     </div>
     <h1>{heading}</h1>
     <p class="article-meta">
@@ -119,70 +114,47 @@ const breadcrumbLd = {
       </p>
     )}
 
-    {related.length > 0 && (
-      <section class="related-articles" aria-label="Artículos relacionados">
-        <p class="related-label">Artículos relacionados</p>
-        <ul>
-          {related.map((article) => {
-            const relatedOptimized = getArticleImage(article.data.image);
-            return (
-            <li>
-              <a href={`/articulos/${article.id}/`}>
-                {article.data.image && (
-                  <div class="related-media">
-                    {relatedOptimized ? (
-                      <Picture
-                        src={relatedOptimized}
-                        alt={article.data.imageAlt ?? article.data.title}
-                        width={1376}
-                        height={768}
-                        widths={[200, 400]}
-                        sizes="120px"
-                        formats={['avif', 'webp']}
-                        fallbackFormat="jpg"
-                        quality={60}
-                        loading="lazy"
-                      />
-                    ) : (
-                      <img src={article.data.image} alt={article.data.imageAlt ?? article.data.title} width="1376" height="768" loading="lazy" decoding="async" />
-                    )}
-                  </div>
-                )}
-                <div class="related-text">
-                  <span class="related-title">{article.data.title}</span>
-                  <span class="related-excerpt">{article.data.excerpt}</span>
-                </div>
-              </a>
-            </li>
-            );
-          })}
-        </ul>
-      </section>
-    )}
+    <aside class="article-autor">
+      <span class="article-autor-foto" aria-hidden="true"></span>
+      <p><strong>Guillén Bruna Tricas</strong>, consultor de estrategia de marketing y marca, orquesta la red de especialistas de GBT Consultoría desde Zaragoza. <a href="/quienes-somos/#guillen">Más sobre Guillén</a></p>
+    </aside>
   </div>
 
-  <ContactBlock title="¿Trabajamos<br>juntos?" />
+  {related.length > 0 && (
+    <section class="article-relacionados" aria-labelledby="relacionados">
+      <h2 id="relacionados">Artículos relacionados</h2>
+      <div class="article-relacionados-grid">
+        {related.map((a) => <ArticuloCard entry={a} nivel="h3" />)}
+      </div>
+    </section>
+  )}
+
+  <ContactBlock title="¿Hablamos<br>de tu caso?" />
 </BaseLayout>
 
 <style is:global>
-  .back-link {
-    display: block;
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 2rem 2rem 0;
-    font-size: 0.78rem;
-    font-weight: 400;
-    color: rgba(0,0,0,0.6);
-    text-decoration: none;
-    transition: color var(--transition);
-  }
-  body.dark .back-link { color: rgba(232,232,232,0.6); }
-  .back-link:hover { color: var(--blue); }
-  body.dark .back-link:hover { color: var(--blue-light); }
+  .article-migas { display: flex; flex-wrap: wrap; gap: 0.5rem; font-size: 0.82rem; color: rgba(0,0,0,0.5); margin-bottom: 1.6rem; }
+  body.dark .article-migas { color: rgba(232,232,232,0.5); }
+  .article-migas a { color: inherit; text-decoration: none; }
+  .article-migas a:hover { color: var(--blue); }
+  .article-autor { display: flex; align-items: center; gap: 1.1rem; margin: 3rem 0 1rem; padding: 1.4rem 1.6rem; background: var(--off-white); border-radius: 16px; }
+  body.dark .article-autor { background: #121419; }
+  /* Recorte a la cara de la foto de cuerpo entero (hasta tener retrato profesional). */
+  .article-autor-foto { width: 64px; height: 64px; border-radius: 50%; flex: none; background: #e9e9e9 url('/guillen-chaqueta.jpg') no-repeat; background-size: 340%; background-position: 50% 4%; }
+  .article-autor p { margin: 0; font-size: 0.9rem; font-weight: 300; line-height: 1.6; }
+  .article-autor strong { font-weight: 500; }
+  .article-autor a { color: var(--blue); font-weight: 500; }
+  body.dark .article-autor a { color: var(--blue-light); }
+  .article-relacionados { max-width: 1240px; margin: 0 auto; padding: 0 4vw 4.5rem; }
+  .article-relacionados h2 { font-size: clamp(1.6rem, 2.8vw, 2.2rem); margin: 0 0 2rem; padding-top: 2.6rem; border-top: 1px solid rgba(0,0,0,0.1); }
+  body.dark .article-relacionados h2 { border-top-color: rgba(255,255,255,0.1); }
+  .article-relacionados-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 3rem 2rem; }
+  @media (max-width: 980px) { .article-relacionados-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 620px) { .article-relacionados-grid { grid-template-columns: 1fr; } }
+
 
   .article-main { padding: 2rem 2rem 3rem; max-width: 720px; margin: 0 auto; }
 
-  .article-header-tags { margin-bottom: 1.2rem; }
 
   .article-main h1 {
     font-size: clamp(1.8rem, 4vw, 2.6rem);
@@ -257,91 +229,14 @@ const breadcrumbLd = {
   .article-prose a { color: var(--blue); transition: color var(--transition); }
   body.dark .article-prose a { color: var(--blue-light); }
 
-  .service-note {
-    margin: 0 0 2.5rem;
-    padding: 0.9rem 1.1rem;
-    border: 1px solid rgba(0,0,0,0.08);
-    border-radius: 8px;
-    font-size: 0.82rem;
-    font-weight: 400;
-    color: rgba(0,0,0,0.55);
-    transition: border-color var(--transition), color var(--transition);
-  }
+  .service-note { margin: 2.5rem 0 0; font-size: 0.9rem; font-weight: 300; color: rgba(0,0,0,0.6); }
   body.dark .service-note { border-color: rgba(255,255,255,0.08); color: rgba(232,232,232,0.55); }
   .service-note a { color: var(--blue); font-weight: 500; text-decoration: none; }
   body.dark .service-note a { color: var(--blue-light); }
   .service-note a:hover { text-decoration: underline; }
 
-  /* ARTÍCULOS RELACIONADOS */
-  .related-articles { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid rgba(0,0,0,0.1); }
-  body.dark .related-articles { border-top-color: rgba(255,255,255,0.12); }
-  .related-label {
-    font-size: 0.8rem;
-    font-weight: 500;
-    letter-spacing: 0;
-    color: rgba(0,0,0,0.35);
-    margin-bottom: 1.2rem;
-    transition: color var(--transition);
-  }
-  body.dark .related-label { color: rgba(232,232,232,0.4); }
-  .related-articles ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 1.25rem;
-  }
-  .related-articles a {
-    display: flex;
-    flex-direction: column;
-    padding: 0.75rem;
-    border: 1px solid rgba(0,0,0,0.08);
-    border-radius: 8px;
-    text-decoration: none;
-    transition: border-color var(--transition), background var(--transition);
-  }
-  body.dark .related-articles a { border-color: rgba(255,255,255,0.08); }
-  .related-articles a:hover { border-color: var(--blue); background: var(--off-white); }
-  body.dark .related-articles a:hover { border-color: var(--blue-light); background: var(--dark-surface); }
-  .related-media {
-    width: 100%;
-    aspect-ratio: 16 / 10;
-    border-radius: 6px;
-    overflow: hidden;
-    background: var(--blue);
-    margin-bottom: 0.75rem;
-  }
-  .related-media img { display: block; width: 100%; height: 100%; object-fit: cover; }
-  .related-text { min-width: 0; }
-  .related-title {
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: var(--black);
-    margin-bottom: 0.3rem;
-    transition: color var(--transition);
-  }
-  body.dark .related-title { color: #e8e8e8; }
-  .related-excerpt {
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    font-size: 0.82rem;
-    font-weight: 300;
-    color: rgba(0,0,0,0.55);
-    line-height: 1.6;
-    transition: color var(--transition);
-  }
-  body.dark .related-excerpt { color: rgba(232,232,232,0.55); }
 
   @media (max-width: 640px) {
     .article-main { padding: 1.5rem 1.5rem 2rem; }
-    .related-articles ul { grid-template-columns: 1fr; }
-    .related-articles li:nth-child(n+2) { display: none; }
   }
 </style>
