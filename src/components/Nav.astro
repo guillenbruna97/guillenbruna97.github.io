@@ -1,48 +1,55 @@
 ---
 import { RESOURCES } from '../consts';
 import { AREAS } from '../data/areas';
+import { AREAS_EN } from '../data/en/areas';
+import { getLang, ui, enlace, destinoSelector } from '../i18n';
 
 const pathname = Astro.url.pathname;
+const lang = getLang(pathname);
+const t = ui(lang).menu;
+const areas = lang === 'en' ? AREAS_EN : AREAS;
+const ir = (ruta: string) => enlace(lang, ruta);
 const isActive = (href: string) => {
-  if (href === '/') return pathname === '/';
+  if (href === '/' || href === '/en/') return pathname === href;
   return pathname.startsWith(href.replace(/\/$/, ''));
 };
 ---
 <nav>
-  <a href="/" class="logo-link">
+  <a href={ir('/')} class="logo-link">
     <img src="/isotipo.svg" alt="Guillén Bruna Tricas" class="logo-img" width="36" height="36" />
   </a>
   <ul class="nav-links" id="navLinks">
     <li class="has-dropdown">
-      <a href="/servicios/" class={isActive('/servicios/') ? 'active' : ''}>Servicios <span class="chevron">▾</span></a>
+      <a href={ir('/servicios/')} class={isActive(ir('/servicios/')) ? 'active' : ''}>{t.servicios} <span class="chevron">▾</span></a>
       <ul class="dropdown-menu">
-        {AREAS.map((s) => (
+        {areas.map((s) => (
           <li>
-            <a href={`/servicios/${s.slug}/`} class={isActive(`/servicios/${s.slug}/`) ? 'active' : ''}>{s.name}</a>
+            <a href={ir(`/servicios/${s.slug}/`)} class={isActive(ir(`/servicios/${s.slug}/`)) ? 'active' : ''}>{s.name}</a>
           </li>
         ))}
       </ul>
     </li>
-    <li><a href="/trabajo/" class={isActive('/trabajo/') ? 'active' : ''}>Casos reales</a></li>
-    <li><a href="/quienes-somos/" class={isActive('/quienes-somos/') ? 'active' : ''}>Quiénes somos</a></li>
+    <li><a href={ir('/trabajo/')} class={isActive(ir('/trabajo/')) ? 'active' : ''}>{t.casos}</a></li>
+    <li><a href={ir('/quienes-somos/')} class={isActive(ir('/quienes-somos/')) ? 'active' : ''}>{t.quienes}</a></li>
     <li class="has-dropdown">
-      <a href="/recursos/" class={isActive('/recursos/') || isActive('/articulos/') ? 'active' : ''}>Recursos <span class="chevron">▾</span></a>
+      <a href="/recursos/" class={isActive('/recursos/') || isActive('/articulos/') ? 'active' : ''}>{t.recursos} <span class="chevron">▾</span></a>
       <ul class="dropdown-menu">
         {RESOURCES.map((r) => (
           <li>
-            <a href={r.href} class={isActive(r.href) ? 'active' : ''}>{r.name}</a>
+            <a href={r.href} class={isActive(r.href) ? 'active' : ''}>{t.nombresRecursos[r.href] ?? r.name}</a>
           </li>
         ))}
       </ul>
     </li>
-    <li><a href="/contacto/" class={isActive('/contacto/') ? 'active' : ''}>Contacto</a></li>
-    <li class="nav-reco-item"><a href="/recomendador/" class:list={['nav-reco', { active: isActive('/recomendador/') }]}>¿Qué necesitas?</a></li>
+    <li><a href={ir('/contacto/')} class={isActive(ir('/contacto/')) ? 'active' : ''}>{t.contacto}</a></li>
+    <li class="nav-reco-item"><a href={ir('/recomendador/')} class:list={['nav-reco', { active: isActive(ir('/recomendador/')) }]}>{t.reco}</a></li>
   </ul>
   <div class="nav-right">
-    <button class="hamburger" id="hamburger" aria-expanded="false" aria-controls="navLinks" aria-label="Abrir menú">
+    <button class="hamburger" id="hamburger" aria-expanded="false" aria-controls="navLinks" aria-label={t.abrir} data-abrir={t.abrir} data-cerrar={t.cerrar}>
       <span></span><span></span><span></span>
     </button>
-    <button class="toggle" id="themeToggle" aria-pressed="false" aria-label="Activar modo oscuro">
+    <a href={destinoSelector(pathname)} class="idioma" id="idioma" data-lang={lang === 'en' ? 'es' : 'en'} hreflang={lang === 'en' ? 'es' : 'en'} lang={lang === 'en' ? 'es' : 'en'} aria-label={t.idioma}>{t.idiomaCorto}</a>
+    <button class="toggle" id="themeToggle" aria-pressed="false" aria-label={t.oscuro} data-oscuro={t.oscuro} data-claro={t.claro}>
       <span class="toggle-dot"></span>
     </button>
   </div>
@@ -166,6 +173,21 @@ const isActive = (href: string) => {
 
   .nav-right { display: flex; align-items: center; gap: 1rem; }
 
+  /* Selector de idioma: solo el código del otro idioma, sin banderas. */
+  .idioma {
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    color: rgba(0,0,0,0.55);
+    text-decoration: none;
+    padding: 0.35rem 0.5rem;
+    border-radius: 6px;
+    transition: color var(--transition), background var(--transition);
+  }
+  .idioma:hover { color: var(--blue); background: var(--off-white); }
+  body.dark .idioma { color: rgba(232,232,232,0.6); }
+  body.dark .idioma:hover { color: var(--blue-light); background: var(--dark-surface2); }
+
   .toggle {
     width: 44px;
     height: 24px;
@@ -255,7 +277,7 @@ const isActive = (href: string) => {
   const setMenuOpen = (open: boolean) => {
     navLinks!.classList.toggle('open', open);
     hamburger!.setAttribute('aria-expanded', String(open));
-    hamburger!.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
+    hamburger!.setAttribute('aria-label', (open ? hamburger!.dataset.cerrar : hamburger!.dataset.abrir) ?? '');
   };
 
   hamburger!.addEventListener('click', () => setMenuOpen(!navLinks!.classList.contains('open')));
@@ -268,7 +290,7 @@ const isActive = (href: string) => {
   const toggle = document.getElementById('themeToggle');
   const setThemeButtonState = (isDark: boolean) => {
     toggle!.setAttribute('aria-pressed', String(isDark));
-    toggle!.setAttribute('aria-label', isDark ? 'Activar modo claro' : 'Activar modo oscuro');
+    toggle!.setAttribute('aria-label', (isDark ? toggle!.dataset.claro : toggle!.dataset.oscuro) ?? '');
   };
   // El body ya trae la clase "dark" correcta (o no) del script de tema que
   // corre antes en BaseLayout — aquí solo hace falta reflejar ese estado
@@ -280,6 +302,11 @@ const isActive = (href: string) => {
     const isDark = document.body.classList.contains('dark');
     localStorage.setItem('theme', isDark ? 'dark' : 'light');
     setThemeButtonState(isDark);
+  });
+
+  // El selector recuerda el idioma elegido (sin redirigir nunca por su cuenta).
+  document.getElementById('idioma')?.addEventListener('click', (e) => {
+    try { localStorage.setItem('lang', (e.currentTarget as HTMLElement).dataset.lang ?? ''); } catch { /* sin almacenamiento */ }
   });
 
   // Si el visitante no ha fijado preferencia manual, BaseLayout sigue el

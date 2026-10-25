@@ -5,33 +5,37 @@
 // HTML (los paneles ocultos también), así que Google lo lee entero.
 import { Picture } from 'astro:assets';
 import FotoPendiente from './FotoPendiente.astro';
-import { casos as todos } from '../data/casos';
+import { casos as es } from '../data/casos';
+import { casosEn } from '../data/en/casos';
+import { getLang, ui, enlace } from '../i18n';
 
 interface Props {
   /** Casos a enseñar (por defecto, todos). */
-  casos?: typeof todos;
+  casos?: typeof es;
   titulo?: string;
 }
-const { casos = todos, titulo = 'Casos reales, resultados reales' } = Astro.props;
+const lang = getLang(Astro.url.pathname);
+const t = ui(lang).casos;
+const { casos = lang === 'en' ? casosEn : es, titulo = t.titulo } = Astro.props;
 const total = String(casos.length).padStart(2, '0');
 ---
 <section class="ct" data-casos>
   <div class="ct-cabecera">
     <h2 class="ct-titulo">{titulo}</h2>
-    <a href="/trabajo/" class="ct-todos">Ver todos los casos</a>
+    <a href={enlace(lang, '/trabajo/')} class="ct-todos">{t.todos}</a>
   </div>
 
   <div class="ct-barra">
-    <div class="ct-pestanas" role="tablist" aria-label="Casos reales">
+    <div class="ct-pestanas" role="tablist" aria-label={t.aria}>
       {casos.map((caso, i) => (
         <button type="button" role="tab" id={`ct-tab-${caso.slug}`} aria-controls={`ct-panel-${caso.slug}`} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1}>{caso.company}</button>
       ))}
     </div>
     {casos.length > 1 && (
       <div class="ct-nav">
-        <button type="button" class="ct-flecha" data-dir="-1" aria-label="Caso anterior">←</button>
+        <button type="button" class="ct-flecha" data-dir="-1" aria-label={t.anterior}>←</button>
         <span class="ct-contador" aria-live="polite"><span data-actual>01</span> / {total}</span>
-        <button type="button" class="ct-flecha" data-dir="1" aria-label="Caso siguiente">→</button>
+        <button type="button" class="ct-flecha" data-dir="1" aria-label={t.siguiente}>→</button>
       </div>
     )}
   </div>
@@ -43,14 +47,14 @@ const total = String(casos.length).padStart(2, '0');
         <h3 class="ct-reto">{caso.reto}</h3>
         <p class="ct-resultado">{caso.cardHighlight}</p>
         <p class="ct-capacidades">{caso.capacidades}</p>
-        <a href={`/trabajo/${caso.slug}/`} class="ct-ver">Ver el caso</a>
+        <a href={enlace(lang, `/trabajo/${caso.slug}/`)} class="ct-ver">{t.ver}</a>
       </div>
       {caso.image ? (
-        <a href={`/trabajo/${caso.slug}/`} class="ct-imagen" tabindex="-1" aria-hidden="true">
+        <a href={enlace(lang, `/trabajo/${caso.slug}/`)} class="ct-imagen" tabindex="-1" aria-hidden="true">
           <Picture src={caso.image} alt="" width={900} formats={['avif', 'webp']} quality={65} loading="lazy" />
         </a>
       ) : (
-        <FotoPendiente ratio="4 / 3" texto={`Foto del caso de ${caso.company}: una campaña o una pieza real. Horizontal 4:3.`} />
+        <FotoPendiente ratio="4 / 3" texto={t.fotoCaso(caso.company)} />
       )}
     </div>
   ))}

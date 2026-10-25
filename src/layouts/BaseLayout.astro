@@ -7,6 +7,7 @@ import LoadingScreen from '../components/LoadingScreen.astro';
 import CookieConsent from '../components/CookieConsent.astro';
 import Siguenos from '../components/Siguenos.astro';
 import { BOOKING_URL } from '../consts';
+import { getLang, ui } from '../i18n';
 
 interface Props {
   title: string;
@@ -16,9 +17,11 @@ interface Props {
   noindex?: boolean;
 }
 const { title, description, image, ogType, noindex } = Astro.props;
+const lang = getLang(Astro.url.pathname);
+const t = ui(lang);
 ---
 <!doctype html>
-<html lang="es">
+<html lang={lang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -63,8 +66,8 @@ const { title, description, image, ogType, noindex } = Astro.props;
         document.body.classList.toggle('dark', e.matches);
       });
     </script>
-    <a href="#main-content" class="skip-link">Saltar al contenido</a>
-    {__PREPRO__ && <div class="prepro-aviso" role="note">Preproducción · copia de pruebas, no es la web oficial · <a href="https://gbtconsultoria.com/">gbtconsultoria.com</a></div>}
+    <a href="#main-content" class="skip-link">{t.saltar}</a>
+    {__PREPRO__ && <div class="prepro-aviso" role="note">{t.prepro} · <a href="https://gbtconsultoria.com/">gbtconsultoria.com</a></div>}
     <LoadingScreen />
     <Nav />
     <main id="main-content">

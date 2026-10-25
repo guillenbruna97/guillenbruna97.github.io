@@ -1,11 +1,13 @@
 ---
 import { BOOKING_URL, MAILTO_URL } from '../consts';
+import { getLang, ui } from '../i18n';
 
 interface Props {
   title: string;
   subtitle?: string;
 }
 const { title, subtitle } = Astro.props;
+const t = ui(getLang(Astro.url.pathname)).contacto;
 ---
 <div class="contact-block">
   <div class="contact-left">
@@ -13,8 +15,8 @@ const { title, subtitle } = Astro.props;
     {subtitle && <p class="contact-sub">{subtitle}</p>}
   </div>
   <div class="contact-actions">
-    <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" class="btn-contact">Reservar llamada</a>
-    <a href={MAILTO_URL} class="btn-contact btn-contact--ghost">Escríbeme</a>
+    <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" class="btn-contact">{t.llamada}</a>
+    <a href={MAILTO_URL} class="btn-contact btn-contact--ghost">{t.escribe}</a>
   </div>
 </div>
 

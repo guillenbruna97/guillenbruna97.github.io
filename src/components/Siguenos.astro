@@ -4,18 +4,20 @@
 // En pantallas estrechas no se muestra: taparía el contenido y el pie ya
 // enlaza LinkedIn.
 import { LINKEDIN_URL } from '../consts';
+import { getLang, ui } from '../i18n';
+const t = ui(getLang(Astro.url.pathname)).siguenos;
 const REDES = [
   { nombre: 'LinkedIn', url: LINKEDIN_URL, icono: 'M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9.75h4v11H3v-11Zm6.5 0h3.8v1.5h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1v5.45h-4v-4.83c0-1.15-.02-2.63-1.6-2.63-1.6 0-1.85 1.25-1.85 2.55v4.91h-3.95v-11Z' },
 ];
 ---
-<aside class="siguenos" aria-label="Síguenos en redes sociales">
+<aside class="siguenos" aria-label={t.aria}>
   {REDES.map((r) => (
-    <a href={r.url} target="_blank" rel="noopener noreferrer" aria-label={`GBT Consultoría en ${r.nombre}`}>
+    <a href={r.url} target="_blank" rel="noopener noreferrer" aria-label={`${t.en} ${r.nombre}`}>
       <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d={r.icono} fill="currentColor" /></svg>
     </a>
   ))}
   <span class="siguenos-linea" aria-hidden="true"></span>
-  <span class="siguenos-txt" aria-hidden="true">Síguenos</span>
+  <span class="siguenos-txt" aria-hidden="true">{t.texto}</span>
 </aside>
 
 <style is:global>
