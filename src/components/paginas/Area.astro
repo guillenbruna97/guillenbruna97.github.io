@@ -92,7 +92,7 @@ const breadcrumbLd = {
   ],
 };
 ---
-<BaseLayout title={`${area.seoTitle} | ${SITE_NAME}`} description={area.description}>
+<BaseLayout title={`${area.seoTitle} | ${SITE_NAME}`} description={area.description} image={FOTOS_AREA[area.slug]?.img.src}>
   <script type="application/ld+json" set:html={JSON.stringify(serviceLd)} />
   <script type="application/ld+json" set:html={JSON.stringify(breadcrumbLd)} />
 
