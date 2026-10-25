@@ -8,6 +8,8 @@ import { AREAS } from '../data/areas';
 import { AREAS_EN } from '../data/en/areas';
 import { getLang, ui, enlace } from '../i18n';
 import FotoPendiente from './FotoPendiente.astro';
+import Foto from './Foto.astro';
+import { FOTOS_AREA } from '../data/fotos';
 
 interface Props {
   titulo?: string;
@@ -37,7 +39,7 @@ const TONOS = ['azul', 'claro', 'roto', 'oscuro', 'azul', 'claro'];
   <ul class="at-grid">
     {areas.map((area, i) => (
       <li class={`at-card at-${TONOS[i % TONOS.length]}`}>
-        <FotoPendiente class="at-foto" ratio="4 / 3" texto={FOTOS[area.slug] ?? 'Foto del área. Vertical 4:3.'} />
+        {FOTOS_AREA[area.slug] ? <Foto class="at-foto" foto={FOTOS_AREA[area.slug]} ratio="4 / 3" sizes="(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 400px" /> : <FotoPendiente class="at-foto" ratio="4 / 3" texto={FOTOS[area.slug] ?? 'Foto del área. Vertical 4:3.'} />}
         <div class="at-panel">
           <Nombre class="at-nombre"><a href={ancla ? `#${area.slug}` : enlace(lang, `/servicios/${area.slug}/`)}>{area.name}</a></Nombre>
           <p class="at-tagline">{area.tagline}</p>

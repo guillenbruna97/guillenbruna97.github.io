@@ -8,6 +8,8 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import ContactBlock from '../../components/ContactBlock.astro';
 import FaqList from '../../components/FaqList.astro';
 import FotoPendiente from '../../components/FotoPendiente.astro';
+import Foto from '../../components/Foto.astro';
+import { FOTOS_AREA } from '../../data/fotos';
 import CasosTabs from '../../components/CasosTabs.astro';
 import { AREAS, type Area } from '../../data/areas';
 import { casosForArea } from '../../data/casos';
@@ -104,7 +106,7 @@ const breadcrumbLd = {
         {casosArea.length > 0 && <a href="#casos" class="btn-secondary">{T.verCasos}</a>}
       </div>
     </div>
-    <FotoPendiente ratio="16 / 7" texto={FOTOS[area.slug] ?? 'Foto del área. Horizontal, de al menos 2400 px de ancho.'} />
+    {FOTOS_AREA[area.slug] ? <Foto foto={FOTOS_AREA[area.slug]} ratio="16 / 7" sizes="(max-width: 1300px) 92vw, 1200px" loading="eager" /> : <FotoPendiente ratio="16 / 7" texto={FOTOS[area.slug] ?? 'Foto del área. Horizontal, de al menos 2400 px de ancho.'} />}
   </header>
 
   <section class="ar-bloque ar-dos">
