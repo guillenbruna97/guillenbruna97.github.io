@@ -29,7 +29,7 @@ const T = en ? {
   h1: 'Real cases, real results',
   intro: 'Each company’s challenge, what was done and the result, with the figures. Projects Guillén Bruna has worked on, who today orchestrates the GBT Consultoría network.',
   banda: 'Cases', filtrar: 'Filter by area', todas: 'All', foto: (c: string) => `Photo of the ${c} case.`,
-  anterior: 'Previous', siguiente: 'Next', testimonios: 'Clients and testimonials', testimoniosTexto: 'What the people we have worked with say.', en: 'at',
+  testimonios: 'Clients and testimonials', testimoniosTexto: 'What the people we have worked with say.', en: 'at',
   contacto: 'Shall we talk<br>about your case?',
 } : {
   seoTitle: `Casos reales de marketing | ${SITE_NAME}`,
@@ -37,7 +37,7 @@ const T = en ? {
   h1: 'Casos reales, resultados reales',
   intro: 'El reto de cada empresa, qué se hizo y qué resultado dio, con sus cifras. Proyectos en los que ha trabajado Guillén Bruna, que hoy orquesta la red de GBT Consultoría.',
   banda: 'Casos', filtrar: 'Filtrar por área', todas: 'Todas', foto: (c: string) => `Foto del caso de ${c}.`,
-  anterior: 'Anterior', siguiente: 'Siguiente', testimonios: 'Clientes y testimonios', testimoniosTexto: 'Lo que dicen las personas con las que hemos trabajado.', en: 'en',
+  testimonios: 'Clientes y testimonios', testimoniosTexto: 'Lo que dicen las personas con las que hemos trabajado.', en: 'en',
   contacto: '¿Hablamos<br>de tu caso?',
 };
 
@@ -75,6 +75,8 @@ const C = en ? {
   faqs: [
     { question: 'What was Guillén Bruna’s role in these cases?', answer: 'At Zebra AI Transformation Company he led brand and marketing. In the rest he was part of the team: as head of social media in a multi-brand group, as a consultant and as a co-founder. Each case page states his role and what was done.' },
     { question: 'Are the figures real?', answer: 'Yes. They come from each project during the period Guillén worked on it, and are marked as approximate where they are. No figures are invented or projected.' },
+    { question: 'Which sectors do you have experience in?', answer: 'These cases cover technology and AI (B2B), management consulting (B2B), fashion and eCommerce, and furniture retail. The network adds specialists with experience in other sectors, and the proposal explains who works on your project and why.' },
+    { question: 'Do you work with companies outside Zaragoza?', answer: 'Yes. We are based in Zaragoza, Spain, and work remotely, travelling for the key moments. Among these cases there are national brands and a store opening in Castellón.' },
     { question: 'Can you do something similar for my company?', answer: 'After a 15-minute call we tell you whether we can help, and within 5 working days you get a proposal with the scope, the team, the timeline and a fixed price.' },
   ],
   reco: 'Not sure which service you need?', recoEnlace: 'Answer 6 questions and we will tell you',
@@ -99,6 +101,8 @@ const C = en ? {
   faqs: [
     { question: '¿Qué papel tuvo Guillén Bruna en estos casos?', answer: 'En Zebra AI Transformation Company dirigió la marca y el marketing. En el resto formó parte del equipo: como responsable de redes sociales en un grupo de varias marcas, como consultor y como cofundador. En la página de cada caso se indica su rol y qué se hizo.' },
     { question: '¿Las cifras son reales?', answer: 'Sí. Salen de cada proyecto durante el tiempo en que Guillén trabajó en él, y se marcan como aproximadas cuando lo son. No hay cifras inventadas ni proyectadas.' },
+    { question: '¿En qué sectores tenéis experiencia?', answer: 'Estos casos abarcan tecnología e IA (B2B), consultoría de dirección (B2B), moda y eCommerce, y retail de muebles. La red suma especialistas con experiencia en otros sectores, y en la propuesta te contamos quién trabaja en tu proyecto y por qué.' },
+    { question: '¿Trabajáis con empresas de fuera de Zaragoza?', answer: 'Sí. Estamos en Zaragoza y trabajamos en remoto, con desplazamientos en los momentos clave. Entre estos casos hay marcas de ámbito nacional y una inauguración de tienda en Castellón.' },
     { question: '¿Podéis hacer algo parecido para mi empresa?', answer: 'Tras una llamada de 15 minutos te decimos si podemos ayudarte, y en 5 días laborables recibes una propuesta con el alcance, el equipo, los plazos y el precio cerrado.' },
   ],
   reco: '¿No sabes qué servicio necesitas?', recoEnlace: 'Responde 6 preguntas y te lo decimos',
@@ -108,7 +112,6 @@ const C = en ? {
 const TESTIMONIOS: { texto: string; nombre: string; cargo: string; empresa: string }[] = [];
 
 const areasConCasos = areas.filter((a) => lista.some((c) => c.areas.includes(a.slug)));
-const total = String(lista.length).padStart(2, '0');
 const nombreArea = (slug: string) => areas.find((a) => a.slug === slug)?.name ?? '';
 ---
 <BaseLayout
@@ -165,11 +168,6 @@ const nombreArea = (slug: string) => areas.find((a) => a.slug === slug)?.name ??
       })}
     </ul>
 
-    <div class="tc-controles">
-      <button type="button" data-dir="-1">{T.anterior}</button>
-      <span><span data-tc-actual>01</span> / <span data-tc-total>{total}</span></span>
-      <button type="button" data-dir="1">{T.siguiente}</button>
-    </div>
   </section>
 
   <section class="tc-detalle" aria-labelledby="tc-detalle-titulo">
@@ -255,23 +253,16 @@ const nombreArea = (slug: string) => areas.find((a) => a.slug === slug)?.name ??
     pista.prepend(...clonar(0));
     pista.append(...clonar(2));
     const cards = [...pista.querySelectorAll<HTMLElement>('.tc-card')];
-    const actual = root.querySelector('[data-tc-actual]')!;
-    const totalEl = root.querySelector('[data-tc-total]')!;
-    const suave = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
     const visibles = () => cards.filter((c) => !c.hidden);
-    const pad = (n: number) => String(n).padStart(2, '0');
     const centrar = (c: HTMLElement) => c.offsetLeft - (pista.clientWidth - c.offsetWidth) / 2;
 
-    // La tarjeta más cercana al centro queda destacada; el contador cuenta solo un juego.
+    // La tarjeta más cercana al centro queda destacada (sin contador, a petición de Dirección).
     const marcar = () => {
       const centro = pista.scrollLeft + pista.clientWidth / 2;
       const vs = visibles();
       let mejor = vs[0], dist = Infinity;
       vs.forEach((c) => { const d = Math.abs(c.offsetLeft + c.offsetWidth / 2 - centro); if (d < dist) { dist = d; mejor = c; } });
       cards.forEach((c) => c.classList.toggle('activa', c === mejor));
-      const juego = vs.filter((c) => c.dataset.copia === mejor?.dataset.copia);
-      actual.textContent = pad(juego.indexOf(mejor) + 1);
-      totalEl.textContent = pad(juego.length);
       return mejor;
     };
     // Si la tarjeta activa es un clon, salta a su original sin que se note.
@@ -285,12 +276,6 @@ const nombreArea = (slug: string) => areas.find((a) => a.slug === slug)?.name ??
       pista.scrollLeft += o.offsetLeft - a.offsetLeft;
       requestAnimationFrame(() => { pista.style.scrollSnapType = ''; marcar(); });
     };
-    const ir = (dir: number) => {
-      const vs = visibles();
-      const k = vs.indexOf(marcar()) + dir;
-      const c = vs[Math.max(0, Math.min(vs.length - 1, k))];
-      if (c) pista.scrollTo({ left: centrar(c), behavior: suave });
-    };
     let pendiente = false;
     let parada: number | undefined;
     pista.addEventListener('scroll', () => {
@@ -298,7 +283,6 @@ const nombreArea = (slug: string) => areas.find((a) => a.slug === slug)?.name ??
       clearTimeout(parada);
       parada = window.setTimeout(recolocar, 160);
     }, { passive: true });
-    root.querySelectorAll<HTMLButtonElement>('.tc-controles button').forEach((b) => b.addEventListener('click', () => ir(Number(b.dataset.dir))));
 
     const inicio = () => {
       const primera = originales.find((c) => !c.hidden);
@@ -403,9 +387,6 @@ const nombreArea = (slug: string) => areas.find((a) => a.slug === slug)?.name ??
   .tc-pill { font-size: 0.75rem; border: 1px solid rgba(246,246,246,0.6); border-radius: 999px; padding: 0.25rem 0.75rem; }
   .tc-info h2 { font-size: 1.35rem; margin: 0; color: #f6f6f6; }
   .tc-reto { font-size: 0.86rem; font-weight: 300; line-height: 1.5; color: rgba(246,246,246,0.85); }
-  .tc-controles { display: flex; justify-content: center; align-items: center; gap: 1.4rem; margin-top: 1.8rem; font-size: 0.88rem; font-variant-numeric: tabular-nums; }
-  .tc-controles button { appearance: none; background: none; color: inherit; border: 1px solid rgba(246,246,246,0.4); border-radius: 999px; padding: 0.65rem 1.5rem; font: 500 0.82rem 'Poppins', sans-serif; cursor: pointer; }
-  .tc-controles button:hover { border-color: #f6f6f6; }
 
   .tc-testimonios { max-width: 1240px; margin: 0 auto; padding: 5rem 4vw; display: grid; grid-template-columns: 1fr 1.3fr; gap: 3rem; }
   .tc-testimonios ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.2rem; }
