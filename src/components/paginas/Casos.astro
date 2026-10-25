@@ -15,6 +15,7 @@ import { SITE_NAME } from '../../consts';
 import { casosEn } from '../../data/en/casos';
 import { AREAS_EN } from '../../data/en/areas';
 import { enlace, type Lang } from '../../i18n';
+import FaqList from '../../components/FaqList.astro';
 
 interface Props { lang: Lang }
 const { lang } = Astro.props;
@@ -49,6 +50,60 @@ const trustLogos = [
   { src: '/logos/integra.png', alt: logo('Integra Consultoría Gerencial') },
 ];
 
+// Página más completa (2026-10-25): cifras destacadas, todos los casos en
+// detalle, qué hay detrás de cada caso y preguntas frecuentes. Solo datos que
+// ya están en los casos (data/casos.ts y casos-detalle.ts); nada nuevo.
+const ir = (ruta: string) => enlace(lang, ruta);
+const C = en ? {
+  cifras: [
+    { valor: '6', texto: 'brands, each with its own voice, managed in parallel', caso: 'muebles-tuco', empresa: 'Grupo Rey Corporación' },
+    { valor: '€20,000+', texto: 'a month invested in Meta Ads, segmented by brand and season', caso: 'muebles-rey', empresa: 'Muebles Rey and Muebles Tuco' },
+    { valor: '+15,000', texto: 'new followers, from 20,000 to 35,000', caso: 'muebles-tuco', empresa: 'Muebles Tuco' },
+    { valor: '400-500', texto: 'orders with no outside investment, up to break-even', caso: 'broco', empresa: 'Broco' },
+  ],
+  cifrasTitulo: 'Some figures from these cases',
+  detalleTitulo: 'All the cases, in detail',
+  detalleIntro: 'The challenge, what was done and the result of each project, with the role Guillén Bruna had in it.',
+  rol: 'Role', hecho: 'What was done', resultado: 'Result', ver: 'See the full case',
+  detrasTitulo: 'What is behind each case',
+  detras: [
+    { titulo: 'One person accountable', texto: 'Guillén Bruna led every one of these projects, as in-house head of marketing, as a consultant or as a founder. Each case states his role.' },
+    { titulo: 'Figures from the period', texto: 'The numbers are from each project, and approximate where indicated. Nothing is rounded up or added after the fact.' },
+    { titulo: 'Today, with the network', texto: 'That same way of working is what GBT Consultoría offers: Guillén leads the project and the specialists in the network carry it out.' },
+  ],
+  faqsTitulo: 'Frequently asked questions',
+  faqs: [
+    { question: 'Who did the work in these cases?', answer: 'Guillén Bruna led all of them, in different roles: head of brand and marketing in-house, head of social media in a multi-brand group, consultant and founder. Each case page states his role and what was done.' },
+    { question: 'Are the figures real?', answer: 'Yes. They come from each project during the period Guillén worked on it, and are marked as approximate where they are. No figures are invented or projected.' },
+    { question: 'Can you do something similar for my company?', answer: 'After a 15-minute call we tell you whether we can help, and within 5 working days you get a proposal with the scope, the team, the timeline and a fixed price.' },
+  ],
+  reco: 'Not sure which service you need?', recoEnlace: 'Answer 6 questions and we will tell you',
+} : {
+  cifras: [
+    { valor: '6', texto: 'marcas con voz propia gestionadas en paralelo', caso: 'muebles-tuco', empresa: 'Grupo Rey Corporación' },
+    { valor: '+20.000 €', texto: 'al mes invertidos en Meta Ads, segmentados por marca y temporada', caso: 'muebles-rey', empresa: 'Muebles Rey y Muebles Tuco' },
+    { valor: '+15.000', texto: 'seguidores nuevos, de 20.000 a 35.000', caso: 'muebles-tuco', empresa: 'Muebles Tuco' },
+    { valor: '400-500', texto: 'pedidos sin inversión externa, hasta el punto de equilibrio', caso: 'broco', empresa: 'Broco' },
+  ],
+  cifrasTitulo: 'Algunas cifras de estos casos',
+  detalleTitulo: 'Todos los casos, en detalle',
+  detalleIntro: 'El reto, qué se hizo y qué resultado dio cada proyecto, con el papel que tuvo en él Guillén Bruna.',
+  rol: 'Rol', hecho: 'Qué se hizo', resultado: 'Resultado', ver: 'Ver el caso completo',
+  detrasTitulo: 'Qué hay detrás de cada caso',
+  detras: [
+    { titulo: 'Un solo responsable', texto: 'Guillén Bruna dirigió cada uno de estos proyectos, como responsable de marketing dentro de la empresa, como consultor o como fundador. Cada caso indica su rol.' },
+    { titulo: 'Cifras del periodo', texto: 'Los números son de cada proyecto, y aproximados cuando así se indica. No se redondean al alza ni se añaden después.' },
+    { titulo: 'Hoy, con la red', texto: 'Esa misma forma de trabajar es la que ofrece GBT Consultoría: Guillén dirige el proyecto y lo ejecutan los especialistas de la red.' },
+  ],
+  faqsTitulo: 'Preguntas frecuentes',
+  faqs: [
+    { question: '¿Quién hizo el trabajo en estos casos?', answer: 'Guillén Bruna los dirigió todos, con distintos roles: responsable de marca y marketing dentro de la empresa, responsable de redes en un grupo de varias marcas, consultor y fundador. En la página de cada caso se indica su rol y qué se hizo.' },
+    { question: '¿Las cifras son reales?', answer: 'Sí. Salen de cada proyecto durante el tiempo en que Guillén trabajó en él, y se marcan como aproximadas cuando lo son. No hay cifras inventadas ni proyectadas.' },
+    { question: '¿Podéis hacer algo parecido para mi empresa?', answer: 'Tras una llamada de 15 minutos te decimos si podemos ayudarte, y en 5 días laborables recibes una propuesta con el alcance, el equipo, los plazos y el precio cerrado.' },
+  ],
+  reco: '¿No sabes qué servicio necesitas?', recoEnlace: 'Responde 6 preguntas y te lo decimos',
+};
+
 // Testimonios con nombre y cargo reales. Nunca inventados.
 const TESTIMONIOS: { texto: string; nombre: string; cargo: string; empresa: string }[] = [];
 
@@ -63,6 +118,16 @@ const nombreArea = (slug: string) => areas.find((a) => a.slug === slug)?.name ??
   <header class="tc-cabecera">
     <h1>{T.h1}</h1>
     <p>{T.intro}</p>
+    <h2 class="tc-cifras-titulo">{C.cifrasTitulo}</h2>
+    <ul class="tc-cifras">
+      {C.cifras.map((c) => (
+        <li>
+          <strong>{c.valor}</strong>
+          <span>{c.texto}</span>
+          <a href={ir(`/trabajo/${c.caso}/`)}>{c.empresa}</a>
+        </li>
+      ))}
+    </ul>
   </header>
 
   <section class="tc-banda" data-tc aria-label={T.banda}>
@@ -108,6 +173,41 @@ const nombreArea = (slug: string) => areas.find((a) => a.slug === slug)?.name ??
     </div>
   </section>
 
+  <section class="tc-detalle" aria-labelledby="tc-detalle-titulo">
+    <h2 id="tc-detalle-titulo">{C.detalleTitulo}</h2>
+    <p class="tc-detalle-intro">{C.detalleIntro}</p>
+    <ol class="tc-filas">
+      {lista.map((caso) => {
+        const d = getDetalle(caso.slug);
+        return (
+          <li class="tc-fila">
+            <div class="tc-fila-quien">
+              {d?.logo ? <img src={d.logo} alt={logo(caso.company)} loading="lazy" /> : null}
+              <p class="tc-fila-empresa">{caso.company}</p>
+              <p class="tc-fila-sector">{caso.sector}</p>
+            </div>
+            <div class="tc-fila-que">
+              <h3><a href={ir(`/trabajo/${caso.slug}/`)}>{caso.reto}</a></h3>
+              <dl>
+                <div><dt>{C.rol}</dt><dd>{caso.role}</dd></div>
+                <div><dt>{C.hecho}</dt><dd>{caso.capacidades}</dd></div>
+                <div><dt>{C.resultado}</dt><dd>{caso.cardHighlight}</dd></div>
+              </dl>
+            </div>
+            <a href={ir(`/trabajo/${caso.slug}/`)} class="tc-fila-ver">{C.ver}</a>
+          </li>
+        );
+      })}
+    </ol>
+  </section>
+
+  <section class="tc-detras">
+    <h2>{C.detrasTitulo}</h2>
+    <div class="tc-detras-cols">
+      {C.detras.map((b) => (<div><h3>{b.titulo}</h3><p>{b.texto}</p></div>))}
+    </div>
+  </section>
+
   {TESTIMONIOS.length > 0 && (
     <section class="tc-testimonios">
       <div>
@@ -121,6 +221,14 @@ const nombreArea = (slug: string) => areas.find((a) => a.slug === slug)?.name ??
       </ul>
     </section>
   )}
+
+  <section class="tc-faqs">
+    <h2>{C.faqsTitulo}</h2>
+    <div>
+      <FaqList faqs={C.faqs} />
+      <p class="tc-reco">{C.reco} <a href={ir('/recomendador/')}>{C.recoEnlace}</a>.</p>
+    </div>
+  </section>
 
   <TrustMarquee logos={trustLogos} />
 
@@ -178,6 +286,59 @@ const nombreArea = (slug: string) => areas.find((a) => a.slug === slug)?.name ??
 
 <style is:global>
   .tc-cabecera { max-width: 1240px; margin: 0 auto; padding: 4.5rem 4vw 3.5rem; }
+  .tc-cifras-titulo { font-size: 0.9rem; font-weight: 500; letter-spacing: 0; color: rgba(0,0,0,0.5); margin: 3.4rem 0 1.2rem; }
+  body.dark .tc-cifras-titulo { color: rgba(232,232,232,0.5); }
+  .tc-cifras { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 2rem; border-top: 1px solid rgba(0,0,0,0.1); padding-top: 1.6rem; }
+  body.dark .tc-cifras { border-top-color: rgba(255,255,255,0.1); }
+  .tc-cifras li { display: flex; flex-direction: column; gap: 0.4rem; }
+  .tc-cifras strong { font-family: 'Poppins', sans-serif; font-weight: 500; font-size: clamp(2rem, 3.6vw, 3rem); letter-spacing: -0.03em; line-height: 1; color: var(--blue); }
+  body.dark .tc-cifras strong { color: var(--blue-light); }
+  .tc-cifras span { font-size: 0.92rem; font-weight: 300; line-height: 1.5; color: rgba(0,0,0,0.7); }
+  body.dark .tc-cifras span { color: rgba(232,232,232,0.7); }
+  .tc-cifras a { font-size: 0.82rem; color: rgba(0,0,0,0.5); text-decoration: underline; text-underline-offset: 3px; margin-top: auto; }
+  body.dark .tc-cifras a { color: rgba(232,232,232,0.5); }
+  .tc-cifras a:hover { color: var(--blue); }
+  @media (max-width: 900px) { .tc-cifras { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+  .tc-detalle, .tc-detras, .tc-faqs { max-width: 1240px; margin: 0 auto; padding: 5.5rem 4vw 0; }
+  .tc-detalle h2, .tc-detras h2, .tc-faqs h2 { font-size: clamp(1.8rem, 3.4vw, 2.7rem); margin: 0 0 1rem; }
+  .tc-detalle-intro { font-size: 1rem; font-weight: 300; line-height: 1.7; color: rgba(0,0,0,0.65); max-width: 640px; margin: 0 0 2.4rem; }
+  body.dark .tc-detalle-intro { color: rgba(232,232,232,0.65); }
+  .tc-filas { list-style: none; margin: 0; padding: 0; }
+  .tc-fila { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 2fr) auto; gap: 1.5rem 3rem; padding: 2.2rem 0; border-top: 1px solid rgba(0,0,0,0.1); align-items: start; }
+  body.dark .tc-fila { border-top-color: rgba(255,255,255,0.1); }
+  .tc-fila-quien img { height: 34px; width: auto; max-width: 120px; object-fit: contain; margin-bottom: 0.8rem; display: block; }
+  body.dark .tc-fila-quien img { filter: invert(1); opacity: 0.8; }
+  .tc-fila-empresa { font-weight: 500; font-size: 0.95rem; margin: 0; }
+  .tc-fila-sector { font-size: 0.85rem; font-weight: 300; color: rgba(0,0,0,0.55); margin: 0.2rem 0 0; }
+  body.dark .tc-fila-sector { color: rgba(232,232,232,0.55); }
+  .tc-fila-que h3 { font-size: clamp(1.2rem, 1.9vw, 1.5rem); line-height: 1.25; margin: 0 0 1.2rem; }
+  .tc-fila-que h3 a { color: inherit; text-decoration: none; }
+  .tc-fila-que h3 a:hover { color: var(--blue); }
+  body.dark .tc-fila-que h3 a:hover { color: var(--blue-light); }
+  .tc-fila-que dl { margin: 0; display: grid; gap: 0.5rem; }
+  .tc-fila-que dl div { display: grid; grid-template-columns: 8.5rem minmax(0, 1fr); gap: 1rem; font-size: 0.92rem; line-height: 1.55; }
+  .tc-fila-que dt { color: rgba(0,0,0,0.5); }
+  body.dark .tc-fila-que dt { color: rgba(232,232,232,0.5); }
+  .tc-fila-que dd { margin: 0; font-weight: 300; }
+  .tc-fila-ver { font-size: 0.88rem; font-weight: 500; color: var(--blue); white-space: nowrap; }
+  body.dark .tc-fila-ver { color: var(--blue-light); }
+  @media (max-width: 900px) {
+    .tc-fila { grid-template-columns: 1fr; gap: 1rem; }
+    .tc-fila-que dl div { grid-template-columns: 1fr; gap: 0.1rem; }
+  }
+
+  .tc-detras-cols { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2rem 3rem; margin-top: 2rem; }
+  .tc-detras h3 { font-size: 1.05rem; margin: 0 0 0.6rem; }
+  .tc-detras p { font-size: 0.95rem; font-weight: 300; line-height: 1.7; color: rgba(0,0,0,0.65); margin: 0; }
+  body.dark .tc-detras p { color: rgba(232,232,232,0.65); }
+  @media (max-width: 900px) { .tc-detras-cols { grid-template-columns: 1fr; } }
+
+  .tc-faqs { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: 2rem 4rem; padding-bottom: 4rem; }
+  .tc-reco { font-size: 0.95rem; font-weight: 300; margin: 1.6rem 0 0; }
+  .tc-reco a { color: var(--blue); }
+  body.dark .tc-reco a { color: var(--blue-light); }
+  @media (max-width: 900px) { .tc-faqs { grid-template-columns: 1fr; } }
   .tc-cabecera h1 { font-size: clamp(2.4rem, 5.6vw, 4.8rem); margin: 0 0 1.4rem; max-width: 1000px; }
   .tc-cabecera p { font-size: 1.05rem; font-weight: 300; line-height: 1.75; color: rgba(0,0,0,0.65); max-width: 680px; margin: 0; }
   body.dark .tc-cabecera p { color: rgba(232,232,232,0.68); }
