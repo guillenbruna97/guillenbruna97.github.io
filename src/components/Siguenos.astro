@@ -27,6 +27,7 @@ const REDES = [
   body.dark .siguenos a:hover { color: var(--blue-light); background: rgba(149,192,250,0.1); }
   .siguenos-linea { width: 1px; height: 36px; background: currentColor; opacity: 0.4; }
   .siguenos-txt { writing-mode: vertical-rl; transform: rotate(180deg); font-size: 0.78rem; font-weight: 500; }
-  @media (max-width: 900px) { .siguenos { display: none; } }
+  /* Solo donde hay margen libre a la derecha del contenido (max 1240px + gutter): por debajo tapaba bloques. */
+  @media (max-width: 1380px) { .siguenos { display: none; } }
   @media print { .siguenos { display: none; } }
 </style>
