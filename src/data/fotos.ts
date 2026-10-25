@@ -1,7 +1,7 @@
 import estrategia from '../assets/fotos/estrategia-pizarra.jpg';
 import web from '../assets/fotos/web-disenadora.jpg';
 import seo from '../assets/fotos/seo-especialista.jpg';
-import publicidad from '../assets/fotos/publicidad-movil.jpg';
+import publicidad from '../assets/fotos/publicidad-especialista.jpg';
 import redes from '../assets/fotos/redes-edicion.jpg';
 import eventos from '../assets/casos/zebra-sis.jpg';
 import sesion from '../assets/fotos/quienes-sesion.jpg';
@@ -9,7 +9,7 @@ import sesion from '../assets/fotos/quienes-sesion.jpg';
 // Fotos de las áreas y de Quiénes somos (2026-10-25), según
 // marca-personal/ux-ui/prompts-fotos.md. Las de Guillén están generadas con IA a
 // partir de sus fotos; Eventos es la foto real del Spain Innovation Summit.
-// Web, SEO y GEO y Redes muestran a especialistas de la red, sin cara reconocible
+// Web, SEO y GEO, Publicidad y Redes muestran a especialistas de la red, sin cara reconocible
 // (decisión de Dirección: Guillén solo sale donde el trabajo es suyo).
 // `foco` es el object-position: qué parte se queda al recortar a 4:3 o 16:7.
 export interface Foto {
@@ -36,8 +36,8 @@ export const FOTOS_AREA: Record<string, Foto> = {
   },
   'publicidad-online': {
     img: publicidad,
-    alt: { es: 'Guillén Bruna revisa un anuncio en el móvil con el panel de campañas detrás', en: 'Guillén Bruna reviews an ad on his phone with the campaign dashboard behind' },
-    foco: '50% 25%',
+    alt: { es: 'Especialista en publicidad gestiona campañas en el administrador de anuncios, con la vista previa de un anuncio en el móvil', en: 'Advertising specialist managing campaigns in the ads manager, with an ad preview on the phone' },
+    foco: '60% 60%',
   },
   'redes-sociales': {
     img: redes,
