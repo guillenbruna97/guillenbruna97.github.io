@@ -2,66 +2,73 @@
 import { AREAS } from '../data/areas';
 import { RESOURCES, GAMES, LINKEDIN_URL, BOOKING_URL, MAILTO_URL, CONTACT_EMAIL } from '../consts';
 import { casos } from '../data/casos';
+import { AREAS_EN } from '../data/en/areas';
+import { getLang, ui, enlace } from '../i18n';
 
 // Las columnas salen de las mismas fuentes que el nav y los listados
 // (consts.ts y data/casos.ts): un servicio, caso o minijuego nuevo aparece
 // aquí sin tocar este archivo.
 const year = new Date().getFullYear();
+const lang = getLang(Astro.url.pathname);
+const t = ui(lang).pie;
+const recursos = ui(lang).menu.nombresRecursos;
+const areas = lang === 'en' ? AREAS_EN : AREAS;
+const ir = (ruta: string) => enlace(lang, ruta);
 ---
 <footer class="site-footer">
   <div class="footer-panel">
-    <a href="/" class="footer-logo" aria-label="GBT Consultoría, ir a la página de inicio">
+    <a href={ir('/')} class="footer-logo" aria-label={t.inicio}>
       <img src="/isotipo.svg" alt="" width="72" height="72" />
     </a>
 
     <div class="footer-grid">
       <div class="footer-col" aria-labelledby="footer-servicios">
-        <h2 id="footer-servicios" class="footer-heading"><a href="/servicios/">Servicios</a></h2>
+        <h2 id="footer-servicios" class="footer-heading"><a href={ir('/servicios/')}>{t.servicios}</a></h2>
         <ul>
-          {AREAS.map((s) => <li><a href={`/servicios/${s.slug}/`}>{s.name}</a></li>)}
+          {areas.map((s) => <li><a href={ir(`/servicios/${s.slug}/`)}>{s.name}</a></li>)}
         </ul>
       </div>
 
       <div class="footer-col" aria-labelledby="footer-casos">
-        <h2 id="footer-casos" class="footer-heading"><a href="/trabajo/">Casos reales</a></h2>
+        <h2 id="footer-casos" class="footer-heading"><a href={ir('/trabajo/')}>{t.casos}</a></h2>
         <ul>
-          {casos.map((c) => <li><a href={`/trabajo/${c.slug}/`}>{c.company}</a></li>)}
+          {casos.map((c) => <li><a href={ir(`/trabajo/${c.slug}/`)}>{c.company}</a></li>)}
         </ul>
       </div>
 
       <div class="footer-col" aria-labelledby="footer-recursos">
-        <h2 id="footer-recursos" class="footer-heading"><a href="/recursos/">Recursos</a></h2>
+        <h2 id="footer-recursos" class="footer-heading"><a href="/recursos/">{t.recursos}</a></h2>
         <ul>
-          {RESOURCES.map((r) => <li><a href={r.href}>{r.name}</a></li>)}
+          {RESOURCES.map((r) => <li><a href={r.href}>{recursos[r.href] ?? r.name}</a></li>)}
           {GAMES.map((g) => <li><a href={`/recursos/minijuegos/${g.slug}/`}>{g.name}</a></li>)}
         </ul>
       </div>
 
       <div class="footer-col" aria-labelledby="footer-contacto">
-        <h2 id="footer-contacto" class="footer-heading">Hablemos</h2>
+        <h2 id="footer-contacto" class="footer-heading">{t.hablemos}</h2>
         <ul>
-          <li><a href="/quienes-somos/">Quiénes somos</a></li>
-          <li><a href="/contacto/">Contacto</a></li>
-          <li><a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">Reservar llamada de 15 min</a></li>
+          <li><a href={ir('/quienes-somos/')}>{t.quienes}</a></li>
+          <li><a href={ir('/contacto/')}>{t.contacto}</a></li>
+          <li><a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">{t.llamada}</a></li>
           <li><a href={MAILTO_URL}>{CONTACT_EMAIL}</a></li>
           <li><a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
         </ul>
       </div>
 
       <div class="footer-cta">
-        <p class="footer-heading">¿Qué hay detrás de tus ventas?</p>
-        <p class="footer-cta-text">Haz el autodiagnóstico en 3 minutos y llévate tus tres primeros pasos.</p>
+        <p class="footer-heading">{t.diagTitulo}</p>
+        <p class="footer-cta-text">{t.diagTexto}</p>
         <a href="/recursos/minijuegos/diagnostico-marketing/" class="footer-cta-btn">
-          Empezar diagnóstico
+          {t.diagBoton}
         </a>
       </div>
     </div>
 
     <div class="footer-bottom">
-      <p class="footer-copy">© {year} GBT Consultoría, Zaragoza (España)</p>
+      <p class="footer-copy">© {year} GBT Consultoría, {t.copy}</p>
       <ul class="footer-legal">
-        <li><a href="/privacidad/">Privacidad</a></li>
-        <li><button type="button" data-cookie-settings>Preferencias de cookies</button></li>
+        <li><a href={ir('/privacidad/')}>{t.privacidad}</a></li>
+        <li><button type="button" data-cookie-settings>{t.cookies}</button></li>
       </ul>
     </div>
   </div>

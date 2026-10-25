@@ -3,15 +3,18 @@
 // cafeselcriollo.com). Solo en la home y en /servicios/ (decisión 2026-10-25):
 // aparece al bajar un poco, no mientras está abierto el aviso de cookies, y si
 // se cierra no vuelve en 7 días.
+import { getLang, ui, enlace } from '../i18n';
+const lang = getLang(Astro.url.pathname);
+const t = ui(lang).burbuja;
 ---
 <div class="burbuja" id="burbuja" hidden>
-  <a href="/recomendador/" class="burbuja-enlace">
+  <a href={enlace(lang, '/recomendador/')} class="burbuja-enlace">
     <span class="burbuja-icono" aria-hidden="true">
       <svg viewBox="0 0 24 24" width="20" height="20"><path d="M12 3c-4.97 0-9 3.58-9 8 0 2.08.9 3.98 2.38 5.41L5 21l4.2-1.85c.88.23 1.82.35 2.8.35 4.97 0 9-3.58 9-8s-4.03-8-9-8Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
     </span>
-    <span class="burbuja-texto">¿Te ayudamos a elegir qué necesitas?</span>
+    <span class="burbuja-texto">{t.texto}</span>
   </a>
-  <button type="button" class="burbuja-cerrar" id="burbuja-cerrar" aria-label="Cerrar">×</button>
+  <button type="button" class="burbuja-cerrar" id="burbuja-cerrar" aria-label={t.cerrar}>×</button>
 </div>
 
 <script>

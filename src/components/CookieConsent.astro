@@ -1,14 +1,17 @@
 ---
 import { GA_MEASUREMENT_ID } from '../consts';
+import { getLang, ui, enlace } from '../i18n';
+const lang = getLang(Astro.url.pathname);
+const t = ui(lang).cookies;
 ---
-<div id="cookie-consent" class="cookie-consent" role="region" aria-label="Aviso de cookies">
+<div id="cookie-consent" class="cookie-consent" role="region" aria-label={t.aria}>
   <p class="cookie-text">
-    Uso Google Analytics para saber qué contenido es útil. No se activa hasta que lo aceptas.
-    <a href="/privacidad/">Política de privacidad</a>
+    {t.texto}
+    <a href={enlace(lang, '/privacidad/')}>{t.politica}</a>
   </p>
   <div class="cookie-actions">
-    <button type="button" id="cookie-reject" class="cookie-btn cookie-btn--ghost">Rechazar</button>
-    <button type="button" id="cookie-accept" class="cookie-btn cookie-btn--primary">Aceptar</button>
+    <button type="button" id="cookie-reject" class="cookie-btn cookie-btn--ghost">{t.rechazar}</button>
+    <button type="button" id="cookie-accept" class="cookie-btn cookie-btn--primary">{t.aceptar}</button>
   </div>
 </div>
 

@@ -1,4 +1,6 @@
 ---
+import { getLang, ui } from '../i18n';
+
 interface Logo {
   src: string;
   alt: string;
@@ -7,7 +9,7 @@ interface Props {
   logos: Logo[];
   label?: string;
 }
-const { logos, label = 'Marcas en la trayectoria de Guillén Bruna' } = Astro.props;
+const { logos, label = ui(getLang(Astro.url.pathname)).marcas } = Astro.props;
 const REPEATS = 3;
 ---
 <div class="trust-section">

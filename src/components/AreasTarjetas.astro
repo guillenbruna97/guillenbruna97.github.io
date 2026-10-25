@@ -5,6 +5,8 @@
 // superficie oscura). Los enlaces y el texto están en el HTML aunque el
 // desplegable esté cerrado, así que Google los lee igual.
 import { AREAS } from '../data/areas';
+import { AREAS_EN } from '../data/en/areas';
+import { getLang, ui, enlace } from '../i18n';
 import FotoPendiente from './FotoPendiente.astro';
 
 interface Props {
@@ -13,6 +15,9 @@ interface Props {
   ancla?: boolean;
 }
 const { titulo, ancla = false } = Astro.props;
+const lang = getLang(Astro.url.pathname);
+const t = ui(lang).areas;
+const areas = lang === 'en' ? AREAS_EN : AREAS;
 // Como índice de la propia página el nombre no es un encabezado: el h2 del área está más abajo.
 const Nombre = ancla ? 'p' : 'h3';
 
@@ -30,22 +35,22 @@ const TONOS = ['azul', 'claro', 'roto', 'oscuro', 'azul', 'claro'];
 <section class="at">
   {titulo && <h2 class="at-titulo">{titulo}</h2>}
   <ul class="at-grid">
-    {AREAS.map((area, i) => (
+    {areas.map((area, i) => (
       <li class={`at-card at-${TONOS[i % TONOS.length]}`}>
         <FotoPendiente class="at-foto" ratio="4 / 3" texto={FOTOS[area.slug] ?? 'Foto del área. Vertical 4:3.'} />
         <div class="at-panel">
-          <Nombre class="at-nombre"><a href={ancla ? `#${area.slug}` : `/servicios/${area.slug}/`}>{area.name}</a></Nombre>
+          <Nombre class="at-nombre"><a href={ancla ? `#${area.slug}` : enlace(lang, `/servicios/${area.slug}/`)}>{area.name}</a></Nombre>
           <p class="at-tagline">{area.tagline}</p>
           {ancla ? (
-            <a href={`#${area.slug}`} class="at-bajar">Ver qué incluye</a>
+            <a href={`#${area.slug}`} class="at-bajar">{t.incluye}</a>
           ) : (
           <details class="at-detalle">
-            <summary>Ver servicios</summary>
+            <summary>{t.servicios}</summary>
             <ul>
               {area.servicios.map((s) => (
-                <li><a href={s.href ?? `/servicios/${area.slug}/`}>{s.name}</a></li>
+                <li><a href={enlace(lang, s.href ?? `/servicios/${area.slug}/`)}>{s.name}</a></li>
               ))}
-              <li class="at-area"><a href={`/servicios/${area.slug}/`}>Todo sobre {area.name.toLowerCase()}</a></li>
+              <li class="at-area"><a href={enlace(lang, `/servicios/${area.slug}/`)}>{t.todo(area.name)}</a></li>
             </ul>
           </details>
           )}

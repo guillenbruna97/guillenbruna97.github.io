@@ -3,6 +3,7 @@
 // preproducción: antes de un lanzamiento a producción se sustituye por la foto
 // real (scripts/check-fotos-pendientes.mjs falla si queda alguno en el build
 // normal). Ver marca-personal/montaje-web/metodologia-preproduccion.md.
+import { getLang, ui } from '../i18n';
 interface Props {
   /** Qué foto va aquí: escena, encuadre y tamaño mínimo. */
   texto: string;
@@ -11,9 +12,10 @@ interface Props {
   class?: string;
 }
 const { texto, ratio = '16 / 9', class: className } = Astro.props;
+const etiqueta = ui(getLang(Astro.url.pathname)).foto;
 ---
 <figure class:list={['foto-pendiente', className]} style={`aspect-ratio: ${ratio};`} data-foto-pendiente>
-  <figcaption><span>Foto pendiente</span>{texto}</figcaption>
+  <figcaption><span>{etiqueta}</span>{texto}</figcaption>
 </figure>
 
 <style is:global>
