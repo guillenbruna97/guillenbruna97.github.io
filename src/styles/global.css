@@ -165,45 +165,36 @@ body.dark .tag { background: var(--dark-surface2); color: rgba(232,232,232,0.5);
 body.dark .tag:hover { color: var(--blue-light); }
 
 
-/* BOTONES (2026-10-25, variante B elegida por Dirección): nada de rectángulo
-   redondeado de plantilla. Principal recto (2px) con el texto a la izquierda y
-   el trazo de rotulador de la marca a la derecha; al pasar el ratón, a negro y
-   el trazo avanza. Secundario sin caja: texto con subrayado dibujado a mano.
-   El trazo va como máscara CSS, así toma el color del texto. */
+/* BOTONES (2026-10-25): forma orgánica elegida por Dirección, sin flecha. El
+   principal es un óvalo irregular, como hecho a mano, que se deforma un poco al
+   pasar el ratón (salvo movimiento reducido). El secundario es texto con un
+   subrayado dibujado a mano. Nada de rectángulo redondeado de plantilla. */
 :root {
-  --trazo-flecha: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 16'%3E%3Cg fill='none' stroke='black' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2.5 9.2C8 7.6 13.5 9.9 19.5 8.6S30.5 7.4 35.6 8.3'/%3E%3Cpath d='M29.4 2.9C31.6 4.6 33.9 6.6 36.4 8.4C33.7 9.8 31.4 11.6 29.8 13.6'/%3E%3C/g%3E%3C/svg%3E");
+  --forma-boton: 46% 54% 52% 48% / 62% 44% 56% 38%;
+  --forma-boton-hover: 54% 46% 44% 56% / 40% 58% 42% 60%;
   --trazo-subrayado: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 8' preserveAspectRatio='none'%3E%3Cpath d='M1 5.2C20 3.4 40 6.2 64 4.6S104 3.2 127 4.8' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E");
 }
 .btn-primary, .btn-contact:not(.btn-contact--ghost), .diag-band-cta, .jc-cta, .footer-cta-btn {
   display: inline-flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 1.4rem;
-  padding: 1rem 1.2rem 1rem 1.4rem;
-  border-radius: 2px;
+  justify-content: center;
+  text-align: center;
+  padding: 1.15rem 2.3rem;
+  border-radius: var(--forma-boton);
   border: 0;
   font-family: 'Poppins', sans-serif;
-  font-size: 0.9rem;
+  font-size: 0.92rem;
   font-weight: 500;
   letter-spacing: 0;
   line-height: 1.2;
   text-decoration: none;
   cursor: pointer;
-  transition: background 0.25s ease, color 0.25s ease;
+  transition: background 0.3s ease, color 0.3s ease, border-radius 0.6s cubic-bezier(.2,.8,.2,1);
 }
-.btn-primary::after, .btn-contact:not(.btn-contact--ghost)::after, .diag-band-cta::after, .jc-cta::after, .footer-cta-btn::after {
-  content: '';
-  flex: none;
-  width: 34px;
-  height: 14px;
-  background: currentColor;
-  -webkit-mask: var(--trazo-flecha) center / contain no-repeat;
-  mask: var(--trazo-flecha) center / contain no-repeat;
-  transition: transform 0.3s ease;
-}
-.btn-primary:hover::after, .btn-contact:not(.btn-contact--ghost):hover::after, .diag-band-cta:hover::after, .jc-cta:hover::after, .footer-cta-btn:hover::after { transform: translateX(5px); }
+.btn-primary:hover, .btn-contact:not(.btn-contact--ghost):hover, .diag-band-cta:hover, .jc-cta:hover, .footer-cta-btn:hover { border-radius: var(--forma-boton-hover); }
 @media (prefers-reduced-motion: reduce) {
-  .btn-primary:hover::after, .btn-contact:hover::after, .diag-band-cta:hover::after, .jc-cta:hover::after, .footer-cta-btn:hover::after { transform: none; }
+  .btn-primary, .btn-contact, .diag-band-cta, .jc-cta, .footer-cta-btn { transition: background 0.3s ease, color 0.3s ease; }
+  .btn-primary:hover, .btn-contact:not(.btn-contact--ghost):hover, .diag-band-cta:hover, .jc-cta:hover, .footer-cta-btn:hover { border-radius: var(--forma-boton); }
 }
 .btn-primary { background: var(--blue); color: var(--white); }
 .btn-primary:hover { background: #0a0a0a; color: var(--white); }
