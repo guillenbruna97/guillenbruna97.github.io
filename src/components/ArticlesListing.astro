@@ -1,10 +1,7 @@
 ---
 import type { Page } from 'astro';
 import type { CollectionEntry } from 'astro:content';
-import { Picture } from 'astro:assets';
-import { getArticleImage } from '../utils/article-images';
-import Tag from './Tag.astro';
-import { displayTag } from '../utils/articles';
+import ArticuloCard from './ArticuloCard.astro';
 
 interface Props {
   page: Page<CollectionEntry<'articulos'>>;
@@ -15,6 +12,9 @@ interface Props {
 
 const { page, categorias, activeSlug, basePath } = Astro.props;
 
+// El primer artículo de cada página va destacado arriba y el resto en filas de 3.
+const [primero, ...resto] = page.data;
+const dos = (n: number) => String(n).padStart(2, '0');
 const pageHref = (num: number) => (num === 1 ? `${basePath}/` : `${basePath}/${num}/`);
 ---
 
@@ -25,206 +25,81 @@ const pageHref = (num: number) => (num === 1 ? `${basePath}/` : `${basePath}/${n
   ))}
 </div>
 
-<div class="cases articles-cases">
-  {page.data.map((entry) => {
-    const optimizedImage = getArticleImage(entry.data.image);
-    return (
-    <div class="case-item" data-reveal>
-      {entry.data.image && (
-        <div class="case-media">
-          <a href={`/articulos/${entry.id}/`} aria-label={`Leer artículo: ${entry.data.title}`}>
-            {optimizedImage ? (
-              <Picture
-                src={optimizedImage}
-                alt={entry.data.imageAlt ?? entry.data.title}
-                width={1376}
-                height={768}
-                widths={[400, 800, 1376]}
-                sizes="(max-width: 640px) 100vw, 50vw"
-                formats={['avif', 'webp']}
-                fallbackFormat="jpg"
-                quality={60}
-                loading="lazy"
-              />
-            ) : (
-              <img src={entry.data.image} alt={entry.data.imageAlt ?? entry.data.title} width="1376" height="768" loading="lazy" decoding="async" />
-            )}
-          </a>
-        </div>
-      )}
-      <div class="case-content">
-        <div class="case-tags">
-          <Tag label={displayTag(entry.data.tag)} />
-        </div>
-        <h2><a href={`/articulos/${entry.id}/`}>{entry.data.title}</a></h2>
-        <p class="case-desc">{entry.data.excerpt}</p>
-        <a href={`/articulos/${entry.id}/`} class="case-link">Leer artículo →</a>
-      </div>
-    </div>
-    );
-  })}
+{primero && (
+  <div class="al-destacado"><ArticuloCard entry={primero} destacado /></div>
+)}
+
+<div class="al-grid">
+  {resto.map((entry) => <ArticuloCard entry={entry} />)}
 </div>
 
 {page.lastPage > 1 && (
   <nav class="pagination" aria-label="Paginación de artículos">
     {page.url.prev ? (
-      <a href={`${page.url.prev}/`} class="pagination-link pagination-prev" rel="prev">← Más recientes</a>
+      <a href={`${page.url.prev}/`} class="pagination-link pagination-prev" rel="prev" aria-label="Artículos más recientes"><svg class="pagination-icon" viewBox="0 0 40 16" width="40" height="16" aria-hidden="true" focusable="false"><path class="pi-linea" d="M2.5 9.2C8 7.6 13.5 9.9 19.5 8.6S30.5 7.4 35.6 8.3"/><path class="pi-punta" d="M29.4 2.9C31.6 4.6 33.9 6.6 36.4 8.4C33.7 9.8 31.4 11.6 29.8 13.6"/></svg></a>
     ) : (
-      <span class="pagination-link pagination-disabled">← Más recientes</span>
+      <span class="pagination-link pagination-prev pagination-disabled" aria-hidden="true"><svg class="pagination-icon" viewBox="0 0 40 16" width="40" height="16" aria-hidden="true" focusable="false"><path class="pi-linea" d="M2.5 9.2C8 7.6 13.5 9.9 19.5 8.6S30.5 7.4 35.6 8.3"/><path class="pi-punta" d="M29.4 2.9C31.6 4.6 33.9 6.6 36.4 8.4C33.7 9.8 31.4 11.6 29.8 13.6"/></svg></span>
     )}
 
     <div class="pagination-pages">
       {Array.from({ length: page.lastPage }, (_, i) => i + 1).map((num) => (
         num === page.currentPage ? (
-          <span class="pagination-page pagination-page-current" aria-current="page">{num}</span>
+          <span class="pagination-page pagination-page-current" aria-current="page">{dos(num)}</span>
         ) : (
-          <a href={pageHref(num)} class="pagination-page">{num}</a>
+          <a href={pageHref(num)} class="pagination-page" aria-label={`Página ${dos(num)}`}>{dos(num)}</a>
         )
       ))}
     </div>
 
     {page.url.next ? (
-      <a href={`${page.url.next}/`} class="pagination-link pagination-next" rel="next">Más antiguos →</a>
+      <a href={`${page.url.next}/`} class="pagination-link pagination-next" rel="next" aria-label="Artículos más antiguos"><svg class="pagination-icon" viewBox="0 0 40 16" width="40" height="16" aria-hidden="true" focusable="false"><path class="pi-linea" d="M2.5 9.2C8 7.6 13.5 9.9 19.5 8.6S30.5 7.4 35.6 8.3"/><path class="pi-punta" d="M29.4 2.9C31.6 4.6 33.9 6.6 36.4 8.4C33.7 9.8 31.4 11.6 29.8 13.6"/></svg></a>
     ) : (
-      <span class="pagination-link pagination-disabled">Más antiguos →</span>
+      <span class="pagination-link pagination-next pagination-disabled" aria-hidden="true"><svg class="pagination-icon" viewBox="0 0 40 16" width="40" height="16" aria-hidden="true" focusable="false"><path class="pi-linea" d="M2.5 9.2C8 7.6 13.5 9.9 19.5 8.6S30.5 7.4 35.6 8.3"/><path class="pi-punta" d="M29.4 2.9C31.6 4.6 33.9 6.6 36.4 8.4C33.7 9.8 31.4 11.6 29.8 13.6"/></svg></span>
     )}
   </nav>
 )}
 
 <style is:global>
-  /* FILTERS */
-  .filters {
-    padding: 0.5rem 2rem 0;
-    max-width: 900px;
-    margin: 0 auto;
-    display: flex;
-    gap: 0.6rem;
-    flex-wrap: wrap;
-  }
-  .filter-btn {
-    font-size: 0.68rem;
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    padding: 0.45rem 1rem;
-    border-radius: 8px;
-    background: transparent;
-    color: rgba(0,0,0,0.45);
-    border: 1px solid rgba(0,0,0,0.12);
-    cursor: pointer;
-    text-decoration: none;
-    display: inline-block;
-    font-family: 'Poppins', sans-serif;
-    transition: all var(--transition);
-  }
-  body.dark .filter-btn { color: rgba(232,232,232,0.4); border-color: rgba(255,255,255,0.12); }
-  .filter-btn.active { background: var(--black); color: var(--white); border-color: var(--black); }
-  body.dark .filter-btn.active { background: var(--blue-light); color: var(--dark-bg); border-color: var(--blue-light); }
-  .filter-btn:hover:not(.active) { border-color: var(--blue); color: var(--blue); }
-  body.dark .filter-btn:hover:not(.active) { border-color: var(--blue-light); color: var(--blue-light); }
-  .filter-btn:active { transform: scale(0.97); }
+  .filters { max-width: 1240px; margin: 0 auto; padding: 0 4vw 2.6rem; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .filter-btn { display: inline-block; border: 1px solid rgba(0,0,0,0.18); border-radius: 999px; padding: 0.45rem 1rem; font-size: 0.85rem; color: var(--black); text-decoration: none; transition: border-color var(--transition), background var(--transition), color var(--transition); }
+  .filter-btn:hover { border-color: var(--blue); color: var(--blue); }
+  .filter-btn.active { background: var(--black); border-color: var(--black); color: var(--white); }
+  body.dark .filter-btn { color: #e8e8e8; border-color: rgba(232,232,232,0.22); }
+  body.dark .filter-btn:hover { border-color: var(--blue-light); color: var(--blue-light); }
+  body.dark .filter-btn.active { background: #e8e8e8; border-color: #e8e8e8; color: #0a0a0a; }
+  .al-destacado { max-width: 1240px; margin: 0 auto; padding: 0 4vw 4rem; }
+  .al-grid { max-width: 1240px; margin: 0 auto; padding: 0 4vw 3rem; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 3rem 2rem; }
+  @media (max-width: 980px) { .al-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 620px) { .al-grid { grid-template-columns: 1fr; } }
 
-  /* ARTICLES — mismas cards que "Casos reales" (.case-item), grid 2 columnas */
-  .cases.articles-cases { padding: 3rem 2rem; max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2rem; }
-  .articles-cases .case-item {
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
-    padding: 0 0 2rem;
-    border: 1px solid rgba(0,0,0,0.1);
-    background: var(--white);
-    transition: border-color var(--transition), opacity 0.6s ease, transform 0.6s ease;
-  }
-  body.dark .articles-cases .case-item { border-color: rgba(255,255,255,0.12); background: var(--dark-bg); }
-  .articles-cases .case-media { aspect-ratio: 16 / 10; overflow: hidden; background: var(--blue); }
-  .articles-cases .case-media a { display: block; height: 100%; }
-  .articles-cases .case-media img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
-  .articles-cases .case-item:hover .case-media img { transform: scale(1.03); }
-  .articles-cases .case-content { padding: 1.5rem 1.5rem 0; }
-
-  .articles-cases .case-tags { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 0.7rem; }
-
-  .articles-cases .case-content h2 {
-    font-size: 1.3rem;
-    font-weight: 400;
-    letter-spacing: -0.02em;
-    margin-bottom: 0.6rem;
-    transition: color var(--transition);
-  }
-  .articles-cases .case-content h2 a { color: inherit; text-decoration: none; }
-  body.dark .articles-cases .case-content h2 { color: #e8e8e8; }
-  .articles-cases .case-item:hover .case-content h2 { color: var(--blue); }
-  body.dark .articles-cases .case-item:hover .case-content h2 { color: var(--blue-light); }
-
-  .articles-cases .case-desc {
-    font-size: 0.9rem;
-    font-weight: 300;
-    color: rgba(0,0,0,0.6);
-    line-height: 1.8;
-    margin-bottom: 1rem;
-    transition: color var(--transition);
-  }
-  body.dark .articles-cases .case-desc { color: rgba(232,232,232,0.6); }
-
-  .articles-cases .case-link {
-    font-size: 0.78rem;
-    font-weight: 500;
-    color: var(--blue);
-    text-decoration: none;
-    transition: color var(--transition);
-  }
-  body.dark .articles-cases .case-link { color: var(--blue-light); }
-  .articles-cases .case-link:hover { text-decoration: underline; }
-
-  @media (max-width: 640px) {
-    .cases.articles-cases { grid-template-columns: 1fr; padding-left: 1.25rem; padding-right: 1.25rem; }
-  }
-
-  /* PAGINATION */
-  .pagination {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-    padding: 0 2rem 3rem;
-    max-width: 900px;
-    margin: 0 auto;
-    flex-wrap: wrap;
-  }
-  .pagination-link {
-    font-size: 0.78rem;
-    font-weight: 500;
-    letter-spacing: 0.02em;
-    color: var(--blue);
-    text-decoration: none;
-    transition: color var(--transition), opacity var(--transition);
-  }
+  /* PAGINACIÓN (2026-10-25): flecha dibujada como un trazo de rotulador, en la
+     línea de las ilustraciones de los artículos; números de dos cifras con la
+     página actual subrayada en azul. Todo junto y centrado. */
+  .pagination { display: flex; align-items: center; justify-content: center; gap: 1.6rem; padding: 0 4vw 4rem; max-width: 1240px; margin: 0 auto; }
+  .pagination-link { display: inline-flex; align-items: center; justify-content: center; width: 3.2rem; height: 2.75rem; color: var(--blue); border-radius: 8px; }
   body.dark .pagination-link { color: var(--blue-light); }
-  .pagination-link:hover { opacity: 0.7; }
-  .pagination-disabled { color: rgba(0,0,0,0.25); pointer-events: none; }
-  body.dark .pagination-disabled { color: rgba(232,232,232,0.2); }
-
-  .pagination-pages { display: flex; gap: 0.4rem; }
-  .pagination-page {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 1.9rem;
-    height: 1.9rem;
-    font-size: 0.78rem;
-    font-weight: 500;
-    border-radius: 6px;
-    color: rgba(0,0,0,0.5);
-    text-decoration: none;
-    transition: all var(--transition);
+  .pagination-icon { fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; overflow: visible; transition: transform 0.25s ease; }
+  .pagination-prev .pagination-icon { transform: scaleX(-1); }
+  .pagination-icon path { stroke-dasharray: 40; stroke-dashoffset: 0; }
+  @media (prefers-reduced-motion: no-preference) {
+    .pagination-link:hover .pi-linea { animation: pi-trazo 0.45s ease-out; }
+    .pagination-link:hover .pi-punta { animation: pi-trazo 0.3s ease-out 0.3s backwards; }
+    .pagination-next:hover .pagination-icon { transform: translateX(4px); }
+    .pagination-prev:hover .pagination-icon { transform: scaleX(-1) translateX(4px); }
   }
-  body.dark .pagination-page { color: rgba(232,232,232,0.5); }
-  .pagination-page:hover:not(.pagination-page-current) { background: rgba(0,0,0,0.06); }
-  body.dark .pagination-page:hover:not(.pagination-page-current) { background: rgba(255,255,255,0.08); }
-  .pagination-page-current { background: var(--black); color: var(--white); }
-  body.dark .pagination-page-current { background: var(--blue-light); color: var(--dark-bg); }
+  @keyframes pi-trazo { from { stroke-dashoffset: 40; } to { stroke-dashoffset: 0; } }
+  .pagination-link:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
+  .pagination-disabled { visibility: hidden; }
 
-  @media (max-width: 640px) {
-    .pagination { justify-content: center; }
-  }
+  .pagination-pages { display: flex; gap: 0.3rem; }
+  .pagination-page { position: relative; display: inline-flex; align-items: center; justify-content: center; min-width: 2.6rem; height: 2.75rem; font-size: 0.95rem; font-weight: 400; font-variant-numeric: tabular-nums; letter-spacing: 0.02em; color: rgba(0,0,0,0.58); text-decoration: none; transition: color var(--transition); }
+  body.dark .pagination-page { color: rgba(232,232,232,0.62); }
+  .pagination-page:hover { color: var(--black); }
+  body.dark .pagination-page:hover { color: #e8e8e8; }
+  .pagination-page-current { color: var(--black); font-weight: 500; }
+  body.dark .pagination-page-current { color: #e8e8e8; }
+  .pagination-page-current::after { content: ''; position: absolute; left: 22%; right: 22%; bottom: 0.45rem; height: 2px; border-radius: 2px; background: var(--blue); }
+  body.dark .pagination-page-current::after { background: var(--blue-light); }
+
+  @media (max-width: 640px) { .pagination { gap: 0.4rem; } .pagination-page { min-width: 2.2rem; } }
 </style>

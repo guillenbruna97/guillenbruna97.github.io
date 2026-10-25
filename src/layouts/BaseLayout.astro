@@ -5,7 +5,9 @@ import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import LoadingScreen from '../components/LoadingScreen.astro';
 import CookieConsent from '../components/CookieConsent.astro';
+import Siguenos from '../components/Siguenos.astro';
 import { BOOKING_URL } from '../consts';
+import { getLang, ui, RUTAS_EN } from '../i18n';
 
 interface Props {
   title: string;
@@ -15,15 +17,33 @@ interface Props {
   noindex?: boolean;
 }
 const { title, description, image, ogType, noindex } = Astro.props;
+const lang = getLang(Astro.url.pathname);
+const t = ui(lang);
 ---
 <!doctype html>
-<html lang="es">
+<html lang={lang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script is:inline define:vars={{ RUTAS_EN }}>
+      // Idioma recordado (2026-10-25): quien lee en inglés sigue en inglés al
+      // cambiar de página hasta que elija español en el selector. Leer una página
+      // /en/ cuenta como elegir inglés; si una página española tiene pareja inglesa
+      // y la elección es inglés, se salta a la pareja antes de pintar nada.
+      try {
+        var enIngles = /^\/en(\/|$)/.test(location.pathname);
+        if (enIngles) localStorage.setItem('lang', 'en');
+        else if (localStorage.getItem('lang') === 'en') {
+          var destino = RUTAS_EN[location.pathname.replace(/\/?$/, '/')];
+          if (destino) location.replace(destino + location.search + location.hash);
+        }
+      } catch (e) { /* sin almacenamiento: cada página en su idioma */ }
+    </script>
     <link rel="icon" type="image/svg+xml" href="/isotipo.svg" />
     <link rel="preload" href="/fonts/poppins-400.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/fonts/newsreader-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <!-- Los títulos usan Poppins 500: precargada para que no salten al cambiar de fuente (CLS) ni retrasen el LCP. -->
+    <link rel="preload" href="/fonts/poppins-500.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/newsreader-italic-400.woff2" as="font" type="font/woff2" crossorigin />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
     <!--
       GitHub Pages no soporta cabeceras HTTP personalizadas (public/_headers
@@ -34,7 +54,7 @@ const { title, description, image, ogType, noindex } = Astro.props;
     -->
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://www.google-analytics.com; font-src 'self'; connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://api.hsforms.com; frame-src https://www.youtube.com; base-uri 'self'; object-src 'none';"
+      content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://www.google-analytics.com; font-src 'self'; connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://api.hsforms.com; frame-src https://www.youtube.com https://www.youtube-nocookie.com; base-uri 'self'; object-src 'none';"
     />
     <SEO title={title} description={description} image={image} ogType={ogType} noindex={noindex} />
     <!-- Google Analytics: se carga solo tras consentimiento, ver CookieConsent.astro -->
@@ -62,34 +82,16 @@ const { title, description, image, ogType, noindex } = Astro.props;
         document.body.classList.toggle('dark', e.matches);
       });
     </script>
-    <a href="#main-content" class="skip-link">Saltar al contenido</a>
-    {__PREPRO__ && <div class="prepro-aviso" role="note">Preproducción · copia de pruebas, no es la web oficial · <a href="https://gbtconsultoria.com/">gbtconsultoria.com</a></div>}
+    <a href="#main-content" class="skip-link">{t.saltar}</a>
+    {__PREPRO__ && <div class="prepro-aviso" role="note">{t.prepro} · <a href="https://gbtconsultoria.com/">gbtconsultoria.com</a></div>}
     <LoadingScreen />
     <Nav />
     <main id="main-content">
       <slot />
     </main>
     <Footer />
+    <Siguenos />
     {!__PREPRO__ && <CookieConsent />}
-    <script>
-      const revealTargets = document.querySelectorAll('[data-reveal]');
-      if ('IntersectionObserver' in window && revealTargets.length) {
-        const observer = new IntersectionObserver(
-          (entries) => {
-            // Una sola vez: antes era toggle(isIntersecting) y el bloque se
-            // volvía a ocultar al salir de pantalla, dejando huecos en blanco
-            // al volver a subir y en capturas de página completa.
-            for (const entry of entries) {
-              if (!entry.isIntersecting) continue;
-              entry.target.classList.add('is-visible');
-              observer.unobserve(entry.target);
-            }
-          },
-          { threshold: 0.15 }
-        );
-        revealTargets.forEach((el) => observer.observe(el));
-      }
-    </script>
     <script define:vars={{ BOOKING_URL }}>
       // GA4 solo registraba la vista de página base — no había ningún
       // evento en los clics de "Reservar llamada" ni "Escríbeme", así que

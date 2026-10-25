@@ -18,8 +18,8 @@ const SINTOMAS_BANNER = [1, 2, 3, 4];
 const opciones = SINTOMAS_BANNER.map((i) => ({ i, texto: primera.opciones[i].texto }));
 ---
 <section class="diag-band" aria-labelledby="diag-band-title">
-  <div class="diag-band-inner" data-reveal>
-    <p class="diag-band-kicker">{game.tag} · {game.meta}</p>
+  <div class="diag-band-inner">
+    <p class="diag-band-kicker">{game.tag}, {game.meta.toLowerCase()}</p>
     <h2 class="diag-band-title" id="diag-band-title">{primera.pregunta}</h2>
     <p class="diag-band-hint">Elige la tuya y descubre qué hay detrás.</p>
     <div class="diag-band-options">
@@ -27,7 +27,7 @@ const opciones = SINTOMAS_BANNER.map((i) => ({ i, texto: primera.opciones[i].tex
         <a href={`${href}?s=${i}`} class="diag-band-option" data-diag-banner="sintoma">{texto}</a>
       ))}
     </div>
-    <a href={href} class="diag-band-cta" data-diag-banner="boton">{game.cta} <span aria-hidden="true">→</span></a>
+    <a href={href} class="diag-band-cta" data-diag-banner="boton">{game.cta}</a>
   </div>
 </section>
 
@@ -60,18 +60,17 @@ const opciones = SINTOMAS_BANNER.map((i) => ({ i, texto: primera.opciones[i].tex
   .diag-band-inner { max-width: 1400px; margin: 0 4vw; padding: 5rem 0; }
 
   .diag-band-kicker {
-    font-size: 0.72rem;
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--blue-light);
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0;
+    color: rgba(255,255,255,0.6);
     margin-bottom: 1.2rem;
   }
 
   .diag-band-title {
-    font-family: 'Newsreader', serif;
+    font-family: 'Poppins', sans-serif;
     font-size: clamp(2rem, 4.4vw, 3.6rem);
-    font-weight: 400;
+    font-weight: 500;
     line-height: 1.08;
     letter-spacing: -0.03em;
     max-width: 900px;
@@ -116,28 +115,15 @@ const opciones = SINTOMAS_BANNER.map((i) => ({ i, texto: primera.opciones[i].tex
     transform: translateY(-2px);
   }
 
-  .diag-band-cta {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.6rem;
-    padding: 1.1rem 2rem;
-    border-radius: 8px;
-    background: var(--blue);
-    color: #fff;
-    font-size: 1rem;
-    font-weight: 500;
-    text-decoration: none;
-    transition: background 0.2s ease;
-  }
-  .diag-band-cta:hover { background: #0057cc; }
-  .diag-band-cta span { transition: transform 0.2s ease; }
-  .diag-band-cta:hover span { transform: translateX(4px); }
+  /* Forma en global.css (BOTONES). */
+  .diag-band-cta { background: var(--blue); color: #fff; font-size: 1rem; }
+  .diag-band-cta:hover { background: #f6f6f6; color: #0a0a0a; }
 
   @media (max-width: 1180px) {
     .diag-band-inner { margin: 0 6vw; padding: 4rem 0; }
   }
   @media (max-width: 640px) {
     .diag-band-options { grid-template-columns: 1fr; }
-    .diag-band-cta { width: 100%; justify-content: center; }
+    .diag-band-cta { width: 100%; }
   }
 </style>

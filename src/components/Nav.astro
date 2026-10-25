@@ -1,53 +1,98 @@
 ---
 import { RESOURCES } from '../consts';
 import { AREAS } from '../data/areas';
+import { AREAS_EN } from '../data/en/areas';
+import { getLang, ui, enlace, destinoSelector } from '../i18n';
 
 const pathname = Astro.url.pathname;
+const lang = getLang(pathname);
+const t = ui(lang).menu;
+const areas = lang === 'en' ? AREAS_EN : AREAS;
+const ir = (ruta: string) => enlace(lang, ruta);
 const isActive = (href: string) => {
-  if (href === '/') return pathname === '/';
+  if (href === '/' || href === '/en/') return pathname === href;
   return pathname.startsWith(href.replace(/\/$/, ''));
 };
 ---
 <nav>
-  <a href="/" class="logo-link">
+  <a href={ir('/')} class="logo-link">
     <img src="/isotipo.svg" alt="Guillén Bruna Tricas" class="logo-img" width="36" height="36" />
   </a>
   <ul class="nav-links" id="navLinks">
     <li class="has-dropdown">
-      <a href="/servicios/" class={isActive('/servicios/') ? 'active' : ''}>Servicios <span class="chevron">▾</span></a>
+      <a href={ir('/servicios/')} class={isActive(ir('/servicios/')) ? 'active' : ''}>{t.servicios} <span class="chevron">▾</span></a>
       <ul class="dropdown-menu">
-        {AREAS.map((s) => (
+        {areas.map((s) => (
           <li>
-            <a href={`/servicios/${s.slug}/`} class={isActive(`/servicios/${s.slug}/`) ? 'active' : ''}>{s.name}</a>
+            <a href={ir(`/servicios/${s.slug}/`)} class={isActive(ir(`/servicios/${s.slug}/`)) ? 'active' : ''}>{s.name}</a>
           </li>
         ))}
       </ul>
     </li>
-    <li><a href="/trabajo/" class={isActive('/trabajo/') ? 'active' : ''}>Casos reales</a></li>
-    <li><a href="/quienes-somos/" class={isActive('/quienes-somos/') ? 'active' : ''}>Quiénes somos</a></li>
+    <li><a href={ir('/trabajo/')} class={isActive(ir('/trabajo/')) ? 'active' : ''}>{t.casos}</a></li>
+    <li><a href={ir('/quienes-somos/')} class={isActive(ir('/quienes-somos/')) ? 'active' : ''}>{t.quienes}</a></li>
     <li class="has-dropdown">
-      <a href="/recursos/" class={isActive('/recursos/') || isActive('/articulos/') ? 'active' : ''}>Recursos <span class="chevron">▾</span></a>
+      <a href="/recursos/" class={isActive('/recursos/') || isActive('/articulos/') ? 'active' : ''}>{t.recursos} <span class="chevron">▾</span></a>
       <ul class="dropdown-menu">
         {RESOURCES.map((r) => (
           <li>
-            <a href={r.href} class={isActive(r.href) ? 'active' : ''}>{r.name}</a>
+            <a href={r.href} class={isActive(r.href) ? 'active' : ''}>{t.nombresRecursos[r.href] ?? r.name}</a>
           </li>
         ))}
       </ul>
     </li>
-    <li><a href="/contacto/" class={isActive('/contacto/') ? 'active' : ''}>Contacto</a></li>
+    <li><a href={ir('/contacto/')} class={isActive(ir('/contacto/')) ? 'active' : ''}>{t.contacto}</a></li>
+    <li class="nav-reco-item"><a href={ir('/recomendador/')} class:list={['nav-reco', { active: isActive(ir('/recomendador/')) }]}>{t.reco}</a></li>
   </ul>
   <div class="nav-right">
-    <button class="hamburger" id="hamburger" aria-expanded="false" aria-controls="navLinks" aria-label="Abrir menú">
+    <button class="hamburger" id="hamburger" aria-expanded="false" aria-controls="navLinks" aria-label={t.abrir} data-abrir={t.abrir} data-cerrar={t.cerrar}>
       <span></span><span></span><span></span>
     </button>
-    <button class="toggle" id="themeToggle" aria-pressed="false" aria-label="Activar modo oscuro">
+    <a href={destinoSelector(pathname)} class="idioma" id="idioma" data-lang={lang === 'en' ? 'es' : 'en'} hreflang={lang === 'en' ? 'es' : 'en'} lang={lang === 'en' ? 'es' : 'en'} aria-label={t.idioma}>{t.idiomaCorto}</a>
+    <button class="toggle" id="themeToggle" aria-pressed="false" aria-label={t.oscuro} data-oscuro={t.oscuro} data-claro={t.claro}>
       <span class="toggle-dot"></span>
     </button>
   </div>
 </nav>
 
 <style is:global>
+  /* Recomendador destacado (inspirado en cafeselcriollo.com): píldora con borde
+     en degradado de los dos azules de la marca. El brillo del borde y un halo
+     muy suave giran despacio alrededor (2026-10-25); quieto con movimiento reducido. */
+  @property --reco-giro { syntax: '<angle>'; inherits: false; initial-value: 0deg; }
+  .nav-links a.nav-reco {
+    display: inline-block;
+    padding: 0.45rem 1rem;
+    border: 1.5px solid transparent;
+    border-radius: 999px;
+    color: var(--black);
+    font-weight: 500;
+    line-height: 1.2;
+    background: linear-gradient(var(--white), var(--white)) padding-box, conic-gradient(from var(--reco-giro), #004aad, #95c0fa 25%, #004aad 50%, #95c0fa 75%, #004aad) border-box;
+    box-shadow: 0 0 14px rgba(0, 74, 173, 0.1);
+    animation: reco-giro 7s linear infinite;
+    transition: box-shadow 0.3s ease, color 0.3s ease;
+  }
+  /* Halo que gira detrás de la píldora: un arco azul claro difuminado. */
+  .nav-links a.nav-reco::before {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    z-index: -1;
+    border-radius: inherit;
+    background: conic-gradient(from var(--reco-giro), transparent 0deg, rgba(0, 74, 173, 0.45) 60deg, transparent 140deg, transparent 180deg, rgba(149, 192, 250, 0.6) 240deg, transparent 320deg);
+    filter: blur(7px);
+    opacity: 0.55;
+    animation: reco-giro 7s linear infinite;
+    pointer-events: none;
+  }
+  @keyframes reco-giro { to { --reco-giro: 360deg; } }
+  @media (prefers-reduced-motion: reduce) { .nav-links a.nav-reco, .nav-links a.nav-reco::before { animation: none; } }
+  .nav-links a.nav-reco::after { display: none; }
+  .nav-links a.nav-reco:hover, .nav-links a.nav-reco.active { color: var(--blue); box-shadow: 0 0 20px rgba(0, 74, 173, 0.2); }
+  body.dark .nav-links a.nav-reco { color: #e8e8e8; background: linear-gradient(var(--dark-bg), var(--dark-bg)) padding-box, conic-gradient(from var(--reco-giro), #95c0fa, #004aad 25%, #95c0fa 50%, #004aad 75%, #95c0fa) border-box; box-shadow: 0 0 14px rgba(149, 192, 250, 0.12); }
+  body.dark .nav-links a.nav-reco:hover, body.dark .nav-links a.nav-reco.active { color: var(--blue-light); box-shadow: 0 0 22px rgba(149, 192, 250, 0.26); }
+
   .hamburger { display: none; }
 
   nav {
@@ -71,13 +116,15 @@ const isActive = (href: string) => {
     filter: brightness(0) saturate(100%) invert(47%) sepia(98%) saturate(400%) hue-rotate(180deg) brightness(120%);
   }
 
-  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  /* Centrados en vertical para que la píldora del recomendador quede alineada con el resto,
+     sin saltos de línea y con hueco que encoge con la ventana. */
+  .nav-links { display: flex; align-items: center; gap: clamp(1.1rem, 2.2vw, 2rem); list-style: none; margin: 0; padding: 0; }
   .nav-links a {
     position: relative;
-    font-size: 0.78rem;
+    font-size: 0.85rem;
     font-weight: 400;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
+    letter-spacing: 0;
+    white-space: nowrap;
     color: rgba(0,0,0,0.5);
     text-decoration: none;
     transition: color var(--transition);
@@ -148,6 +195,21 @@ const isActive = (href: string) => {
 
   .nav-right { display: flex; align-items: center; gap: 1rem; }
 
+  /* Selector de idioma: solo el código del otro idioma, sin banderas. */
+  .idioma {
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    color: rgba(0,0,0,0.55);
+    text-decoration: none;
+    padding: 0.35rem 0.5rem;
+    border-radius: 6px;
+    transition: color var(--transition), background var(--transition);
+  }
+  .idioma:hover { color: var(--blue); background: var(--off-white); }
+  body.dark .idioma { color: rgba(232,232,232,0.6); }
+  body.dark .idioma:hover { color: var(--blue-light); background: var(--dark-surface2); }
+
   .toggle {
     width: 44px;
     height: 24px;
@@ -173,7 +235,7 @@ const isActive = (href: string) => {
   }
   body.dark .toggle-dot { transform: translateX(20px); background: var(--blue-light); }
 
-  @media (max-width: 640px) {
+  @media (max-width: 900px) {
     .hamburger {
       display: flex;
       flex-direction: column;
@@ -204,6 +266,7 @@ const isActive = (href: string) => {
       right: 0;
       background: var(--white);
       border-bottom: 1px solid rgba(0,0,0,0.06);
+      align-items: flex-start;
       padding: 1rem 2rem 1.5rem;
       gap: 1.2rem;
       z-index: 99;
@@ -237,7 +300,7 @@ const isActive = (href: string) => {
   const setMenuOpen = (open: boolean) => {
     navLinks!.classList.toggle('open', open);
     hamburger!.setAttribute('aria-expanded', String(open));
-    hamburger!.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
+    hamburger!.setAttribute('aria-label', (open ? hamburger!.dataset.cerrar : hamburger!.dataset.abrir) ?? '');
   };
 
   hamburger!.addEventListener('click', () => setMenuOpen(!navLinks!.classList.contains('open')));
@@ -250,7 +313,7 @@ const isActive = (href: string) => {
   const toggle = document.getElementById('themeToggle');
   const setThemeButtonState = (isDark: boolean) => {
     toggle!.setAttribute('aria-pressed', String(isDark));
-    toggle!.setAttribute('aria-label', isDark ? 'Activar modo claro' : 'Activar modo oscuro');
+    toggle!.setAttribute('aria-label', (isDark ? toggle!.dataset.claro : toggle!.dataset.oscuro) ?? '');
   };
   // El body ya trae la clase "dark" correcta (o no) del script de tema que
   // corre antes en BaseLayout — aquí solo hace falta reflejar ese estado
@@ -262,6 +325,11 @@ const isActive = (href: string) => {
     const isDark = document.body.classList.contains('dark');
     localStorage.setItem('theme', isDark ? 'dark' : 'light');
     setThemeButtonState(isDark);
+  });
+
+  // El selector recuerda el idioma elegido (sin redirigir nunca por su cuenta).
+  document.getElementById('idioma')?.addEventListener('click', (e) => {
+    try { localStorage.setItem('lang', (e.currentTarget as HTMLElement).dataset.lang ?? ''); } catch { /* sin almacenamiento */ }
   });
 
   // Si el visitante no ha fijado preferencia manual, BaseLayout sigue el

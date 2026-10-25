@@ -1,0 +1,55 @@
+---
+// Tarjeta de minijuego (2026-10-25): portada ilustrada arriba y panel de color
+// de la marca abajo, como las tarjetas de servicios. La usan /recursos/ y
+// /recursos/minijuegos/.
+import { Picture } from 'astro:assets';
+import type { GameInfo } from '../consts';
+import { getGameImage } from '../utils/game-images';
+
+interface Props {
+  game: GameInfo;
+  tono?: 'azul' | 'oscuro' | 'claro';
+  nivel?: 'h2' | 'h3';
+}
+const { game, tono = 'azul', nivel = 'h2' } = Astro.props;
+const Titulo = nivel;
+const img = getGameImage(game.image);
+const href = `/recursos/minijuegos/${game.slug}/`;
+---
+<article class={`jc jc-${tono}`}>
+  <a href={href} class="jc-media" tabindex="-1" aria-hidden="true">
+    {img ? (
+      <Picture src={img} alt="" width={1312} height={816} widths={[400, 800, 1312]} sizes="(max-width: 760px) 100vw, 50vw" formats={['avif', 'webp']} fallbackFormat="jpg" quality={60} loading="lazy" />
+    ) : (
+      <img src={game.image} alt="" width="1312" height="816" loading="lazy" decoding="async" />
+    )}
+  </a>
+  <div class="jc-panel">
+    <p class="jc-meta">{game.tag}, {game.meta}</p>
+    <Titulo class="jc-titulo"><a href={href}>{game.name}</a></Titulo>
+    <p class="jc-texto">{game.excerpt}</p>
+    <a href={href} class="jc-cta">{game.cta}</a>
+  </div>
+</article>
+
+<style is:global>
+  .jc { border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; }
+  .jc-media { display: block; aspect-ratio: 1312 / 816; background: #efebe3; }
+  .jc-media img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s ease; }
+  .jc:hover .jc-media img { transform: scale(1.03); }
+  .jc-panel { padding: 1.8rem 1.8rem 2rem; display: flex; flex-direction: column; align-items: flex-start; flex: 1; }
+  .jc-meta { font-size: 0.82rem; margin: 0 0 0.7rem; opacity: 0.75; }
+  .jc-titulo { font-size: clamp(1.4rem, 2.2vw, 1.9rem); line-height: 1.12; margin: 0 0 0.8rem; }
+  .jc-titulo a { color: inherit; text-decoration: none; }
+  .jc-texto { font-size: 0.92rem; font-weight: 300; line-height: 1.65; margin: 0 0 1.6rem; opacity: 0.85; }
+  .jc-cta { margin-top: auto; }
+  .jc-azul .jc-panel { background: var(--blue); color: #fff; }
+  .jc-azul .jc-cta { background: #fff; color: var(--blue); }
+  .jc-cta:hover { background: #0a0a0a !important; color: #fff !important; }
+  .jc-oscuro .jc-cta:hover { background: #fff !important; color: #0a0a0a !important; }
+  .jc-oscuro .jc-panel { background: #1c1c1c; color: #f6f6f6; }
+  body.dark .jc-oscuro .jc-panel { background: #22262e; }
+  .jc-oscuro .jc-cta { background: var(--blue-light); color: #0a0a0a; }
+  .jc-claro .jc-panel { background: var(--blue-light); color: #0a0a0a; }
+  .jc-claro .jc-cta { background: #0a0a0a; color: #fff; }
+</style>

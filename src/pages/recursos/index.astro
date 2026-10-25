@@ -1,42 +1,62 @@
 ---
+// Recursos (2026-10-25): últimos artículos y minijuegos con las piezas de la
+// home (cabecera grande, tarjetas de color, tarjetas de artículo sin caja).
+import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ContactBlock from '../../components/ContactBlock.astro';
-import ResourceCards from '../../components/ResourceCards.astro';
-import { RESOURCES } from '../../consts';
+import CabeceraPagina from '../../components/CabeceraPagina.astro';
+import ArticuloCard from '../../components/ArticuloCard.astro';
+import JuegoCard from '../../components/JuegoCard.astro';
+import { GAMES, SITE_NAME } from '../../consts';
 
-const cards = RESOURCES.map((r) => ({ ...r, cta: 'Ver sección' }));
+const ultimos = (await getCollection('articulos')).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf()).slice(0, 4);
+const [destacado, ...resto] = ultimos;
+const TONOS = ['azul', 'oscuro'] as const;
 ---
 <BaseLayout
-  title="Recursos de marketing | GBT Consultoría"
-  description="Artículos y minijuegos de marketing para CEO, COO y CFO. Posicionamiento, marca, go-to-market y estrategia comercial para quien toma decisiones."
+  title={`Recursos de marketing | ${SITE_NAME}`}
+  description="Artículos y minijuegos de marketing para CEO, COO y CFO. Posicionamiento, marca, go to market y estrategia comercial para quien toma decisiones."
 >
-  <div class="page-header">
-    <h1>Recursos</h1>
-    <p class="page-desc">Artículos para pensar la estrategia y minijuegos para ponerla a prueba. Todo pensado para quien toma las decisiones.</p>
-  </div>
+  <CabeceraPagina
+    titulo="Recursos de marketing para quien decide"
+    intro="Artículos para pensar la estrategia y minijuegos para ponerla a prueba en tres minutos. Gratis y sin registro para leer."
+  />
 
-  <ResourceCards cards={cards} />
+  <section class="rc-bloque">
+    <div class="rc-cabecera">
+      <h2>Últimos artículos</h2>
+      <a href="/articulos/">Ver todos los artículos</a>
+    </div>
+    {destacado && <div class="rc-destacado"><ArticuloCard entry={destacado} destacado nivel="h3" /></div>}
+    <div class="rc-grid">
+      {resto.map((e) => <ArticuloCard entry={e} nivel="h3" />)}
+    </div>
+  </section>
+
+  <section class="rc-bloque">
+    <div class="rc-cabecera">
+      <h2>Minijuegos</h2>
+      <a href="/recursos/minijuegos/">Ver los minijuegos</a>
+    </div>
+    <div class="rc-juegos">
+      {GAMES.map((g, i) => <JuegoCard game={g} tono={TONOS[i % TONOS.length]} nivel="h3" />)}
+    </div>
+  </section>
 
   <ContactBlock title="¿Hablamos<br>de tu caso?" />
 </BaseLayout>
 
 <style is:global>
-  .page-header { padding: 5rem 2rem 2rem; max-width: 900px; margin: 0 auto; }
-
-  .page-header h1 {
-    font-size: clamp(2rem, 4vw, 3.2rem);
-    font-weight: 400;
-    line-height: 1.05;
-    letter-spacing: -0.03em;
-    margin-bottom: 1rem;
-  }
-  .page-desc {
-    font-size: 1rem;
-    font-weight: 300;
-    color: rgba(0,0,0,0.55);
-    max-width: 560px;
-    line-height: 1.8;
-    transition: color var(--transition);
-  }
-  body.dark .page-desc { color: rgba(232,232,232,0.55); }
+  .rc-bloque { max-width: 1240px; margin: 0 auto; padding: 1.5rem 4vw 4.5rem; }
+  .rc-cabecera { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 0.5rem 2rem; margin-bottom: 2.2rem; padding-top: 2.6rem; border-top: 1px solid rgba(0,0,0,0.1); }
+  body.dark .rc-cabecera { border-top-color: rgba(255,255,255,0.1); }
+  .rc-cabecera h2 { font-size: clamp(1.8rem, 3.2vw, 2.6rem); margin: 0; }
+  .rc-cabecera a { font-size: 0.88rem; font-weight: 500; color: var(--blue); text-decoration: none; }
+  .rc-cabecera a:hover { text-decoration: underline; }
+  body.dark .rc-cabecera a { color: var(--blue-light); }
+  .rc-destacado { margin-bottom: 3.5rem; }
+  .rc-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 3rem 2rem; }
+  .rc-juegos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.2rem; align-items: stretch; }
+  @media (max-width: 980px) { .rc-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 760px) { .rc-grid, .rc-juegos { grid-template-columns: 1fr; } }
 </style>

@@ -1,0 +1,396 @@
+---
+// Recomendador de servicios (2026-10-25). Inspirado en cafeselcriollo.com/recomendador:
+// una pregunta por pantalla con tarjetas, barra de progreso y una pregunta que
+// cambia según el objetivo. Los datos se piden antes del resultado y van a
+// HubSpot (formulario del diagnóstico, como /contacto/). Preguntas y baremo en
+// data/recomendador.ts.
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import {
+  BOOKING_URL,
+  MAILTO_URL,
+  CONTACT_EMAIL,
+  SITE_NAME,
+  HUBSPOT_PORTAL_ID,
+  HUBSPOT_CONTACT_FORM_ID,
+  HUBSPOT_CONTACT_MESSAGE_FIELD,
+  HUBSPOT_SUBSCRIPTION_TYPE_ID,
+  LEAD_TEXTO_PRIVACIDAD,
+  LEAD_TEXTO_COMERCIAL,
+} from '../../consts';
+import { AREAS } from '../../data/areas';
+import { OBJETIVO, RAMAS, COMUNES, TOTAL_PASOS, DME, UMBRAL_FUERTE, UMBRAL_DME, UMBRAL_COMPLEMENTO } from '../../data/recomendador';
+import { OBJETIVO_EN, RAMAS_EN, COMUNES_EN, DME_EN } from '../../data/en/recomendador';
+import { AREAS_EN } from '../../data/en/areas';
+import { enlace, type Lang } from '../../i18n';
+
+// En inglés se envía a HubSpot exactamente lo mismo que en español (nombres de
+// área en español); solo cambia lo que se ve y el texto de consentimiento leído.
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const en = lang === 'en';
+const ir = (ruta: string) => enlace(lang, ruta);
+const areasVista = en ? AREAS_EN : AREAS;
+const T = en ? {
+  seoTitle: `What does your marketing need? Recommender | ${SITE_NAME}`,
+  seoDescription: 'Answer 6 questions and find out which marketing services your company needs and where to start: strategy, brand, web, SEO, advertising, social media or events.',
+  pre: 'Service recommender', h1: 'What does your marketing need?',
+  intro: 'Six questions, two minutes. We tell you which services fit your case and where we would start, with no prices and no commitment.',
+  empezar: 'Start', alGrano: 'Rather get straight to the point?', reserva: 'Book a 15-minute call', anterior: 'Back',
+  lista: 'Your recommendation is ready', datosIntro: 'Leave us your details to see it. That way, if you want to discuss it, we already know what we are talking about.',
+  nombre: 'Name', empresa: 'Company', email: 'Email', telefono: 'Phone', opcional: '(optional)', honeypot: 'Do not fill in this field',
+  privacidadAntes: 'I have read and accept the', privacidadEnlace: 'privacy policy',
+  textoPrivacidad: 'I have read and accept the privacy policy.',
+  textoComercial: 'I would like to receive content and commercial proposals from Guillén Bruna by email. You can unsubscribe at any time.',
+  ver: 'See my recommendation',
+  legal: 'The controller of your data is Guillén Bruna Tricas (GBT Consultoría). We use it to show you the recommendation and contact you about it and, only if you tick the box, to send you commercial communications. It is stored in HubSpot. You can access, rectify or delete your data by writing to',
+  tuReco: 'Your recommendation', comentar: 'Discuss it on a call', verServicio: 'See the service',
+  notaFinal: 'This is a first steer based on your answers. On the call we make it concrete, and within 5 working days you get a firm proposal.', repetir: 'Start again',
+} : {
+  seoTitle: `¿Qué necesita tu marketing? Recomendador | ${SITE_NAME}`,
+  seoDescription: 'Responde 6 preguntas y descubre qué servicios de marketing necesita tu empresa y por dónde empezar: estrategia, marca, web, SEO, publicidad, redes o eventos.',
+  pre: 'Recomendador de servicios', h1: '¿Qué necesita tu marketing?',
+  intro: 'Seis preguntas, dos minutos. Te decimos qué servicios encajan con tu caso y por dónde empezaríamos, sin precios ni compromiso.',
+  empezar: 'Empezar', alGrano: '¿Prefieres ir al grano?', reserva: 'Reserva una llamada de 15 minutos', anterior: 'Anterior',
+  lista: 'Tu recomendación está lista', datosIntro: 'Déjanos tus datos para verla. Así, si quieres comentarla, ya sabemos de qué hablamos.',
+  nombre: 'Nombre', empresa: 'Empresa', email: 'Email', telefono: 'Teléfono', opcional: '(opcional)', honeypot: 'No rellenes este campo',
+  privacidadAntes: 'He leído y acepto la', privacidadEnlace: 'política de privacidad',
+  textoPrivacidad: LEAD_TEXTO_PRIVACIDAD,
+  textoComercial: LEAD_TEXTO_COMERCIAL,
+  ver: 'Ver mi recomendación',
+  legal: 'El responsable de tus datos es Guillén Bruna Tricas (GBT Consultoría). Los usamos para enseñarte la recomendación y contactarte sobre ella y, solo si lo marcas, para enviarte comunicaciones comerciales. Se guardan en HubSpot. Puedes acceder, rectificar o suprimir tus datos escribiendo a',
+  tuReco: 'Tu recomendación', comentar: 'Comentarlo en una llamada', verServicio: 'Ver el servicio',
+  notaFinal: 'Es una primera orientación a partir de tus respuestas. En la llamada lo concretamos y en 5 días laborables tienes una propuesta cerrada.', repetir: 'Volver a empezar',
+};
+// Textos que pinta el script.
+const js = en ? {
+  paso: 'Step {i} of {n}', y: ' and ', ademas: 'You might also need',
+  dmeEmpezar: 'Where we would start: a diagnosis and a marketing plan with priorities. From there, we would lead {lista}.',
+  dmeEmpezarSolo: 'Where we would start: a diagnosis and a marketing plan with clear priorities.',
+  estrategiaPrimero: 'Where we would start: first, Strategy and brand, so everything stems from a clear message. Then, {lista}.',
+  primero: 'Where we would start: first, {nombre}', despues: '. Then, {lista}',
+  errores: { nombre: 'Please write your name and your company’s.', email: 'Please check the email; something seems to be missing.', privacidad: 'To see the recommendation you need to accept the privacy policy.' },
+  preparando: 'Preparing your recommendation…', ver: T.ver,
+} : {
+  paso: 'Paso {i} de {n}', y: ' y ', ademas: 'Y además te encajaría',
+  dmeEmpezar: 'Por dónde empezaríamos: un diagnóstico y un plan de marketing con prioridades. Desde ahí, dirigiríamos {lista}.',
+  dmeEmpezarSolo: 'Por dónde empezaríamos: un diagnóstico y un plan de marketing con prioridades claras.',
+  estrategiaPrimero: 'Por dónde empezaríamos: primero, Estrategia y marca, para que todo parta de un mensaje claro. Después, {lista}.',
+  primero: 'Por dónde empezaríamos: primero, {nombre}', despues: '. Después, {lista}',
+  errores: { nombre: 'Escribe tu nombre y el de tu empresa.', email: 'Revisa el email, parece que falta algo.', privacidad: 'Para ver la recomendación necesitas aceptar la política de privacidad.' },
+  preparando: 'Preparando tu recomendación…', ver: T.ver,
+};
+
+const config = {
+  objetivo: en ? OBJETIVO_EN : OBJETIVO,
+  ramas: en ? RAMAS_EN : RAMAS,
+  comunes: en ? COMUNES_EN : COMUNES,
+  total: TOTAL_PASOS,
+  dme: { ...(en ? DME_EN : DME), href: ir(DME.href), nombreEs: DME.nombre },
+  t: js,
+  umbrales: { fuerte: UMBRAL_FUERTE, dme: UMBRAL_DME, complemento: UMBRAL_COMPLEMENTO },
+  areas: areasVista.map((a, i) => ({ slug: a.slug, nombre: a.name, nombreEs: AREAS[i].name, texto: a.tagline, href: ir(`/servicios/${a.slug}/`) })),
+  booking: BOOKING_URL,
+  hubspot: { portalId: HUBSPOT_PORTAL_ID, formId: HUBSPOT_CONTACT_FORM_ID, subscriptionTypeId: HUBSPOT_SUBSCRIPTION_TYPE_ID, campoMensaje: HUBSPOT_CONTACT_MESSAGE_FIELD },
+  textoPrivacidad: T.textoPrivacidad,
+  textoComercial: T.textoComercial,
+};
+---
+<BaseLayout
+  title={T.seoTitle}
+  description={T.seoDescription}
+>
+  <section class="rc" id="rc">
+    <div class="rc-caja">
+      <!-- Inicio -->
+      <div class="rc-pantalla" data-pantalla="inicio">
+        <p class="rc-pre">{T.pre}</p>
+        <h1>{T.h1}</h1>
+        <p class="rc-intro">{T.intro}</p>
+        <button type="button" class="btn-primary" id="rc-empezar">{T.empezar}</button>
+        <p class="rc-nota">{T.alGrano} <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">{T.reserva}</a>.</p>
+      </div>
+
+      <!-- Preguntas -->
+      <div class="rc-pantalla" data-pantalla="pregunta" hidden>
+        <div class="rc-progreso" aria-hidden="true"><span id="rc-barra"></span></div>
+        <div class="rc-cabeza">
+          <p class="rc-paso" id="rc-paso" aria-live="polite"></p>
+          <button type="button" class="rc-atras" id="rc-atras">{T.anterior}</button>
+        </div>
+        <h2 class="rc-titulo" id="rc-titulo" tabindex="-1"></h2>
+        <p class="rc-ayuda" id="rc-ayuda" hidden></p>
+        <div class="rc-opciones" id="rc-opciones"></div>
+      </div>
+
+      <!-- Datos -->
+      <div class="rc-pantalla" data-pantalla="datos" hidden>
+        <div class="rc-progreso" aria-hidden="true"><span style="width:100%"></span></div>
+        <h2 class="rc-titulo" tabindex="-1" id="rc-datos-titulo">{T.lista}</h2>
+        <p class="rc-intro">{T.datosIntro}</p>
+        <form class="rc-form" id="rc-form" novalidate>
+          <div class="rc-fila">
+            <label class="rc-campo"><span>{T.nombre}</span><input name="nombre" type="text" autocomplete="given-name" required /></label>
+            <label class="rc-campo"><span>{T.empresa}</span><input name="empresa" type="text" autocomplete="organization" required /></label>
+          </div>
+          <div class="rc-fila">
+            <label class="rc-campo"><span>{T.email}</span><input name="email" type="email" autocomplete="email" required /></label>
+            <label class="rc-campo"><span>{T.telefono} <em>{T.opcional}</em></span><input name="telefono" type="tel" autocomplete="tel" /></label>
+          </div>
+          <div class="rc-honeypot" aria-hidden="true">
+            <label for="rc-web">{T.honeypot}</label>
+            <input id="rc-web" name="web" type="text" tabindex="-1" autocomplete="off" />
+          </div>
+          <label class="rc-check"><input type="checkbox" name="privacidad" required /><span>{T.privacidadAntes} <a href={ir('/privacidad/')} target="_blank" rel="noopener">{T.privacidadEnlace}</a>.</span></label>
+          <label class="rc-check"><input type="checkbox" name="comercial" /><span>{T.textoComercial}</span></label>
+          <p class="rc-error" id="rc-error" role="alert" hidden></p>
+          <button type="submit" class="btn-primary" id="rc-ver">{T.ver}</button>
+          <p class="rc-legal">{T.legal} <a href={MAILTO_URL}>{CONTACT_EMAIL}</a>.</p>
+        </form>
+      </div>
+
+      <!-- Resultado -->
+      <div class="rc-pantalla" data-pantalla="resultado" hidden>
+        <p class="rc-pre">{T.tuReco}</p>
+        <h2 class="rc-titulo" tabindex="-1" id="rc-res-titulo"></h2>
+        <p class="rc-intro" id="rc-res-texto"></p>
+        <p class="rc-empezar" id="rc-res-empezar"></p>
+        <div class="rc-complementos" id="rc-res-complementos"></div>
+        <div class="rc-acciones">
+          <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" class="btn-primary">{T.comentar}</a>
+          <a href="#" class="btn-secondary" id="rc-res-ver">{T.verServicio}</a>
+        </div>
+        <p class="rc-nota">{T.notaFinal} <button type="button" class="rc-repetir" id="rc-repetir">{T.repetir}</button></p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script define:vars={{ config }}>
+  const $ = (id) => document.getElementById(id);
+  const track = (name, params = {}) => { if (typeof gtag === 'function') gtag('event', name, params); };
+  const pantallas = [...document.querySelectorAll('[data-pantalla]')];
+  const mostrar = (nombre, focoId) => {
+    pantallas.forEach((p) => { p.hidden = p.dataset.pantalla !== nombre; });
+    document.getElementById('rc').scrollIntoView({ block: 'start', behavior: 'auto' });
+    if (focoId) $(focoId)?.focus();
+  };
+
+  let respuestas = []; // [{ pregunta, opcion }]
+  const preguntaEn = (i) => {
+    if (i === 0) return config.objetivo;
+    if (i === 1) return config.ramas[respuestas[0].opcion.rama];
+    return config.comunes[i - 2];
+  };
+
+  const pintar = (i) => {
+    const p = preguntaEn(i);
+    $('rc-paso').textContent = config.t.paso.replace('{i}', i + 1).replace('{n}', config.total);
+    $('rc-barra').style.width = `${((i + 1) / config.total) * 100}%`;
+    $('rc-titulo').textContent = p.titulo;
+    $('rc-ayuda').textContent = p.ayuda ?? '';
+    $('rc-ayuda').hidden = !p.ayuda;
+    $('rc-atras').hidden = i === 0;
+    const cont = $('rc-opciones');
+    cont.innerHTML = '';
+    p.opciones.forEach((o) => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'rc-opcion';
+      if (respuestas[i]?.opcion.id === o.id) b.classList.add('elegida');
+      b.innerHTML = '<strong></strong><span></span>';
+      b.querySelector('strong').textContent = o.titulo;
+      b.querySelector('span').textContent = o.texto;
+      b.addEventListener('click', () => elegir(i, p, o));
+      cont.appendChild(b);
+    });
+    mostrar('pregunta', 'rc-titulo');
+  };
+
+  const elegir = (i, pregunta, opcion) => {
+    // Si cambia el objetivo, la rama cambia: se descarta lo que venía detrás.
+    if (i === 0 && respuestas[0] && respuestas[0].opcion.id !== opcion.id) respuestas = [];
+    respuestas[i] = { pregunta, opcion };
+    track('recomendador_paso', { paso: i + 1, pregunta: pregunta.id, opcion: opcion.id });
+    if (i + 1 < config.total) pintar(i + 1);
+    else mostrar('datos', 'rc-datos-titulo');
+  };
+
+  const calcular = () => {
+    const puntos = { dme: 0 };
+    config.areas.forEach((a) => { puntos[a.slug] = 0; });
+    respuestas.forEach(({ opcion }) => Object.entries(opcion.puntos).forEach(([k, v]) => { puntos[k] = (puntos[k] ?? 0) + v; }));
+    const orden = config.areas.map((a) => ({ ...a, puntos: puntos[a.slug] })).sort((x, y) => y.puntos - x.puntos);
+    const fuertes = orden.filter((a) => a.puntos >= config.umbrales.fuerte);
+    const esDme = fuertes.length >= 3 || puntos.dme >= config.umbrales.dme;
+    const principal = esDme ? null : orden[0];
+    const complementos = orden.filter((a) => a !== principal && a.puntos >= config.umbrales.complemento).slice(0, 2);
+    return { puntos, esDme, principal, complementos };
+  };
+
+  const lista = (xs) => xs.length < 2 ? (xs[0]?.nombre ?? '') : `${xs.slice(0, -1).map((x) => x.nombre).join(', ')}${config.t.y}${xs.at(-1).nombre}`;
+
+  const pintarResultado = (r) => {
+    if (r.esDme) {
+      $('rc-res-titulo').textContent = config.dme.nombre;
+      $('rc-res-texto').textContent = config.dme.texto;
+      $('rc-res-empezar').textContent = r.complementos.length
+        ? config.t.dmeEmpezar.replace('{lista}', lista(r.complementos))
+        : config.t.dmeEmpezarSolo;
+      $('rc-res-ver').href = config.dme.href;
+    } else {
+      // Si la estrategia aparece como complemento, va primero: los canales parten del mensaje.
+      const estrategia = r.complementos.find((c) => c.slug === 'estrategia-y-marca');
+      const despues = r.complementos.filter((c) => c !== estrategia);
+      $('rc-res-titulo').textContent = r.principal.nombre;
+      $('rc-res-texto').textContent = r.principal.texto;
+      $('rc-res-empezar').textContent = estrategia
+        ? config.t.estrategiaPrimero.replace('{lista}', lista([r.principal, ...despues]))
+        : `${config.t.primero.replace('{nombre}', r.principal.nombre)}${r.complementos.length ? config.t.despues.replace('{lista}', lista(r.complementos)) : ''}.`;
+      $('rc-res-ver').href = r.principal.href;
+    }
+    const cont = $('rc-res-complementos');
+    cont.innerHTML = '';
+    if (r.complementos.length) {
+      const h = document.createElement('h3'); h.textContent = config.t.ademas; cont.appendChild(h);
+      r.complementos.forEach((c) => {
+        const a = document.createElement('a');
+        a.href = c.href; a.className = 'rc-complemento';
+        a.innerHTML = '<strong></strong><span></span>';
+        a.querySelector('strong').textContent = c.nombre; a.querySelector('span').textContent = c.texto;
+        cont.appendChild(a);
+      });
+    }
+    mostrar('resultado', 'rc-res-titulo');
+  };
+
+  const enviar = async (d, r, comercial) => {
+    const { portalId, formId, subscriptionTypeId, campoMensaje } = config.hubspot;
+    if (!portalId || !formId) { console.warn('HubSpot sin configurar: el lead no se guarda (preproducción).'); return; }
+    // Siempre en español, igual que en la versión española.
+    const nombres = r.esDme ? [config.dme.nombreEs, ...r.complementos.map((c) => c.nombreEs)] : [r.principal.nombreEs, ...r.complementos.map((c) => c.nombreEs)];
+    const detalle = [
+      ...respuestas.map(({ pregunta, opcion }) => `${pregunta.titulo} ${opcion.titulo}`),
+      '',
+      `Puntos: ${Object.entries(r.puntos).map(([k, v]) => `${k} ${v}`).join(', ')}`,
+      `Consentimiento comercial: ${comercial ? 'sí' : 'no'}`,
+    ].join('\n');
+    const fields = [
+      { name: 'email', value: d.email },
+      { name: 'firstname', value: d.nombre },
+      { name: 'company', value: d.empresa },
+      { name: 'phone', value: d.telefono },
+      { name: 'diagnostico_resultado', value: `Recomendador: ${nombres.join(' + ')}` },
+      { name: campoMensaje, value: detalle },
+    ].filter((f) => f.value);
+    const consent = { consentToProcess: true, text: config.textoPrivacidad };
+    if (subscriptionTypeId) consent.communications = [{ value: comercial, subscriptionTypeId: Number(subscriptionTypeId), text: config.textoComercial }];
+    const res = await fetch(`https://api.hsforms.com/submissions/v3/integration/submit/${portalId}/${formId}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ fields, context: { pageUri: location.href, pageName: document.title }, legalConsentOptions: { consent } }),
+    });
+    if (!res.ok) throw new Error(`HubSpot ${res.status}: ${await res.text()}`);
+  };
+
+  $('rc-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const fd = new FormData(e.target);
+    const d = { nombre: String(fd.get('nombre') ?? '').trim(), empresa: String(fd.get('empresa') ?? '').trim(), email: String(fd.get('email') ?? '').trim(), telefono: String(fd.get('telefono') ?? '').trim() };
+    const comercial = fd.get('comercial') === 'on';
+    let error = '';
+    if (!d.nombre || !d.empresa) error = config.t.errores.nombre;
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(d.email)) error = config.t.errores.email;
+    else if (fd.get('privacidad') !== 'on') error = config.t.errores.privacidad;
+    $('rc-error').textContent = error; $('rc-error').hidden = !error;
+    if (error) return;
+    const boton = $('rc-ver'); boton.disabled = true; boton.textContent = config.t.preparando;
+    const r = calcular();
+    if (!fd.get('web')) {
+      try { await enviar(d, r, comercial); track('recomendador_lead', { comercial }); }
+      catch (err) { console.error(err); track('recomendador_error_envio'); }
+    }
+    boton.disabled = false; boton.textContent = config.t.ver;
+    track('recomendador_resultado', { principal: r.esDme ? 'dme' : r.principal.slug });
+    pintarResultado(r);
+  });
+
+  $('rc-empezar').addEventListener('click', () => { respuestas = []; track('recomendador_inicio'); pintar(0); });
+  $('rc-atras').addEventListener('click', () => { const i = Number($('rc-paso').textContent.match(/\d+/)[0]) - 1; if (i > 0) pintar(i - 1); });
+  $('rc-repetir').addEventListener('click', () => { respuestas = []; pintar(0); });
+</script>
+
+<style is:global>
+  .rc { padding: 3.5rem 4vw 6rem; background: var(--off-white); min-height: 70vh; }
+  body.dark .rc { background: #0f1116; }
+  .rc-caja { max-width: 860px; margin: 0 auto; background: var(--white); border-radius: 20px; padding: 3rem 3.2rem 3.4rem; box-shadow: 0 30px 60px -40px rgba(16,34,64,0.25); }
+  body.dark .rc-caja { background: #14171d; box-shadow: none; border: 1px solid rgba(255,255,255,0.06); }
+  .rc-pantalla[hidden] { display: none; }
+  .rc-pre { font-size: 0.85rem; font-weight: 500; color: var(--blue); margin: 0 0 1rem; }
+  body.dark .rc-pre { color: var(--blue-light); }
+  .rc h1 { font-size: clamp(2.2rem, 5vw, 3.6rem); margin: 0 0 1.2rem; }
+  .rc-intro { font-size: 1.02rem; font-weight: 300; line-height: 1.75; color: rgba(0,0,0,0.65); margin: 0 0 2rem; max-width: 620px; }
+  body.dark .rc-intro { color: rgba(232,232,232,0.68); }
+  .rc-nota { font-size: 0.85rem; font-weight: 300; color: rgba(0,0,0,0.55); margin: 1.6rem 0 0; }
+  body.dark .rc-nota { color: rgba(232,232,232,0.55); }
+  .rc-nota a, .rc-legal a, .rc-check a { color: var(--blue); }
+  body.dark .rc-nota a, body.dark .rc-legal a, body.dark .rc-check a { color: var(--blue-light); }
+
+  .rc-progreso { height: 4px; border-radius: 4px; background: rgba(0,0,0,0.08); overflow: hidden; margin-bottom: 1.4rem; }
+  body.dark .rc-progreso { background: rgba(255,255,255,0.1); }
+  .rc-progreso span { display: block; height: 100%; background: var(--blue); border-radius: 4px; transition: width 0.35s ease; }
+  body.dark .rc-progreso span { background: var(--blue-light); }
+  .rc-cabeza { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem; }
+  .rc-paso { font-size: 0.85rem; color: rgba(0,0,0,0.5); margin: 0; }
+  body.dark .rc-paso { color: rgba(232,232,232,0.5); }
+  .rc-atras, .rc-repetir { appearance: none; background: none; border: 0; padding: 0; font: 500 0.85rem 'Poppins', sans-serif; color: var(--blue); cursor: pointer; }
+  body.dark .rc-atras, body.dark .rc-repetir { color: var(--blue-light); }
+  .rc-atras[hidden] { display: none; }
+  .rc-titulo { font-size: clamp(1.6rem, 3vw, 2.3rem); margin: 0 0 0.8rem; outline: none; }
+  .rc-ayuda { font-size: 0.92rem; font-weight: 300; color: rgba(0,0,0,0.6); margin: 0 0 1rem; }
+  body.dark .rc-ayuda { color: rgba(232,232,232,0.6); }
+  .rc-opciones { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.8rem; margin-top: 1.4rem; }
+  .rc-opcion { appearance: none; text-align: left; font: inherit; color: inherit; background: var(--off-white); border: 1.5px solid transparent; border-radius: 14px; padding: 1.1rem 1.2rem; cursor: pointer; display: flex; flex-direction: column; gap: 0.25rem; transition: border-color 0.2s ease, background 0.2s ease, transform 0.15s ease; }
+  .rc-opcion strong { font-weight: 500; font-size: 0.98rem; }
+  .rc-opcion span { font-size: 0.84rem; font-weight: 300; line-height: 1.5; color: rgba(0,0,0,0.6); }
+  .rc-opcion:hover { border-color: var(--blue); background: var(--white); }
+  .rc-opcion:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+  .rc-opcion.elegida { border-color: var(--blue); background: #eaf2fe; }
+  body.dark .rc-opcion { background: #1b1f27; }
+  body.dark .rc-opcion span { color: rgba(232,232,232,0.6); }
+  body.dark .rc-opcion:hover, body.dark .rc-opcion.elegida { border-color: var(--blue-light); background: #1f2633; }
+
+  .rc-form { display: flex; flex-direction: column; gap: 1.1rem; }
+  .rc-fila { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1.1rem; }
+  .rc-campo { min-width: 0; display: flex; flex-direction: column; gap: 0.45rem; font-size: 0.85rem; font-weight: 500; }
+  .rc-campo em { font-style: normal; font-weight: 300; color: rgba(0,0,0,0.5); }
+  .rc-campo input { width: 100%; min-width: 0; box-sizing: border-box; font: 300 1rem 'Poppins', sans-serif; color: inherit; background: var(--off-white); border: 1px solid transparent; border-radius: 12px; padding: 0.85rem 1rem; }
+  .rc-campo input:focus { outline: none; border-color: var(--blue); background: var(--white); }
+  body.dark .rc-campo input { background: #1b1f27; }
+  body.dark .rc-campo input:focus { border-color: var(--blue-light); }
+  .rc-check { display: flex; gap: 0.7rem; align-items: flex-start; font-size: 0.85rem; font-weight: 300; line-height: 1.55; }
+  .rc-check input { margin-top: 0.25rem; accent-color: var(--blue); width: 16px; height: 16px; flex: none; }
+  .rc-honeypot { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+  .rc-error { color: #b42318; font-size: 0.88rem; margin: 0; }
+  body.dark .rc-error { color: #ff8a80; }
+  .rc-form .btn-primary, .rc-pantalla > .btn-primary { align-self: flex-start; }
+  .rc-legal { font-size: 0.76rem; font-weight: 300; line-height: 1.6; color: rgba(0,0,0,0.5); margin: 0; }
+  body.dark .rc-legal { color: rgba(232,232,232,0.5); }
+
+  .rc-empezar { font-size: 1rem; line-height: 1.7; padding: 1.2rem 1.4rem; background: #eaf2fe; border-radius: 14px; margin: 0 0 2rem; }
+  body.dark .rc-empezar { background: #1b2433; }
+  .rc-complementos h3 { font-size: 1.05rem; margin: 0 0 0.9rem; }
+  .rc-complementos { display: grid; gap: 0.7rem; margin-bottom: 2.2rem; }
+  .rc-complemento { display: flex; flex-direction: column; gap: 0.2rem; padding: 1rem 1.2rem; border: 1px solid rgba(0,0,0,0.1); border-radius: 14px; color: inherit; text-decoration: none; transition: border-color 0.2s ease; }
+  .rc-complemento:hover { border-color: var(--blue); }
+  .rc-complemento strong { font-weight: 500; }
+  .rc-complemento span { font-size: 0.86rem; font-weight: 300; color: rgba(0,0,0,0.6); }
+  body.dark .rc-complemento { border-color: rgba(255,255,255,0.12); }
+  body.dark .rc-complemento span { color: rgba(232,232,232,0.6); }
+  .rc-acciones { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; }
+
+  @media (max-width: 680px) {
+    .rc { padding: 1.5rem 0.8rem 4rem; }
+    .rc-caja { padding: 2rem 1.3rem 2.4rem; }
+    .rc-opciones, .rc-fila { grid-template-columns: 1fr; }
+  }
+</style>

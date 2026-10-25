@@ -1,0 +1,12 @@
+---
+import Area from '../../../components/paginas/Area.astro';
+import { AREAS_EN } from '../../../data/en/areas';
+import { AREA_EN } from '../../../i18n';
+import type { Area as TArea } from '../../../data/areas';
+
+export function getStaticPaths() {
+  return AREAS_EN.map((area) => ({ params: { area: AREA_EN[area.slug] }, props: { area } }));
+}
+const { area } = Astro.props as { area: TArea };
+---
+<Area area={area} lang="en" />

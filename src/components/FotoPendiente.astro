@@ -1,0 +1,28 @@
+---
+// Hueco para una fotografía que todavía no existe. Solo para revisar diseños en
+// preproducción: antes de un lanzamiento a producción se sustituye por la foto
+// real (scripts/check-fotos-pendientes.mjs falla si queda alguno en el build
+// normal). Ver marca-personal/montaje-web/metodologia-preproduccion.md.
+import { getLang, ui } from '../i18n';
+interface Props {
+  /** Qué foto va aquí: escena, encuadre y tamaño mínimo. */
+  texto: string;
+  /** Proporción CSS, por ejemplo "16 / 9". */
+  ratio?: string;
+  class?: string;
+}
+const { texto, ratio = '16 / 9', class: className } = Astro.props;
+const etiqueta = ui(getLang(Astro.url.pathname)).foto;
+---
+<figure class:list={['foto-pendiente', className]} style={`aspect-ratio: ${ratio};`} data-foto-pendiente>
+  <figcaption><span>{etiqueta}</span>{texto}</figcaption>
+</figure>
+
+<style is:global>
+  .foto-pendiente { margin: 0; display: flex; align-items: flex-end; border-radius: 16px; border: 1px solid rgba(0,0,0,0.08); background: linear-gradient(135deg, #e9edf3 0%, #dfe6f0 100%); overflow: hidden; }
+  body.dark .foto-pendiente { border-color: rgba(255,255,255,0.08); background: linear-gradient(135deg, #161b24 0%, #1b2230 100%); }
+  .foto-pendiente figcaption { padding: 1.2rem 1.4rem; max-width: 520px; font-size: 0.78rem; font-weight: 300; line-height: 1.55; color: rgba(0,0,0,0.55); }
+  body.dark .foto-pendiente figcaption { color: rgba(232,232,232,0.55); }
+  .foto-pendiente figcaption span { display: block; font-weight: 500; color: rgba(0,0,0,0.7); margin-bottom: 0.2rem; }
+  body.dark .foto-pendiente figcaption span { color: rgba(232,232,232,0.75); }
+</style>

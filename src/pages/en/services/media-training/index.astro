@@ -1,0 +1,21 @@
+---
+import ServiceLayout from '../../../../layouts/ServiceLayout.astro';
+import { SITE_NAME } from '../../../../consts';
+import { FICHAS_EN } from '../../../../data/en/fichas';
+
+const f = FICHAS_EN['mentoria-comunicacion'];
+---
+<ServiceLayout
+  title={`${f.seoTitle} | ${SITE_NAME}`}
+  description={f.description}
+  heading={f.seoTitle}
+  subtitle={f.subtitle}
+  image="/images/servicios/mentoria-comunicacion.jpg"
+  imageAlt={f.imageAlt}
+  paraQuien={f.paraQuien}
+  queResuelve={f.queResuelve}
+  recibe={f.recibe}
+  pasos={f.pasos}
+  cierre={f.cierre}
+  faqs={f.faqs}
+/>

@@ -1,5 +1,6 @@
 ---
 import { LINKEDIN_URL, SITE_NAME, CONTACT_EMAIL } from '../consts';
+import { getLang, pareja } from '../i18n';
 
 interface Props {
   title: string;
@@ -22,6 +23,14 @@ const {
   ogType = 'website',
   noindex = false,
 } = Astro.props;
+// Versión inglesa (2026-10-25): hreflang solo en las páginas que tienen pareja
+// en el otro idioma; x-default apunta a la española, que es la prioritaria.
+const lang = getLang(Astro.url.pathname);
+const otra = pareja(Astro.url.pathname);
+const absoluta = (p: string) => new URL(p, 'https://gbtconsultoria.com').href;
+const alternas = otra
+  ? { es: absoluta(lang === 'es' ? Astro.url.pathname : otra), en: absoluta(lang === 'en' ? Astro.url.pathname : otra) }
+  : null;
 const imageUrl = image.startsWith('http') ? image : `https://gbtconsultoria.com${image}`;
 
 // La firma (GBT Consultoría) es la entidad principal y Guillén Bruna Tricas su
@@ -33,7 +42,7 @@ const orgLd = {
   name: SITE_NAME,
   url: 'https://gbtconsultoria.com/',
   logo: 'https://gbtconsultoria.com/isotipo.svg',
-  image: 'https://gbtconsultoria.com/guillen-chaqueta.jpg',
+  image: 'https://gbtconsultoria.com/guillen-retrato.jpg',
   email: CONTACT_EMAIL,
   knowsAbout: [
     'Estrategia de marca',
@@ -56,7 +65,7 @@ const orgLd = {
     '@type': 'Person',
     name: 'Guillén Bruna Tricas',
     url: 'https://gbtconsultoria.com/quienes-somos/#guillen',
-    image: 'https://gbtconsultoria.com/guillen-chaqueta.jpg',
+    image: 'https://gbtconsultoria.com/guillen-retrato.jpg',
     jobTitle: 'Consultor de estrategia de marketing y marca',
     // El cargo se mantiene corto y idéntico en web, LinkedIn, redes y vídeos;
     // el resto de especialidades se declaran aquí para que buscadores e IA las asocien.
@@ -78,6 +87,13 @@ const orgLd = {
 <title>{title}</title>
 <meta name="description" content={description} />
 <link rel="canonical" href={url} />
+{alternas && (
+  <>
+    <link rel="alternate" hreflang="es" href={alternas.es} />
+    <link rel="alternate" hreflang="en" href={alternas.en} />
+    <link rel="alternate" hreflang="x-default" href={alternas.es} />
+  </>
+)}
 {__PREPRO__ ? <meta name="robots" content="noindex,nofollow" /> : noindex && <meta name="robots" content="noindex,follow" />}
 
 <meta property="og:type" content={ogType} />
@@ -85,7 +101,8 @@ const orgLd = {
 <meta property="og:description" content={description} />
 <meta property="og:url" content={url} />
 <meta property="og:image" content={imageUrl} />
-<meta property="og:locale" content="es_ES" />
+<meta property="og:locale" content={lang === 'en' ? 'en_GB' : 'es_ES'} />
+{alternas && <meta property="og:locale:alternate" content={lang === 'en' ? 'es_ES' : 'en_GB'} />}
 
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content={title} />

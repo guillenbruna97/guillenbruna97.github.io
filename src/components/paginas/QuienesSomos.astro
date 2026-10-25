@@ -1,0 +1,456 @@
+---
+// Quiénes somos (rediseño 2026-10-25) con las piezas que Dirección ya aprobó en
+// la home, servicios y casos: titular grande con foto, frase con dos columnas,
+// «Cómo elegimos a la red» en tarjetas de color, quién la orquesta, dónde lo ha
+// demostrado (casos), cómo trabajamos y preguntas frecuentes.
+// Anclas que se enlazan desde otras páginas: #la-red, #guillen, #como-trabajamos.
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ContactBlock from '../../components/ContactBlock.astro';
+import FaqList from '../../components/FaqList.astro';
+import Foto from '../../components/Foto.astro';
+import { FOTO_QUIENES } from '../../data/fotos';
+import { Picture } from 'astro:assets';
+import { LINKEDIN_URL, BOOKING_URL, SITE_NAME } from '../../consts';
+import { casos } from '../../data/casos';
+import { casosEn } from '../../data/en/casos';
+import { enlace, type Lang } from '../../i18n';
+import guillenRetrato from '../../assets/sobre-mi/guillen-retrato.png';
+import momentoBroco from '../../assets/sobre-mi/momento-broco.png';
+import momentoSis from '../../assets/sobre-mi/momento-sis.png';
+import momentoSlm from '../../assets/sobre-mi/momento-slm.png';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const en = lang === 'en';
+const ir = (ruta: string) => enlace(lang, ruta);
+const lista = en ? casosEn : casos;
+
+const redEs = [
+  { title: 'Solo entra quien hemos visto trabajar', text: 'Nadie llega a la red por su portfolio. Llega porque hemos comprobado sus resultados en proyectos reales.' },
+  { title: 'Especialistas, no todoterrenos', text: 'Cada profesional hace una cosa y la hace muy bien. En las áreas clave hay más de uno, así que elegimos el perfil que mejor encaja con tu sector y tu proyecto nunca depende de una sola persona.' },
+  { title: 'Experiencia senior', text: 'Ningún proyecto se aprende con tu presupuesto.' },
+  { title: 'Cada entrega se revisa antes de llegarte', text: 'Guillén Bruna revisa todo lo que sale hacia el cliente. La calidad la responde él, no el especialista de turno.' },
+  { title: 'Un solo interlocutor y una sola factura', text: 'Hablas con una persona, que coordina al resto. Aunque intervengan varios especialistas, recibes una sola factura.' },
+];
+const TONOS = ['azul', 'claro', 'roto', 'oscuro', 'azul'];
+
+const pasosEs = [
+  { title: 'Llamada de 15 minutos', text: 'Nos cuentas tu situación y vemos si podemos ayudarte.' },
+  { title: 'Propuesta en 5 días laborables', text: 'Con el alcance, el equipo, los plazos y el precio cerrado.' },
+  { title: 'Equipo a medida', text: 'Elegimos a los especialistas de la red que necesita tu proyecto, ni uno más.' },
+  { title: 'Ejecución con revisión', text: 'Cada entrega pasa por la revisión de Guillén antes de llegarte.' },
+  { title: 'Medición y ajuste', text: 'Revisamos los resultados contigo y corregimos el rumbo cuando hace falta.' },
+];
+
+// Preguntas comunes a todos los servicios (banco de preguntas previas a la
+// contratación, marca-personal/seo-geo/ai-visibility/preguntas-precompra.csv).
+const faqsEs = [
+  { question: '¿Trabajaré contigo o con un equipo?', answer: 'Con los dos. Guillén Bruna dirige tu proyecto y es tu único interlocutor. Lo ejecutan especialistas senior de nuestra red, elegidos para tu caso, y cada entrega pasa por su revisión antes de llegarte.' },
+  { question: '¿Cuánto cuesta?', answer: 'Cada proyecto tiene un precio cerrado que va en la propuesta. Depende del alcance, porque no cuesta lo mismo una web corporativa que una campaña en tres canales. Tras una llamada de 15 minutos, en 5 días laborables recibes la propuesta con alcance, precio y plazos.' },
+  { question: '¿Trabajáis en remoto o en persona?', answer: 'En formato mixto. Por defecto en remoto, y en persona en los momentos clave del proyecto, como el arranque y la entrega. Nuestra base está en Zaragoza y nos desplazamos cuando el proyecto lo pide.' },
+  { question: '¿Hay permanencia o contrato largo?', answer: 'No. Los proyectos tienen alcance y precio cerrados desde el inicio. Los servicios mensuales, como redes, SEO o publicidad, van mes a mes y sin permanencia.' },
+  { question: '¿Cómo se paga?', answer: 'En los proyectos, un 50 % al empezar y el 50 % restante en la entrega. Los servicios mensuales se pagan cada mes y la mentoría, por trimestre adelantado. Recibes una sola factura aunque intervengan varios especialistas.' },
+  { question: '¿Firmáis un acuerdo de confidencialidad?', answer: 'Sí, siempre, antes de acceder a cualquier CRM, dato sensible o documentación interna de tu empresa. Todos los especialistas de la red quedan sujetos a él.' },
+  { question: '¿Lo ejecutáis vosotros o mi equipo?', answer: 'Como prefieras. Podemos hacerlo de principio a fin con nuestra red: web, SEO, publicidad, redes, contenido o eventos. Si ya tienes equipo o proveedores, definimos la estrategia y la ejecutan ellos, o combinamos las dos cosas.' },
+  { question: 'Ya trabajo con una agencia. ¿Qué pasa con ella?', answer: 'Si funciona, la mantienes. Podemos trabajar solo la estrategia y darle un criterio claro sobre a quién dirigirse y qué decir, o asumir las áreas que no estén dando resultado.' },
+  { question: '¿Puedo empezar por algo pequeño?', answer: 'Sí, con una sesión de diagnóstico: 2 horas sobre tu caso y una nota escrita con el problema principal, tres prioridades y qué servicio encaja, o si no encaja ninguno. Si contratas un proyecto en los 30 días siguientes, se descuenta de su precio.' },
+  { question: '¿Con qué tipo de empresas trabajáis?', answer: 'Con empresas B2B y medianas empresas que tienen un directivo con ganas de ordenar su marketing y sus ventas. En mentoría, con directivos y cargos públicos.' },
+  { question: '¿Me garantizáis que voy a vender más?', answer: 'No prometemos cifras de facturación, porque dependen de tu producto, tu equipo y el mercado. Sí nos comprometemos a entregables concretos. En el diagnóstico de pipeline, por ejemplo, el 50 % final solo se paga si el informe documenta al menos 3 fugas con tus propios datos.' },
+  { question: '¿Puedo pagarlo con el Kit Consulting?', answer: 'No. No estamos adheridos a ese programa como asesor digitalizador, así que nuestros servicios no se pueden abonar con su bono.' },
+  { question: '¿En qué os diferenciáis de una agencia?', answer: 'Una agencia vende lo que tiene en plantilla y suele delegar en perfiles junior. Nosotros montamos el equipo que necesita tu proyecto con especialistas senior de nuestra red, y tienes un solo interlocutor que responde de la calidad.' },
+  { question: '¿Cómo empezamos?', answer: 'Con una llamada de 15 minutos sin compromiso para que nos cuentes tu situación. Si encaja, en 5 días laborables te enviamos una propuesta con el alcance, el precio y las fechas cerrados.' },
+];
+
+const redEn = [
+  { title: 'Only people we have seen work get in', text: 'Nobody joins the network on the strength of a portfolio. They join because we have checked their results on real projects.' },
+  { title: 'Specialists, not all-rounders', text: 'Each professional does one thing and does it very well. In the key areas there is more than one, so we choose the profile that best fits your sector, and your project never depends on a single person.' },
+  { title: 'Senior experience', text: 'No project is learned on your budget.' },
+  { title: 'Every deliverable is reviewed before it reaches you', text: 'Guillén Bruna reviews everything that goes out to the client. He answers for the quality, not whichever specialist is on duty.' },
+  { title: 'One point of contact and one invoice', text: 'You talk to one person, who coordinates the rest. Even when several specialists are involved, you get a single invoice.' },
+];
+const pasosEn = [
+  { title: '15-minute call', text: 'You tell us about your situation and we see whether we can help.' },
+  { title: 'Proposal within 5 working days', text: 'With the scope, the team, the timeline and a fixed price.' },
+  { title: 'A tailored team', text: 'We choose the specialists from the network your project needs, and no more.' },
+  { title: 'Execution with review', text: 'Every deliverable goes through Guillén’s review before it reaches you.' },
+  { title: 'Measurement and adjustment', text: 'We review the results with you and correct course when needed.' },
+];
+const faqsEn = [
+  { question: 'Will I work with you or with a team?', answer: 'With both. Guillén Bruna leads your project and is your single point of contact. It is carried out by senior specialists from our network, chosen for your case, and every deliverable goes through his review before it reaches you.' },
+  { question: 'How much does it cost?', answer: 'Each project has a fixed price set out in the proposal. It depends on the scope, because a corporate website does not cost the same as a campaign across three channels. After a 15-minute call, within 5 working days you get the proposal with scope, price and timeline.' },
+  { question: 'Do you work remotely or in person?', answer: 'Both. Remotely by default, and in person at the key moments of the project, such as kick-off and delivery. We are based in Zaragoza, Spain, and travel when the project calls for it.' },
+  { question: 'Is there a lock-in or a long contract?', answer: 'No. Projects have a fixed scope and price from the start. Monthly services, such as social media, SEO or advertising, run month to month with no lock-in.' },
+  { question: 'How do I pay?', answer: 'For projects, 50% at the start and the remaining 50% on delivery. Monthly services are paid each month, and mentoring quarterly in advance. You get a single invoice even when several specialists are involved.' },
+  { question: 'Do you sign a confidentiality agreement?', answer: 'Yes, always, before accessing any CRM, sensitive data or internal documentation of your company. Every specialist in the network is bound by it.' },
+  { question: 'Do you carry it out, or does my team?', answer: 'Whichever you prefer. We can do it from start to finish with our network: web, SEO, advertising, social media, content or events. If you already have a team or suppliers, we define the strategy and they carry it out, or we combine both.' },
+  { question: 'I already work with an agency. What happens to it?', answer: 'If it works, you keep it. We can work only on the strategy and give it clear criteria on who to target and what to say, or take over the areas that are not delivering results.' },
+  { question: 'Can I start with something small?', answer: 'Yes, with a diagnosis session: 2 hours on your case and a written note with the main problem, three priorities and which service fits, or whether none does. If you hire a project within the following 30 days, it is deducted from its price.' },
+  { question: 'What kind of companies do you work with?', answer: 'B2B and mid-sized companies with a leader who wants to put their marketing and sales in order. In mentoring, with executives and public officials.' },
+  { question: 'Do you guarantee I will sell more?', answer: 'We do not promise revenue figures, because they depend on your product, your team and the market. We do commit to concrete deliverables. In the pipeline audit, for example, the final 50% is only paid if the report documents at least 3 leaks with your own data.' },
+  { question: 'How are you different from an agency?', answer: 'An agency sells whatever it has on staff and often delegates to junior profiles. We build the team your project needs with senior specialists from our network, and you have one point of contact who answers for the quality.' },
+  { question: 'How do we start?', answer: 'With a 15-minute call, with no commitment, so you can tell us about your situation. If it is a fit, within 5 working days we send you a proposal with a fixed scope, price and dates.' },
+];
+const red = en ? redEn : redEs;
+const pasos = en ? pasosEn : pasosEs;
+const faqs = en ? faqsEn : faqsEs;
+const T = en ? {
+  seoTitle: `About us and how we work | ${SITE_NAME}`,
+  seoDescription: 'A network of senior marketing and brand specialists orchestrated by Guillén Bruna in Zaragoza, Spain. How we choose it, who leads it and how we work with you.',
+  inicio: 'Home', quienes: 'About us',
+  h1: 'A network of senior specialists, orchestrated by Guillén Bruna',
+  intro: 'We are GBT Consultoría. We run your marketing from start to finish, hand in hand with you: strategy, brand, web, visibility on Google and in AI search, online advertising, social media and events.',
+  llamada: 'Book a 15-minute call', casos: 'See case studies',
+  manifiesto: 'Agencies sell whatever they have on staff. We build the team your project needs',
+  m1: 'We do not try to cover everything with a fixed staff. For each project we choose the specialists from our network who best fit it, and only those.',
+  m2: 'One person leads the project, coordinates the whole team and answers for every deliverable. You talk to that person and get a single invoice.',
+  red: 'How we choose the network',
+  retratoAlt: 'Guillén Bruna Tricas, founder of GBT Consultoría',
+  etiqueta: 'Who orchestrates the network',
+  cargo: 'Marketing and brand strategy consultant. Zaragoza, Spain. Head of Brand & Marketing at Zebra AI Transformation Company.',
+  bio: [
+    'I am not a channel specialist. I understand the whole business, and that is why I can lead the people who are. My role at GBT is that of a director: I understand your business, decide the strategy with you, choose the specialists who fit your project and answer for every deliverable.',
+    'I have a strategist’s head and the hands of someone who executes. My background in sales, consulting, eCommerce, retail and technology products has given me an all-round view of the business. Along the way I have met many of the professionals who make up the network today.',
+    'Outside work, I am from Zaragoza, by choice. I am passionate about football: I played it seriously and then coached youth teams, and that taught me to guide a process and help someone improve without them feeling excessive pressure. If something carries the GBT name, I want it to reflect exactly what I think.',
+  ],
+  linkedin: 'Guillén on LinkedIn',
+  demostrado: 'Where he has proven it',
+  momentos: [
+    ['Guillén Bruna Tricas with the Broco co-founding team', 'Friends who become partners. Or partners who become friends.'],
+    ['Guillén Bruna Tricas at the Spain Innovation Summit', 'Events built as a team.'],
+    ['Guillén Bruna Tricas in front of an SLM store', 'Special projects that leave a mark.'],
+  ],
+  como: 'How we work',
+  nota: 'A fixed price in every proposal, no lock-in and a confidentiality agreement. We work remotely, and in person at the key moments, from Zaragoza, Spain.',
+  pequeno: 'Would you rather start with something small?',
+  diag: 'A diagnosis session: two hours on your case and a written note with the main problem, three priorities and which service fits, or whether none does. If you then hire a project within the following 30 days, it is deducted from its price.',
+  pidela: 'Ask for it in a 15-minute call',
+  preguntas: 'Questions before hiring',
+  contacto: 'Shall we talk<br>about your case?',
+} : {
+  seoTitle: `Quiénes somos y cómo trabajamos | ${SITE_NAME}`,
+  seoDescription: 'Una red de especialistas senior en marketing y marca orquestada por Guillén Bruna en Zaragoza. Cómo la elegimos, quién la dirige y cómo trabajamos contigo.',
+  inicio: 'Inicio', quienes: 'Quiénes somos',
+  h1: 'Una red de especialistas senior, orquestada por Guillén Bruna',
+  intro: 'Somos GBT Consultoría. Llevamos tu marketing de principio a fin y de la mano contigo: estrategia, marca, web, posicionamiento en Google y en la IA, publicidad online, redes sociales y eventos.',
+  llamada: 'Reservar llamada de 15 minutos', casos: 'Ver casos reales',
+  manifiesto: 'Las agencias venden lo que tienen en plantilla. Nosotros montamos el equipo que tu proyecto necesita',
+  m1: 'No intentamos abarcarlo todo con una plantilla fija. Para cada proyecto elegimos a los especialistas de nuestra red que mejor encajan con él, y solo a esos.',
+  m2: 'Una sola persona dirige el proyecto, coordina a todo el equipo y responde de cada entrega. Tú hablas con ella y recibes una sola factura.',
+  red: 'Cómo elegimos a la red',
+  retratoAlt: 'Guillén Bruna Tricas, fundador de GBT Consultoría',
+  etiqueta: 'Quién orquesta la red',
+  cargo: 'Consultor de estrategia de marketing y marca. Zaragoza, España. Head of Brand & Marketing en Zebra AI Transformation Company.',
+  bio: [
+    'No soy un especialista de canal. Entiendo el negocio completo, y por eso puedo dirigir a quienes sí lo son. Mi papel en GBT es el de director: entiendo tu negocio, decido contigo la estrategia, elijo a los especialistas que encajan con tu proyecto y respondo de cada entrega.',
+    'Tengo la cabeza de un estratega y las manos de alguien que ejecuta. Mi trayectoria en ventas, consultoría, eCommerce, retail y producto tecnológico me ha dado una visión integral del negocio. Por el camino he conocido a muchos de los profesionales que hoy forman la red.',
+    'Fuera del trabajo soy de Zaragoza, por elección. El fútbol me apasiona: lo jugué en serio y luego entrené en categorías base, y eso me enseñó a acompañar un proceso y a conseguir que alguien mejore sin que sienta una exigencia excesiva. Si algo lleva el nombre de GBT, quiero que refleje exactamente lo que pienso.',
+  ],
+  linkedin: 'LinkedIn de Guillén',
+  demostrado: 'Dónde lo ha demostrado',
+  momentos: [
+    ['Guillén Bruna Tricas junto al equipo cofundador de Broco', 'Amigos que se convierten en socios. O socios que se convierten en amigos.'],
+    ['Guillén Bruna Tricas en el Spain Innovation Summit', 'Eventos que se crean en equipo.'],
+    ['Guillén Bruna Tricas frente a una tienda de SLM', 'Trabajos especiales que dejan huella.'],
+  ],
+  como: 'Cómo trabajamos',
+  nota: 'Precio cerrado en cada propuesta, sin permanencia y con acuerdo de confidencialidad. Trabajamos en remoto y en persona en los momentos clave, desde Zaragoza.',
+  pequeno: '¿Prefieres empezar por algo pequeño?',
+  diag: 'Una sesión de diagnóstico: dos horas sobre tu caso y una nota escrita con el problema principal, tres prioridades y qué servicio encaja, o si no encaja ninguno. Si después contratas un proyecto en los 30 días siguientes, se descuenta de su precio.',
+  pidela: 'Pídela en una llamada de 15 minutos',
+  preguntas: 'Preguntas antes de contratar',
+  contacto: '¿Hablamos<br>de tu caso?',
+};
+
+const breadcrumbLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: T.inicio, item: `https://gbtconsultoria.com${ir('/')}` },
+    { '@type': 'ListItem', position: 2, name: T.quienes, item: `https://gbtconsultoria.com${ir('/quienes-somos/')}` },
+  ],
+};
+---
+<BaseLayout
+  title={T.seoTitle}
+  description={T.seoDescription}
+  image="/guillen-retrato.jpg"
+>
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbLd)} />
+
+  <header class="qs-cabecera">
+    <h1>{T.h1}</h1>
+    <div class="qs-sub">
+      <p class="qs-intro">{T.intro}</p>
+      <div class="qs-botones">
+        <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" class="btn-primary">{T.llamada}</a>
+        <a href={ir('/trabajo/')} class="btn-secondary">{T.casos}</a>
+      </div>
+    </div>
+    <Foto foto={FOTO_QUIENES} ratio="16 / 7" sizes="(max-width: 1300px) 92vw, 1200px" loading="eager" />
+  </header>
+
+  <section class="qs-manifiesto">
+    <h2>{T.manifiesto}</h2>
+    <div class="qs-cols">
+      <p>{T.m1}</p>
+      <p>{T.m2}</p>
+    </div>
+  </section>
+
+  <section class="qs-bloque" id="la-red">
+    <h2>{T.red}</h2>
+    <div class="qs-camino" data-camino>
+      <svg class="qs-camino-svg" aria-hidden="true" focusable="false">
+        <path class="qs-camino-pista" />
+        <path class="qs-camino-linea" />
+        <g class="qs-camino-hitos"></g>
+      </svg>
+      <ol class="qs-red">
+        {red.map((r, i) => (
+          <li class={`qs-red-${TONOS[i]}`}>
+            <h3>{r.title}</h3>
+            <p>{r.text}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="qs-bloque qs-guillen" id="guillen">
+    <div class="qs-guillen-foto">
+      <Picture src={guillenRetrato} alt={T.retratoAlt} width={800} height={800} formats={['avif', 'webp']} fallbackFormat="png" quality={65} loading="lazy" />
+    </div>
+    <div class="qs-guillen-texto">
+      <p class="qs-etiqueta">{T.etiqueta}</p>
+      <h2>Guillén <span class="accent">Bruna</span> Tricas</h2>
+      <p class="qs-cargo">{T.cargo}</p>
+      {T.bio.map((p) => <p>{p}</p>)}
+      <p><a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer" class="qs-linkedin"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9.75h4v11H3v-11Zm6.5 0h3.8v1.5h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1v5.45h-4v-4.83c0-1.15-.02-2.63-1.6-2.63-1.6 0-1.85 1.25-1.85 2.55v4.91h-3.95v-11Z" fill="currentColor" /></svg>{T.linkedin}</a></p>
+    </div>
+  </section>
+
+  <section class="qs-bloque">
+    <h2>{T.demostrado}</h2>
+    <ul class="qs-casos">
+      {lista.map((c) => (
+        <li>
+          <a href={ir(`/trabajo/${c.slug}/`)}>
+            <span class="qs-casos-empresa">{c.company}<span>{c.role}</span></span>
+            <span class="qs-casos-reto">{c.reto}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+    <div class="qs-momentos">
+      <figure><Picture src={momentoBroco} alt={T.momentos[0][0]} width={700} height={700} formats={['avif', 'webp']} fallbackFormat="png" quality={55} loading="lazy" /><figcaption>{T.momentos[0][1]}</figcaption></figure>
+      <figure><Picture src={momentoSis} alt={T.momentos[1][0]} width={700} height={700} formats={['avif', 'webp']} fallbackFormat="png" quality={55} loading="lazy" /><figcaption>{T.momentos[1][1]}</figcaption></figure>
+      <figure><Picture src={momentoSlm} alt={T.momentos[2][0]} width={700} height={700} formats={['avif', 'webp']} fallbackFormat="png" quality={55} loading="lazy" /><figcaption>{T.momentos[2][1]}</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="qs-bloque qs-dos" id="como-trabajamos">
+    <h2>{T.como}</h2>
+    <div>
+      <ol class="qs-pasos">
+        {pasos.map((p) => (<li><h3>{p.title}</h3><p>{p.text}</p></li>))}
+      </ol>
+      <p class="qs-nota">{T.nota}</p>
+      <p class="qs-diagnostico"><strong>{T.pequeno}</strong> {T.diag} <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">{T.pidela}</a>.</p>
+    </div>
+  </section>
+
+  <section class="qs-bloque qs-dos">
+    <h2>{T.preguntas}</h2>
+    <div><FaqList faqs={faqs} /></div>
+  </section>
+
+  <ContactBlock title={T.contacto} />
+</BaseLayout>
+
+<style is:global>
+  .qs-cabecera { max-width: 1240px; margin: 0 auto; padding: 4.5rem 4vw 1rem; }
+  .qs-cabecera h1 { font-size: clamp(2.4rem, 6vw, 5.2rem); max-width: 1100px; margin: 0 0 2rem; }
+  .qs-sub { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 1.6rem 3rem; margin-bottom: 2.6rem; }
+  .qs-intro { font-size: 1.05rem; font-weight: 300; line-height: 1.75; color: rgba(0,0,0,0.65); max-width: 600px; margin: 0; }
+  body.dark .qs-intro { color: rgba(232,232,232,0.68); }
+  .qs-botones { display: flex; flex-wrap: wrap; gap: 0.8rem; }
+
+  .qs-manifiesto { max-width: 1240px; margin: 0 auto; padding: 5rem 4vw 0; }
+  .qs-manifiesto h2 { font-size: clamp(1.8rem, 3.6vw, 2.9rem); line-height: 1.12; max-width: 1000px; margin: 0 0 2.6rem; }
+  .qs-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem 4rem; }
+  .qs-cols p { font-size: 0.98rem; font-weight: 300; line-height: 1.75; color: rgba(0,0,0,0.65); margin: 0; }
+  body.dark .qs-cols p { color: rgba(232,232,232,0.65); }
+
+  .qs-bloque { max-width: 1240px; margin: 0 auto; padding: 5.5rem 4vw 0; }
+  .qs-bloque > h2 { font-size: clamp(1.8rem, 3.2vw, 2.6rem); margin: 0 0 2.2rem; }
+  .qs-dos { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.6fr); gap: 1.5rem 4rem; align-items: start; }
+  .qs-dos > h2 { margin: 0; }
+
+  .qs-red { list-style: none; margin: 0; padding: 0 0 3.2rem; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 3.2rem 1rem; position: relative; z-index: 1; }
+  /* Las dos de abajo cambian de sitio para que el camino las recorra en orden (de derecha a izquierda). */
+  .qs-red li:nth-child(4) { order: 5; } .qs-red li:nth-child(5) { order: 4; }
+  /* Camino que se dibuja al hacer scroll (2026-10-25): pista gris discontinua con
+     el recorrido entero y, encima, la línea azul que avanza. Cada tarjeta tiene su
+     hito, que se rellena cuando la línea llega. */
+  .qs-camino { position: relative; }
+  .qs-camino-svg { position: absolute; left: 0; top: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; z-index: 0; }
+  .qs-camino-pista { fill: none; stroke: rgba(0,0,0,0.14); stroke-width: 2; stroke-dasharray: 2 8; stroke-linecap: round; }
+  .qs-camino-linea { fill: none; stroke: var(--blue); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+  .qs-camino-hitos circle { fill: var(--white); stroke: rgba(0,0,0,0.2); stroke-width: 2; transition: fill 0.35s ease, stroke 0.35s ease, r 0.35s ease; }
+  .qs-camino-hitos circle.llegado { fill: var(--blue); stroke: var(--blue); r: 7px; }
+  body.dark .qs-camino-pista { stroke: rgba(255,255,255,0.18); }
+  body.dark .qs-camino-linea { stroke: var(--blue-light); }
+  body.dark .qs-camino-hitos circle { fill: var(--dark-bg); stroke: rgba(255,255,255,0.25); }
+  body.dark .qs-camino-hitos circle.llegado { fill: var(--blue-light); stroke: var(--blue-light); }
+  .qs-red li { grid-column: span 2; border-radius: 16px; padding: 1.8rem 1.8rem 2rem; min-height: 14rem; display: flex; flex-direction: column; }
+  .qs-red li:nth-child(4), .qs-red li:nth-child(5) { grid-column: span 3; }
+  .qs-red h3 { font-size: clamp(1.25rem, 1.8vw, 1.6rem); line-height: 1.15; margin: 0 0 auto; padding-bottom: 1.4rem; }
+  .qs-red p { font-size: 0.9rem; font-weight: 300; line-height: 1.6; margin: 0; opacity: 0.85; }
+  .qs-red-azul { background: var(--blue); color: #fff; }
+  .qs-red-claro { background: var(--blue-light); color: #0a0a0a; }
+  .qs-red-roto { background: var(--off-white); color: #0a0a0a; border: 1px solid rgba(0,0,0,0.06); }
+  .qs-red-oscuro { background: #1c1c1c; color: #f6f6f6; }
+  body.dark .qs-red-oscuro { background: #22262e; }
+  body.dark .qs-red-roto { background: #f6f6f6; }
+
+  .qs-guillen { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: 3rem 5rem; align-items: start; }
+  .qs-guillen-foto { border-radius: 16px; overflow: hidden; background: var(--off-white); aspect-ratio: 4 / 5; }
+  body.dark .qs-guillen-foto { background: #121419; }
+  /* Retrato sobre fondo blanco: la tarjeta va en blanco también en oscuro. */
+  .qs-guillen-foto { position: relative; background: #fff !important; border: 1px solid rgba(0,0,0,0.06); }
+  /* Fundido suave abajo: la foto se desvanece sobre el fondo de la página. */
+  .qs-guillen-foto { -webkit-mask-image: linear-gradient(to bottom, #000 62%, transparent 100%); mask-image: linear-gradient(to bottom, #000 62%, transparent 100%); border-color: transparent !important; }
+  .qs-linkedin { display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none; }
+  .qs-linkedin svg { flex: none; }
+  .qs-linkedin:hover { text-decoration: underline; text-underline-offset: 3px; }
+  .qs-guillen-foto img { width: 100%; height: 100%; object-fit: cover; object-position: center 30%; display: block; }
+  .qs-etiqueta { font-size: 0.85rem; font-weight: 500; color: rgba(0,0,0,0.5); margin: 0 0 1rem; }
+  body.dark .qs-etiqueta { color: rgba(232,232,232,0.5); }
+  .qs-guillen h2 { font-size: clamp(2.2rem, 4.4vw, 3.6rem); margin: 0 0 1rem; }
+  .qs-cargo { font-size: 0.92rem; font-weight: 500; color: var(--blue) !important; }
+  body.dark .qs-cargo { color: var(--blue-light) !important; }
+  .qs-guillen-texto p { font-size: 1rem; font-weight: 300; line-height: 1.8; color: rgba(0,0,0,0.68); margin: 0 0 1.1rem; max-width: 640px; }
+  body.dark .qs-guillen-texto p { color: rgba(232,232,232,0.68); }
+  .qs-guillen-texto a, .qs-diagnostico a { color: var(--blue); font-weight: 500; }
+  body.dark .qs-guillen-texto a, body.dark .qs-diagnostico a { color: var(--blue-light); }
+
+  .qs-casos { list-style: none; margin: 0 0 3rem; padding: 0; }
+  .qs-casos li { border-top: 1px solid rgba(0,0,0,0.1); }
+  .qs-casos li:last-child { border-bottom: 1px solid rgba(0,0,0,0.1); }
+  body.dark .qs-casos li { border-color: rgba(255,255,255,0.1); }
+  .qs-casos a { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.6fr); gap: 0.4rem 4rem; padding: 1.3rem 0; color: inherit; text-decoration: none; }
+  .qs-casos-empresa { font-weight: 500; }
+  .qs-casos-empresa span { display: block; font-size: 0.82rem; font-weight: 300; color: rgba(0,0,0,0.55); margin-top: 0.2rem; }
+  body.dark .qs-casos-empresa span { color: rgba(232,232,232,0.55); }
+  .qs-casos-reto { font-size: 1.05rem; line-height: 1.45; letter-spacing: -0.01em; }
+  .qs-casos a:hover .qs-casos-reto { color: var(--blue); }
+  body.dark .qs-casos a:hover .qs-casos-reto { color: var(--blue-light); }
+
+  .qs-momentos { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+  .qs-momentos figure { margin: 0; }
+  .qs-momentos img { width: 100%; height: auto; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 16px; display: block; }
+  .qs-momentos figcaption { font-size: 0.82rem; font-weight: 300; color: rgba(0,0,0,0.55); margin-top: 0.6rem; }
+  body.dark .qs-momentos figcaption { color: rgba(232,232,232,0.55); }
+
+  .qs-pasos { list-style: none; margin: 0; padding: 0; counter-reset: paso; }
+  .qs-pasos li { counter-increment: paso; display: grid; grid-template-columns: 2.4rem 1fr; column-gap: 0.4rem; padding: 1.2rem 0; border-top: 1px solid rgba(0,0,0,0.1); }
+  .qs-pasos li:first-child { border-top: 0; padding-top: 0.2rem; }
+  body.dark .qs-pasos li { border-top-color: rgba(255,255,255,0.1); }
+  .qs-pasos li::before { content: counter(paso); grid-row: span 2; font-size: 1.12rem; font-weight: 500; color: var(--blue); }
+  body.dark .qs-pasos li::before { color: var(--blue-light); }
+  .qs-pasos h3 { font-size: 1.12rem; margin: 0 0 0.3rem; }
+  .qs-pasos p, .qs-diagnostico { font-size: 0.98rem; font-weight: 300; line-height: 1.7; color: rgba(0,0,0,0.65); margin: 0; }
+  body.dark .qs-pasos p, body.dark .qs-diagnostico { color: rgba(232,232,232,0.65); }
+  .qs-nota { font-size: 0.88rem; font-weight: 300; color: rgba(0,0,0,0.6); margin: 1.2rem 0 2rem; }
+  body.dark .qs-nota { color: rgba(232,232,232,0.6); }
+  .qs-diagnostico { padding: 1.6rem 1.8rem; background: var(--off-white); border-radius: 16px; }
+  body.dark .qs-diagnostico { background: #121419; }
+  .qs-diagnostico strong { font-weight: 500; color: var(--black); }
+  body.dark .qs-diagnostico strong { color: #e8e8e8; }
+  .qs-dos:last-of-type { padding-bottom: 5rem; }
+
+  @media (max-width: 900px) {
+    .qs-cols, .qs-dos, .qs-guillen, .qs-casos a { grid-template-columns: 1fr; }
+    .qs-red { grid-template-columns: 1fr; gap: 1.2rem; padding: 0 0 0 2.4rem; }
+    .qs-red li, .qs-red li:nth-child(4), .qs-red li:nth-child(5) { grid-column: auto; min-height: 0; order: 0; }
+    .qs-momentos { grid-template-columns: 1fr; }
+  }
+</style>
+
+<script>
+  // Camino de «Cómo elegimos a la red»: se calcula con la posición real de las
+  // tarjetas (escritorio: serpentea por los huecos; móvil: baja por la izquierda)
+  // y se dibuja según el scroll. Con movimiento reducido sale entero.
+  const caja = document.querySelector<HTMLElement>('[data-camino]');
+  if (caja) {
+    const NS = 'http://www.w3.org/2000/svg';
+    const svg = caja.querySelector('svg')!;
+    const pista = svg.querySelector<SVGPathElement>('.qs-camino-pista')!;
+    const linea = svg.querySelector<SVGPathElement>('.qs-camino-linea')!;
+    const hitosG = svg.querySelector('.qs-camino-hitos')!;
+    const tarjetas = [...caja.querySelectorAll<HTMLElement>('.qs-red li')];
+    const quieto = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let largo = 0;
+    let marcas: { el: SVGCircleElement; en: number }[] = [];
+
+    const trazar = () => {
+      const base = caja.getBoundingClientRect();
+      const rc = tarjetas.map((t) => { const b = t.getBoundingClientRect(); return { x: b.left - base.left, y: b.top - base.top, w: b.width, h: b.height }; });
+      const movil = window.matchMedia('(max-width: 900px)').matches;
+      let d = '';
+      let hitos: [number, number][] = [];
+      if (movil) {
+        const x = 12;
+        hitos = rc.map((c) => [x, c.y + c.h / 2]);
+        d = `M ${x} ${rc[0].y + 8} L ${x} ${rc[rc.length - 1].y + rc[rc.length - 1].h - 8}`;
+      } else {
+        const fila1 = rc[0].y + rc[0].h;
+        const fila2 = Math.max(rc[3].y + rc[3].h, rc[4].y + rc[4].h);
+        const y1 = fila1 + (rc[3].y - fila1) / 2;
+        const y2 = fila2 + 1.6 * 16;
+        const der = rc[2].x + rc[2].w + 22;
+        const izq = rc[0].x - 22;
+        const cx = (c: typeof rc[number]) => c.x + c.w / 2;
+        const ola = (xa: number, xb: number, y: number, sube: boolean) => ` Q ${(xa + xb) / 2} ${y + (sube ? -14 : 14)} ${xb} ${y}`;
+        const rad = 26;
+        hitos = [[cx(rc[0]), y1], [cx(rc[1]), y1], [cx(rc[2]), y1], [cx(rc[3]), y2], [cx(rc[4]), y2]];
+        d = `M ${izq} ${y1}` + ola(izq, hitos[0][0], y1, true) + ola(hitos[0][0], hitos[1][0], y1, false) + ola(hitos[1][0], hitos[2][0], y1, true)
+          + ` L ${der - rad} ${y1} Q ${der} ${y1} ${der} ${y1 + rad} L ${der} ${y2 - rad} Q ${der} ${y2} ${der - rad} ${y2}`
+          + ola(der - rad, hitos[3][0], y2, true) + ola(hitos[3][0], hitos[4][0], y2, false) + ola(hitos[4][0], izq, y2, true);
+      }
+      pista.setAttribute('d', d);
+      linea.setAttribute('d', d);
+      largo = linea.getTotalLength();
+      linea.style.strokeDasharray = `${largo}`;
+      // Distancia a lo largo del camino de cada hito (muestreo).
+      const muestras: [number, number, number][] = [];
+      for (let l = 0; l <= largo; l += 4) { const pt = linea.getPointAtLength(l); muestras.push([l, pt.x, pt.y]); }
+      hitosG.replaceChildren();
+      marcas = hitos.map(([hx, hy]) => {
+        let mejor = 0, dist = Infinity;
+        muestras.forEach(([l, x, y]) => { const dd = (x - hx) ** 2 + (y - hy) ** 2; if (dd < dist) { dist = dd; mejor = l; } });
+        const el = document.createElementNS(NS, 'circle');
+        el.setAttribute('cx', String(hx)); el.setAttribute('cy', String(hy)); el.setAttribute('r', '5');
+        hitosG.appendChild(el);
+        return { el, en: mejor };
+      });
+      avanzar();
+    };
+
+    const avanzar = () => {
+      const b = caja.getBoundingClientRect();
+      const vh = window.innerHeight;
+      // Empieza cuando el bloque entra por abajo y termina cuando su final pasa del 70 % de la pantalla.
+      const p = quieto ? 1 : Math.min(1, Math.max(0, (vh * 0.85 - b.top) / (b.height + vh * 0.15)));
+      const hecho = largo * p;
+      linea.style.strokeDashoffset = String(largo - hecho);
+      marcas.forEach((m) => m.el.classList.toggle('llegado', hecho >= m.en - 2));
+    };
+
+    let pendiente = false;
+    window.addEventListener('scroll', () => { if (!pendiente) { pendiente = true; requestAnimationFrame(() => { pendiente = false; avanzar(); }); } }, { passive: true });
+    window.addEventListener('resize', trazar);
+    document.fonts?.ready.then(trazar);
+    trazar();
+  }
+</script>

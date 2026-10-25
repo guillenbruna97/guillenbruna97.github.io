@@ -1,0 +1,301 @@
+---
+// Contacto (2026-10-25) con el lenguaje aprobado: cabecera grande, formulario
+// (decidido el 2026-10-22: «llamada + formulario») y, al lado, los canales
+// directos y quién te atiende. El formulario envía a HubSpot por la Forms API
+// pública, igual que el diagnóstico; en preproducción no guarda nada.
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CabeceraPagina from '../../components/CabeceraPagina.astro';
+import {
+  BOOKING_URL,
+  MAILTO_URL,
+  CONTACT_EMAIL,
+  LINKEDIN_URL,
+  LINKEDIN_HANDLE,
+  SITE_NAME,
+  HUBSPOT_PORTAL_ID,
+  HUBSPOT_CONTACT_FORM_ID,
+  HUBSPOT_CONTACT_MESSAGE_FIELD,
+  HUBSPOT_SUBSCRIPTION_TYPE_ID,
+  LEAD_TEXTO_PRIVACIDAD,
+  LEAD_TEXTO_COMERCIAL,
+} from '../../consts';
+import { AREAS } from '../../data/areas';
+import { AREAS_EN } from '../../data/en/areas';
+import { enlace, type Lang } from '../../i18n';
+
+// En inglés el formulario manda exactamente los mismos campos (las áreas, con su
+// nombre en español); solo cambia lo que se ve y el texto de consentimiento, que
+// tiene que ser el que la persona ha leído.
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const en = lang === 'en';
+const ir = (ruta: string) => enlace(lang, ruta);
+const T = en ? {
+  seoTitle: `Contact | ${SITE_NAME}`,
+  seoDescription: 'Tell us what you need: book a 15-minute call or write to us. Within 5 working days you get a firm proposal. GBT Consultoría, Zaragoza, Spain.',
+  titulo: 'Tell us what your marketing needs',
+  intro: 'Book a 15-minute call or write to us. After we talk, within 5 working days you get a proposal with the scope, the team, the timeline and a fixed price.',
+  escribenos: 'Write to us', nombre: 'Name', empresa: 'Company', email: 'Email', telefono: 'Phone', opcional: '(optional)',
+  ayuda: 'What can we help you with?', mensaje: 'Your message', placeholder: 'What you want to achieve, where you are now and by when.',
+  honeypot: 'Do not fill in this field',
+  privacidadAntes: 'I have read and accept the', privacidadEnlace: 'privacy policy',
+  textoPrivacidad: 'I have read and accept the privacy policy.',
+  textoComercial: 'I would like to receive content and commercial proposals from Guillén Bruna by email. You can unsubscribe at any time.',
+  enviar: 'Send message', enviando: 'Sending…',
+  legal: 'The controller of your data is Guillén Bruna Tricas (GBT Consultoría). We use it to reply to you and, only if you tick the box, to send you commercial communications. It is stored in HubSpot. You can access, rectify or delete your data by writing to',
+  recibido: 'Message received', gracias: 'Thank you. We will read it and reply to the email you left us. If you prefer to go faster,', reservaCorta: 'book a 15-minute call',
+  directo: 'Or directly', reservar: 'Book a call', sinCompromiso: '15 minutes, no commitment',
+  atiende: 'You will be talking to Guillén Bruna Tricas',
+  persona: 'Marketing and brand strategy consultant, who orchestrates the GBT Consultoría network. Head of Brand & Marketing at Zebra AI Transformation Company. From Zaragoza, Spain: in person at the key moments and remotely the rest of the time.',
+  quienes: 'About us',
+  errores: { nombre: 'Please write your name.', email: 'Please check the email; something seems to be missing.', mensaje: 'Tell us in the message what you need.', privacidad: 'To send the message you need to accept the privacy policy.', envio: 'We could not send it. Write to us at <a href="mailto:info@gbtconsultoria.com">info@gbtconsultoria.com</a> and we will reply all the same.' },
+} : {
+  seoTitle: `Contacto | ${SITE_NAME}`,
+  seoDescription: 'Cuéntanos qué necesitas: reserva una llamada de 15 minutos o escríbenos. En 5 días laborables tienes una propuesta cerrada. GBT Consultoría, Zaragoza.',
+  titulo: 'Cuéntanos qué necesita tu marketing',
+  intro: 'Reserva una llamada de 15 minutos o escríbenos. Después de hablar, en 5 días laborables tienes una propuesta con el alcance, el equipo, los plazos y el precio cerrado.',
+  escribenos: 'Escríbenos', nombre: 'Nombre', empresa: 'Empresa', email: 'Email', telefono: 'Teléfono', opcional: '(opcional)',
+  ayuda: '¿Con qué te ayudamos?', mensaje: 'Tu mensaje', placeholder: 'Qué quieres conseguir, en qué punto estás y para cuándo.',
+  honeypot: 'No rellenes este campo',
+  privacidadAntes: 'He leído y acepto la', privacidadEnlace: 'política de privacidad',
+  textoPrivacidad: LEAD_TEXTO_PRIVACIDAD,
+  textoComercial: LEAD_TEXTO_COMERCIAL,
+  enviar: 'Enviar mensaje', enviando: 'Enviando…',
+  legal: 'El responsable de tus datos es Guillén Bruna Tricas (GBT Consultoría). Los usamos para responderte y, solo si lo marcas, para enviarte comunicaciones comerciales. Se guardan en HubSpot. Puedes acceder, rectificar o suprimir tus datos escribiendo a',
+  recibido: 'Mensaje recibido', gracias: 'Gracias. Lo leemos y te respondemos al email que nos has dejado. Si prefieres ir más rápido,', reservaCorta: 'reserva una llamada de 15 minutos',
+  directo: 'O directamente', reservar: 'Reservar una llamada', sinCompromiso: '15 minutos, sin compromiso',
+  atiende: 'Te atiende Guillén Bruna Tricas',
+  persona: 'Consultor de estrategia de marketing y marca, orquesta la red de GBT Consultoría. Head of Brand & Marketing en Zebra AI Transformation Company. Desde Zaragoza, en persona en los momentos clave y en remoto el resto.',
+  quienes: 'Quiénes somos',
+  errores: { nombre: 'Escribe tu nombre.', email: 'Revisa el email, parece que falta algo.', mensaje: 'Cuéntanos en el mensaje qué necesitas.', privacidad: 'Para enviar el mensaje necesitas aceptar la política de privacidad.', envio: 'No hemos podido enviarlo. Escríbenos a <a href="mailto:info@gbtconsultoria.com">info@gbtconsultoria.com</a> y te respondemos igual.' },
+};
+const nombresEn = Object.fromEntries(AREAS_EN.map((a) => [a.slug, a.name]));
+
+const config = {
+  hubspot: { portalId: HUBSPOT_PORTAL_ID, formId: HUBSPOT_CONTACT_FORM_ID, subscriptionTypeId: HUBSPOT_SUBSCRIPTION_TYPE_ID, campoMensaje: HUBSPOT_CONTACT_MESSAGE_FIELD },
+  textoPrivacidad: T.textoPrivacidad,
+  textoComercial: T.textoComercial,
+  errores: T.errores,
+  enviar: T.enviar,
+  enviando: T.enviando,
+};
+
+const contactLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ContactPage',
+  name: T.seoTitle,
+  url: `https://gbtconsultoria.com${ir('/contacto/')}`,
+  mainEntity: { '@id': 'https://gbtconsultoria.com/#organizacion' },
+};
+---
+<BaseLayout
+  title={T.seoTitle}
+  description={T.seoDescription}
+>
+  <script type="application/ld+json" set:html={JSON.stringify(contactLd)} />
+
+  <CabeceraPagina
+    titulo={T.titulo}
+    intro={T.intro}
+  />
+
+  <div class="co">
+    <section class="co-form-wrap" aria-labelledby="co-form-titulo">
+      <h2 id="co-form-titulo">{T.escribenos}</h2>
+      <form class="co-form" id="contact-form" novalidate>
+        <div class="co-fila">
+          <label class="co-campo"><span>{T.nombre}</span><input name="nombre" type="text" autocomplete="given-name" required /></label>
+          <label class="co-campo"><span>{T.empresa}</span><input name="empresa" type="text" autocomplete="organization" /></label>
+        </div>
+        <div class="co-fila">
+          <label class="co-campo"><span>{T.email}</span><input name="email" type="email" autocomplete="email" required /></label>
+          <label class="co-campo"><span>{T.telefono} <em>{T.opcional}</em></span><input name="telefono" type="tel" autocomplete="tel" /></label>
+        </div>
+        <fieldset class="co-areas">
+          <legend>{T.ayuda} <em>{T.opcional}</em></legend>
+          <div>
+            {AREAS.map((a) => (
+              <label><input type="checkbox" name="area" value={a.name} /><span>{en ? nombresEn[a.slug] : a.name}</span></label>
+            ))}
+          </div>
+        </fieldset>
+        <label class="co-campo"><span>{T.mensaje}</span><textarea name="mensaje" rows="5" required placeholder={T.placeholder}></textarea></label>
+        <div class="co-honeypot" aria-hidden="true">
+          <label for="co-web">{T.honeypot}</label>
+          <input id="co-web" name="web" type="text" tabindex="-1" autocomplete="off" />
+        </div>
+        <label class="co-check"><input type="checkbox" name="privacidad" required /><span>{T.privacidadAntes} <a href={ir('/privacidad/')} target="_blank" rel="noopener">{T.privacidadEnlace}</a>.</span></label>
+        <label class="co-check"><input type="checkbox" name="comercial" /><span>{T.textoComercial}</span></label>
+        <p class="co-error" id="co-error" role="alert" hidden></p>
+        <button type="submit" class="btn-primary" id="co-enviar">{T.enviar}</button>
+        <p class="co-legal">{T.legal} <a href={MAILTO_URL}>{CONTACT_EMAIL}</a>.</p>
+      </form>
+      <div class="co-ok" id="co-ok" hidden tabindex="-1">
+        <h3>{T.recibido}</h3>
+        <p>{T.gracias} <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">{T.reservaCorta}</a>.</p>
+      </div>
+    </section>
+
+    <aside class="co-lado">
+      <div class="co-canales">
+        <h2>{T.directo}</h2>
+        <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" class="co-canal">
+          <strong>{T.reservar}</strong><span>{T.sinCompromiso}</span>
+        </a>
+        <a href={MAILTO_URL} class="co-canal">
+          <strong>{T.email}</strong><span>{CONTACT_EMAIL}</span>
+        </a>
+        <a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer" class="co-canal">
+          <strong>LinkedIn</strong><span>{LINKEDIN_HANDLE}</span>
+        </a>
+      </div>
+      <div class="co-persona">
+        <span class="co-persona-foto" aria-hidden="true"></span>
+        <div>
+          <p class="co-persona-quien">{T.atiende}</p>
+          <p>{T.persona}</p>
+          <a href={ir('/quienes-somos/')}>{T.quienes}</a>
+        </div>
+      </div>
+    </aside>
+  </div>
+</BaseLayout>
+
+<script define:vars={{ config }}>
+  const form = document.getElementById('contact-form');
+  const errorEl = document.getElementById('co-error');
+  const okEl = document.getElementById('co-ok');
+  const boton = document.getElementById('co-enviar');
+  const track = (name, params = {}) => { if (typeof gtag === 'function') gtag('event', name, params); };
+
+  const enviar = async (d, areas, comercial) => {
+    const { portalId, formId, subscriptionTypeId, campoMensaje } = config.hubspot;
+    if (!portalId || !formId) { console.warn('HubSpot sin configurar: el mensaje no se guarda (preproducción).'); return; }
+    const mensaje = [areas.length ? `Áreas: ${areas.join(', ')}` : '', d.mensaje, `Consentimiento comercial: ${comercial ? 'sí' : 'no'}`].filter(Boolean).join('\n\n');
+    const fields = [
+      { name: 'email', value: d.email },
+      { name: 'firstname', value: d.nombre },
+      { name: 'company', value: d.empresa },
+      { name: 'phone', value: d.telefono },
+      { name: 'diagnostico_resultado', value: 'Contacto web' },
+      { name: campoMensaje, value: mensaje },
+    ].filter((f) => f.value);
+    const consent = { consentToProcess: true, text: config.textoPrivacidad };
+    if (subscriptionTypeId) consent.communications = [{ value: comercial, subscriptionTypeId: Number(subscriptionTypeId), text: config.textoComercial }];
+    const res = await fetch(`https://api.hsforms.com/submissions/v3/integration/submit/${portalId}/${formId}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ fields, context: { pageUri: location.href, pageName: document.title }, legalConsentOptions: { consent } }),
+    });
+    if (!res.ok) throw new Error(`HubSpot ${res.status}: ${await res.text()}`);
+  };
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const fd = new FormData(form);
+    const d = {
+      nombre: String(fd.get('nombre') ?? '').trim(),
+      empresa: String(fd.get('empresa') ?? '').trim(),
+      email: String(fd.get('email') ?? '').trim(),
+      telefono: String(fd.get('telefono') ?? '').trim(),
+      mensaje: String(fd.get('mensaje') ?? '').trim(),
+    };
+    const areas = fd.getAll('area').map(String);
+    const comercial = fd.get('comercial') === 'on';
+    let error = '';
+    if (!d.nombre) error = config.errores.nombre;
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(d.email)) error = config.errores.email;
+    else if (!d.mensaje) error = config.errores.mensaje;
+    else if (fd.get('privacidad') !== 'on') error = config.errores.privacidad;
+    errorEl.textContent = error;
+    errorEl.hidden = !error;
+    if (error) return;
+
+    boton.disabled = true;
+    boton.textContent = config.enviando;
+    try {
+      if (!fd.get('web')) await enviar(d, areas, comercial);
+      track('contacto_enviado', { areas: areas.length, comercial });
+      form.hidden = true;
+      okEl.hidden = false;
+      okEl.focus();
+    } catch (err) {
+      console.error(err);
+      track('contacto_error_envio');
+      errorEl.innerHTML = config.errores.envio;
+      errorEl.hidden = false;
+      boton.disabled = false;
+      boton.textContent = config.enviar;
+    }
+  });
+</script>
+
+<style is:global>
+  .co { max-width: 1240px; margin: 0 auto; padding: 0 4vw 5rem; display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 3rem 5rem; align-items: start; }
+  .co h2 { font-size: clamp(1.5rem, 2.4vw, 1.9rem); margin: 0 0 1.6rem; }
+
+  .co-form-wrap, .co-lado { min-width: 0; }
+  .co-form { display: flex; flex-direction: column; gap: 1.2rem; }
+  .co-form[hidden] { display: none; }
+  .co-fila { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1.2rem; }
+  .co-campo { min-width: 0; display: flex; flex-direction: column; gap: 0.45rem; font-size: 0.85rem; font-weight: 500; }
+  .co-campo em, .co-areas em { font-style: normal; font-weight: 300; color: rgba(0,0,0,0.5); }
+  body.dark .co-campo em, body.dark .co-areas em { color: rgba(232,232,232,0.5); }
+  .co-campo input, .co-campo textarea { font: 300 1rem 'Poppins', sans-serif; color: inherit; background: var(--off-white); border: 1px solid transparent; border-radius: 12px; padding: 0.85rem 1rem; transition: border-color var(--transition), background var(--transition); }
+  .co-campo input, .co-campo textarea { width: 100%; min-width: 0; box-sizing: border-box; }
+  .co-campo textarea { resize: vertical; min-height: 8rem; }
+  .co-campo input:focus, .co-campo textarea:focus { outline: none; border-color: var(--blue); background: var(--white); }
+  body.dark .co-campo input, body.dark .co-campo textarea { background: #14171d; }
+  body.dark .co-campo input:focus, body.dark .co-campo textarea:focus { border-color: var(--blue-light); background: #0a0a0a; }
+  .co-campo textarea::placeholder { color: rgba(0,0,0,0.4); }
+  body.dark .co-campo textarea::placeholder { color: rgba(232,232,232,0.35); }
+
+  .co-areas { border: 0; padding: 0; margin: 0.2rem 0 0; }
+  .co-areas legend { font-size: 0.85rem; font-weight: 500; margin-bottom: 0.7rem; padding: 0; }
+  .co-areas div { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .co-areas label { position: relative; cursor: pointer; }
+  .co-areas input { position: absolute; opacity: 0; inset: 0; cursor: pointer; }
+  .co-areas span { display: inline-block; padding: 0.5rem 1rem; border: 1px solid rgba(0,0,0,0.18); border-radius: 999px; font-size: 0.85rem; transition: background var(--transition), color var(--transition), border-color var(--transition); }
+  .co-areas input:checked + span { background: var(--blue); border-color: var(--blue); color: #fff; }
+  .co-areas input:focus-visible + span { outline: 2px solid var(--blue); outline-offset: 2px; }
+  body.dark .co-areas span { border-color: rgba(232,232,232,0.22); }
+  body.dark .co-areas input:checked + span { background: var(--blue-light); border-color: var(--blue-light); color: #0a0a0a; }
+
+  .co-check { display: flex; gap: 0.7rem; align-items: flex-start; font-size: 0.85rem; font-weight: 300; line-height: 1.55; }
+  .co-check input { margin-top: 0.25rem; accent-color: var(--blue); width: 16px; height: 16px; flex: none; }
+  .co-check a, .co-legal a, .co-ok a, .co-error a { color: var(--blue); }
+  body.dark .co-check a, body.dark .co-legal a, body.dark .co-ok a, body.dark .co-error a { color: var(--blue-light); }
+  .co-honeypot { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+  .co-error { color: #b42318; font-size: 0.88rem; margin: 0; }
+  body.dark .co-error { color: #ff8a80; }
+  .co-form .btn-primary { align-self: flex-start; margin-top: 0.4rem; }
+  .co-legal { font-size: 0.76rem; font-weight: 300; line-height: 1.6; color: rgba(0,0,0,0.5); margin: 0.4rem 0 0; max-width: 620px; }
+  body.dark .co-legal { color: rgba(232,232,232,0.5); }
+  .co-ok { padding: 2rem; background: var(--off-white); border-radius: 16px; outline: none; }
+  body.dark .co-ok { background: #121419; }
+  .co-ok h3 { font-size: 1.4rem; margin: 0 0 0.6rem; }
+  .co-ok p { margin: 0; font-weight: 300; line-height: 1.7; }
+
+  .co-lado { display: flex; flex-direction: column; gap: 2rem; position: sticky; top: 110px; }
+  .co-canal { display: block; padding: 1.1rem 0; border-top: 1px solid rgba(0,0,0,0.1); color: inherit; text-decoration: none; }
+  .co-canal:last-child { border-bottom: 1px solid rgba(0,0,0,0.1); }
+  body.dark .co-canal { border-color: rgba(255,255,255,0.1); }
+  .co-canal strong { display: block; font-weight: 500; margin-bottom: 0.2rem; }
+  .co-canal span { font-size: 0.9rem; font-weight: 300; color: rgba(0,0,0,0.6); }
+  body.dark .co-canal span { color: rgba(232,232,232,0.6); }
+  .co-canal:hover strong { color: var(--blue); }
+  body.dark .co-canal:hover strong { color: var(--blue-light); }
+  .co-persona { display: flex; gap: 1.1rem; padding: 1.5rem; background: var(--off-white); border-radius: 16px; }
+  body.dark .co-persona { background: #121419; }
+  .co-persona-foto { width: 64px; height: 64px; border-radius: 50%; flex: none; background: #fff url('/guillen-retrato.jpg') no-repeat; background-size: 135%; background-position: 50% 30%; }
+  .co-persona p { margin: 0 0 0.6rem; font-size: 0.88rem; font-weight: 300; line-height: 1.6; }
+  .co-persona .co-persona-quien { font-weight: 500; margin-bottom: 0.3rem; }
+  .co-persona a { font-size: 0.88rem; font-weight: 500; color: var(--blue); }
+  body.dark .co-persona a { color: var(--blue-light); }
+
+  @media (max-width: 900px) {
+    .co { grid-template-columns: 1fr; }
+    .co-lado { position: static; }
+    .co-fila { grid-template-columns: 1fr; }
+  }
+</style>

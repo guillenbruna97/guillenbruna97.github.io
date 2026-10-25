@@ -96,7 +96,7 @@ export const GAMES: GameInfo[] = [
     excerpt: 'Doce preguntas sobre cómo vende hoy tu empresa. Descubre qué hay detrás de lo que notas en las ventas y cuáles son tus tres primeros pasos.',
     image: '/images/minijuegos/diagnostico-marketing.jpg',
     imageAlt: 'Ilustración de un directivo que ausculta con un estetoscopio un bocadillo de diálogo, como metáfora del diagnóstico de marketing',
-    meta: '12 preguntas · 3 minutos',
+    meta: '12 preguntas, 3 minutos',
     cta: 'Empezar diagnóstico',
   },
   {
@@ -106,7 +106,7 @@ export const GAMES: GameInfo[] = [
     excerpt: 'El juego que te ayuda a ver en qué fase de tu proceso comercial flaqueas. Atiende a un cliente del cartel de la calle al postre y descubre qué claves se te escapan.',
     image: '/images/minijuegos/pizzeria-b2b.jpg',
     imageAlt: 'Ilustración de un pizzero que ve caer una porción de la pizza, como metáfora de la fase del proceso comercial que se escapa',
-    meta: '3 niveles · 4 minutos',
+    meta: '3 niveles, 4 minutos',
     cta: 'Abrir la pizzería',
   },
 ];
@@ -122,6 +122,11 @@ export const HUBSPOT_FORM_ID = __PREPRO__ ? '' : 'd6b840dc-a0b8-44e3-8074-c60ba9
 // ID del tipo de suscripción de marketing (Configuración > Marketing >
 // Email > Tipos de suscripción). Con él HubSpot registra el consentimiento
 // comercial en la ficha del contacto.
+// Formulario de contacto de /contacto/. Mientras no exista uno propio en HubSpot
+// (con campo «mensaje»), se usa el del diagnóstico y el mensaje viaja en
+// diagnostico_respuestas, marcado en diagnostico_resultado como «Contacto web».
+export const HUBSPOT_CONTACT_FORM_ID = HUBSPOT_FORM_ID;
+export const HUBSPOT_CONTACT_MESSAGE_FIELD = 'diagnostico_respuestas';
 export const HUBSPOT_SUBSCRIPTION_TYPE_ID = '3864981948';
 
 // Textos de las casillas de consentimiento de los formularios que envían a

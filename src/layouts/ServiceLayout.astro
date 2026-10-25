@@ -8,6 +8,9 @@ import { getServiceImage } from '../utils/service-images';
 import { casosForService } from '../data/casos';
 import { getPrecio } from '../data/precios';
 import { SITE_NAME } from '../consts';
+import { casosEn } from '../data/en/casos';
+import { FICHAS_EN } from '../data/en/fichas';
+import { getLang, enlace, FICHA_EN } from '../i18n';
 import FaqList, { type Faq } from '../components/FaqList.astro';
 
 interface Step {
@@ -34,11 +37,31 @@ const { title, description, heading, subtitle, image, imageAlt, paraQuien, queRe
 const optimizedImage = getServiceImage(image);
 // Casos que prueban este servicio (campo `services` en data/casos.ts). El slug
 // sale de la URL /servicios/<slug>/. Sin casos, el bloque no se pinta.
-const serviceSlug = Astro.url.pathname.split('/').filter(Boolean)[1] ?? '';
-const relatedCasos = casosForService(serviceSlug);
+// En inglés la URL es /en/services/<slug inglés>/: se traduce al slug español.
+const lang = getLang(Astro.url.pathname);
+const en = lang === 'en';
+const ir = (ruta: string) => enlace(lang, ruta);
+const slugUrl = Astro.url.pathname.split('/').filter(Boolean)[en ? 2 : 1] ?? '';
+const serviceSlug = en ? (Object.entries(FICHA_EN).find(([, e]) => e === slugUrl)?.[0] ?? '') : slugUrl;
+const relatedCasos = en
+  ? casosEn.filter((c) => c.services.includes(serviceSlug))
+  : casosForService(serviceSlug);
+const T = en ? {
+  pais: 'Spain', inicio: 'Home', servicios: 'Services', area: 'Strategy and brand',
+  paraQuien: 'Who it is for', queResuelve: 'What it solves', recibe: 'What you get', como: 'How we work',
+  formato: 'Format', duracion: 'Duration', tiempo: 'Your time', garantia: 'Guarantee', fuera: 'Not included in this service',
+  precio: 'A fixed price in the proposal, which you get within 5 working days after a 15-minute call. No lock-in and with a confidentiality agreement.',
+  caso: 'Related case', faqs: 'Frequently asked questions', contacto: 'Shall we talk<br>about your case?',
+} : {
+  pais: 'España', inicio: 'Inicio', servicios: 'Servicios', area: 'Estrategia y marca',
+  paraQuien: 'Para quién es', queResuelve: 'Qué resuelve', recibe: 'Qué recibes', como: 'Cómo trabajamos',
+  formato: 'Formato', duracion: 'Duración', tiempo: 'Tu tiempo', garantia: 'Garantía', fuera: 'Fuera de este servicio',
+  precio: 'Precio cerrado en la propuesta, que recibes en 5 días laborables tras una llamada de 15 minutos. Sin permanencia y con acuerdo de confidencialidad.',
+  caso: 'Caso relacionado', faqs: 'Preguntas frecuentes', contacto: '¿Hablamos<br>de tu caso?',
+};
 // Solo el formato (duración, dedicación, garantía): desde 2026-10-22 los
 // precios no se publican, van en la propuesta.
-const formato = getPrecio(serviceSlug);
+const formato = en ? FICHAS_EN[serviceSlug]?.formato : getPrecio(serviceSlug);
 
 const serviceLd = {
   '@context': 'https://schema.org',
@@ -51,10 +74,11 @@ const serviceLd = {
     name: SITE_NAME,
     url: 'https://gbtconsultoria.com/',
   },
+  inLanguage: lang,
   areaServed: [
     { '@type': 'City', name: 'Zaragoza' },
     { '@type': 'AdministrativeArea', name: 'Aragón' },
-    { '@type': 'Country', name: 'España' },
+    { '@type': 'Country', name: T.pais },
   ],
   audience: {
     '@type': 'Audience',
@@ -66,9 +90,9 @@ const breadcrumbLd = {
   '@context': 'https://schema.org',
   '@type': 'BreadcrumbList',
   itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'Inicio', item: 'https://gbtconsultoria.com/' },
-    { '@type': 'ListItem', position: 2, name: 'Servicios', item: 'https://gbtconsultoria.com/servicios/' },
-    { '@type': 'ListItem', position: 3, name: 'Estrategia y marca', item: 'https://gbtconsultoria.com/servicios/estrategia-y-marca/' },
+    { '@type': 'ListItem', position: 1, name: T.inicio, item: `https://gbtconsultoria.com${ir('/')}` },
+    { '@type': 'ListItem', position: 2, name: T.servicios, item: `https://gbtconsultoria.com${ir('/servicios/')}` },
+    { '@type': 'ListItem', position: 3, name: T.area, item: `https://gbtconsultoria.com${ir('/servicios/estrategia-y-marca/')}` },
     { '@type': 'ListItem', position: 4, name: heading, item: Astro.url.href },
   ],
 };
@@ -76,11 +100,11 @@ const breadcrumbLd = {
 <BaseLayout title={title} description={description} image={image} ogType="website">
   <script type="application/ld+json" set:html={JSON.stringify(serviceLd)} />
   <script type="application/ld+json" set:html={JSON.stringify(breadcrumbLd)} />
-  <a href="/servicios/estrategia-y-marca/" class="back-link">← Estrategia y marca</a>
+  <a href={ir('/servicios/estrategia-y-marca/')} class="back-link">← {T.area}</a>
 
   <div class="case-main">
     <div class="case-tags">
-      <span class="tag">Estrategia y marca</span>
+      <span class="tag">{T.area}</span>
     </div>
     <h1>{heading}</h1>
     <p class="case-meta">{subtitle}</p>
@@ -107,24 +131,24 @@ const breadcrumbLd = {
 
     <div class="case-blocks">
       <div>
-        <h2 class="block-label">Para quién es</h2>
+        <h2 class="block-label">{T.paraQuien}</h2>
         <p class="block-text">{paraQuien}</p>
       </div>
       <div>
-        <h2 class="block-label">Qué resuelve</h2>
+        <h2 class="block-label">{T.queResuelve}</h2>
         <p class="block-text">{queResuelve}</p>
       </div>
     </div>
 
-    <div class="case-block-full" data-reveal>
-      <h2 class="block-label">Qué recibes</h2>
+    <div class="case-block-full">
+      <h2 class="block-label">{T.recibe}</h2>
       <ul class="deliverable-list">
         {recibe.map((item) => <li>{item}</li>)}
       </ul>
     </div>
 
-    <div class="case-block-full" data-reveal>
-      <h2 class="block-label">Cómo trabajamos</h2>
+    <div class="case-block-full">
+      <h2 class="block-label">{T.como}</h2>
       <ol class="process-steps">
         {pasos.map((paso, i) => (
           <li>
@@ -139,27 +163,27 @@ const breadcrumbLd = {
     </div>
 
     {formato && (
-      <div class="case-block-full" data-reveal>
-        <h2 class="block-label">Formato</h2>
+      <div class="case-block-full">
+        <h2 class="block-label">{T.formato}</h2>
         <dl class="precio-grid">
-          <div><dt>Duración</dt><dd>{formato.duracion}</dd></div>
-          <div><dt>Tu tiempo</dt><dd>{formato.dedicacion}</dd></div>
-          {formato.garantia && <div><dt>Garantía</dt><dd>{formato.garantia}</dd></div>}
-          <div><dt>Fuera de este servicio</dt><dd>{formato.noIncluye.join('. ')}</dd></div>
+          <div><dt>{T.duracion}</dt><dd>{formato.duracion}</dd></div>
+          <div><dt>{T.tiempo}</dt><dd>{formato.dedicacion}</dd></div>
+          {formato.garantia && <div><dt>{T.garantia}</dt><dd>{formato.garantia}</dd></div>}
+          <div><dt>{T.fuera}</dt><dd>{formato.noIncluye.join('. ')}</dd></div>
         </dl>
-        <p class="precio-link">Precio cerrado en la propuesta, que recibes en 5 días laborables tras una llamada de 15 minutos. Sin permanencia y con acuerdo de confidencialidad. <a href="/quienes-somos/#como-trabajamos">Cómo trabajamos</a></p>
+        <p class="precio-link">{T.precio} <a href={ir('/quienes-somos/#como-trabajamos')}>{T.como}</a></p>
       </div>
     )}
 
     {relatedCasos.length > 0 && (
-      <div class="case-block-full" data-reveal>
-        <h2 class="block-label">Caso relacionado</h2>
+      <div class="case-block-full">
+        <h2 class="block-label">{T.caso}</h2>
         <ul class="service-casos">
           {relatedCasos.map((caso) => (
             <li>
-              <a href={`/trabajo/${caso.slug}/`}>
+              <a href={ir(`/trabajo/${caso.slug}/`)}>
                 <span class="service-caso-title">{caso.cardHeadline}</span>
-                <span class="service-caso-company">{caso.company} · {caso.role}</span>
+                <span class="service-caso-company">{caso.company}, {caso.role}</span>
               </a>
             </li>
           ))}
@@ -170,8 +194,8 @@ const breadcrumbLd = {
     <p class="service-cierre">{cierre}</p>
 
     {faqs && faqs.length > 0 && (
-      <div class="case-block-full faq-block" data-reveal>
-        <h2 class="block-label">Preguntas frecuentes</h2>
+      <div class="case-block-full faq-block">
+        <h2 class="block-label">{T.faqs}</h2>
         <FaqList faqs={faqs} />
       </div>
     )}
@@ -179,5 +203,5 @@ const breadcrumbLd = {
 
   <Divider />
 
-  <ContactBlock title="¿Hablamos<br>de tu caso?" />
+  <ContactBlock title={T.contacto} />
 </BaseLayout>
