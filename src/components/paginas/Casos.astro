@@ -132,6 +132,7 @@ const nombreArea = (slug: string) => areas.find((a) => a.slug === slug)?.name ??
     </ul>
   </header>
 
+  <noscript><style>.tc-pista { opacity: 1 !important; }</style></noscript>
   <section class="tc-banda" data-tc aria-label={T.banda}>
     <div class="tc-in">
       <div class="tc-filtro">
@@ -286,7 +287,8 @@ const nombreArea = (slug: string) => areas.find((a) => a.slug === slug)?.name ??
 
     const inicio = () => {
       const primera = originales.find((c) => !c.hidden);
-      if (primera) { pista.style.scrollSnapType = 'none'; pista.scrollLeft = centrar(primera); requestAnimationFrame(() => { pista.style.scrollSnapType = ''; marcar(); }); }
+      if (primera) { pista.style.scrollSnapType = 'none'; pista.scrollLeft = centrar(primera); requestAnimationFrame(() => { pista.style.scrollSnapType = ''; marcar(); pista.classList.add('lista'); }); }
+      else pista.classList.add('lista');
     };
 
     const btn = root.querySelector<HTMLButtonElement>('.tc-filtro-btn')!;
@@ -372,8 +374,10 @@ const nombreArea = (slug: string) => areas.find((a) => a.slug === slug)?.name ??
   .tc-areas button { appearance: none; border: 1px solid rgba(246,246,246,0.3); background: none; color: inherit; border-radius: 999px; padding: 0.4rem 0.95rem; font: 400 0.82rem 'Poppins', sans-serif; cursor: pointer; }
   .tc-areas button[aria-pressed="true"] { background: #f6f6f6; color: #0a0a0a; border-color: #f6f6f6; }
 
-  .tc-pista { list-style: none; margin: 0; padding: 1rem 0; display: flex; gap: 1.2rem; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+  .tc-pista { opacity: 0; transition: opacity 0.35s ease; list-style: none; margin: 0; padding: 1rem 0; display: flex; gap: 1.2rem; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
   .tc-pista::-webkit-scrollbar { display: none; }
+  /* Oculta hasta que el script la centra: así no se ve el salto inicial. */
+  .tc-pista.lista { opacity: 1; }
   .tc-card { flex: 0 0 320px; scroll-snap-align: center; transition: transform 0.3s ease, opacity 0.3s ease; opacity: 0.6; transform: scale(0.94); }
   .tc-card[hidden] { display: none; }
   .tc-card.activa { opacity: 1; transform: none; }

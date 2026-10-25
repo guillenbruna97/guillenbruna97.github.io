@@ -18,7 +18,7 @@ const EN: Record<string, Textos> = {
     cardHeadline: 'Brand building and go-to-market strategy',
     cardDesc: 'ICP diagnosis, brand message rewrite, website redesign, content strategy, conversion funnel and the launch of a second business line from scratch. Includes the Spain Innovation Summit, the company’s own event with a sector study.',
     cardHighlight: 'Second business line launched from scratch, with its own ideal customer and funnel',
-    detailTitle: 'Zebra AI Transformation Company: brand and go-to-market | GBT Consultoría',
+    detailTitle: 'Zebra AI: brand and go-to-market | GBT Consultoría',
     detailDescription: 'Real case of brand strategy, messaging and go-to-market for an AI company. Diagnosis, product launch and the company’s own event.',
     detailTags: ['Brand strategy', 'Go-to-market'],
     detailHeading: 'Brand building and go-to-market strategy',

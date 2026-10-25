@@ -58,8 +58,8 @@ export const FICHAS_EN: Record<string, FichaEn> = {
     },
   },
   'gtm-icp': {
-    seoTitle: 'B2B go-to-market strategy and ideal customer profile',
-    description: 'Go-to-market strategy for B2B and SaaS companies. A defined ideal customer, a channel map and messages by segment to enter the market without scattering your efforts.',
+    seoTitle: 'B2B go-to-market strategy and ideal customer',
+    description: 'Go-to-market strategy for B2B and SaaS companies: a defined ideal customer, a channel map and messages by segment to enter the market with focus.',
     subtitle: 'Define your ideal customer and a precise go-to-market strategy for profitable growth, putting an end to scattered messages and channels.',
     imageAlt: 'Illustration of an executive pointing at a target hit by accurate arrows, connected to the acquisition channels',
     paraQuien: 'You are the founder or head of product of a B2B SaaS company at an early or growth stage. Your team invests in marketing channels, but effectiveness is low and you need a clear direction to optimise the budget and align everyone on the right message.',

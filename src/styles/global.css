@@ -50,9 +50,11 @@
 @font-face {
   font-family: 'Newsreader';
   font-style: italic;
-  font-weight: 300 800;
+  /* Solo el grosor 400 y el tamaño óptico de titular (2026-10-25): es lo único que
+     usa .accent, y la fuente pasa de 137 KB a 21 KB, que retrasaban el LCP. */
+  font-weight: 400;
   font-display: swap;
-  src: url('/fonts/newsreader-italic.woff2') format('woff2');
+  src: url('/fonts/newsreader-italic-400.woff2') format('woff2');
 }
 
 :root {
