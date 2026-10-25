@@ -55,5 +55,5 @@ export const FOTOS_AREA: Record<string, Foto> = {
 export const FOTO_QUIENES: Foto = {
   img: sesion,
   alt: { es: 'Guillén Bruna dirige una sesión de trabajo con el equipo alrededor de una mesa', en: 'Guillén Bruna leads a working session with the team around a table' },
-  foco: '50% 12%',
+  foco: '52% 8%',
 };
