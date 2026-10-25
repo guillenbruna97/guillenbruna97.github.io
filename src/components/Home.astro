@@ -143,12 +143,12 @@ const trustLogos = [
   body.dark .hx-media .hx-oscuro { display: block; }
   @media (prefers-reduced-motion: reduce) { .hx-media img { height: 100%; will-change: auto; } }
   @media (max-width: 640px) { .hx-media { height: 52vh; min-height: 300px; } }
-  body.dark .hh-trust-label { color: rgba(232,232,232,0.45); }
+  body.dark .hh-trust-label { color: rgba(232,232,232,0.62); }
   body.dark .hh-logos img { filter: invert(1); opacity: 0.7; }
   /* Banda de logos a todo el ancho, al pie del hero: cuatro copias en fila que se desplazan hacia la derecha
      un cuarto y vuelven a empezar sin salto. Cada copia abre con su hueco, así el primer logo nunca sale cortado. */
   .hh-trust { position: relative; z-index: 1; padding-bottom: 3rem; }
-  .hh-trust-label { margin: 0 4vw 1.2rem; padding-top: 1.4rem; font-size: 0.82rem; letter-spacing: 0; color: rgba(0,0,0,0.45); }
+  .hh-trust-label { margin: 0 4vw 1.2rem; padding-top: 1.4rem; font-size: 0.82rem; letter-spacing: 0; color: rgba(0,0,0,0.58); }
   .hh-logos { overflow: hidden;
     -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 5%, #000 95%, transparent 100%);
     mask-image: linear-gradient(to right, transparent 0%, #000 5%, #000 95%, transparent 100%); }
@@ -164,7 +164,9 @@ const trustLogos = [
     .hh-logos-set[aria-hidden] { display: none; }
   }
   @media (prefers-reduced-motion: no-preference) {
+    /* El H1 es el LCP: entra sin opacidad 0 para no retrasar su pintado; el resto sí aparece con fundido. */
     .hx-inner > * { opacity: 0; animation: hx-in 0.8s cubic-bezier(.16,1,.3,1) forwards; }
+    .hx-inner > .hx-title { opacity: 1; animation: none; }
     .hx-inner > *:nth-child(2) { animation-delay: 0.08s; }
     .hx-media { opacity: 0; animation: hx-in 0.8s cubic-bezier(.16,1,.3,1) 0.16s forwards; }
   }

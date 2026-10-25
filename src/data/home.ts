@@ -20,8 +20,8 @@ export const HOME = {
     contactoTexto: 'Cuéntanos tu caso y en 5 días laborables tienes una propuesta cerrada.',
   },
   en: {
-    seoTitle: 'GBT Consultoría, marketing and brand consultancy in Zaragoza, Spain',
-    seoDescription: 'A network of senior marketing specialists in Zaragoza, Spain, led by Guillén Bruna: strategy, brand, web, SEO and GEO, advertising, social media and events. One point of contact.',
+    seoTitle: 'GBT Consultoría, marketing and brand consultancy in Zaragoza',
+    seoDescription: 'Senior marketing specialists in Zaragoza, Spain, led by Guillén Bruna: strategy, brand, web, SEO and GEO, ads, social media and events. One point of contact.',
     h1: 'All your marketing, from start to finish, with one person <span class="accent">accountable</span>.',
     desc: 'We are a network of senior specialists in strategy, brand, web, search, advertising, social media and events, orchestrated by Guillén Bruna. You talk to one person. We build the team your project needs.',
     llamada: 'Book a 15-minute call',

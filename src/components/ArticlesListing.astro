@@ -46,7 +46,7 @@ const pageHref = (num: number) => (num === 1 ? `${basePath}/` : `${basePath}/${n
         num === page.currentPage ? (
           <span class="pagination-page pagination-page-current" aria-current="page">{dos(num)}</span>
         ) : (
-          <a href={pageHref(num)} class="pagination-page" aria-label={`Página ${num}`}>{dos(num)}</a>
+          <a href={pageHref(num)} class="pagination-page" aria-label={`Página ${dos(num)}`}>{dos(num)}</a>
         )
       ))}
     </div>
@@ -92,8 +92,8 @@ const pageHref = (num: number) => (num === 1 ? `${basePath}/` : `${basePath}/${n
   .pagination-disabled { visibility: hidden; }
 
   .pagination-pages { display: flex; gap: 0.3rem; }
-  .pagination-page { position: relative; display: inline-flex; align-items: center; justify-content: center; min-width: 2.6rem; height: 2.75rem; font-size: 0.95rem; font-weight: 400; font-variant-numeric: tabular-nums; letter-spacing: 0.02em; color: rgba(0,0,0,0.4); text-decoration: none; transition: color var(--transition); }
-  body.dark .pagination-page { color: rgba(232,232,232,0.4); }
+  .pagination-page { position: relative; display: inline-flex; align-items: center; justify-content: center; min-width: 2.6rem; height: 2.75rem; font-size: 0.95rem; font-weight: 400; font-variant-numeric: tabular-nums; letter-spacing: 0.02em; color: rgba(0,0,0,0.58); text-decoration: none; transition: color var(--transition); }
+  body.dark .pagination-page { color: rgba(232,232,232,0.62); }
   .pagination-page:hover { color: var(--black); }
   body.dark .pagination-page:hover { color: #e8e8e8; }
   .pagination-page-current { color: var(--black); font-weight: 500; }
