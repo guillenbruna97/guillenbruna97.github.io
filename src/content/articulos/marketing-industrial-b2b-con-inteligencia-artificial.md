@@ -6,6 +6,8 @@ excerpt: "La inteligencia artificial no es un posicionamiento de mercado. Cómo 
 description: "El marketing industrial B2B con inteligencia artificial exige definir antes qué problema del cliente resuelves mejor que nadie. La IA es un medio."
 date: 2026-10-26
 readingTime: "4 min de lectura"
+image: "/images/articulos/marketing-industrial-b2b-con-inteligencia-artificial.jpg"
+imageAlt: "Ilustración de un directivo industrial con casco que deja en segundo plano la máquina y la cinta transportadora para presentar un cronómetro, sobre vender al cliente el tiempo que gana y no la tecnología con la que se consigue"
 service: "posicionamiento"
 faqs:
   - question: "¿Por qué incluir la inteligencia artificial en mi mensaje de marketing industrial no me hace más competitivo?"
