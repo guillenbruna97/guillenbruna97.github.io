@@ -1,4 +1,7 @@
 User-agent: *
 Allow: /
+# Rutas internas de Cloudflare (p. ej. la ofuscación de emails): no son
+# páginas y sin el fragmento # devuelven 404 en Search Console.
+Disallow: /cdn-cgi/
 
 Sitemap: https://gbtconsultoria.com/sitemap-index.xml

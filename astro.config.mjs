@@ -78,12 +78,9 @@ export default defineConfig({
   },
   integrations: [
     sitemap({
-      // Fuera también las páginas 2, 3… de los listados: llevan noindex y
-      // Search Console marca como error las URLs del sitemap con noindex.
-      filter: (page) => {
-        const { pathname } = new URL(page);
-        return !(pathname in allRedirects) && !/\/\d+\/$/.test(pathname);
-      },
+      // Las páginas 2, 3… de los listados entran: son indexables con su propio
+      // canonical, como recomienda Google para la paginación.
+      filter: (page) => !(new URL(page).pathname in allRedirects),
       serialize(item) {
         const lastmod = articleLastmod.get(new URL(item.url).pathname);
         if (lastmod) item.lastmod = new Date(lastmod).toISOString();
