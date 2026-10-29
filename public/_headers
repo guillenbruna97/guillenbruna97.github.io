@@ -17,3 +17,10 @@
   X-Content-Type-Options: nosniff
   Strict-Transport-Security: max-age=31536000; includeSubDomains
   X-Frame-Options: DENY
+
+# Imágenes de la firma de correo: Gmail y Outlook las cargan desde aquí,
+# pero no son contenido de la web y no deben salir en Google Imágenes.
+# Va como cabecera y no en robots.txt, porque con Disallow Google no
+# llegaría a leer el noindex.
+/firma/*
+  X-Robots-Tag: noindex
