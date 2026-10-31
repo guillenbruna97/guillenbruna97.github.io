@@ -35,7 +35,7 @@ Antes de autorizar la siguiente inversión en software de automatización, hazte
 
 ## La tecnología amplifica lo que ya tienes, bueno o malo
 
-La tecnología debe ser el amplificador de una estrategia que ya funciona. Si la estrategia es débil, la IA solo servirá para amplificar esa debilidad a escala industrial.
+La tecnología debe ser el amplificador de una estrategia que ya funciona, y [en una empresa industrial B2B eso empieza por no confundir la IA con el posicionamiento](/articulos/marketing-industrial-b2b-con-inteligencia-artificial/). Si la estrategia es débil, la IA solo servirá para amplificar esa debilidad a escala industrial.
 
 Una estrategia de marketing efectiva empieza por la arquitectura de tu mensaje. Se trata de identificar el punto de dolor real de tu cliente, articular una solución que nadie más puede ofrecer y asegurar que esa narrativa sea coherente en cada punto de contacto. Una vez que tienes eso, la IA deja de ser un sustituto del pensamiento estratégico y se convierte en un multiplicador de resultados.
 

@@ -12,7 +12,7 @@ image: "/images/articulos/consultor-de-marketing-en-zaragoza.jpg"
 imageAlt: "Ilustración de portada sobre cómo elegir un consultor de marketing en Zaragoza"
 faqs:
   - question: "¿Hay consultores de marketing estratégico en Zaragoza?"
-    answer: "Sí, aunque la oferta local está dominada por agencias de ejecución digital, gestión de redes y diseño web. Guillén Bruna Tricas trabaja desde Zaragoza como consultor independiente de estrategia de marketing y comunicación para pymes y directivos, centrado en el posicionamiento, el mensaje y la comunicación de la dirección antes de invertir en ejecución."
+    answer: "Sí, aunque la oferta local está dominada por agencias de ejecución digital, gestión de redes y diseño web. GBT Consultoría trabaja desde Zaragoza con una red de especialistas senior dirigida por Guillén Bruna Tricas, consultor de estrategia de marketing y marca. Primero se deciden el posicionamiento, el mensaje y la comunicación de la dirección, y después se ejecuta."
   - question: "¿Cómo distinguir a un consultor estratégico de un perfil ejecutor?"
     answer: "Con tres preguntas. Si cobra comisiones por las herramientas, agencias o medios que recomienda, porque un consultor real cobra solo por su tiempo y criterio. Si ante un problema de margen o de entrada en un mercado responde con tácticas digitales o con la propuesta de valor. Y cómo trabajará con la dirección, en sesiones de debate o con informes por correo."
   - question: "¿Qué necesita una pyme industrial de un consultor de marketing?"
