@@ -51,7 +51,7 @@ export const AREAS: Area[] = [
       { name: 'Identidad visual y rebranding', text: 'Logotipo, paleta, tipografía, manual de marca y aplicaciones, o la renovación de una marca que se ha quedado atrás.' },
     ],
     faqs: [
-      { question: '¿Qué es un director de marketing externo?', answer: 'Un profesional senior que dirige tu marketing a tiempo parcial, sin incorporarlo a plantilla. Define la estrategia, prioriza, coordina a quien ejecuta y rinde cuentas ante la dirección. Encaja cuando necesitas dirección pero no un director a jornada completa.' },
+      { question: '¿Qué es un director de marketing externo?', answer: 'Un profesional senior, también llamado fractional CMO, que dirige tu marketing a tiempo parcial, sin incorporarlo a plantilla. Define la estrategia, prioriza, coordina a quien ejecuta y rinde cuentas ante la dirección. Encaja cuando necesitas dirección pero no un director a jornada completa.' },
       { question: '¿Cuánto cuesta una consultoría de marketing?', answer: `Depende del alcance: no cuesta lo mismo un diagnóstico de tres semanas que dirigir el marketing cada mes. ${PROPUESTA}` },
       { question: '¿Hacéis también el logotipo y la identidad visual?', answer: 'Sí. Los diseñadores de la red se encargan de la identidad visual, siempre a partir de la estrategia de marca, para que el diseño exprese algo ya decidido y no al revés.' },
       { question: '¿Y si después quiero que lo ejecute mi equipo?', answer: 'Sin problema. Los entregables están pensados para que tu equipo o tus proveedores los apliquen. Si lo prefieres, los ejecuta nuestra red.' },
