@@ -32,7 +32,7 @@ Si tu objetivo es una aprobación presupuestaria o un cambio de rumbo estratégi
 
 No todos los miembros de un consejo buscan lo mismo. El CFO quiere entender la sostenibilidad financiera y el riesgo, mientras que un CEO de un holding o un inversor busca el encaje estratégico y la escalabilidad del modelo. Si intentas dar un mensaje único para todos, terminarás ofreciendo algo que no satisface a nadie por completo.
 
-Tu trabajo es preparar una narrativa que responda a las inquietudes específicas de cada rol. Antes de entrar en la sala, identifica qué le quita el sueño a cada persona presente. Si preparas tu discurso para responder a esas dudas antes de que ellos tengan que verbalizarlas, mantienes el control de la sesión. Es el mismo principio que aplico cuando trabajo con directivos sobre [por qué los altos directivos y cargos públicos necesitan asesoría de comunicación](/articulos/asesoria-comunicacion-alta-direccion/): la eficacia radica en anticipar el impacto de tu mensaje en el receptor, no en el placer de emitirlo.
+Tu trabajo es preparar [una narrativa que responda a las inquietudes específicas de cada rol](/articulos/narrativa-corporativa-clientes-inversores-equipo/). Antes de entrar en la sala, identifica qué le quita el sueño a cada persona presente. Si preparas tu discurso para responder a esas dudas antes de que ellos tengan que verbalizarlas, mantienes el control de la sesión. Es el mismo principio que aplico cuando trabajo con directivos sobre [por qué los altos directivos y cargos públicos necesitan asesoría de comunicación](/articulos/asesoria-comunicacion-alta-direccion/): la eficacia radica en anticipar el impacto de tu mensaje en el receptor, no en el placer de emitirlo.
 
 ## Ensaya las tres preguntas incómodas
 
