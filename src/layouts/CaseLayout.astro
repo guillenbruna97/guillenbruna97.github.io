@@ -1,5 +1,6 @@
 ---
-// Página de un caso real, con la estructura de los casos de siegemedia.com
+// Página de una etapa de la trayectoria de Guillén (antes «caso real»;
+// reenfocada el 2026-11-02: empleos y marca propia, no clientes de GBT), con la estructura de los casos de siegemedia.com
 // (elegida por Dirección el 2026-10-24) y la identidad de GBT: cabecera con
 // cifras, ficha de la empresa y el reto, resultados, qué se hizo, trabajo
 // destacado y casos relacionados. Datos: data/casos.ts y data/casos-detalle.ts.
@@ -31,14 +32,14 @@ const areasCaso = caso.areas.map((a) => (en ? AREAS_EN : AREAS).find((x) => x.sl
 const servicios = caso.services.map((s) => getService(s)).filter((s) => s !== undefined)
   .map((s) => ({ slug: s.slug, name: en ? FICHAS_EN[s.slug]?.seoTitle ?? s.name : s.name }));
 const T = en ? {
-  inicio: 'Home', casos: 'Case studies', migas: 'Breadcrumbs', rol: 'Guillén Bruna’s role:', sector: 'Sector', rolCorto: 'Guillén’s role',
+  inicio: 'Home', casos: 'Track record', migas: 'Breadcrumbs', rol: 'Guillén Bruna’s job title:', sector: 'Sector', rolCorto: 'Job title', periodo: 'Dates',
   aplicados: 'Services applied', web: 'Website', reto: 'The challenge', resultados: 'Results', antes: 'At the start', despues: 'At the end',
-  hecho: 'What we did', relacionado: 'Related service:', destacado: 'Featured work', youtube: 'Watch on YouTube', relacionados: 'Related cases',
+  hecho: 'What we did', relacionado: 'Related service:', destacado: 'Featured work', youtube: 'Watch on YouTube', relacionados: 'Other roles',
   contacto: 'Shall we talk<br>about your case?',
 } : {
-  inicio: 'Inicio', casos: 'Casos reales', migas: 'Migas de pan', rol: 'Rol de Guillén Bruna:', sector: 'Sector', rolCorto: 'Rol de Guillén',
+  inicio: 'Inicio', casos: 'Trayectoria', migas: 'Migas de pan', rol: 'Cargo de Guillén Bruna:', sector: 'Sector', rolCorto: 'Cargo', periodo: 'Fechas',
   aplicados: 'Servicios aplicados', web: 'Web', reto: 'El reto', resultados: 'Resultados', antes: 'Al empezar', despues: 'Al terminar',
-  hecho: 'Qué se hizo', relacionado: 'Servicio relacionado:', destacado: 'Trabajo destacado', youtube: 'Ver en YouTube', relacionados: 'Casos relacionados',
+  hecho: 'Qué hicimos', relacionado: 'Servicio relacionado:', destacado: 'Trabajo destacado', youtube: 'Ver en YouTube', relacionados: 'Otras etapas',
   contacto: '¿Hablamos<br>de tu caso?',
 };
 
@@ -71,7 +72,7 @@ const breadcrumbLd = {
         <div>
           <p class="cs-sector">{caso.sector}</p>
           <h1>{caso.reto}</h1>
-          <p class="cs-rol">{T.rol} {caso.role}</p>
+          <p class="cs-rol">{T.rol} {caso.role} · {caso.periodo}</p>
         </div>
         {detalle.cifras.length > 0 ? (
           <dl class="cs-cifras">
@@ -96,6 +97,7 @@ const breadcrumbLd = {
         <dl>
           <div><dt>{T.sector}</dt><dd>{caso.sector}</dd></div>
           <div><dt>{T.rolCorto}</dt><dd>{caso.role}</dd></div>
+          <div><dt>{T.periodo}</dt><dd>{caso.periodo}</dd></div>
           {areasCaso.length > 0 && (
             <div><dt>{T.aplicados}</dt><dd>{areasCaso.map((a, i) => <>{i > 0 && ', '}<a href={ir(`/servicios/${a!.slug}/`)}>{a!.name}</a></>)}</dd></div>
           )}

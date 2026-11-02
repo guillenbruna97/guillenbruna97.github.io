@@ -1,5 +1,6 @@
 ---
-// Listado de casos reales (2026-10-24), inspirado en cyberclick.es/casos-de-exito
+// Trayectoria de Guillén (antes «casos reales», reenfocada el 2026-11-02:
+// son sus etapas como empleado y su marca propia, no clientes de GBT). Listado (2026-10-24), inspirado en cyberclick.es/casos-de-exito
 // (sin su hero): banda oscura con filtro por área y carrusel de tarjetas con
 // la del centro destacada, y logos de las marcas. El bloque de testimonios
 // aparece solo cuando haya testimonios reales (TESTIMONIOS vacío por ahora).
@@ -24,19 +25,19 @@ const lista = en ? casosEn : casos;
 const areas = en ? AREAS_EN : AREAS;
 const logo = (m: string) => (en ? `${m} logo` : `Logo de ${m}`);
 const T = en ? {
-  seoTitle: `Real marketing case studies | ${SITE_NAME}`,
-  seoDescription: 'Real cases of brand strategy, social media, paid media, web and events, with their figures: each company’s challenge, what was done and the result.',
-  h1: 'Real cases, real results',
-  intro: 'Each company’s challenge, what was done and the result, with the figures. Projects Guillén Bruna has worked on, who today orchestrates the GBT Consultoría network.',
-  banda: 'Cases', filtrar: 'Filter by area', todas: 'All', foto: (c: string) => `Photo of the ${c} case.`,
+  seoTitle: `Marketing and brand track record | ${SITE_NAME}`,
+  seoDescription: 'Guillén Bruna’s track record in brand strategy, social media, paid media, web and events: the companies he worked at, his role, the dates and what the team achieved.',
+  h1: 'Before going out on my own',
+  intro: 'More than five years in marketing and brand, working inside retail, consulting and technology companies, plus a brand of my own. These are the roles where I learned the trade, with my job title, the dates and what we achieved as a team. Today I put that experience at the service of other companies with GBT Consultoría.',
+  banda: 'Track record', filtrar: 'Filter by area', todas: 'All', foto: (c: string) => `Photo of the role at ${c}.`,
   testimonios: 'Clients and testimonials', testimoniosTexto: 'What the people we have worked with say.', en: 'at',
   contacto: 'Shall we talk<br>about your case?',
 } : {
-  seoTitle: `Casos reales de marketing | ${SITE_NAME}`,
-  seoDescription: 'Casos reales de estrategia de marca, redes sociales, paid media, web y eventos, con sus cifras: el reto de cada empresa, qué se hizo y qué resultado dio.',
-  h1: 'Casos reales, resultados reales',
-  intro: 'El reto de cada empresa, qué se hizo y qué resultado dio, con sus cifras. Proyectos en los que ha trabajado Guillén Bruna, que hoy orquesta la red de GBT Consultoría.',
-  banda: 'Casos', filtrar: 'Filtrar por área', todas: 'Todas', foto: (c: string) => `Foto del caso de ${c}.`,
+  seoTitle: `Trayectoria en marketing y marca | ${SITE_NAME}`,
+  seoDescription: 'La trayectoria de Guillén Bruna en estrategia de marca, redes sociales, paid media, web y eventos: en qué empresas trabajó, con qué cargo, en qué fechas y qué consiguió el equipo.',
+  h1: 'Antes de lanzarme por mi cuenta',
+  intro: 'Más de cinco años en marketing y marca, dentro de empresas de retail, consultoría y tecnología, y una marca propia. Estas son las etapas en las que aprendí el oficio, con mi cargo, las fechas y lo que conseguimos en cada equipo. Hoy pongo esa experiencia al servicio de otras empresas con GBT Consultoría.',
+  banda: 'Trayectoria', filtrar: 'Filtrar por área', todas: 'Todas', foto: (c: string) => `Foto de la etapa en ${c}.`,
   testimonios: 'Clientes y testimonios', testimoniosTexto: 'Lo que dicen las personas con las que hemos trabajado.', en: 'en',
   contacto: '¿Hablamos<br>de tu caso?',
 };
@@ -61,22 +62,23 @@ const C = en ? {
     { valor: '+15,000', texto: 'new followers, from 20,000 to 35,000' },
     { valor: '400-500', texto: 'orders with no outside investment, up to break-even' },
   ],
-  cifrasTitulo: 'Some figures from these cases',
-  detalleTitulo: 'All the cases, in detail',
-  detalleIntro: 'The challenge, what was done and the result of each project, with the role Guillén Bruna had in it.',
-  rol: 'Role', hecho: 'What was done', resultado: 'Result', ver: 'See the full case',
-  detrasTitulo: 'What is behind each case',
+  cifrasTitulo: 'Some figures from these roles',
+  detalleTitulo: 'Each role, in detail',
+  detalleIntro: 'Each company’s challenge, what we did as a team and the result, with my job title and the dates.',
+  rol: 'Job title', periodo: 'Dates', hecho: 'What we did', resultado: 'Result', ver: 'See the full role',
+  detrasTitulo: 'How to read this track record',
   detras: [
-    { titulo: 'His role, stated in each case', texto: 'At Zebra AI Transformation Company, Guillén Bruna led brand and marketing. In the rest he was part of the team: as head of social media, as a consultant or as a co-founder. Each case states his role.' },
-    { titulo: 'Figures from the period', texto: 'The numbers are from each project, and approximate where indicated. Nothing is rounded up or added after the fact.' },
-    { titulo: 'Today, with the network', texto: 'What he learned in these projects is the basis of GBT Consultoría: today Guillén leads each project and the specialists in the network carry it out.' },
+    { titulo: 'Jobs, not clients', texto: 'These are not GBT Consultoría projects. I worked at Integra, Grupo Rey Corporación and Zebra AI Transformation Company, where I still work today, and I founded Broco with two friends. Each role shows my job title and the dates.' },
+    { titulo: 'Team results', texto: 'What was achieved in each company was teamwork. The figures are from the period I was there, approximate where indicated, and nothing is rounded up or added after the fact.' },
+    { titulo: 'Now, on my own', texto: 'With what I learned in these companies I am going out on my own with GBT Consultoría: I lead each project and the specialists in the network carry it out.' },
   ],
   faqsTitulo: 'Frequently asked questions',
   faqs: [
-    { question: 'What was Guillén Bruna’s role in these cases?', answer: 'At Zebra AI Transformation Company he led brand and marketing. In the rest he was part of the team: as head of social media in a multi-brand group, as a consultant and as a co-founder. Each case page states his role and what was done.' },
-    { question: 'Are the figures real?', answer: 'Yes. They come from each project during the period Guillén worked on it, and are marked as approximate where they are. No figures are invented or projected.' },
-    { question: 'Which sectors do you have experience in?', answer: 'These cases cover technology and AI (B2B), management consulting (B2B), fashion and eCommerce, and furniture retail. The network adds specialists with experience in other sectors, and the proposal explains who works on your project and why.' },
-    { question: 'Do you work with companies outside Zaragoza?', answer: 'Yes. We are based in Zaragoza, Spain, and work remotely, travelling for the key moments. Among these cases there are national brands and a store opening in Castellón.' },
+    { question: 'Are these GBT Consultoría projects?', answer: 'No. They are roles from my career before going out on my own: I worked as an employee at Integra, Grupo Rey Corporación and Zebra AI Transformation Company, where I still work today, and I founded Broco. GBT Consultoría is built on that experience.' },
+    { question: 'What was your role in each company?', answer: 'Each page shows my exact job title and the dates: digital marketing specialist at Integra, digital marketing technician and community manager and later Head of Social Media at Grupo Rey Corporación, and head of marketing, growth, brand and communication at Zebra AI Transformation Company. At Broco I was one of the founders.' },
+    { question: 'Are the figures real?', answer: 'Yes. They come from each company during the time I worked there, and are marked as approximate where they are. No figures are invented or projected.' },
+    { question: 'Which sectors do you have experience in?', answer: 'My career covers technology and AI (B2B), management consulting (B2B), fashion and eCommerce, and furniture retail. The network adds specialists with experience in other sectors, and the proposal explains who works on your project and why.' },
+    { question: 'Do you work with companies outside Zaragoza?', answer: 'Yes. We are based in Zaragoza, Spain, and work remotely, travelling for the key moments. In my career I have worked with national brands and on a store opening in Castellón.' },
     { question: 'Can you do something similar for my company?', answer: 'After a 15-minute call we tell you whether we can help, and within 5 working days you get a proposal with the scope, the team, the timeline and a fixed price.' },
   ],
   reco: 'Not sure which service you need?', recoEnlace: 'Answer 6 questions and we will tell you',
@@ -87,22 +89,23 @@ const C = en ? {
     { valor: '+15.000', texto: 'seguidores nuevos, de 20.000 a 35.000' },
     { valor: '400-500', texto: 'pedidos sin inversión externa, hasta el punto de equilibrio' },
   ],
-  cifrasTitulo: 'Algunas cifras de estos casos',
-  detalleTitulo: 'Todos los casos, en detalle',
-  detalleIntro: 'El reto, qué se hizo y qué resultado dio cada proyecto, con el papel que tuvo en él Guillén Bruna.',
-  rol: 'Rol', hecho: 'Qué se hizo', resultado: 'Resultado', ver: 'Ver el caso completo',
-  detrasTitulo: 'Qué hay detrás de cada caso',
+  cifrasTitulo: 'Algunas cifras de estas etapas',
+  detalleTitulo: 'Cada etapa, en detalle',
+  detalleIntro: 'El reto de cada empresa, qué hicimos en el equipo y qué resultado dio, con mi cargo y las fechas.',
+  rol: 'Cargo', periodo: 'Fechas', hecho: 'Qué hicimos', resultado: 'Resultado', ver: 'Ver la etapa completa',
+  detrasTitulo: 'Cómo leer esta trayectoria',
   detras: [
-    { titulo: 'Su papel, claro en cada caso', texto: 'En Zebra AI Transformation Company, Guillén Bruna dirigió la marca y el marketing. En el resto formó parte del equipo: como responsable de redes, como consultor o como cofundador. Cada caso indica su rol.' },
-    { titulo: 'Cifras del periodo', texto: 'Los números son de cada proyecto, y aproximados cuando así se indica. No se redondean al alza ni se añaden después.' },
-    { titulo: 'Hoy, con la red', texto: 'Lo aprendido en estos proyectos es la base de GBT Consultoría: hoy Guillén dirige cada proyecto y lo ejecutan los especialistas de la red.' },
+    { titulo: 'Empleos, no clientes', texto: 'No son proyectos de GBT Consultoría. Trabajé en Integra, en Grupo Rey Corporación y en Zebra AI Transformation Company, donde sigo hoy, y fundé Broco con dos amigos. Cada etapa indica mi cargo y las fechas.' },
+    { titulo: 'Resultados de equipo', texto: 'Lo que se consiguió en cada empresa fue trabajo de equipo. Las cifras son del tiempo en que estuve allí, aproximadas cuando así se indica, y no se redondean al alza ni se añaden después.' },
+    { titulo: 'Ahora, por mi cuenta', texto: 'Con lo aprendido en estas empresas me lanzo por mi cuenta con GBT Consultoría: dirijo cada proyecto y lo ejecutan los especialistas de la red.' },
   ],
   faqsTitulo: 'Preguntas frecuentes',
   faqs: [
-    { question: '¿Qué papel tuvo Guillén Bruna en estos casos?', answer: 'En Zebra AI Transformation Company dirigió la marca y el marketing. En el resto formó parte del equipo: como responsable de redes sociales en un grupo de varias marcas, como consultor y como cofundador. En la página de cada caso se indica su rol y qué se hizo.' },
-    { question: '¿Las cifras son reales?', answer: 'Sí. Salen de cada proyecto durante el tiempo en que Guillén trabajó en él, y se marcan como aproximadas cuando lo son. No hay cifras inventadas ni proyectadas.' },
-    { question: '¿En qué sectores tenéis experiencia?', answer: 'Estos casos abarcan tecnología e IA (B2B), consultoría de dirección (B2B), moda y eCommerce, y retail de muebles. La red suma especialistas con experiencia en otros sectores, y en la propuesta te contamos quién trabaja en tu proyecto y por qué.' },
-    { question: '¿Trabajáis con empresas de fuera de Zaragoza?', answer: 'Sí. Estamos en Zaragoza y trabajamos en remoto, con desplazamientos en los momentos clave. Entre estos casos hay marcas de ámbito nacional y una inauguración de tienda en Castellón.' },
+    { question: '¿Son proyectos de GBT Consultoría?', answer: 'No. Son etapas de mi trayectoria antes de lanzarme por mi cuenta: trabajé como empleado en Integra, en Grupo Rey Corporación y en Zebra AI Transformation Company, donde sigo hoy, y fundé Broco. GBT Consultoría nace de esa experiencia.' },
+    { question: '¿Qué cargo tenías en cada empresa?', answer: 'En la página de cada etapa está el cargo literal y las fechas: especialista en marketing digital en Integra, técnico de marketing digital y community manager y después Head of Social Media en Grupo Rey Corporación, y responsable de marketing, growth, marca y comunicación en Zebra AI Transformation Company. En Broco fui uno de los fundadores.' },
+    { question: '¿Las cifras son reales?', answer: 'Sí. Salen de cada empresa durante el tiempo en que trabajé allí, y se marcan como aproximadas cuando lo son. No hay cifras inventadas ni proyectadas.' },
+    { question: '¿En qué sectores tenéis experiencia?', answer: 'Mi trayectoria abarca tecnología e IA (B2B), consultoría de dirección (B2B), moda y eCommerce, y retail de muebles. La red suma especialistas con experiencia en otros sectores, y en la propuesta te contamos quién trabaja en tu proyecto y por qué.' },
+    { question: '¿Trabajáis con empresas de fuera de Zaragoza?', answer: 'Sí. Estamos en Zaragoza y trabajamos en remoto, con desplazamientos en los momentos clave. En mi trayectoria he trabajado con marcas de ámbito nacional y en una inauguración de tienda en Castellón.' },
     { question: '¿Podéis hacer algo parecido para mi empresa?', answer: 'Tras una llamada de 15 minutos te decimos si podemos ayudarte, y en 5 días laborables recibes una propuesta con el alcance, el equipo, los plazos y el precio cerrado.' },
   ],
   reco: '¿No sabes qué servicio necesitas?', recoEnlace: 'Responde 6 preguntas y te lo decimos',
@@ -188,6 +191,7 @@ const nombreArea = (slug: string) => areas.find((a) => a.slug === slug)?.name ??
               <h3><a href={ir(`/trabajo/${caso.slug}/`)}>{caso.reto}</a></h3>
               <dl>
                 <div><dt>{C.rol}</dt><dd>{caso.role}</dd></div>
+                <div><dt>{C.periodo}</dt><dd>{caso.periodo}</dd></div>
                 <div><dt>{C.hecho}</dt><dd>{caso.capacidades}</dd></div>
                 <div><dt>{C.resultado}</dt><dd>{caso.cardHighlight}</dd></div>
               </dl>

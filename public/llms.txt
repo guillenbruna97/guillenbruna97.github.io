@@ -29,7 +29,7 @@ Todo por propuesta. Tras una llamada de 15 minutos, el cliente recibe en 5 días
 
 - [Recomendador de servicios](https://gbtconsultoria.com/recomendador/): seis preguntas que indican qué servicios encajan con cada empresa y por dónde empezar.
 - [Quiénes somos](https://gbtconsultoria.com/quienes-somos/): la red, cómo se elige a sus especialistas, quién la dirige y cómo trabajamos.
-- [Casos reales](https://gbtconsultoria.com/trabajo/): proyectos de estrategia de marca, lanzamiento de producto, web, paid media y eventos.
+- [Trayectoria](https://gbtconsultoria.com/trabajo/): las etapas de Guillén Bruna Tricas antes de lanzarse por su cuenta (empleos en Integra, Grupo Rey Corporación y Zebra AI Transformation Company, y su marca Broco), con cargo, fechas y resultados del equipo en estrategia de marca, redes, paid media, web y eventos.
 - [Artículos](https://gbtconsultoria.com/articulos/): piezas sobre posicionamiento, marca, go to market y comunicación ejecutiva.
 - [Minijuegos de marketing](https://gbtconsultoria.com/recursos/minijuegos/): retos interactivos para directivos, entre ellos un [diagnóstico de marketing](https://gbtconsultoria.com/recursos/minijuegos/diagnostico-marketing/) de 12 preguntas que traduce síntomas comerciales a su causa de fondo con tres primeros pasos.
 - [Contacto](https://gbtconsultoria.com/contacto/): agenda de llamada, email y LinkedIn.

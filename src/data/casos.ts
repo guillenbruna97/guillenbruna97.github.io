@@ -12,8 +12,10 @@ import tucoCaseImage from '../assets/casos/tuco-taller-castellon.jpg';
 // propia página: eso es contenido único, no un dato repetido.
 //
 // El orden del array es el orden del listado: primero el caso que prueba
-// los servicios actuales. `services` usa los slugs de SERVICES (consts.ts):
-// enlaza el caso con su ficha de servicio y la ficha con el caso. Vacío a
+// los servicios actuales. Desde el 2026-11-02 son etapas de la trayectoria de
+// Guillén (empleos y su marca propia), no casos de clientes de GBT: `role` es
+// el cargo literal y `periodo`, las fechas del puesto.
+// `services` usa los slugs de SERVICES (consts.ts): enlaza el caso con su ficha de servicio y la ficha con el caso. Vacío a
 // propósito cuando el caso es trayectoria y no prueba de un servicio.
 // `areas` usa los slugs de AREAS (data/areas.ts) y enlaza el caso desde la
 // página de cada área que prueba.
@@ -21,14 +23,15 @@ export const casos = [
   {
     slug: 'zebra-ventures',
     company: 'Zebra AI Transformation Company',
-    role: 'Head of Brand & Marketing',
+    role: 'Responsable de marketing, growth, marca y comunicación',
+    periodo: 'Desde marzo de 2026',
     services: ['gtm-icp', 'posicionamiento'],
     areas: ['estrategia-y-marca', 'diseno-web', 'eventos'],
     sector: 'Tecnología e IA, B2B',
-    // Titular de la pestaña en la home: el reto del cliente, como los casos de elogia.net.
+    // Titular de la pestaña en la home: el reto de la empresa, como los casos de elogia.net.
     reto: 'Ordenar el mensaje de una empresa de IA y lanzar desde cero su segunda línea de negocio',
     capacidades: 'Estrategia de marca, Go to market, Web, Eventos',
-    ariaLabel: 'Ver caso de Zebra AI Transformation Company',
+    ariaLabel: 'Ver la etapa en Zebra AI Transformation Company',
     image: zebraCaseImage as ImageMetadata | undefined,
     imageAlt: 'Equipo de Zebra AI Transformation Company en el Spain Innovation Summit, evento organizado por Guillén Bruna Tricas',
     cardTags: ['Estrategia de marca', 'Go-to-market'],
@@ -36,7 +39,7 @@ export const casos = [
     cardDesc: 'Diagnóstico de ICP, reescritura del mensaje de marca, rediseño de la web, estrategia de contenidos, funnel de conversión y lanzamiento de una segunda línea de negocio desde cero. Incluye el Spain Innovation Summit, evento propio con estudio sectorial.',
     cardHighlight: 'Segunda línea de negocio lanzada desde cero, con ICP y funnel propios',
     detailTitle: 'Zebra AI Transformation Company — Marca y GTM | GBT Consultoría',
-    detailDescription: 'Caso real de estrategia de marca, mensaje y go-to-market para una empresa de IA. Diagnóstico, lanzamiento de producto y evento propio.',
+    detailDescription: 'Etapa actual de Guillén Bruna en una empresa de IA: estrategia de marca, mensaje y go-to-market, lanzamiento de producto y evento propio.',
     detailTags: ['Estrategia de marca', 'Go-to-market'],
     detailHeading: 'Construcción de marca y estrategia GTM',
     skills: ['Diagnóstico de ICP', 'Posicionamiento', 'Mensaje de marca', 'Go-to-market', 'Estrategia de contenidos', 'CRM y funnel', 'Web', 'Eventos'],
@@ -44,13 +47,14 @@ export const casos = [
   {
     slug: 'integra',
     company: 'Integra Consultoría Gerencial',
-    role: 'Consultor',
+    role: 'Especialista en marketing digital, al servicio de los clientes de la consultora',
+    periodo: 'Noviembre de 2021 a septiembre de 2022',
     services: [] as string[],
     areas: ['estrategia-y-marca', 'redes-sociales'],
     sector: 'Consultoría, B2B',
     reto: 'Convertir una consultoría gerencial en proveedora de servicios digitales para sus propios clientes',
     capacidades: 'Estrategia digital, Redes sociales, Web',
-    ariaLabel: 'Ver caso de Integra Consultoría Gerencial',
+    ariaLabel: 'Ver la etapa en Integra Consultoría Gerencial',
     image: integraCaseImage as ImageMetadata | undefined,
     imageAlt: 'Congreso y proyecto de comunicación de Integra Consultoría Gerencial con Guillén Bruna Tricas',
     cardTags: ['Consultoría'],
@@ -58,7 +62,7 @@ export const casos = [
     cardDesc: 'Diagnóstico y acompañamiento a dirección en procesos de transformación organizativa y redefinición de modelo comercial.',
     cardHighlight: 'Servicio para 4-5 empresas cliente, hoy integrado de forma permanente en su catálogo',
     detailTitle: 'Integra — Consultoría Digital | GBT Consultoría',
-    detailDescription: 'Caso real de desarrollo de línea de servicios digitales dentro de una consultoría gerencial. Estrategia, redes sociales y web para PYMEs y empresas medianas.',
+    detailDescription: 'Etapa de Guillén Bruna en una consultoría gerencial: puesta en marcha de su línea de servicios digitales, con estrategia, redes sociales y web para sus clientes.',
     detailTags: ['Consultoría', 'Estrategia digital'],
     detailHeading: 'Expansión digital',
     skills: [
@@ -74,12 +78,13 @@ export const casos = [
     slug: 'broco',
     company: 'Broco',
     role: 'Fundador',
+    periodo: '2020 a 2023',
     services: [] as string[],
     areas: ['estrategia-y-marca', 'diseno-web', 'publicidad-online'],
     sector: 'Moda, eCommerce, B2C',
     reto: 'Llevar una marca de moda de la idea a sus primeros 400-500 pedidos sin inversión externa',
     capacidades: 'Marca, Identidad visual, eCommerce, Publicidad online',
-    ariaLabel: 'Ver caso de Broco',
+    ariaLabel: 'Ver la etapa en Broco',
     image: brocoCaseImage as ImageMetadata | undefined,
     imageAlt: 'Colección de prendas de Broco, marca de moda sostenible creada por Guillén Bruna Tricas',
     cardTags: ['Lanzamiento de marca'],
@@ -87,7 +92,7 @@ export const casos = [
     cardDesc: 'Creación de una marca de moda desde la idea hasta las primeras ventas. Identidad, canal digital, publicidad y operaciones. Aprendizaje de negocio real sin red ni equipo grande.',
     cardHighlight: '400-500 pedidos y 5.000 seguidores construidos sin inversión externa',
     detailTitle: 'Broco — Marca y eCommerce | GBT Consultoría',
-    detailDescription: 'Caso real de lanzamiento de marca de moda urbana desde cero. 400-500 pedidos y 5.000 seguidores sin inversión externa.',
+    detailDescription: 'Broco, la marca de moda urbana que fundó Guillén Bruna: lanzada desde cero, con 400-500 pedidos y 5.000 seguidores sin inversión externa.',
     detailTags: ['Lanzamiento de marca', 'eCommerce'],
     detailHeading: 'Lanzamiento y construcción de marca',
     skills: [
@@ -106,13 +111,14 @@ export const casos = [
   {
     slug: 'muebles-rey',
     company: 'Muebles Rey',
-    role: 'Head of Social Media en Grupo Rey Corporación',
+    role: 'Técnico de marketing digital y community manager; después, Head of Social Media, en Grupo Rey Corporación',
+    periodo: 'Marzo de 2024 a febrero de 2026',
     services: [] as string[],
     areas: ['redes-sociales', 'publicidad-online', 'estrategia-y-marca'],
     sector: 'Retail de muebles, B2C',
     reto: 'Llevar el estilo y la marca de Muebles Rey al nivel que buscaba el grupo',
     capacidades: 'Redes sociales, Meta Ads, Agencia de comunicación, Videopodcast',
-    ariaLabel: 'Ver caso de Muebles Rey',
+    ariaLabel: 'Ver la etapa en Muebles Rey',
     image: grupoReyCaseImage as ImageMetadata | undefined,
     imageAlt: 'Equipo y campañas omnicanal de Grupo Rey Corporación con Guillén Bruna Tricas',
     cardTags: ['Redes sociales', 'Paid media'],
@@ -120,7 +126,7 @@ export const casos = [
     cardDesc: 'Gestión completa de redes sociales, paid media gestionado por separado y trabajo complementario con una agencia de comunicación de referencia, que sigue con la marca años después. Incluye Perspectivas, el videopodcast de la marca.',
     cardHighlight: 'Comunidad de 15.000 a 25.000 seguidores y una agencia que sigue con la marca años después',
     detailTitle: 'Muebles Rey, redes, paid media y marca | GBT Consultoría',
-    detailDescription: 'Caso real de redes sociales, Meta Ads y marca para Muebles Rey: comunidad de 15.000 a 25.000 seguidores, agencia de referencia y videopodcast de marca.',
+    detailDescription: 'Etapa de Guillén Bruna en Grupo Rey Corporación con Muebles Rey: redes sociales, Meta Ads, comunidad de 15.000 a 25.000 seguidores y videopodcast de marca.',
     detailTags: ['Redes sociales', 'Retail'],
     detailHeading: 'Redes, paid media y una agencia de referencia para elevar la marca',
     skills: ['Estrategia en redes sociales', 'Gestión de comunidad', 'Meta Ads', 'Selección y gestión de agencias', 'Videopodcast de marca'],
@@ -128,13 +134,14 @@ export const casos = [
   {
     slug: 'muebles-tuco',
     company: 'Muebles Tuco',
-    role: 'Head of Social Media en Grupo Rey Corporación',
+    role: 'Técnico de marketing digital y community manager; después, Head of Social Media, en Grupo Rey Corporación',
+    periodo: 'Marzo de 2024 a febrero de 2026',
     services: [] as string[],
     areas: ['redes-sociales', 'publicidad-online', 'eventos'],
     sector: 'Retail de muebles, B2C',
     reto: 'Hacer crecer la comunidad de Muebles Tuco con voz propia dentro de un grupo de varias marcas',
     capacidades: 'Redes sociales, Meta Ads, Spot de marca, Inauguración de tienda',
-    ariaLabel: 'Ver caso de Muebles Tuco',
+    ariaLabel: 'Ver la etapa en Muebles Tuco',
     image: tucoCaseImage as ImageMetadata | undefined,
     // Foto vertical: el recorte apaisado se centra en Guillén.
     imagePos: '62% 32%',
@@ -144,7 +151,7 @@ export const casos = [
     cardDesc: 'Gestión completa de las redes sociales de Muebles Tuco con una identidad diferenciada del resto de marcas del grupo, campañas de Meta Ads segmentadas por producto y temporada, y el spot de marca.',
     cardHighlight: 'Comunidad de 20.000 a 35.000 seguidores',
     detailTitle: 'Muebles Tuco, gestión de redes sociales | GBT Consultoría',
-    detailDescription: 'Caso real de redes sociales y spot de marca para Muebles Tuco: comunidad de 20.000 a 35.000 seguidores con voz propia dentro de un grupo multimarca.',
+    detailDescription: 'Etapa de Guillén Bruna en Grupo Rey Corporación con Muebles Tuco: redes sociales, spot de marca y comunidad de 20.000 a 35.000 seguidores.',
     detailTags: ['Redes sociales', 'Retail'],
     detailHeading: 'Gestión completa de redes con voz propia',
     skills: ['Estrategia en redes sociales', 'Planificación editorial', 'Gestión de comunidad', 'Meta Ads', 'Producción de spot', 'Eventos de inauguración'],
@@ -152,13 +159,14 @@ export const casos = [
   {
     slug: 'slm',
     company: 'SLM',
-    role: 'Equipo de marketing de Grupo Rey Corporación',
+    role: 'Técnico de marketing digital y community manager; después, Head of Social Media, en Grupo Rey Corporación',
+    periodo: 'Marzo de 2024 a febrero de 2026',
     services: [] as string[],
     areas: ['estrategia-y-marca'],
     sector: 'Retail de muebles, B2C',
     reto: 'Llevar la marca de SLM a la tienda física con cartelería propia',
     capacidades: 'Identidad visual, Cartelería, Punto de venta',
-    ariaLabel: 'Ver caso de SLM',
+    ariaLabel: 'Ver la etapa en SLM',
     image: slmCaseImage as ImageMetadata | undefined,
     imageAlt: 'Guillén Bruna Tricas frente a una tienda de SLM',
     cardTags: ['Punto de venta'],
@@ -166,7 +174,7 @@ export const casos = [
     cardDesc: 'Desarrollo de la cartelería de varias tiendas de SLM, marca del mismo grupo que Muebles Rey y Muebles Tuco.',
     cardHighlight: 'Cartelería desarrollada para varias tiendas de la marca',
     detailTitle: 'SLM, cartelería de tienda | GBT Consultoría',
-    detailDescription: 'Caso real de cartelería de punto de venta para varias tiendas de SLM, marca de Grupo Rey Corporación.',
+    detailDescription: 'Etapa de Guillén Bruna en el equipo de marketing de Grupo Rey Corporación: cartelería de punto de venta para varias tiendas de SLM.',
     detailTags: ['Punto de venta', 'Retail'],
     detailHeading: 'Cartelería de tienda para SLM',
     skills: ['Identidad visual', 'Cartelería', 'Punto de venta'],
