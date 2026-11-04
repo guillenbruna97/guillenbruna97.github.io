@@ -6,6 +6,8 @@ excerpt: "Cuatro perfiles con nombres parecidos que resuelven problemas distinto
 description: "Qué hace un consultor de marketing, uno estratégico, uno de marca, uno comercial y uno de CRM, cuándo encaja cada uno y cómo saber cuál necesitas."
 date: 2026-10-31
 readingTime: "5 min de lectura"
+image: "/images/articulos/que-hace-un-consultor-de-marketing.jpg"
+imageAlt: "Ilustración de un directivo pensativo ante un panel de herramientas con un megáfono, un compás, una brocha y una llave inglesa, que elige el compás, sobre los distintos perfiles de consultor de marketing y cómo saber cuál necesita tu empresa"
 service: "posicionamiento"
 faqs:
   - question: "¿Qué hace exactamente un consultor de marketing?"

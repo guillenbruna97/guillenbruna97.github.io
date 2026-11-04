@@ -6,6 +6,8 @@ excerpt: "Dirección de marketing senior sin un director en plantilla. Qué hace
 description: "Qué hace un fractional CMO o director de marketing externo, cuánto cuesta en España según el mercado y cuándo compensa frente a contratar en plantilla."
 date: 2026-10-31
 readingTime: "5 min de lectura"
+image: "/images/articulos/fractional-cmo-director-de-marketing-externo.jpg"
+imageAlt: "Ilustración de un director de orquesta con su maleta junto al atril que dirige a violín, trompeta y batería, sobre el fractional CMO o director de marketing externo que coordina al equipo y a los proveedores de la empresa sin estar en plantilla"
 service: "gtm-icp"
 faqs:
   - question: "¿Qué hace un fractional CMO?"
