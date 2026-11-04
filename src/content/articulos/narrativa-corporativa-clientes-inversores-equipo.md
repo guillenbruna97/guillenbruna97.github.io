@@ -6,6 +6,8 @@ excerpt: "La narrativa de empresa no es un discurso, es la idea central que alin
 description: "La narrativa corporativa alinea a tus stakeholders. Descubre cómo fijar una idea central única que resuene en inversores, clientes y equipo."
 date: 2026-11-02
 readingTime: 4 min de lectura
+image: "/images/articulos/narrativa-corporativa-clientes-inversores-equipo.jpg"
+imageAlt: "Ilustración de una clienta con la bolsa de la compra, un inversor con traje y maletín y un empleado con un café y un portátil, unidos por un mismo hilo verde que los atraviesa, sobre la narrativa corporativa como idea central que comparten clientes, inversores y equipo"
 service: "posicionamiento"
 faqs:
   - question: "¿Qué es realmente la narrativa corporativa de una empresa?"
