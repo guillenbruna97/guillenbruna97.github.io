@@ -6,6 +6,8 @@ excerpt: "La falta de un hilo conductor en la comunicación de un holding diluye
 description: "Cómo unificar la comunicación estratégica en un holding para que el grupo tenga una voz coherente mientras cada filial mantiene su autonomía operativa."
 date: 2026-11-09
 readingTime: "4 min de lectura"
+image: "/images/articulos/comunicacion-estrategica-en-un-holding.jpg"
+imageAlt: "Ilustración de un gran paraguas verde que cubre una fábrica, un edificio de oficinas y una tienda con sus responsables asomados a la ventana, sobre la comunicación estratégica de un holding que da una voz común al grupo mientras cada filial mantiene su autonomía"
 service: "mentoria-comunicacion"
 faqs:
   - question: "¿Cómo se logra coherencia en un holding con múltiples filiales?"
