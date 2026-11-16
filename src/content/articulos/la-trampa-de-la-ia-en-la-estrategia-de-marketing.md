@@ -41,4 +41,4 @@ Una estrategia de marketing efectiva empieza por la arquitectura de tu mensaje. 
 
 ## El siguiente paso
 
-Si sientes que tu equipo está dedicando más tiempo a gestionar herramientas que a construir una posición de mercado sólida, es momento de revisar los fundamentos. La tecnología cambia cada trimestre, pero los principios de una comunicación que convierte siguen siendo los mismos. El valor de un consultor no reside en decirte qué software contratar, sino en ayudarte a construir la estructura sobre la cual cualquier herramienta dará resultados reales.
+Si sientes que tu equipo está dedicando más tiempo a gestionar herramientas que a construir una posición de mercado sólida, es momento de revisar los fundamentos, y [comprobar si la empresa está preparada para aplicar IA al marketing](/articulos/preparar-pyme-para-aplicar-ia-al-marketing/) es el primer paso. La tecnología cambia cada trimestre, pero los principios de una comunicación que convierte siguen siendo los mismos. El valor de un consultor no reside en decirte qué software contratar, sino en ayudarte a construir la estructura sobre la cual cualquier herramienta dará resultados reales.
