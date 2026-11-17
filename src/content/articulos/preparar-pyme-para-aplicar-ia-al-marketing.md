@@ -6,6 +6,8 @@ excerpt: "La adopción de IA suele responder a una presión externa. Antes de im
 description: "Cómo preparar una pyme para aplicar IA al marketing: cuatro comprobaciones previas para no automatizar procesos confusos ni perder el criterio directivo."
 date: 2026-11-16
 readingTime: "4 min de lectura"
+image: "/images/articulos/preparar-pyme-para-aplicar-ia-al-marketing.jpg"
+imageAlt: "Ilustración de un directivo pensativo que señala el botón de una máquina por la que entra un ovillo de lana ordenado y sale una maraña enredada, sobre preparar una pyme antes de aplicar IA al marketing para no automatizar procesos confusos"
 service: "gtm-icp"
 faqs:
   - question: "¿Cómo saber si mi empresa está preparada para aplicar IA al marketing?"
