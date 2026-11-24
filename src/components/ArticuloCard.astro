@@ -30,7 +30,7 @@ const fecha = entry.data.date.toLocaleDateString('es-ES', { day: 'numeric', mont
     </a>
   )}
   <div class="ac-texto">
-    <p class="ac-meta">{displayTag(entry.data.tag)}<span>{fecha}</span></p>
+    <p class="ac-meta"><span class="ac-tema">{displayTag(entry.data.tag)}</span><span>{fecha}</span></p>
     <Titulo class="ac-titulo"><a href={href}>{entry.data.title}</a></Titulo>
     <p class="ac-extracto">{entry.data.excerpt}</p>
   </div>
@@ -42,7 +42,9 @@ const fecha = entry.data.date.toLocaleDateString('es-ES', { day: 'numeric', mont
   body.dark .ac-media { background: #121419; }
   .ac-media img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s ease; }
   .ac:hover .ac-media img { transform: scale(1.03); }
-  .ac-meta { font-size: 0.8rem; color: rgba(0,0,0,0.5); margin: 0 0 0.5rem; display: flex; flex-wrap: wrap; gap: 0.2rem 1rem; }
+  .ac-meta { font-size: 0.8rem; color: rgba(0,0,0,0.5); margin: 0 0 0.5rem; display: flex; flex-direction: column; gap: 0.2rem; }
+  /* Tema siempre en una línea y fecha debajo: así los titulares quedan alineados. */
+  .ac-tema { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   body.dark .ac-meta { color: rgba(232,232,232,0.5); }
   .ac-titulo { font-size: 1.2rem; line-height: 1.25; margin: 0 0 0.6rem; }
   .ac-titulo a { color: inherit; text-decoration: none; }
